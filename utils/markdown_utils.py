@@ -3,6 +3,15 @@ import re
 from typing import Optional
 from markitdown import MarkItDown
 
+from marker.converters.pdf import PdfConverter
+from marker.models import create_model_dict
+from marker.output import text_from_rendered
+from marker.config.parser import ConfigParser
+
+from pyprojroot import here
+
+USE_MARKER=True
+
 def convert_to_markdown(file_path:str="attention_is_all_you_need.pdf", output_folder="markdown_outputs"):
     """
     assumes your data is in the "data" folder (as it should be)
@@ -88,6 +97,33 @@ def clean_markdown(input_file_path: str, output_file_path: Optional[str] = None)
     print(f"Cleaned markdown saved to: {output_file_path}")
     return output_file_path
 
-if __name__ == "__main__":
+def use_markitdown():
     output_path = convert_to_markdown()
     clean_markdown(output_path)
+
+def use_marker(converter:PdfConverter,file_path:str="attention_is_all_you_need.pdf"):
+    final_path = here(f"data/{file_path}")
+    rendered = converter(str(final_path))
+    full_text, images, out_meta = text_from_rendered(rendered)
+    with open("output.md", "w") as f:
+        f.write(full_text)
+
+def main():
+    if USE_MARKER:
+        os.environ['TORCH_DEVICE'] = 'cuda'  # Forces CUDA; fallback to 'cpu' if issues
+        os.environ['CUDA_VISIBLE_DEVICES'] = '0'  # Use GPU 0 (your laptop's primary)
+        artifact_dict = create_model_dict()
+        config = {
+            "output_dir": here("markdown_outputs"),
+        }
+        config_parser = ConfigParser(config)
+        converter = PdfConverter(
+            artifact_dict=artifact_dict,
+            config=config_parser.generate_config_dict()
+        )
+        use_marker(converter)
+    else:
+        use_markitdown()
+    
+if __name__ == "__main__":
+    main()
