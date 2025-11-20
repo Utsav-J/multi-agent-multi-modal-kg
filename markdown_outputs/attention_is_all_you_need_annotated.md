@@ -182,18 +182,18 @@ sequence ( _y_ 1 _, ..., ym_ ) of symbols one element at a time. At each step th
 
 ```
 ### Figure - Transformer Block Diagram
-![Transformer Block Diagram](image_path)
+![Transformer Block Diagram](attention_is_all_you_need.pdf-2-0.png)
 
-**Caption:** This diagram illustrates the architecture of a single Transformer block, a fundamental component of the Transformer model. It demonstrates the sequential processing of inputs and outputs through attention mechanisms and feed-forward networks. The block is designed to capture relationships between input elements.
+**Caption:** This diagram illustrates the architecture of a single Transformer block, a fundamental component of the Transformer model. The block processes input through embedding, attention mechanisms, and feed-forward networks, incorporating normalization and residual connections.
 
 **Description:**
-- The diagram depicts a single Transformer block with an input and output.
-- The input is processed by an input embedding layer combined with positional encoding.
-- The block contains an “Add & Norm” layer, followed by a “Feed Forward” layer.
-- The block also includes a “Multi-Head Attention” layer and a “Masked Multi-Head Attention” layer.
-- The “Add & Norm” layers are applied after each attention and feed-forward layer to stabilize training.
-- The output of the block is shifted right, indicating the sequential processing of the Transformer.
-- The block is repeated N times to form the complete Transformer architecture.
+- The input to the block consists of a sequence of inputs, each associated with a positional encoding.
+- An input embedding layer transforms the input sequence into a vector representation.
+- The embedding is then added to the positional encoding, creating a combined input vector.
+- The combined input vector passes through an “Add & Norm” layer, followed by a “Feed Forward” layer.
+- The block contains three “Add & Norm” layers, each followed by a “Multi-Head Attention” and a “Masked Multi-Head Attention” layer.
+- “Multi-Head Attention” and “Masked Multi-Head Attention” layers attend to different parts of the input sequence.
+- The output of the block is shifted right and fed into the next block in the sequence.
 ```
 
 Figure 1: The Transformer - model architecture.
@@ -296,25 +296,23 @@ variables with mean 0 and variance 1. Then their dot product, _q · k_ = [�] _
 
 ```
 ### Figure - Multi-Head Attention Process
-![Multi-Head Attention Flow](attention_is_all_you_need.png)
+![Multi-Head Attention](images/attention_is_all_you_need.pdf-3-0.png)
 
 **Caption:**  
-The figure illustrates the core steps of the multi-head attention mechanism in a transformer model. It shows the sequential operations of query, key, and value transformations, followed by scaled dot-product attention and a softmax function.
+This figure illustrates the core steps of the multi-head attention mechanism. It shows the sequential operations applied to query, key, and value matrices.
 
 **Description:**
-- The image depicts a flow diagram representing the multi-head attention process.
-- Q (Query), K (Key), and V (Value) matrices are the inputs to the attention mechanism.
-- The first MatMul operation performs a linear transformation of the Q and K matrices.
-- The second MatMul operation performs a linear transformation of the K matrix.
-- The Scale operation scales the result of the second MatMul operation.
-- The Mask operation applies a mask to the scaled result, likely to handle padding or other masking requirements.
-- The SoftMax function normalizes the output of the Mask operation, producing attention weights.
-- The final MatMul operation combines the attention weights with the V matrix to produce the context vector.
+- The image depicts a flow diagram of the multi-head attention process.
+- The process begins with a matrix multiplication (MatMul) between the Query (Q) and Key (K) matrices.
+- The result of the first MatMul is passed through a SoftMax function to generate attention weights.
+- These weights are then masked, likely to prevent attention to irrelevant parts of the input.
+- The masked attention weights are scaled, and another MatMul is performed with the Value (V) matrix.
+- The final output of this process is the attended Value (V) matrix.
 ```
 
 ```
 ### Figure - Scaled Dot-Product Attention
-![Attention Mechanism Diagram](image_path)
+![Attention Mechanism](image_path)
 
 **Caption:**  
 This figure illustrates the scaled dot-product attention mechanism, a core component of the Transformer architecture. It demonstrates how queries, keys, and values are combined to produce an attention-weighted representation. The process involves linear transformations and a scaled dot-product operation.
@@ -959,27 +957,28 @@ the word ‘making’. Different colors represent different heads. Best viewed i
 ### Figure - Word Cloud of Text
 ![Text Word Cloud](image_path)
 
-**Caption:**  
-This figure presents a word cloud visualization of a text passage, highlighting the frequency and prominence of different terms. The size of each word reflects its occurrence within the text.
+**Caption:**  The figure displays a word cloud representing the frequency of terms in a text passage, with larger words indicating higher prominence. The visualization highlights key concepts and themes within the text.
 
 **Description:**
-- The word cloud displays various terms related to voter registration and election laws.
-- “American governments” and “new laws” are prominent, indicating their frequent appearance in the text.
-- “Registration or voting process” and “more difficult” are also visually emphasized, suggesting a central theme of voter access challenges.
+- The word cloud consists of numerous words arranged in size proportional to their frequency.
+- “It is in this spirit that a majority of American governments have passed new laws since 2009” and “making the registration or voting process more difficult” are prominent words.
+- The color gradient suggests a distribution of terms, with darker shades representing more frequent words.
+- The presence of "<EOS> <pad> <pad> <pad>" indicates padding tokens likely used in a language model context.
+```
 ```
 ### Figure - Attention Head Visualization
-![Two attention heads](attention_is_all_you_need.pdf-13-0.png)
+![Attention Head Visualization](image_path)
 
 **Caption:**  
-The figure displays the attention weights of two attention heads in layer 5 of a neural network. Isolated attention masses highlight relationships between input tokens.
+This figure displays the attention weights of two attention heads in layer 5 of 6, illustrating their involvement in anaphora resolution. Isolated attention peaks highlight key relationships between words.
 
 **Description:**
-- The image shows two attention heads, represented by overlapping networks of lines.
-- Each line indicates the attention weight between two tokens in the input sequence.
-- The tokens are labeled with words from the input text, including `<EOS>` and `<pad>`.
-- The attention head on the left has a stronger connection between "The Law" and "its".
-- The attention head on the right shows connections between "The Law" and "application".
-- The visualization highlights the network's focus on specific relationships within the input sequence.
+- The visualization shows a directed graph representing the attention weights between words in a sentence.
+- Each line connects two words, with the thickness of the line indicating the strength of the attention weight.
+- The words are labeled with their textual content, including start-of-sentence (<EOS>) and padding (<pad>) tokens.
+- Attention heads 5 and 6 are shown, with the attention weights visualized for each head.
+- The attention head on the left is highlighted in orange, indicating it is the focus of the figure.
+- The graph reveals connections between words like "The Law," "will," "be," "never," "perfect," "but," "application," "should," "just," "this," "is," "what," "we," "are," "missing," "in," "my," "opinion," and "<EOS>".
 ```
 
 and 6. Note that the attentions are very sharp for this word.
@@ -990,16 +989,15 @@ and 6. Note that the attentions are very sharp for this word.
 
 ```
 ### Figure - Attention Head Behavior
-![Attention Head Visualization](attention_is_all_you_need.pdf-14-0.png)
+![Attention Head Visualization](image_path)
 
-**Caption:**  The figure illustrates the attention patterns learned by multiple heads in an encoder. Each head exhibits a unique connectivity pattern, reflecting relationships within the input sequence.
+**Caption:**  The figure illustrates the attention patterns of multiple heads within an encoder. Each head displays a network of connections representing its attention weights.
 
 **Description:**
-- The image displays two distinct views of attention head behavior, presented in a layered, radial format.
-- Each layer represents a different attention head, with connections between words visualized as lines.
-- The color of the lines indicates the strength of the attention relationship between the words.
-- The <EOS> and <pad> tokens are consistently positioned at the outer edges of the visualization, indicating their role in the sequence.
-- The radial arrangement suggests a hierarchical structure, where words closer to the center have stronger connections to other words within the same layer.
+- The image shows two distinct views of attention head behavior, presented in a layered, radial format.
+- Each layer represents a different attention head, with nodes indicating words and edges representing attention weights.
+- The color gradient indicates the strength of the attention connection between words, with darker colors representing stronger connections.
+- The <EOS> and <pad> tokens are consistently positioned at the periphery of the attention networks, indicating their role in the model.
 
 sentence. We give two such examples above, from two different heads from the encoder self-attention
 at layer 5 of 6. The heads clearly learned to perform different tasks.
