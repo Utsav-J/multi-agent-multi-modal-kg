@@ -128,7 +128,7 @@ def main():
     if len(sys.argv) > 1:
         user_input = f"Process the file {sys.argv[1]}"
     else:
-        user_input = "Process the file attention_is_all_you_need.pdf"
+        user_input = "Process the file rag_paper.pdf"
 
     logger.info(f"Starting agent with input: {user_input}")
     try:
@@ -142,4 +142,4 @@ if __name__ == "__main__":
     main()
 
 # # Process the default file
-# uv run agents/pdf_processor_agent.py
+# uv run agents/1-pdf_processor_agent.py
