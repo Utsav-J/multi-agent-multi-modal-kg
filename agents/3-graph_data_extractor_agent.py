@@ -1,3 +1,4 @@
+import argparse
 import sys
 import os
 import logging
@@ -5,6 +6,7 @@ import json
 from pathlib import Path
 from dotenv import load_dotenv
 from google import genai
+
 # Add project root to sys.path
 project_root = Path(__file__).resolve().parent.parent
 sys.path.append(str(project_root))
@@ -34,18 +36,29 @@ OUTPUT_DIR = project_root / "knowledge_graph_outputs"
 
 
 @tool
-def extract_graph_from_chunks_tool(chunks_filename: str) -> str:
+def extract_graph_from_chunks_tool(
+    chunks_filename: str,
+    include_metadata: bool = False,
+    batch_size: int = 1,
+    token_limit: int = 0,
+) -> str:
     """
     Extracts knowledge graph nodes and relationships from a JSONL file containing text chunks.
 
     Args:
         chunks_filename (str): The name of the JSONL file in 'chunking_outputs' (e.g., 'doc_chunks.jsonl').
+        include_metadata (bool): Whether to include original chunk metadata (e.g., chunk_id, index) in the output.
+                                 Defaults to True.
+        batch_size (int): Number of chunks to process in a single LLM call. Defaults to 1.
+        token_limit (int): Approximate maximum number of tokens per batch (1 token ~= 4 chars).
+                           If set > 0, this overrides batch_size for adaptive batching.
 
     Returns:
         str: A message indicating success and the path to the output JSONL file with graph data.
     """
     logger.info(
-        f"Tool invoked: extract_graph_from_chunks_tool for file '{chunks_filename}'"
+        f"Tool invoked: extract_graph_from_chunks_tool for file '{chunks_filename}' "
+        f"with include_metadata={include_metadata}, batch_size={batch_size}, token_limit={token_limit}"
     )
 
     try:
@@ -65,6 +78,7 @@ def extract_graph_from_chunks_tool(chunks_filename: str) -> str:
         client = genai.Client(api_key=os.getenv("GOOGLE_API_KEY"))
 
         results = []
+        seen_entity_ids = set()
 
         # Read chunks
         chunks = []
@@ -77,20 +91,41 @@ def extract_graph_from_chunks_tool(chunks_filename: str) -> str:
 
         # Process each chunk
         with open(output_path, "w", encoding="utf-8") as out_f:
-            for i, chunk_data in enumerate(chunks):
-                content = chunk_data.get("content", "")
-                if not content:
-                    continue
+            current_batch = []
+            current_batch_tokens = 0
+            processed_batches = 0
 
+            def process_batch(batch_chunks):
+                if not batch_chunks:
+                    return
+
+                # Combine content from batch
+                combined_content = ""
+                for chunk in batch_chunks:
+                    chunk_content = chunk.get("content", "")
+                    if chunk_content:
+                        combined_content += chunk_content + "\n\n"
+
+                if not combined_content.strip():
+                    return
+
+                # Get batch IDs for logging
+                batch_ids = [c.get("id") for c in batch_chunks]
                 logger.info(
-                    f"Processing chunk {i+1}/{len(chunks)} (ID: {chunk_data.get('id')})"
+                    f"Processing batch of {len(batch_chunks)} chunks (IDs: {batch_ids})"
                 )
 
                 try:
                     # Generate content using the logic from construction.py
+                    # Pass existing entities to context
+                    existing_entities_list = sorted(list(seen_entity_ids))
+
                     response = client.models.generate_content(
                         model="gemini-2.5-flash",
-                        contents=render_graph_construction_instructions(chunk=content),
+                        contents=render_graph_construction_instructions(
+                            chunk=combined_content,
+                            existing_entities=existing_entities_list,
+                        ),
                         config=genai.types.GenerateContentConfig(
                             response_mime_type="application/json",
                             response_schema=GraphDocument,
@@ -100,30 +135,77 @@ def extract_graph_from_chunks_tool(chunks_filename: str) -> str:
                     if response.parsed:
                         graph_doc: GraphDocument = response.parsed
 
+                        # Track extracted entities for context in future chunks
+                        for node in graph_doc.nodes:
+                            seen_entity_ids.add(node.id)
+
                         # Convert to dict for serialization
-                        # We might want to preserve original chunk metadata or ID
                         graph_dict = graph_doc.model_dump()
 
                         # Add metadata from the original chunk to keep traceability
-                        graph_dict["original_chunk_id"] = chunk_data.get("id")
-                        graph_dict["original_chunk_index"] = chunk_data.get(
-                            "chunk_index"
-                        )
-                        graph_dict["original_metadata"] = chunk_data.get("metadata")
+                        if include_metadata:
+                            # For batched processing, we store lists of original metadata
+                            graph_dict["original_chunk_ids"] = [
+                                c.get("id") for c in batch_chunks
+                            ]
+                            graph_dict["original_chunk_indices"] = [
+                                c.get("chunk_index") for c in batch_chunks
+                            ]
+                            graph_dict["original_metadata"] = [
+                                c.get("metadata") for c in batch_chunks
+                            ]
 
                         out_f.write(json.dumps(graph_dict) + "\n")
                         out_f.flush()
                     else:
-                        logger.warning(
-                            f"No parsed response for chunk {chunk_data.get('id')}"
-                        )
+                        logger.warning(f"No parsed response for batch {batch_ids}")
 
                 except Exception as e:
-                    logger.error(
-                        f"Error processing chunk {chunk_data.get('id')}: {str(e)}"
-                    )
-                    # Continue to next chunk even if one fails
+                    logger.error(f"Error processing batch {batch_ids}: {str(e)}")
+
+            # Iterate through chunks and form batches
+            for i, chunk_data in enumerate(chunks):
+                content = chunk_data.get("content", "")
+                if not content:
                     continue
+
+                # Estimate tokens (approx 4 chars per token)
+                chunk_tokens = len(content) // 4
+
+                # Determine effective token limit
+                # If token_limit is not provided (0) and batch_size is default (1),
+                # default to 3000 tokens as per requirement.
+                effective_token_limit = token_limit
+                if effective_token_limit == 0 and batch_size == 1:
+                    effective_token_limit = 3000
+
+                # Determine if we need to flush the current batch
+                should_flush = False
+
+                if effective_token_limit > 0:
+                    # Adaptive batching based on tokens
+                    # Flush if adding this chunk would exceed limit (and batch is not empty)
+                    if current_batch and (
+                        current_batch_tokens + chunk_tokens > effective_token_limit
+                    ):
+                        should_flush = True
+                else:
+                    # Fixed batch size (only if batch_size > 1 explicitly provided)
+                    if len(current_batch) >= batch_size:
+                        should_flush = True
+
+                if should_flush:
+                    process_batch(current_batch)
+                    current_batch = []
+                    current_batch_tokens = 0
+                    processed_batches += 1
+
+                current_batch.append(chunk_data)
+                current_batch_tokens += chunk_tokens
+
+            # Process any remaining chunks
+            if current_batch:
+                process_batch(current_batch)
 
         return f"Successfully processed chunks. Graph data saved to: {output_filename}"
 
@@ -134,6 +216,33 @@ def extract_graph_from_chunks_tool(chunks_filename: str) -> str:
 
 
 def main():
+    parser = argparse.ArgumentParser(description="Graph Data Extractor Agent")
+    parser.add_argument(
+        "filename",
+        nargs="?",
+        default="rag_paper_annotated_chunks.jsonl",
+        help="The input JSONL filename (default: rag_paper_annotated_chunks.jsonl)",
+    )
+    parser.add_argument(
+        "--no-metadata",
+        action="store_true",
+        help="Do not include original chunk metadata in the output",
+    )
+    parser.add_argument(
+        "--batch-size",
+        type=int,
+        default=1,
+        help="Number of chunks to process in a single LLM call (default: 1)",
+    )
+    parser.add_argument(
+        "--token-limit",
+        type=int,
+        default=0,
+        help="Adaptive batching token limit (approx). Defaults to 3000 if batch-size is 1.",
+    )
+
+    args = parser.parse_args()
+
     llm = ChatGoogleGenerativeAI(
         model="gemini-2.5-flash", temperature=0, convert_system_message_to_human=True
     )
@@ -144,19 +253,25 @@ def main():
         "You are a helpful AI assistant specializing in knowledge graph construction. "
         "Your goal is to process text chunks and extract structured graph data (nodes and relationships). "
         "Use the 'extract_graph_from_chunks_tool' to process the JSONL file provided by the user. "
+        "You can choose whether to include metadata based on user instructions. "
+        "You can also specify the batch size or token limit for processing chunks. "
         "Always report the path of the generated output file."
     )
 
     agent = create_agent(model=llm, tools=tools, system_prompt=sys_prompt)
 
-    if len(sys.argv) > 1:
-        # If user provides a full path or just a name, handle it
-        arg_path = Path(sys.argv[1])
-        filename = arg_path.name
-        user_input = f"Extract graph from {filename}"
+    # Construct user input based on arguments
+    user_input = f"Extract graph from {args.filename}"
+    default_user_input = f"Extract graph from attention_is_all_you_need_paper_annotated_chunks.jsonl without metadata using a token limit of 2000"
+    if args.no_metadata:
+        user_input += " without including metadata"
     else:
-        # Default for testing
-        user_input = "Extract graph from rag_paper_annotated_chunks.jsonl"
+        user_input += " and include metadata"
+
+    if args.token_limit > 0:
+        user_input += f" using a token limit of {args.token_limit}"
+    elif args.batch_size > 1:
+        user_input += f" using a batch size of {args.batch_size}"
 
     logger.info(f"Starting graph construction agent with input: {user_input}")
 

@@ -20,4 +20,5 @@ dependencies = [
     "pyprojroot>=0.3.0",
     "scikit-learn>=1.7.2",
     "sentence-transformers>=5.1.2",
+    "tiktoken>=0.12.0",
 ]

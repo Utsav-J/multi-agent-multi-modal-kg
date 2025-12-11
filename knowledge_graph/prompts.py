@@ -1,3 +1,4 @@
+from typing import List, Optional
 from langchain_community.graphs import Neo4jGraph
 
 graph_construction_instructions = """ # Knowledge Graph Construction Instructions
@@ -47,9 +48,13 @@ Your goal:
   - Example: “Musk” → “Elon Musk”
 - The goal is a **coherent and unified graph**, not duplicate nodes.
 
+## 5. Pre-existing Entities
+The following entities have already been extracted from previous chunks. If you encounter these entities again, reuse their exact IDs and types:
+{existing_entities}
+
 ---
 
-## 5. Output Format
+## 6. Output Format
 - Return **only** a valid JSON object matching the GraphDocument structure:
 - Example:
 ```json
@@ -100,8 +105,18 @@ Here is the document chunk to extract entities and relationships from:
 {chunk}
 """
 
-def render_graph_construction_instructions(chunk: str) -> str:
-  return graph_construction_instructions.replace("{chunk}", chunk)
+
+def render_graph_construction_instructions(
+    chunk: str, existing_entities: Optional[List[str]] = None
+) -> str:
+    formatted_existing_entities = "None"
+    if existing_entities:
+        formatted_existing_entities = ", ".join(existing_entities)
+
+    return graph_construction_instructions.replace("{chunk}", chunk).replace(
+        "{existing_entities}", formatted_existing_entities
+    )
+
 
 # if __name__ == "__main__":
 #   print(render_graph_construction_instructions("hey"))
