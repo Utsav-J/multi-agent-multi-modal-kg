@@ -40,7 +40,7 @@ def extract_graph_from_chunks_tool(
     chunks_filename: str,
     include_metadata: bool = False,
     batch_size: int = 1,
-    token_limit: int = 0,
+    token_limit: int = 5500,
 ) -> str:
     """
     Extracts knowledge graph nodes and relationships from a JSONL file containing text chunks.
@@ -262,7 +262,7 @@ def main():
 
     # Construct user input based on arguments
     user_input = f"Extract graph from {args.filename}"
-    default_user_input = f"Extract graph from attention_is_all_you_need_paper_annotated_chunks.jsonl without metadata using a token limit of 2000"
+    default_user_input = f"Extract graph from attention_is_all_you_need_annotated_chunks.jsonl without metadata using a token limit of 5500"
     if args.no_metadata:
         user_input += " without including metadata"
     else:
@@ -276,7 +276,9 @@ def main():
     logger.info(f"Starting graph construction agent with input: {user_input}")
 
     try:
-        result = agent.invoke({"messages": [{"role": "user", "content": user_input}]})
+        result = agent.invoke(
+            {"messages": [{"role": "user", "content": default_user_input}]}
+        )
         logger.info(f"Agent Result: {result['messages'][-1].content}")
     except Exception as e:
         logger.exception("Agent execution failed.")

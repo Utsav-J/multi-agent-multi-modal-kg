@@ -174,8 +174,6 @@ if __name__ == "__main__":
     try:
         graph = connect_to_neo4j()
         print(1)
-        # Verify connection (optional, Neo4jGraph usually connects lazily or on init)
-        # Using a simple query to check if connection is active is good practice but add_graph_documents will fail if not.
         graph.query("RETURN 1")
         print(1)
         print("Connected to Neo4j.")

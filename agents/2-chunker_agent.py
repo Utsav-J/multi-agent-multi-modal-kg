@@ -124,7 +124,7 @@ def main():
         user_input = f"Chunk the file {filename}"
     else:
         # Default for testing
-        user_input = "Chunk the file rag_paper_annotated.md"
+        user_input = "Chunk the file attention_is_all_you_need_annotated.md"
 
     logger.info(f"Starting chunker agent with input: {user_input}")
 
