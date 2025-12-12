@@ -32,7 +32,7 @@ OUTPUT_DIR = project_root / "chunking_outputs"
 
 @tool
 def chunk_markdown_tool(
-    markdown_filename: str, chunk_size: int = 1000, chunk_overlap: int = 200
+    markdown_filename: str, chunk_size: int = 5000, chunk_overlap: int = 400
 ) -> str:
     """
     Splits a Markdown file into smaller text chunks using Recursive Character Chunking and saves them as a JSONL file.
