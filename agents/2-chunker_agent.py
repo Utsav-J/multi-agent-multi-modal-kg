@@ -31,19 +31,18 @@ OUTPUT_DIR = project_root / "chunking_outputs"
 
 
 @tool
-def chunk_markdown_tool(
-    markdown_filename: str, chunk_size: int = 5000, chunk_overlap: int = 400
-) -> str:
+def chunk_markdown_tool(markdown_filename: str) -> str:
     """
-    Splits a Markdown file into smaller text chunks using Recursive Character Chunking and saves them as a JSONL file.
+    Splits a Markdown file into text chunks using token-based chunking.
+    Generates two outputs:
+      1. 5000-token chunks (for Graph Construction)
+      2. 2000-token chunks (for RAG/Search)
 
     Args:
-        markdown_filename (str): The name of the markdown file in 'markdown_outputs' to chunk (e.g., 'doc_annotated.md').
-        chunk_size (int): The maximum size of each chunk in characters. Default is 1000.
-        chunk_overlap (int): The number of characters to overlap between chunks. Default is 200.
+        markdown_filename (str): The name of the markdown file in 'markdown_outputs' to chunk.
 
     Returns:
-        str: A message indicating success and the path to the output JSONL file.
+        str: A message indicating success and the paths to the output JSONL files.
     """
     logger.info(f"Tool invoked: chunk_markdown_tool for file '{markdown_filename}'")
     try:
@@ -56,43 +55,51 @@ def chunk_markdown_tool(
         # Read content
         content = input_path.read_text(encoding="utf-8")
 
-        # Initialize splitter
-        # Using RecursiveCharacterTextSplitter as it's robust for general text and code
-        text_splitter = RecursiveCharacterTextSplitter(
-            chunk_size=chunk_size,
-            chunk_overlap=chunk_overlap,
-            length_function=len,
-            is_separator_regex=False,
-        )
-
-        # Split text
-        # create_documents allows us to easily attach metadata if we had it per chunk,
-        # but here we just have one big text. split_text returns list of strings.
-        # split_documents expects list of Documents.
-        # Let's use create_documents to get Document objects which we can then serialize.
-        docs = text_splitter.create_documents(
-            [content], metadatas=[{"source": markdown_filename}]
-        )
-
         # Prepare output path
         OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
-        output_filename = f"{input_path.stem}_chunks.jsonl"
-        output_path = OUTPUT_DIR / output_filename
 
-        # Write to JSONL
-        logger.info(f"Writing {len(docs)} chunks to {output_path}")
-        with open(output_path, "w", encoding="utf-8") as f:
-            for i, doc in enumerate(docs):
-                # Create a structured record
-                record = {
-                    "id": f"{input_path.stem}_{i}",
-                    "content": doc.page_content,
-                    "metadata": doc.metadata,
-                    "chunk_index": i,
-                }
-                f.write(json.dumps(record) + "\n")
+        configs = [
+            {"size": 5000, "overlap": 500, "suffix": "_chunks_5k"},
+            {"size": 2000, "overlap": 200, "suffix": "_chunks_2k"},
+        ]
 
-        return f"Successfully created {len(docs)} chunks. Output saved to: {output_filename}"
+        generated_files = []
+
+        for config in configs:
+            # Initialize splitter with tiktoken encoder
+            text_splitter = RecursiveCharacterTextSplitter.from_tiktoken_encoder(
+                chunk_size=config["size"],
+                chunk_overlap=config["overlap"],
+            )
+
+            # Split text
+            docs = text_splitter.create_documents(
+                [content], metadatas=[{"source": markdown_filename}]
+            )
+
+            output_filename = f"{input_path.stem}{config['suffix']}.jsonl"
+            output_path = OUTPUT_DIR / output_filename
+
+            # Write to JSONL
+            logger.info(
+                f"Writing {len(docs)} chunks (size={config['size']}) to {output_path}"
+            )
+            with open(output_path, "w", encoding="utf-8") as f:
+                for i, doc in enumerate(docs):
+                    record = {
+                        "id": f"{input_path.stem}{config['suffix']}_{i}",
+                        "content": doc.page_content,
+                        "metadata": doc.metadata,
+                        "chunk_index": i,
+                        "token_size_config": config["size"],
+                    }
+                    f.write(json.dumps(record) + "\n")
+
+            generated_files.append(output_filename)
+
+        return (
+            f"Successfully created chunks. Output files: {', '.join(generated_files)}"
+        )
 
     except Exception as e:
         error_msg = f"Error during chunking: {str(e)}"
@@ -109,22 +116,24 @@ def main():
 
     sys_prompt = (
         "You are a helpful AI assistant specializing in text processing. "
-        "Your goal is to take a markdown file and split it into smaller, manageable chunks for downstream usage (like RAG). "
-        "Use the available chunking tool to process the file provided by the user. "
-        "Always report the path of the generated JSONL file."
+        "Your goal is to take a markdown file and split it into chunks using the 'chunk_markdown_tool'. "
+        "The tool automatically generates two sets of chunks: one with 5000 tokens (for graph construction) and one with 2000 tokens (for RAG). "
+        "Always report the paths of the generated JSONL files."
     )
 
     agent = create_agent(model=llm, tools=tools, system_prompt=sys_prompt)
 
     if len(sys.argv) > 1:
         # If user provides a full path or just a name, handle it
-        # The tool expects just the filename in markdown_outputs
         arg_path = Path(sys.argv[1])
         filename = arg_path.name
         user_input = f"Chunk the file {filename}"
     else:
-        # Default for testing
-        user_input = "Chunk the file attention_is_all_you_need_annotated.md"
+        # Default for testing - scan directory if no file provided?
+        # For now, let's just pick one if exists or warn.
+        # But consistent with Agent 1, let's try to be smart or just keep default.
+        # Let's keep it simple for now as Main Pipeline will drive this.
+        user_input = "Chunk the file neuronal_attention_circuits_annotated.md"
 
     logger.info(f"Starting chunker agent with input: {user_input}")
 

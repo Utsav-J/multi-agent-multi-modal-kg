@@ -33,6 +33,26 @@ logger = logging.getLogger(__name__)
 # Define paths
 CHUNKS_DIR = project_root / "chunking_outputs"
 OUTPUT_DIR = project_root / "knowledge_graph_outputs"
+REGISTRY_PATH = OUTPUT_DIR / "global_entity_registry.json"
+
+
+def load_global_registry() -> set:
+    if REGISTRY_PATH.exists():
+        try:
+            with open(REGISTRY_PATH, "r", encoding="utf-8") as f:
+                return set(json.load(f))
+        except Exception:
+            logger.warning("Failed to load registry, starting fresh.")
+    return set()
+
+
+def save_global_registry(entities: set):
+    try:
+        OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+        with open(REGISTRY_PATH, "w", encoding="utf-8") as f:
+            json.dump(sorted(list(entities)), f, ensure_ascii=False, indent=2)
+    except Exception as e:
+        logger.error(f"Failed to save registry: {e}")
 
 
 @tool
@@ -44,17 +64,16 @@ def extract_graph_from_chunks_tool(
 ) -> str:
     """
     Extracts knowledge graph nodes and relationships from a JSONL file containing text chunks.
+    Uses a global entity registry to maintain consistency across documents.
 
     Args:
-        chunks_filename (str): The name of the JSONL file in 'chunking_outputs' (e.g., 'doc_chunks.jsonl').
-        include_metadata (bool): Whether to include original chunk metadata (e.g., chunk_id, index) in the output.
-                                 Defaults to True.
+        chunks_filename (str): The name of the JSONL file in 'chunking_outputs' (e.g., 'doc_chunks_5k.jsonl').
+        include_metadata (bool): Whether to include original chunk metadata. Defaults to True.
         batch_size (int): Number of chunks to process in a single LLM call. Defaults to 1.
-        token_limit (int): Approximate maximum number of tokens per batch (1 token ~= 4 chars).
-                           If set > 0, this overrides batch_size for adaptive batching.
+        token_limit (int): Approximate maximum number of tokens per batch.
 
     Returns:
-        str: A message indicating success and the path to the output JSONL file with graph data.
+        str: A message indicating success and the path to the output JSONL file.
     """
     logger.info(
         f"Tool invoked: extract_graph_from_chunks_tool for file '{chunks_filename}' "
@@ -78,7 +97,8 @@ def extract_graph_from_chunks_tool(
         client = genai.Client(api_key=os.getenv("GOOGLE_API_KEY"))
 
         results = []
-        seen_entity_ids = set()
+        seen_entity_ids = load_global_registry()
+        logger.info(f"Loaded {len(seen_entity_ids)} existing entities from registry.")
 
         # Read chunks
         chunks = []
@@ -207,6 +227,10 @@ def extract_graph_from_chunks_tool(
             if current_batch:
                 process_batch(current_batch)
 
+        # Save updated registry
+        save_global_registry(seen_entity_ids)
+        logger.info(f"Updated registry with {len(seen_entity_ids)} entities.")
+
         return f"Successfully processed chunks. Graph data saved to: {output_filename}"
 
     except Exception as e:
@@ -220,8 +244,8 @@ def main():
     parser.add_argument(
         "filename",
         nargs="?",
-        default="rag_paper_annotated_chunks.jsonl",
-        help="The input JSONL filename (default: rag_paper_annotated_chunks.jsonl)",
+        default="rag_paper_annotated_chunks_5k.jsonl",
+        help="The input JSONL filename (default: rag_paper_annotated_chunks_5k.jsonl)",
     )
     parser.add_argument(
         "--no-metadata",

@@ -1,5 +1,6 @@
 import sys
 import os
+import argparse
 import logging
 from pathlib import Path
 from dotenv import load_dotenv
@@ -57,10 +58,12 @@ def convert_pdf_to_markdown_tool(pdf_filename: str) -> str:
         IMAGES_DIR.mkdir(parents=True, exist_ok=True)
 
         logger.info(f"Starting PDF conversion for {input_pdf}")
-        success = convert_pdf_to_markdown(input_pdf, intermediate_md, IMAGES_DIR)
+        success, image_count = convert_pdf_to_markdown(
+            input_pdf, intermediate_md, IMAGES_DIR
+        )
 
         if success:
-            msg = f"Successfully converted PDF to Markdown. Raw output saved to: {intermediate_md.name}"
+            msg = f"Successfully converted PDF to Markdown. Extracted {image_count} images. Raw output saved to: {intermediate_md.name}"
             logger.info(msg)
             return msg
         else:
@@ -110,6 +113,18 @@ def annotate_markdown_tool(markdown_filename: str) -> str:
 
 
 def main():
+    parser = argparse.ArgumentParser(description="Process a PDF file.")
+    parser.add_argument(
+        "filename",
+        nargs="?",
+        default="neuronal_attention_circuits.pdf",
+        help="The PDF filename to process",
+    )
+    parser.add_argument(
+        "--no-annotate", action="store_true", help="Skip image annotation"
+    )
+    args = parser.parse_args()
+
     llm = ChatGoogleGenerativeAI(
         model="gemini-2.5-flash", temperature=0, convert_system_message_to_human=True
     )
@@ -118,24 +133,43 @@ def main():
 
     sys_prompt = (
         "You are a helpful AI assistant specializing in processing PDF documents. ",
-        "Your goal is to convert PDFs to Markdown and then annotate any extracted images with descriptive captions. ",
-        "Always start by converting the PDF. If that succeeds, proceed to annotate the resulting markdown file. ",
-        "Report the final status to the user.",
+        "Your goal is to convert PDFs to Markdown and optionally annotate extracted images. ",
+        "Always start by converting the PDF. ",
+        "The conversion tool will report the number of extracted images. ",
+        "If the number of extracted images is less than or equal to 5, proceed to annotate the resulting markdown file using 'annotate_markdown_tool'. ",
+        "If there are more than 5 images, do NOT annotate, and skip the annotation step. ",
+        "Report the final status to the user, mentioning whether annotation was performed or skipped.",
     )
 
     agent = create_agent(model=llm, tools=tools, system_prompt=sys_prompt)
 
-    if len(sys.argv) > 1:
-        user_input = f"Process the file {sys.argv[1]}"
+    # Determine files to process
+    files_to_process = []
+    if args.filename:
+        files_to_process.append(args.filename)
     else:
-        user_input = "Process the file rag_paper.pdf"
+        # If no filename provided, process all PDFs in data directory
+        logger.info(f"No filename provided. Scanning {DATA_DIR} for PDFs...")
+        if DATA_DIR.exists():
+            files_to_process = [f.name for f in DATA_DIR.glob("*.pdf")]
 
-    logger.info(f"Starting agent with input: {user_input}")
-    try:
-        agent.invoke({"messages": [{"role": "user", "content": user_input}]})
-        logger.info("Agent execution completed successfully.")
-    except Exception as e:
-        logger.exception("Agent execution failed with an error.")
+    if not files_to_process:
+        logger.warning("No PDF files found to process.")
+        return
+
+    logger.info(f"Found {len(files_to_process)} files to process: {files_to_process}")
+
+    for pdf_file in files_to_process:
+        user_input = f"Process the file {pdf_file}."
+        if args.no_annotate:
+            user_input += " Do NOT annotate the images regardless of count."
+
+        logger.info(f"Starting agent for file: {pdf_file}")
+        try:
+            agent.invoke({"messages": [{"role": "user", "content": user_input}]})
+            logger.info(f"Completed processing for {pdf_file}")
+        except Exception as e:
+            logger.exception(f"Agent execution failed for {pdf_file}")
 
 
 if __name__ == "__main__":

@@ -9,6 +9,7 @@ from google.genai import types
 from dotenv import load_dotenv
 from pyprojroot import here
 import sys
+
 sys.path.append(str(here()))
 
 try:
@@ -16,11 +17,12 @@ try:
 except ImportError:
     # Fallback if utils is not found directly
     print("Warning: Could not import prompts from utils.")
-    captioning_prompt = "" 
+    captioning_prompt = ""
 
 load_dotenv()
 
 IMAGE_PATTERN = re.compile(r"!\[(.*?)\]\((.*?)\)")
+
 
 def encode_image_to_base64(image_path):
     """
@@ -38,6 +40,7 @@ def encode_image_to_base64(image_path):
         print(f"An error occurred while encoding image: {e}")
         return None
 
+
 def caption_image(image_location: str) -> str:
     """
     Generate a scientific caption for a single image using Google GenAI.
@@ -54,9 +57,9 @@ def caption_image(image_location: str) -> str:
         mime_type = "image/gif"
 
     client = genai.Client()
-    model = "gemma-3-4b-it" # Using the model specified in the reference
+    model = "gemma-3-4b-it"  # Using the model specified in the reference
     formatted_prompt = captioning_prompt.format(image_path=f"images/{image_location}")
-    
+
     contents = [
         types.Content(
             role="user",
@@ -77,38 +80,48 @@ def caption_image(image_location: str) -> str:
         response_text = getattr(response_obj, "text", None)
         if not response_text:
             print(f"Warning: Empty response for {image_location}")
-            return f"![Image]({image_location})" # Fallback
-            
+            return f"![Image]({image_location})"  # Fallback
+
         print(f"Generated caption for {image_location}")
         return response_text
     except Exception as e:
         print(f"Failed to generate caption for {image_location}: {e}")
         return f"![Image]({image_location})\n\n**Error generating caption:** {e}"
 
-def convert_pdf_to_markdown(pdf_path: pathlib.Path, output_md_path: pathlib.Path, image_output_dir: pathlib.Path):
+
+def convert_pdf_to_markdown(
+    pdf_path: pathlib.Path, output_md_path: pathlib.Path, image_output_dir: pathlib.Path
+):
     """
     Converts a PDF to Markdown, extracting images to the specified directory.
+    Returns:
+        tuple: (success (bool), image_count (int))
     """
     print(f"Converting {pdf_path} to Markdown...")
-    
+
     # Ensure image directory exists
     image_output_dir.mkdir(parents=True, exist_ok=True)
-    
+
     try:
         md_text = pymupdf4llm.to_markdown(
             str(pdf_path),
             write_images=True,
             image_path=str(image_output_dir),
         )
-        
+
+        # Count images in the markdown
+        image_count = len(IMAGE_PATTERN.findall(md_text))
+        print(f"Extracted {image_count} images.")
+
         # Write the initial markdown
         output_md_path.parent.mkdir(parents=True, exist_ok=True)
         output_md_path.write_text(md_text, encoding="utf-8")
         print(f"Initial markdown saved to {output_md_path}")
-        return True
+        return True, image_count
     except Exception as e:
         print(f"Error converting PDF: {e}")
-        return False
+        return False, 0
+
 
 def annotate_markdown_images(md_path: pathlib.Path, output_path: pathlib.Path) -> str:
     """
@@ -119,22 +132,24 @@ def annotate_markdown_images(md_path: pathlib.Path, output_path: pathlib.Path) -
 
     def _replacer(match: re.Match) -> str:
         img_path = match.group(2)
-        # The image path in markdown might be relative. 
+        # The image path in markdown might be relative.
         # pymupdf4llm usually outputs paths relative to the markdown file or absolute.
         # We need to resolve it to an absolute path or a path relative to CWD for reading.
-        
+
         # If path starts with /, it might be absolute. If not, it's relative to md_path.
         # However, pymupdf4llm usually writes images to the folder we gave it.
         # Let's try to resolve the file path.
-        
+
         potential_path = pathlib.Path(img_path)
         if not potential_path.is_absolute():
             # Try resolving relative to the markdown file's directory
             potential_path = md_path.parent / img_path
-            
+
         if not potential_path.exists():
-            print(f"Warning: Image file not found at {potential_path}, skipping captioning.")
-            return match.group(0) # Return original text
+            print(
+                f"Warning: Image file not found at {potential_path}, skipping captioning."
+            )
+            return match.group(0)  # Return original text
 
         try:
             caption_block = caption_image(str(potential_path))
@@ -150,6 +165,7 @@ def annotate_markdown_images(md_path: pathlib.Path, output_path: pathlib.Path) -
     print(f"Annotated markdown saved to {output_path}")
     return updated_text
 
+
 def process_document(filename: str):
     """
     Main workflow:
@@ -163,7 +179,7 @@ def process_document(filename: str):
     data_dir = project_root / "data"
     output_dir = project_root / "markdown_outputs"
     images_dir = output_dir / "images"
-    
+
     input_pdf = data_dir / filename
     if not input_pdf.exists():
         print(f"Error: Input file not found: {input_pdf}")
@@ -178,25 +194,36 @@ def process_document(filename: str):
     print(f"Output: {final_md}")
 
     # Step 1: Convert PDF to Markdown
-    success = convert_pdf_to_markdown(input_pdf, intermediate_md, images_dir)
+    success, image_count = convert_pdf_to_markdown(
+        input_pdf, intermediate_md, images_dir
+    )
     if not success:
         print("Conversion failed. Aborting.")
         return
 
-    # Step 2: Annotate images
-    annotate_markdown_images(intermediate_md, final_md)
-    
+    # Step 2: Annotate images (Logic: If image count <= 5)
+    if image_count <= 5:
+        annotate_markdown_images(intermediate_md, final_md)
+    else:
+        print(
+            f"Skipping annotation: Too many images ({image_count} > 5). Copying raw markdown."
+        )
+        final_md.write_text(
+            intermediate_md.read_text(encoding="utf-8"), encoding="utf-8"
+        )
+
     print("Processing complete!")
+
 
 if __name__ == "__main__":
     # Simple CLI to get filename
     import sys
+
     if len(sys.argv) > 1:
         filename = sys.argv[1]
     else:
         # Default for testing
         filename = "attention_is_all_you_need.pdf"
         print(f"No filename provided. Using default: {filename}")
-    
-    process_document(filename)
 
+    process_document(filename)
