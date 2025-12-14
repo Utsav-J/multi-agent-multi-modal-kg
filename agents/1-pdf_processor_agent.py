@@ -117,7 +117,7 @@ def main():
     parser.add_argument(
         "filename",
         nargs="?",
-        default="neuronal_attention_circuits.pdf",
+        # default="neuronal_attention_circuits.pdf",
         help="The PDF filename to process",
     )
     parser.add_argument(
@@ -159,6 +159,8 @@ def main():
 
     logger.info(f"Found {len(files_to_process)} files to process: {files_to_process}")
 
+    generated_files = []
+
     for pdf_file in files_to_process:
         user_input = f"Process the file {pdf_file}."
         if args.no_annotate:
@@ -166,14 +168,36 @@ def main():
 
         logger.info(f"Starting agent for file: {pdf_file}")
         try:
-            agent.invoke({"messages": [{"role": "user", "content": user_input}]})
+            result = agent.invoke(
+                {"messages": [{"role": "user", "content": user_input}]}
+            )
             logger.info(f"Completed processing for {pdf_file}")
+
+            # Parse the result to determine the actual output filename.
+            # We assume if the agent said "annotated", it annotated.
+            if result and "messages" in result and result["messages"]:
+                last_message = result["messages"][-1].content
+                base_name = Path(pdf_file).stem
+
+                if (
+                    isinstance(last_message, str)
+                    and "annotated" in last_message.lower()
+                    and "successfully" in last_message.lower()
+                    and "skip" not in last_message.lower()
+                ):
+                    generated_files.append(f"{base_name}_annotated.md")
+                else:
+                    generated_files.append(f"{base_name}_raw.md")
+            else:
+                logger.warning(f"Unexpected result format from agent for {pdf_file}")
+                generated_files.append(f"{Path(pdf_file).stem}_raw.md")  # Fallback
+
         except Exception as e:
             logger.exception(f"Agent execution failed for {pdf_file}")
+
+    logger.info(f"Processing complete. Generated files: {generated_files}")
+    return generated_files
 
 
 if __name__ == "__main__":
     main()
-
-# # Process the default file
-# uv run agents/1-pdf_processor_agent.py

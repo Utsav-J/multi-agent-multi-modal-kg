@@ -206,11 +206,9 @@ def process_document(filename: str):
         annotate_markdown_images(intermediate_md, final_md)
     else:
         print(
-            f"Skipping annotation: Too many images ({image_count} > 5). Copying raw markdown."
+            f"Skipping annotation: Too many images ({image_count} > 5). Keeping raw markdown."
         )
-        final_md.write_text(
-            intermediate_md.read_text(encoding="utf-8"), encoding="utf-8"
-        )
+        # We DO NOT copy to _annotated.md anymore, so the pipeline knows to use _raw.md
 
     print("Processing complete!")
 
