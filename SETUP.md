@@ -47,7 +47,7 @@ Follow these steps to set up the Multimodal Knowledge Graph environment.
 
 ## 4. Running the Pipeline
 
-### Option A: Run Everything (Recommended)
+### Option A: Run Everything (Dont do this yet, not tested well)
 This command will process up to 5 PDFs from the `data/` folder, generate the graph, and ingest it into Neo4j.
 ```bash
 uv run main_pipeline.py
@@ -76,7 +76,7 @@ You can run specific agents for testing or granular control.
     uv run agents/5-jsonl_graph_ingestion_agent.py
     ```
 
-## 5. Querying the Graph
+## 5. Querying the Graph (not tested)
 
 Once data is ingested, use Agent 6 to ask questions:
 
