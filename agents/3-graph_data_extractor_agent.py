@@ -286,7 +286,7 @@ def main():
 
     # Construct user input based on arguments
     user_input = f"Extract graph from {args.filename}"
-    default_user_input = f"Extract graph from attention_is_all_you_need_annotated_chunks.jsonl without metadata using a token limit of 5500"
+    default_user_input = f"Extract graph from neuronal_attention_circuits_raw_chunks_5k.jsonl without metadata using a token limit of 5500"
     if args.no_metadata:
         user_input += " without including metadata"
     else:
@@ -297,7 +297,7 @@ def main():
     elif args.batch_size > 1:
         user_input += f" using a batch size of {args.batch_size}"
 
-    logger.info(f"Starting graph construction agent with input: {user_input}")
+    logger.info(f"Starting graph construction agent with input: {default_user_input}")
 
     try:
         result = agent.invoke(
