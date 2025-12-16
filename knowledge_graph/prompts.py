@@ -1,60 +1,84 @@
 from typing import List, Optional
 from langchain_community.graphs import Neo4jGraph
 
-graph_construction_instructions = """ # Knowledge Graph Construction Instructions
+graph_construction_instructions = """You are an information extraction system for building a reusable scientific knowledge graph from research papers.
 
-## 1. Role and Objective
-You are an advanced information extraction model specializing in transforming unstructured text into structured knowledge graph data.  
-Your task is to read the given text and extract all **entities (nodes)** and **relationships (edges)** relevant for constructing a knowledge graph.  
-Each relationship is a **triple** in the form of:
+Your goal is to extract ONLY high-value, reusable entities and relationships.
+You must avoid over-extraction and paper-local details.
 
-```
-Source_Node ~~ Relationship ~~ Target_Node
-````
+====================
+ENTITY SELECTION RULES
+====================
 
-Your goal:
-- Maintain **semantic accuracy**, **naming consistency**, and **clean minimalism**.
-- Produce results that can be directly converted into graph database nodes and edges.
-- Ensure consistent capitalization and spelling so that nodes referring to the same concept are identical.
+Extract entities ONLY if they satisfy at least one of the following:
+1. A named scientific model, method, or framework reused across papers
+2. A clearly defined task or application domain
+3. A published work (author + year citation)
+4. A widely accepted scientific concept (field-level, not paper-specific)
+5. An organization or author (for provenance)
 
+DO NOT extract:
+- Variables, symbols, or mathematical notation (e.g., q, k, a_t, φ, ωτ)
+- Internal architectural components unless they are independently reusable methods
+- Solver choices unless the paper’s main contribution is numerical methods
+- Theorems, lemmas, corollaries, propositions, or equation numbers
+- Section titles, analysis labels, or descriptive phrases
+- Paper-specific reformulations unless claimed as a standalone method
 
-## 2. Node and Relationship Guidelines
+====================
+ABSTRACTION RULES
+====================
 
-### 🟢 Node Rules
-- **Nodes represent real-world entities or abstract concepts.**
-- Label every node with a general, simple **type** (e.g., "Person", "Organization", "Location", "Event", "Concept").
-- The node **id** should be the entity name or phrase as it appears in the text (clean and human-readable).
-- Example: `"Elon Musk"` → `{"id": "Elon Musk", "type": "Person"}`
+Prefer higher-level abstractions:
+- Use “Attention Mechanisms” instead of “Attention Logits”
+- Use “Continuous-Time Modeling” instead of “Closed-Form ODE Solution”
+- Use “Biologically Inspired Models” instead of individual gate mechanisms
 
-### 🟠 Relationship Rules
-- Relationships should describe **clear, meaningful connections** (verbs or prepositions).
-- Use uppercase snake case (e.g., `FOUNDED`, `BORN_IN`, `LOCATED_AT`, `WORKS_FOR`, `PART_OF`).
-- Keep them **directional** — from subject (source) to object (target).
-- Example: `"Elon Musk founded SpaceX"` → `{"source": "Elon Musk", "target": "SpaceX", "type": "FOUNDED"}`
+Merge synonymous or closely related entities.
+Avoid creating multiple nodes for minor variations.
 
----
+====================
+ENTITY TYPES (STRICT)
+====================
 
-## 3. Data Normalization and Attributes
-- **No separate nodes for numeric or date values.**
-  - Attach such data as node attributes.
-  - Example: `"Elon Musk (born 1971)"` → `{"id": "Elon Musk", "type": "Person", "attributes": {"birthYear": 1971}}`
-- **Use camelCase for property names** (e.g., `birthDate`, `foundedYear`).
-- Do **not** escape quotes within values.
+Allowed entity types:
+- Model
+- Task
+- Concept
+- Algorithm (only if novel and reusable)
+- Publication
+- Person
+- Organization
 
----
+If an entity does not clearly fit one of these types, DO NOT extract it.
 
-## 4. Coreference and Entity Consistency
-- If an entity is referred to by pronouns or abbreviations later, always use its **most complete name**.
-  - Example: “Musk” → “Elon Musk”
-- The goal is a **coherent and unified graph**, not duplicate nodes.
+====================
+RELATIONSHIP RULES
+====================
 
-## 5. Pre-existing Entities
+Extract relationships only if they express:
+- INTRODUCED_BY
+- BUILDS_ON
+- COMPARED_WITH
+- APPLIED_TO
+- INSPIRED_BY
+- EXTENDS
+- MITIGATES
+- ADDRESSES
+- AUTHORED_BY
+- AFFILIATED_WITH
+
+Avoid relationships describing implementation mechanics.
+Favor precision over recall.
+If unsure about an entity, OMIT it.
+
+## Pre-existing Entities
 The following entities have already been extracted from previous chunks. If you encounter these entities again, reuse their exact IDs and types:
 {existing_entities}
 
 ---
 
-## 6. Output Format
+## Output Format
 - Return **only** a valid JSON object matching the GraphDocument structure:
 - Example:
 ```json
@@ -82,12 +106,6 @@ The following entities have already been extracted from previous chunks. If you 
       "type": "LIVES_IN"
     }
   ],
-  "source": {
-    "page_content": "The dog named Rex lives in London.",
-    "metadata": {
-      "chunk_id": "1"
-    }
-  }
 }
 ```
 
@@ -97,7 +115,6 @@ If no entities or relations are found, return an empty JSON:
 ```json
 {"nodes": [], "relationships": []}
 ```
-
 
 # Text to Process
 

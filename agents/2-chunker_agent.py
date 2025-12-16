@@ -133,7 +133,7 @@ def main():
         # For now, let's just pick one if exists or warn.
         # But consistent with Agent 1, let's try to be smart or just keep default.
         # Let's keep it simple for now as Main Pipeline will drive this.
-        user_input = "Chunk the file neuronal_attention_circuits_raw.md"
+        user_input = "Chunk the file sliding_window_attention_annotated.md"
 
     logger.info(f"Starting chunker agent with input: {user_input}")
 

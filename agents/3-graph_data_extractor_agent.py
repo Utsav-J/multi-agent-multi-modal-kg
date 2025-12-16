@@ -159,6 +159,9 @@ def extract_graph_from_chunks_tool(
                         for node in graph_doc.nodes:
                             seen_entity_ids.add(node.id)
 
+                        # Save registry immediately after processing the batch
+                        save_global_registry(seen_entity_ids)
+
                         # Convert to dict for serialization
                         graph_dict = graph_doc.model_dump()
 

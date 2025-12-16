@@ -55,46 +55,25 @@ def main():
         base_name = pdf_file.stem
 
         # Step 1: PDF Processor (Agent 1)
-        # Outputs: markdown_outputs/{base_name}_annotated.md or {base_name}_raw.md
+        # Outputs: markdown_outputs/{base_name}_annotated.md (always created now)
         run_command(
             f'uv run agents/1-pdf_processor_agent.py "{pdf_file.name}"',
             f"Agent 1: Process PDF {pdf_file.name}",
         )
-        
-        # Determine which file to process next
-        annotated_path = MARKDOWN_DIR / f"{base_name}_annotated.md"
-        raw_path = MARKDOWN_DIR / f"{base_name}_raw.md"
-        
-        target_md = ""
-        # Check if annotated exists AND is newer than raw (implying it was just created)
-        # OR just check existence if we trust the flow.
-        # But wait, Agent 1 now only creates _annotated if it actually annotated.
-        # So:
-        if annotated_path.exists():
-            target_md = f"{base_name}_annotated.md"
-        elif raw_path.exists():
-            target_md = f"{base_name}_raw.md"
-        else:
-            logger.error(f"Agent 1 failed to produce output for {base_name}")
-            continue
+
+        annotated_md = f"{base_name}_annotated.md"
 
         # Step 2: Chunker (Agent 2)
         # Outputs: chunking_outputs/{base_name}_annotated_chunks_5k.jsonl AND _2k.jsonl
-        # The ID will differ based on the input filename now.
         run_command(
-            f'uv run agents/2-chunker_agent.py "{target_md}"',
-            f"Agent 2: Chunk Markdown {target_md}",
+            f'uv run agents/2-chunker_agent.py "{annotated_md}"',
+            f"Agent 2: Chunk Markdown {annotated_md}",
         )
-        
-        # Calculate expected chunk filename
-        # Agent 2 appends _chunks_5k.jsonl to the input stem
-        # e.g. input: doc_raw.md -> doc_raw_chunks_5k.jsonl
-        # e.g. input: doc_annotated.md -> doc_annotated_chunks_5k.jsonl
-        target_stem = Path(target_md).stem
-        chunks_5k = f"{target_stem}_chunks_5k.jsonl"
+
+        chunks_5k = f"{base_name}_annotated_chunks_5k.jsonl"
 
         # Step 3: Graph Extractor (Agent 3)
-        # Outputs: knowledge_graph_outputs/{target_stem}_chunks_5k_graph.jsonl
+        # Outputs: knowledge_graph_outputs/{base_name}_annotated_chunks_5k_graph.jsonl
         # Uses 5k chunks for graph construction
         run_command(
             f'uv run agents/3-graph_data_extractor_agent.py "{chunks_5k}"',
