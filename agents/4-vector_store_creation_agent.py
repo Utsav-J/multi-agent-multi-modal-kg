@@ -1,11 +1,9 @@
 import sys
-import os
 import argparse
 import logging
 import json
 from pathlib import Path
 from dotenv import load_dotenv
-
 from langchain_community.vectorstores import FAISS
 from langchain_core.documents import Document
 from langchain.agents import create_agent
@@ -14,11 +12,9 @@ from langchain_core.embeddings import Embeddings
 from sentence_transformers import SentenceTransformer
 from langchain_google_genai import ChatGoogleGenerativeAI
 
-# Add project root to sys.path
 project_root = Path(__file__).resolve().parent.parent
 sys.path.append(str(project_root))
 
-# Load environment variables
 load_dotenv()
 
 # Configure logging

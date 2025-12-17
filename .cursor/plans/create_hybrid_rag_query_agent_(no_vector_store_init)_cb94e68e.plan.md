@@ -4,20 +4,20 @@ overview: Implement `agents/6-query_agent.py` to query an existing vector store 
 todos:
   - id: create-agent-file
     content: Create `agents/6-query_agent.py` with vector store loading logic.
-    status: pending
+    status: completed
   - id: implement-rag-tool
     content: Implement `rag_retrieval_tool` (retrieval only).
-    status: pending
+    status: completed
     dependencies:
       - create-agent-file
   - id: implement-graph-tool
     content: Implement `graph_retrieval_tool` with GraphCypherQAChain.
-    status: pending
+    status: completed
     dependencies:
       - create-agent-file
   - id: implement-main-loop
     content: Implement main agent loop and synthesis logic.
-    status: pending
+    status: completed
     dependencies:
       - implement-rag-tool
       - implement-graph-tool
@@ -29,9 +29,9 @@ This plan involves creating `agents/6-query_agent.py` which will query an *exist
 
 ## 1. Prerequisites & Setup
 
-- **Vector Store**: The agent assumes a FAISS index (or similar) already exists at a specified path (e.g., `vector_store/`).
+- **Vector Store**: The agent assumes a FAISS index (or similar) already exists at a specified path ( `vector_store_outputs/index/index.faiss and index.pkl`).
 - **Graph Database**: Neo4j connection parameters must be available via environment variables.
-
+- 4-vector_store_creation_agent.py contains details about construction of vector database 
 ## 2. Implementation: `agents/6-query_agent.py`
 
 ### Key Components:
