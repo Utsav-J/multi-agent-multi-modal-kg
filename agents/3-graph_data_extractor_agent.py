@@ -231,7 +231,7 @@ def extract_graph_from_chunks_tool(
                 process_batch(current_batch)
 
         # Save updated registry
-        save_global_registry(seen_entity_ids)
+        # save_global_registry(seen_entity_ids)
         logger.info(f"Updated registry with {len(seen_entity_ids)} entities.")
 
         return f"Successfully processed chunks. Graph data saved to: {output_filename}"
