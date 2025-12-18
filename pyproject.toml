@@ -7,6 +7,7 @@ requires-python = ">=3.13"
 dependencies = [
     "faiss-cpu>=1.13.1",
     "google-genai>=1.47.0",
+    "groq>=1.0.0",
     "langchain>=1.0.8",
     "langchain-community",
     "langchain-google-genai>=3.1.0",
@@ -17,6 +18,7 @@ dependencies = [
     "neo4j>=5.28.2",
     "neo4j-graphrag>=1.10.1",
     "ollama>=0.6.1",
+    "pydantic>=2.12.4",
     "pymupdf4llm>=0.2.2",
     "pyprojroot>=0.3.0",
     "scikit-learn>=1.7.2",
