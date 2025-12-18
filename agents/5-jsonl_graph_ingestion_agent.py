@@ -163,43 +163,23 @@ def load_jsonl_and_ingest(file_path: str, graph: Neo4jGraph):
 
 
 if __name__ == "__main__":
-    import argparse
-
-    parser = argparse.ArgumentParser(description="Ingest Graph JSONL files into Neo4j")
-    parser.add_argument(
-        "filename",
-        nargs="?",
-        help="Specific JSONL file to ingest (relative to knowledge_graph_outputs)",
-    )
-    args = parser.parse_args()
-
     # Define the input file path
-    output_dir = project_root / "knowledge_graph_outputs"
-    files_to_process = []
-
-    if args.filename:
-        fpath = output_dir / args.filename
-        if fpath.exists():
-            files_to_process.append(fpath)
-        else:
-            print(f"File not found: {fpath}")
-    else:
-        # Scan for all graph jsonl files
-        if output_dir.exists():
-            files_to_process = list(output_dir.glob("*_graph.jsonl"))
+    input_file = (
+        project_root
+        / "knowledge_graph_outputs"
+        / "attention_is_all_you_need_annotated_chunks_graph.jsonl"
+    )
 
     # Connect to Neo4j
     try:
         graph = connect_to_neo4j()
+        print(1)
         graph.query("RETURN 1")
+        print(1)
         print("Connected to Neo4j.")
 
-        if not files_to_process:
-            print("No graph files found to ingest.")
-        else:
-            print(f"Found {len(files_to_process)} files to ingest: {[f.name for f in files_to_process]}")
-            for fpath in files_to_process:
-                load_jsonl_and_ingest(str(fpath), graph)
+        print(1)
+        load_jsonl_and_ingest(str(input_file), graph)
 
     except Exception as e:
         print(f"Failed to connect to Neo4j or execute graph operations: {e}")
