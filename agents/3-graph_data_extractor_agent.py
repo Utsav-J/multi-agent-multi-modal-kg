@@ -297,11 +297,11 @@ def main():
     elif args.batch_size > 1:
         user_input += f" using a batch size of {args.batch_size}"
 
-    logger.info(f"Starting graph construction agent with input: {default_user_input}")
+    logger.info(f"Starting graph construction agent with input: {user_input}")
 
     try:
         result = agent.invoke(
-            {"messages": [{"role": "user", "content": default_user_input}]}
+            {"messages": [{"role": "user", "content": user_input}]}
         )
         logger.info(f"Agent Result: {result['messages'][-1].content}")
     except Exception as e:

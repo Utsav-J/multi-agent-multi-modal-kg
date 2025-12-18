@@ -54,9 +54,9 @@ class GraphDocument(BaseModel):
     relationships: List[Relationship] = Field(
         ..., description="List of relationships connecting the nodes."
     )
-    # source: Document = Field(
-    #     ..., description="The document or chunk this graph was extracted from."
-    # )
+    source: Document = Field(
+        ..., description="The document or chunk this graph was extracted from."
+    )
 
 
 extracted_sample_data = GraphDocument(
