@@ -79,31 +79,56 @@ def load_vector_store():
         return None
 
 
-def get_graph_chain(llm):
-    """Initializes the GraphCypherQAChain for Neo4j."""
-    try:
-        url = os.getenv("NEO4J_URI", "bolt://localhost:7687")
-        username = os.getenv("NEO4J_USERNAME", "neo4j")
-        password = os.getenv("NEO4J_PASSWORD", "password")
+# ----- Graph querying helpers (ported from utils/neo4j_query.py) -----
 
-        graph = Neo4jGraph(url=url, username=username, password=password)
+CYPHER_PROMPT = PromptTemplate(
+    input_variables=["schema", "query", "entities"],
+    template="""
+You are an expert Neo4j Cypher generator.
 
-        chain = GraphCypherQAChain.from_llm(
-            llm=llm, graph=graph, verbose=True, allow_dangerous_requests=True
-        )
-        return chain
-    except Exception as e:
-        logger.error(f"Failed to initialize Neo4j connection: {e}")
-        return None
+Schema:
+{schema}
+
+Known entities in the graph (use ONLY these names):
+{entities}
+
+Rules:
+- Do NOT invent entity names.
+- Use only labels and properties present in the schema.
+- If no entity matches, return an empty query.
+
+User question:
+{query}
+
+Generate Cypher only.
+""",
+)
 
 
-# Global resources (initialized lazily or on module load if simple)
-# For tools to access them, we can initialize them globally or pass them.
-# Given tool definitions must be stateless functions generally, we'll use globals or a class based approach.
-# For simplicity with the @tool decorator, we'll assume globals are initialized in main() or check if None.
+def resolve_entities(graph: Neo4jGraph, query: str, limit: int = 5):
+    """Resolve entity candidates from Neo4j using a full-text index."""
+    cypher = """
+    CALL db.index.fulltext.queryNodes(
+        "entityIndex",
+        $query
+    )
+    YIELD node, score
+    RETURN
+        labels(node) AS labels,
+        node.text AS name,
+        score
+    ORDER BY score DESC
+    LIMIT $limit
+    """
 
+    return graph.query(
+        cypher,
+        params={"query": query, "limit": limit},
+    )
+
+
+# Global resources (initialized lazily)
 vector_store = None
-graph_chain = None
 llm_for_tools = None
 
 
@@ -149,7 +174,7 @@ def rag_retrieval_tool(query: str) -> str:
 def graph_retrieval_tool(query: str) -> str:
     """
     Queries the knowledge graph database (Neo4j) using Cypher.
-    Useful for finding relationships between entities, structured data, and answering questions about the graph structure.
+    Uses entity grounding + a constrained Cypher generation prompt to avoid hallucinated entities.
 
     Args:
         query (str): The natural language query about the graph.
@@ -158,22 +183,66 @@ def graph_retrieval_tool(query: str) -> str:
         str: The answer derived from the graph database.
     """
     logger.info(f"Graph Tool invoked with query: {query}")
-    global graph_chain
-
-    if not graph_chain:
-        # We need LLM to init the chain if it wasn't init yet.
-        # This is a fallback if main didn't set it, though main should.
-        if llm_for_tools:
-            graph_chain = get_graph_chain(llm_for_tools)
-
-        if not graph_chain:
-            return "Error: Graph database connection is not available."
 
     try:
-        result = graph_chain.invoke(query)
-        return result.get("result", "No result returned from graph query.")
+        url = os.getenv("NEO4J_URI")
+        username = os.getenv("NEO4J_USERNAME")
+        password = os.getenv("NEO4J_PASSWORD")
+
+        logger.info(f"Connecting to Neo4j at {url}...")
+        graph = Neo4jGraph(url=url, username=username, password=password)
+
+        schema = graph.schema
+
+        # Use the shared LLM if available, otherwise create a local one
+        llm = llm_for_tools or ChatGoogleGenerativeAI(
+            model="gemini-2.5-flash",
+            temperature=0,
+            convert_system_message_to_human=True,
+        )
+
+        # 1. Resolve entities FIRST
+        logger.info("Resolving entities from graph...")
+        entities = resolve_entities(graph, query)
+
+        if not entities:
+            logger.warning("No matching entities found.")
+            return "No relevant entities found in the knowledge graph."
+
+        entity_str = "\n".join(
+            f"- {e['name']} ({', '.join(e['labels'])})" for e in entities
+        )
+
+        # 2. Build Cypher chain with constrained prompt
+        logger.info("Initializing grounded GraphCypherQAChain...")
+        chain = GraphCypherQAChain.from_llm(
+            llm=llm,
+            graph=graph,
+            cypher_prompt=CYPHER_PROMPT,
+            verbose=True,
+            return_intermediate_steps=True,
+            allow_dangerous_requests=True,
+        )
+
+        # 3. Invoke with grounded context
+        result = chain.invoke(
+            {
+                "query": query,
+                "entities": entity_str,
+                "schema": schema,
+            }
+        )
+
+        steps = result.get("intermediate_steps", [])
+        if steps:
+            logger.info("Generated Cypher:")
+            # steps[0] is usually {'query': <cypher>} or similar; guard with .get
+            logger.info(steps[0].get("query") or steps[0].get("cypher"))
+
+        return result.get("result", "No result returned.")
+
     except Exception as e:
-        logger.error(f"Error in Graph retrieval: {e}")
+        logger.error(f"Error in Graph retrieval: {e}", exc_info=True)
         return f"Error occurred during graph query: {str(e)}"
 
 
@@ -184,24 +253,20 @@ def main():
     )
     args = parser.parse_args()
 
-    global llm_for_tools, vector_store, graph_chain
+    global llm_for_tools, vector_store
 
     # Initialize LLM
-    llm_for_tools = ChatGoogleGenerativeAI(
-        model="gemini-2.5-flash", temperature=0, convert_system_message_to_human=True
-    )
 
     # Initialize resources
     logger.info("Initializing resources...")
     vector_store = load_vector_store()
-    graph_chain = get_graph_chain(llm_for_tools)
 
     if not vector_store:
         logger.warning("Vector store could not be loaded. RAG tool will fail.")
 
-    if not graph_chain:
-        logger.warning("Neo4j connection failed. Graph tool will fail.")
-
+    llm_for_tools = ChatGoogleGenerativeAI(
+        model="gemini-2.5-flash", temperature=0, convert_system_message_to_human=True
+    )
     tools = [rag_retrieval_tool, graph_retrieval_tool]
 
     sys_prompt = (
