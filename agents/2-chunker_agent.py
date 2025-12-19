@@ -5,11 +5,8 @@ import json
 from pathlib import Path
 from dotenv import load_dotenv
 
-# Add project root to sys.path
 project_root = Path(__file__).resolve().parent.parent
 sys.path.append(str(project_root))
-
-# Load environment variables
 load_dotenv()
 
 from langchain_google_genai import ChatGoogleGenerativeAI
@@ -133,7 +130,12 @@ def main():
         # For now, let's just pick one if exists or warn.
         # But consistent with Agent 1, let's try to be smart or just keep default.
         # Let's keep it simple for now as Main Pipeline will drive this.
-        user_input = "Chunk the file sliding_window_attention_annotated.md"
+
+        # attention_functional_roles_raw_with_image_ids_with_captions.md
+        # attention_is_all_you_need_raw_with_image_ids_with_captions.md
+        # neuronal_attention_circuits_raw_with_image_ids_with_captions.md
+        # sliding_window_attention_raw_with_image_ids_with_captions.md
+        user_input = "Chunk the file sliding_window_attention_raw_with_image_ids_with_captions.md"
 
     logger.info(f"Starting chunker agent with input: {user_input}")
 

@@ -83,7 +83,7 @@ Below is a **concrete, implementation-oriented to-do list**, ordered exactly in 
 
 ## Phase 2 — Image Captioning (Local, Cheap)
 
-### ☐ 2.1 Integrate BLIP-2 captioning
+### ☐ 2.1 Integrate BLIP-2 captioning DONE
 
 * Load:
 
@@ -97,7 +97,7 @@ Below is a **concrete, implementation-oriented to-do list**, ordered exactly in 
 
 ---
 
-### ☐ 2.2 Batch caption all images
+### ☐ 2.2 Batch caption all images DONE
 
 * Run BLIP-2 on all extracted images
 * Store:
@@ -109,7 +109,7 @@ Below is a **concrete, implementation-oriented to-do list**, ordered exactly in 
 
 ---
 
-### ☐ 2.3 (Optional but recommended) Caption refinement with Gemini
+### ☐ 2.3 (Optional but recommended) Caption refinement with Gemini DONE
 
 * Prompt Gemini with:
 
@@ -126,7 +126,7 @@ Below is a **concrete, implementation-oriented to-do list**, ordered exactly in 
 
 ## Phase 3 — Markdown Rewriting (Critical Step)
 
-### ☐ 3.1 Replace inline images with structured image blocks
+### ☐ 3.1 Replace inline images with structured image blocks DONE
 
 * Replace:
 
@@ -150,7 +150,7 @@ Below is a **concrete, implementation-oriented to-do list**, ordered exactly in 
 
 ---
 
-### ☐ 3.2 Preserve document structure
+### ☐ 3.2 Preserve document structure DONE
 
 * Ensure image blocks appear:
 
@@ -161,7 +161,7 @@ Below is a **concrete, implementation-oriented to-do list**, ordered exactly in 
 
 ---
 
-### ☐ 3.3 Validate chunk safety
+### ☐ 3.3 Validate chunk safety DONE
 
 * Confirm image blocks do not exceed chunk limits
 * Ensure each block is self-contained
