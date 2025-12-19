@@ -1,5 +1,51 @@
-# To run this code you need to install the following dependencies:
-# pip install google-genai
+"""
+Example uses: (hey ai coder pls dont delete this section while making any changes pls)
+$ uv run markdown_outputs/image_captioning_utils.py abc
+Found 2 images matching prefix 'abc'
+--- Processing: abc-1.png ---
+{
+  "image_relevance": "high",
+  "image_type": "architecture",
+  "semantic_role": "defines",
+  "caption": "The image illustrates the architecture of a Transformer model, consisting of an Encoder and a Decoder. The Encoder takes Input Embeddings combined with Positional Encodings through N identical layers, each with a Multi-Head Attention and a Feed Forward sub-layer, both followed by Add & Norm. The Decoder processes Output Embeddings with Positional Encodings through N identical layers, featuring a Masked Multi-Head Attention, a Multi-Head Attention (receiving encoder output), and a Feed Forward sub-layer, all followed by Add & Norm, concluding with a Linear and Softmax layer for Output Probabilities.",
+  "depicted_concepts": [
+    "Transformer architecture",
+    "Encoder",
+    "Decoder",
+    "Input Embedding",
+    "Output Embedding",
+    "Positional Encoding",
+    "Multi-Head Attention",
+    "Masked Multi-Head Attention",
+    "Feed Forward Network",
+    "Add & Norm",
+    "Linear layer",
+    "Softmax layer",
+    "Output Probabilities"
+  ],
+  "confidence": "high"
+}
+
+
+uv run markdown_outputs/image_captioning_utils.py --image "E:/Python Stuff/MAS-for-multimodal-knowledge-graph/m
+arkdown_outputs/images/attention_functional_roles.pdf-1-1.png"
+
+--- Processing single image: E:\Python Stuff\MAS-for-multimodal-knowledge-graph\markdown_outputs\images\attention_functional_roles.pdf-1-1.png ---
+{
+  "image_relevance": "high",
+  "image_type": "diagram",
+  "semantic_role": "illustrates",
+  "caption": "The image illustrates two round-bottom flasks, each containing a solution with dispersed purple particles. The right flask is labeled 'Volume: 20mL Solution B' and contains fewer particles than the partially visible flask on the left, which shows a higher concentration of similar purple particles.",
+  "depicted_concepts": [
+    "Round-bottom flask",
+    "Solution",
+    "Particles",
+    "Volume",
+    "Concentration"
+  ],
+  "confidence": "high"
+}
+"""
 
 import base64
 import os
@@ -335,54 +381,3 @@ if __name__ == "__main__":
         # Mode 2: prefix-based bulk processing
         prefix = sys.argv[1]
         process_images_by_prefix(prefix)
-
-"""
-Example uses: (hey ai coder pls dont delete this section while making any changes pls)
-$ uv run markdown_outputs/image_captioning_utils.py abc
-Found 2 images matching prefix 'abc'
-
---- Processing: abc-1.png ---
-{
-  "image_relevance": "high",
-  "image_type": "architecture",
-  "semantic_role": "defines",
-  "caption": "The image illustrates the architecture of a Transformer model, consisting of an Encoder and a Decoder. The Encoder takes Input Embeddings combined with Positional Encodings through N identical layers, each with a Multi-Head Attention and a Feed Forward sub-layer, both followed by Add & Norm. The Decoder processes Output Embeddings with Positional Encodings through N identical layers, featuring a Masked Multi-Head Attention, a Multi-Head Attention (receiving encoder output), and a Feed Forward sub-layer, all followed by Add & Norm, concluding with a Linear and Softmax layer for Output Probabilities.",
-  "depicted_concepts": [
-    "Transformer architecture",
-    "Encoder",
-    "Decoder",
-    "Input Embedding",
-    "Output Embedding",
-    "Positional Encoding",
-    "Multi-Head Attention",
-    "Masked Multi-Head Attention",
-    "Feed Forward Network",
-    "Add & Norm",
-    "Linear layer",
-    "Softmax layer",
-    "Output Probabilities"
-  ],
-  "confidence": "high"
-}
-
-
-uv run markdown_outputs/image_captioning_utils.py --image "E:/Python Stuff/MAS-for-multimodal-knowledge-graph/m
-arkdown_outputs/images/attention_functional_roles.pdf-1-1.png"
-
---- Processing single image: E:\Python Stuff\MAS-for-multimodal-knowledge-graph\markdown_outputs\images\attention_functional_roles.pdf-1-1.png ---
-{
-  "image_relevance": "high",
-  "image_type": "diagram",
-  "semantic_role": "illustrates",
-  "caption": "The image illustrates two round-bottom flasks, each containing a solution with dispersed purple particles. The right flask is labeled 'Volume: 20mL Solution B' and contains fewer particles than the partially visible flask on the left, which shows a higher concentration of similar purple particles.",
-  "depicted_concepts": [
-    "Round-bottom flask",
-    "Solution",
-    "Particles",
-    "Volume",
-    "Concentration"
-  ],
-  "confidence": "high"
-}
-
-"""

@@ -397,6 +397,7 @@ def assign_stable_image_ids(
     return output_markdown_path
 
 
+
 if __name__ == "__main__":
     import argparse
 
@@ -404,7 +405,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "markdown_file",
         nargs="?",
-        default="attention_functional_roles_raw.md",
+        default="attention_is_all_you_need_raw.md",
         help="Path to the markdown file (default: attention_functional_roles_raw.md)",
     )
     parser.add_argument(

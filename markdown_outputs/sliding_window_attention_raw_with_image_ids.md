@@ -300,33 +300,23 @@ widely used technique for improving model ac
 
 
 
-```
-### Figure - Sliding Window Attention
-![Sliding Window Attention](sliding_window_attention.pdf-2-0.png)
 
-**Caption:**  
-This figure illustrates the sliding window attention mechanism in a transformer model. The "Prefill" region represents the initial input, while the "Decode" region shows the subsequent processing.
-
-**Description:**
-- The image depicts a grid representing a sequence of data, with a sliding window moving across it.
-- The green area indicates the window's current position, highlighting the portion of the sequence being attended to.
-- The blue area represents the decoded output based on the attended input.
-- The window progressively moves across the sequence, enabling contextual understanding.
+```json
+"img_sliding_window_attention_2_0": {
+  "path": "E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/sliding_window_attention.pdf-2-0.png",
+  "page": 2,
+  "section": "3.3 Chain-of-Thought",
+}
 ```
 
+
+```json
+"img_sliding_window_attention_2_1": {
+  "path": "E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/sliding_window_attention.pdf-2-1.png",
+  "page": 2,
+  "section": "3.3 Chain-of-Thought",
+}
 ```
-### Figure - Sliding Window Attention
-![Sliding Window Attention](sliding_window_attention.pdf-2-1.png)
-
-**Caption:**  
-The figure illustrates the sliding window attention mechanism, where attention is retained over a limited window. Attention decreases as the distance from the current position increases.
-
-**Description:**
-- The image depicts a grid representing a sequence of tokens.
-- The blue squares indicate attention retained across the sliding window.
-- The green squares represent attention calculated within the sliding window.
-- Attention decreases progressively as the distance 'k' from the current position increases, reflecting a decaying attention mechanism.
-- The sliding window size is decreasing as it moves along the sequence.
 curacy via reasoning. With the advent of "thinking" models, such as DeepSeek-R1 (DeepSeek-AI,
 2025a), CoT has evolved from a prompting strategy
 to an intrinsic LLM capability. However, whether
@@ -723,40 +713,23 @@ set to 128k and 512 tokens, respectively, representing a typical long-context QA
 7
 
 
+
+```json
+"img_sliding_window_attention_7_0": {
+  "path": "E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/sliding_window_attention.pdf-7-0.png",
+  "page": 7,
+  "section": "5.3 Performance–efficiency Trade-offs and",
+}
 ```
-### Figure - Accuracy vs. Time with SFT
-![Accuracy graph](sliding_window_attention.pdf-7-0.png)
 
-**Caption:**  
-The figure shows the accuracy of a model with and without Sliding Factor Token (SFT) over time. Different configurations of window size, FA layers, and decode settings are compared.
 
-**Description:**
-- The x-axis represents time in seconds, ranging from 0.5 to 3.5 seconds.
-- The y-axis represents accuracy in percentage.
-- Two lines are plotted: a solid line represents the accuracy with SFT, and a dashed line represents the accuracy without SFT.
-- Different colored markers indicate different configurations of the model:
-  - Blue markers represent "Full" window, 0 FA layers, and False decode.
-  - Green markers represent "2k" window, 0 FA layers, and False decode.
-  - Orange markers represent "2k" window, 0 FA layers, and True decode.
-  - Pink markers represent "2k" window, 1/2 FA layers, and False decode.
-  - Light blue markers represent "2k" window, 1/2 FA layers, and True decode.
-- The accuracy with SFT generally increases with time for all configurations.
-- The accuracy without SFT is consistently lower than the accuracy with SFT.
-
+```json
+"img_sliding_window_attention_7_1": {
+  "path": "E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/sliding_window_attention.pdf-7-1.png",
+  "page": 7,
+  "section": "5.3 Performance–efficiency Trade-offs and",
+}
 ```
-### Figure - Accuracy vs. Time with and without SFT
-![Accuracy graph](sliding_window_attention.pdf-7-1.png)
-
-**Caption:**  
-The figure shows the accuracy of a model with and without Sliding Factor Token (SFT) as a function of time window. Different configurations of FA layers and decode settings are also shown.
-
-**Description:**
-- The graph plots accuracy (%) on the y-axis against time (s) on the x-axis.
-- Data points are color-coded to represent different configurations: w/ SFT (blue) and w/o SFT (black).
-- Each color represents a specific combination of window size, FA layers, FA decode, and decode setting.
-- The blue line represents the performance with SFT, while the black line represents the performance without SFT.
-- The x-axis ranges from 0.5s to 3.5s, indicating the time window used for analysis.
-- The y-axis ranges from 20% to 60%, representing the accuracy percentage.
 
 (a) Qwen3-4B-Thinking (b) Qwen3-4B-Instruct
 
