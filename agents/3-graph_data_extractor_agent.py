@@ -506,29 +506,19 @@ def main():
         model="gemini-2.5-flash", temperature=0, convert_system_message_to_human=True
     )
 
-    tools = [extract_graph_from_chunks_tool]
-    # Add image entity extraction tool as well
-    tools.append(extract_image_entities_from_chunks_tool)
-
-    # sys_prompt = (
-    #     "You are a helpful AI assistant specializing in knowledge graph construction. "
-    #     "Your goal is to process text chunks and extract structured graph data (nodes and relationships). "
-    #     "Use the 'extract_graph_from_chunks_tool' to process the JSONL file provided by the user. "
-    #     "You can also extract image entities from the markdown sources referenced by chunks using "
-    #     "the 'extract_image_entities_from_chunks_tool'. "
-    #     "You can choose whether to include metadata based on user instructions. "
-    #     "You can also specify the batch size or token limit for processing chunks. "
-    #     "Always report the path of the generated output file."
-    # )
+    tools = [extract_graph_from_chunks_tool,extract_image_entities_from_chunks_tool]
 
     sys_prompt = (
         "You are a helpful AI assistant specializing in knowledge graph construction. "
         "Your goal is to process text chunks and extract structured graph data (nodes and relationships). "
-        # "Use the 'extract_graph_from_chunks_tool' to process the JSONL file provided by the user. "
-        "Extract image entities from the markdown sources referenced by chunks using "
+        "You will be given the chunk file path and user's chosen set of options"
+        "First of all, you will extract image entities from the markdown sources referenced by chunks using "
         "the 'extract_image_entities_from_chunks_tool'. "
+        "After that tool is invoked and successfully executed, you will extract graph data from the chunks using "
+        "the 'extract_graph_from_chunks_tool' to process the JSONL file provided by the user. "
         "You can choose whether to include metadata based on user instructions. "
         "You can also specify the batch size or token limit for processing chunks. "
+        "The token limit and other arguments are only applicable for the extract_graph_from_chunks_tool."
         "Always report the path of the generated output file."
     )
 

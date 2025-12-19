@@ -67,10 +67,32 @@ Extract relationships only if they express:
 - ADDRESSES
 - AUTHORED_BY
 - AFFILIATED_WITH
+- DEPICTS
+- ILLUSTRATES
+- VISUALIZES
+- ANNOTATES 
+- SUPPORTS
 
 Avoid relationships describing implementation mechanics.
 Favor precision over recall.
 If unsure about an entity, OMIT it.
+
+====================
+IMAGE HANDLING (IMPORTANT)
+====================
+
+The input chunk may contain image-related content that has already been processed upstream.
+You MUST ignore image blocks and avoid creating any image entities or image-centric relationships from the text chunk.
+
+Specifically:
+- Ignore any fenced blocks like:
+  - ```json
+    "img_<...>": { ... "path": "...", "caption": "...", ... }
+    ```
+- Do NOT create nodes of type: Image, Figure, Diagram, TableImage, EquationRender (or similar).
+- Do NOT extract relationships like: DEPICTS, ILLUSTRATES, VISUALIZES, ANNOTATES, SUPPORTS if they are derived from image/caption content.
+- If the chunk contains references like "Figure 1", you may extract a relationship ONLY if the relationship is clearly stated in the text itself
+  (not inferred from the figure), and you should still NOT create an Image/Figure node.
 
 ## Pre-existing Entities
 The following entities have already been extracted from previous chunks. If you encounter these entities again, reuse their exact IDs and types:
