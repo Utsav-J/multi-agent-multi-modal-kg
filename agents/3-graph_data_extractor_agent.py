@@ -369,6 +369,12 @@ def extract_graph_from_chunks_tool(
 
                 try:
                     # Generate content using the logic from construction.py
+                    # IMPORTANT: refresh registry from disk for every batch so we always
+                    # include the latest known entities (even if another run updated it).
+                    latest_from_disk = load_global_registry()
+                    if latest_from_disk:
+                        seen_entity_ids.update(latest_from_disk)
+
                     # Pass existing entities to context
                     existing_entities_list = sorted(list(seen_entity_ids))
 
@@ -432,7 +438,7 @@ def extract_graph_from_chunks_tool(
                 # default to 3000 tokens as per requirement.
                 effective_token_limit = token_limit
                 if effective_token_limit == 0 and batch_size == 1:
-                    effective_token_limit = 3000
+                    effective_token_limit = 5500
 
                 # Determine if we need to flush the current batch
                 should_flush = False
@@ -506,7 +512,7 @@ def main():
         model="gemini-2.5-flash", temperature=0, convert_system_message_to_human=True
     )
 
-    tools = [extract_graph_from_chunks_tool,extract_image_entities_from_chunks_tool]
+    tools = [extract_graph_from_chunks_tool, extract_image_entities_from_chunks_tool]
 
     sys_prompt = (
         "You are a helpful AI assistant specializing in knowledge graph construction. "
@@ -520,13 +526,18 @@ def main():
         "You can also specify the batch size or token limit for processing chunks. "
         "The token limit and other arguments are only applicable for the extract_graph_from_chunks_tool."
         "Always report the path of the generated output file."
+        "This program runs in ONE-SHOT mode (non-conversational). "
+        "Do NOT ask follow-up questions. Do NOT request clarifications. "
+        "Just execute the requested tool calls with the provided arguments and return the results. "
+        "If both image and text extraction are requested, always run image extraction first, then text extraction. "
+        "Return only the final results (no extra chatter)."
     )
 
     agent = create_agent(model=llm, tools=tools, system_prompt=sys_prompt)
 
     # Construct user input based on arguments
     user_input = f"Extract graph from {args.filename}"
-    default_user_input = f"Extract image entities from attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k.jsonl  without metadata"
+    # default_user_input = f"Extract image entities from attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k.jsonl  without metadata"
     if args.no_metadata:
         user_input += " without including metadata"
     else:
@@ -537,12 +548,10 @@ def main():
     elif args.batch_size > 1:
         user_input += f" using a batch size of {args.batch_size}"
 
-    logger.info(f"Starting graph construction agent with input: {default_user_input}")
+    logger.info(f"Starting graph construction agent with input: {user_input}")
 
     try:
-        result = agent.invoke(
-            {"messages": [{"role": "user", "content": default_user_input}]}
-        )
+        result = agent.invoke({"messages": [{"role": "user", "content": user_input}]})
         logger.info(f"Agent Result: {result['messages'][-1].content}")
     except Exception as e:
         logger.exception("Agent execution failed.")
