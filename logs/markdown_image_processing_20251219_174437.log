@@ -1,0 +1,238 @@
+2025-12-19 17:44:37,330 - __main__ - INFO - ============================================================
+2025-12-19 17:44:37,340 - __main__ - INFO - Markdown Image Processing - Starting
+2025-12-19 17:44:37,340 - __main__ - INFO - Log file: E:\Python Stuff\MAS-for-multimodal-knowledge-graph\logs\markdown_image_processing_20251219_174437.log
+2025-12-19 17:44:37,341 - __main__ - INFO - ============================================================
+2025-12-19 17:44:37,341 - __main__ - INFO - Starting markdown image captioning process for: attention_functional_roles_raw_with_image_ids.md
+2025-12-19 17:44:37,341 - __main__ - INFO - Reading markdown file: E:\Python Stuff\MAS-for-multimodal-knowledge-graph\markdown_outputs\attention_functional_roles_raw_with_image_ids.md
+2025-12-19 17:44:37,343 - __main__ - INFO - Processing image img_attention_functional_roles_1_0 from path: E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_functional_roles.pdf-1-0.png
+2025-12-19 17:44:38,210 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2025-12-19 17:44:43,792 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-19 17:44:43,805 - __main__ - INFO - Successfully processed image img_attention_functional_roles_1_0
+2025-12-19 17:44:43,805 - __main__ - INFO - JSON block summary: 1 images found, 1 processed successfully, 0 failed
+2025-12-19 17:44:43,806 - __main__ - INFO - Processing image img_attention_functional_roles_1_1 from path: E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_functional_roles.pdf-1-1.png
+2025-12-19 17:44:44,608 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2025-12-19 17:44:48,569 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-19 17:44:48,572 - __main__ - INFO - Successfully processed image img_attention_functional_roles_1_1
+2025-12-19 17:44:48,572 - __main__ - INFO - JSON block summary: 1 images found, 1 processed successfully, 0 failed
+2025-12-19 17:44:48,573 - __main__ - INFO - Processing image img_attention_functional_roles_1_2 from path: E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_functional_roles.pdf-1-2.png
+2025-12-19 17:44:49,413 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2025-12-19 17:44:55,783 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-19 17:44:55,788 - __main__ - INFO - Successfully processed image img_attention_functional_roles_1_2
+2025-12-19 17:44:55,789 - __main__ - INFO - JSON block summary: 1 images found, 1 processed successfully, 0 failed
+2025-12-19 17:44:55,789 - __main__ - INFO - Processing image img_attention_functional_roles_1_3 from path: E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_functional_roles.pdf-1-3.png
+2025-12-19 17:44:56,702 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2025-12-19 17:45:00,101 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-19 17:45:00,107 - __main__ - INFO - Successfully processed image img_attention_functional_roles_1_3
+2025-12-19 17:45:00,107 - __main__ - INFO - JSON block summary: 1 images found, 1 processed successfully, 0 failed
+2025-12-19 17:45:00,107 - __main__ - INFO - Processing image img_attention_functional_roles_1_5 from path: E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_functional_roles.pdf-1-5.png
+2025-12-19 17:45:01,106 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2025-12-19 17:45:11,688 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-19 17:45:11,700 - __main__ - INFO - Successfully processed image img_attention_functional_roles_1_5
+2025-12-19 17:45:11,700 - __main__ - INFO - JSON block summary: 1 images found, 1 processed successfully, 0 failed
+2025-12-19 17:45:11,701 - __main__ - INFO - Processing image img_attention_functional_roles_1_6 from path: E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_functional_roles.pdf-1-6.png
+2025-12-19 17:45:12,752 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2025-12-19 17:45:25,709 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-19 17:45:25,725 - __main__ - INFO - Successfully processed image img_attention_functional_roles_1_6
+2025-12-19 17:45:25,725 - __main__ - INFO - JSON block summary: 1 images found, 1 processed successfully, 0 failed
+2025-12-19 17:45:25,725 - __main__ - INFO - Processing image img_attention_functional_roles_1_7 from path: E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_functional_roles.pdf-1-7.png
+2025-12-19 17:45:26,668 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2025-12-19 17:45:32,293 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-19 17:45:32,309 - __main__ - INFO - Successfully processed image img_attention_functional_roles_1_7
+2025-12-19 17:45:32,310 - __main__ - INFO - JSON block summary: 1 images found, 1 processed successfully, 0 failed
+2025-12-19 17:45:32,310 - __main__ - INFO - Processing image img_attention_functional_roles_1_4 from path: E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_functional_roles.pdf-1-4.png
+2025-12-19 17:45:33,288 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2025-12-19 17:45:49,233 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-19 17:45:49,239 - __main__ - INFO - Successfully processed image img_attention_functional_roles_1_4
+2025-12-19 17:45:49,239 - __main__ - INFO - JSON block summary: 1 images found, 1 processed successfully, 0 failed
+2025-12-19 17:45:49,240 - __main__ - INFO - Processing image img_attention_functional_roles_1_8 from path: E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_functional_roles.pdf-1-8.png
+2025-12-19 17:45:50,172 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2025-12-19 17:45:54,182 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-19 17:45:54,190 - __main__ - INFO - Successfully processed image img_attention_functional_roles_1_8
+2025-12-19 17:45:54,190 - __main__ - INFO - JSON block summary: 1 images found, 1 processed successfully, 0 failed
+2025-12-19 17:45:54,191 - __main__ - INFO - Processing image img_attention_functional_roles_1_11 from path: E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_functional_roles.pdf-1-11.png
+2025-12-19 17:45:55,152 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2025-12-19 17:46:03,886 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-19 17:46:03,892 - __main__ - INFO - Successfully processed image img_attention_functional_roles_1_11
+2025-12-19 17:46:03,892 - __main__ - INFO - JSON block summary: 1 images found, 1 processed successfully, 0 failed
+2025-12-19 17:46:03,893 - __main__ - INFO - Processing image img_attention_functional_roles_5_0 from path: E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_functional_roles.pdf-5-0.png
+2025-12-19 17:46:04,851 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2025-12-19 17:46:11,734 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-19 17:46:11,744 - __main__ - INFO - Successfully processed image img_attention_functional_roles_5_0
+2025-12-19 17:46:11,745 - __main__ - INFO - JSON block summary: 1 images found, 1 processed successfully, 0 failed
+2025-12-19 17:46:11,745 - __main__ - INFO - Processing image img_attention_functional_roles_5_1 from path: E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_functional_roles.pdf-5-1.png
+2025-12-19 17:46:12,746 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2025-12-19 17:46:19,534 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-19 17:46:19,538 - __main__ - INFO - Successfully processed image img_attention_functional_roles_5_1
+2025-12-19 17:46:19,538 - __main__ - INFO - JSON block summary: 1 images found, 1 processed successfully, 0 failed
+2025-12-19 17:46:19,539 - __main__ - INFO - Processing image img_attention_functional_roles_6_0 from path: E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_functional_roles.pdf-6-0.png
+2025-12-19 17:46:20,712 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2025-12-19 17:46:26,940 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-19 17:46:26,960 - __main__ - INFO - Successfully processed image img_attention_functional_roles_6_0
+2025-12-19 17:46:26,961 - __main__ - INFO - JSON block summary: 1 images found, 1 processed successfully, 0 failed
+2025-12-19 17:46:26,962 - __main__ - INFO - Processing image img_attention_functional_roles_7_0 from path: E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_functional_roles.pdf-7-0.png
+2025-12-19 17:46:28,056 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2025-12-19 17:46:35,746 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-19 17:46:35,751 - __main__ - INFO - Successfully processed image img_attention_functional_roles_7_0
+2025-12-19 17:46:35,751 - __main__ - INFO - JSON block summary: 1 images found, 1 processed successfully, 0 failed
+2025-12-19 17:46:35,752 - __main__ - INFO - Processing image img_attention_functional_roles_13_0 from path: E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_functional_roles.pdf-13-0.png
+2025-12-19 17:46:36,693 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2025-12-19 17:46:43,832 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-19 17:46:43,837 - __main__ - INFO - Successfully processed image img_attention_functional_roles_13_0
+2025-12-19 17:46:43,837 - __main__ - INFO - JSON block summary: 1 images found, 1 processed successfully, 0 failed
+2025-12-19 17:46:43,837 - __main__ - INFO - Processing image img_attention_functional_roles_14_0 from path: E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_functional_roles.pdf-14-0.png
+2025-12-19 17:46:44,780 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2025-12-19 17:46:51,866 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-19 17:46:51,870 - __main__ - INFO - Successfully processed image img_attention_functional_roles_14_0
+2025-12-19 17:46:51,870 - __main__ - INFO - JSON block summary: 1 images found, 1 processed successfully, 0 failed
+2025-12-19 17:46:51,870 - __main__ - INFO - Processing image img_attention_functional_roles_14_1 from path: E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_functional_roles.pdf-14-1.png
+2025-12-19 17:46:52,812 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2025-12-19 17:46:59,552 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-19 17:46:59,557 - __main__ - INFO - Successfully processed image img_attention_functional_roles_14_1
+2025-12-19 17:46:59,557 - __main__ - INFO - JSON block summary: 1 images found, 1 processed successfully, 0 failed
+2025-12-19 17:46:59,557 - __main__ - INFO - Processing image img_attention_functional_roles_15_0 from path: E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_functional_roles.pdf-15-0.png
+2025-12-19 17:47:00,491 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2025-12-19 17:47:05,241 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-19 17:47:05,244 - __main__ - INFO - Successfully processed image img_attention_functional_roles_15_0
+2025-12-19 17:47:05,244 - __main__ - INFO - JSON block summary: 1 images found, 1 processed successfully, 0 failed
+2025-12-19 17:47:05,245 - __main__ - INFO - Processing image img_attention_functional_roles_16_0 from path: E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_functional_roles.pdf-16-0.png
+2025-12-19 17:47:06,178 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2025-12-19 17:47:13,663 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-19 17:47:13,667 - __main__ - INFO - Successfully processed image img_attention_functional_roles_16_0
+2025-12-19 17:47:13,667 - __main__ - INFO - JSON block summary: 1 images found, 1 processed successfully, 0 failed
+2025-12-19 17:47:13,668 - __main__ - INFO - Processing image img_attention_functional_roles_17_0 from path: E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_functional_roles.pdf-17-0.png
+2025-12-19 17:47:14,646 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2025-12-19 17:47:21,554 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-19 17:47:21,570 - __main__ - INFO - Successfully processed image img_attention_functional_roles_17_0
+2025-12-19 17:47:21,571 - __main__ - INFO - JSON block summary: 1 images found, 1 processed successfully, 0 failed
+2025-12-19 17:47:21,572 - __main__ - INFO - Processing image img_attention_functional_roles_17_1 from path: E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_functional_roles.pdf-17-1.png
+2025-12-19 17:47:22,533 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2025-12-19 17:47:31,157 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-19 17:47:31,162 - __main__ - INFO - Successfully processed image img_attention_functional_roles_17_1
+2025-12-19 17:47:31,163 - __main__ - INFO - JSON block summary: 1 images found, 1 processed successfully, 0 failed
+2025-12-19 17:47:31,163 - __main__ - INFO - Processing image img_attention_functional_roles_18_0 from path: E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_functional_roles.pdf-18-0.png
+2025-12-19 17:47:32,114 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2025-12-19 17:47:39,026 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-19 17:47:39,036 - __main__ - INFO - Successfully processed image img_attention_functional_roles_18_0
+2025-12-19 17:47:39,036 - __main__ - INFO - JSON block summary: 1 images found, 1 processed successfully, 0 failed
+2025-12-19 17:47:39,037 - __main__ - INFO - Processing image img_attention_functional_roles_18_1 from path: E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_functional_roles.pdf-18-1.png
+2025-12-19 17:47:39,984 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2025-12-19 17:47:47,975 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-19 17:47:47,978 - __main__ - INFO - Successfully processed image img_attention_functional_roles_18_1
+2025-12-19 17:47:47,979 - __main__ - INFO - JSON block summary: 1 images found, 1 processed successfully, 0 failed
+2025-12-19 17:47:47,979 - __main__ - INFO - Processing image img_attention_functional_roles_19_0 from path: E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_functional_roles.pdf-19-0.png
+2025-12-19 17:47:48,927 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2025-12-19 17:47:54,610 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-19 17:47:54,613 - __main__ - INFO - Successfully processed image img_attention_functional_roles_19_0
+2025-12-19 17:47:54,614 - __main__ - INFO - JSON block summary: 1 images found, 1 processed successfully, 0 failed
+2025-12-19 17:47:54,614 - __main__ - INFO - Processing image img_attention_functional_roles_20_0 from path: E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_functional_roles.pdf-20-0.png
+2025-12-19 17:47:55,628 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2025-12-19 17:48:02,203 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-19 17:48:02,208 - __main__ - INFO - Successfully processed image img_attention_functional_roles_20_0
+2025-12-19 17:48:02,209 - __main__ - INFO - JSON block summary: 1 images found, 1 processed successfully, 0 failed
+2025-12-19 17:48:02,209 - __main__ - INFO - Processing image img_attention_functional_roles_21_0 from path: E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_functional_roles.pdf-21-0.png
+2025-12-19 17:48:03,146 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2025-12-19 17:48:07,930 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-19 17:48:07,934 - __main__ - INFO - Successfully processed image img_attention_functional_roles_21_0
+2025-12-19 17:48:07,935 - __main__ - INFO - JSON block summary: 1 images found, 1 processed successfully, 0 failed
+2025-12-19 17:48:07,935 - __main__ - INFO - Processing image img_attention_functional_roles_21_1 from path: E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_functional_roles.pdf-21-1.png
+2025-12-19 17:48:08,884 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2025-12-19 17:48:14,305 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-19 17:48:14,323 - __main__ - INFO - Successfully processed image img_attention_functional_roles_21_1
+2025-12-19 17:48:14,324 - __main__ - INFO - JSON block summary: 1 images found, 1 processed successfully, 0 failed
+2025-12-19 17:48:14,325 - __main__ - INFO - Processing image img_attention_functional_roles_21_2 from path: E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_functional_roles.pdf-21-2.png
+2025-12-19 17:48:15,309 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2025-12-19 17:48:20,699 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-19 17:48:20,702 - __main__ - INFO - Successfully processed image img_attention_functional_roles_21_2
+2025-12-19 17:48:20,702 - __main__ - INFO - JSON block summary: 1 images found, 1 processed successfully, 0 failed
+2025-12-19 17:48:20,703 - __main__ - INFO - Processing image img_attention_functional_roles_22_0 from path: E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_functional_roles.pdf-22-0.png
+2025-12-19 17:48:21,658 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2025-12-19 17:48:30,600 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-19 17:48:30,604 - __main__ - INFO - Successfully processed image img_attention_functional_roles_22_0
+2025-12-19 17:48:30,605 - __main__ - INFO - JSON block summary: 1 images found, 1 processed successfully, 0 failed
+2025-12-19 17:48:30,605 - __main__ - INFO - Processing image img_attention_functional_roles_23_0 from path: E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_functional_roles.pdf-23-0.png
+2025-12-19 17:48:31,551 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2025-12-19 17:48:38,038 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-19 17:48:38,058 - __main__ - INFO - Successfully processed image img_attention_functional_roles_23_0
+2025-12-19 17:48:38,060 - __main__ - INFO - JSON block summary: 1 images found, 1 processed successfully, 0 failed
+2025-12-19 17:48:38,061 - __main__ - INFO - Processing image img_attention_functional_roles_23_1 from path: E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_functional_roles.pdf-23-1.png
+2025-12-19 17:48:39,046 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2025-12-19 17:48:47,568 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-19 17:48:47,573 - __main__ - INFO - Successfully processed image img_attention_functional_roles_23_1
+2025-12-19 17:48:47,573 - __main__ - INFO - JSON block summary: 1 images found, 1 processed successfully, 0 failed
+2025-12-19 17:48:47,573 - __main__ - INFO - Processing image img_attention_functional_roles_24_0 from path: E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_functional_roles.pdf-24-0.png
+2025-12-19 17:48:48,525 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2025-12-19 17:48:54,431 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-19 17:48:54,440 - __main__ - INFO - Successfully processed image img_attention_functional_roles_24_0
+2025-12-19 17:48:54,440 - __main__ - INFO - JSON block summary: 1 images found, 1 processed successfully, 0 failed
+2025-12-19 17:48:54,441 - __main__ - INFO - Processing image img_attention_functional_roles_25_0 from path: E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_functional_roles.pdf-25-0.png
+2025-12-19 17:48:55,410 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2025-12-19 17:49:02,925 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-19 17:49:02,934 - __main__ - INFO - Successfully processed image img_attention_functional_roles_25_0
+2025-12-19 17:49:02,935 - __main__ - INFO - JSON block summary: 1 images found, 1 processed successfully, 0 failed
+2025-12-19 17:49:02,936 - __main__ - INFO - Processing image img_attention_functional_roles_25_1 from path: E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_functional_roles.pdf-25-1.png
+2025-12-19 17:49:03,884 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2025-12-19 17:49:09,779 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-19 17:49:09,782 - __main__ - INFO - Successfully processed image img_attention_functional_roles_25_1
+2025-12-19 17:49:09,783 - __main__ - INFO - JSON block summary: 1 images found, 1 processed successfully, 0 failed
+2025-12-19 17:49:09,783 - __main__ - INFO - Processing image img_attention_functional_roles_26_0 from path: E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_functional_roles.pdf-26-0.png
+2025-12-19 17:49:10,724 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2025-12-19 17:49:17,502 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-19 17:49:17,518 - __main__ - INFO - Successfully processed image img_attention_functional_roles_26_0
+2025-12-19 17:49:17,519 - __main__ - INFO - JSON block summary: 1 images found, 1 processed successfully, 0 failed
+2025-12-19 17:49:17,521 - __main__ - INFO - Processing image img_attention_functional_roles_26_2 from path: E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_functional_roles.pdf-26-2.png
+2025-12-19 17:49:18,500 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2025-12-19 17:49:28,038 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-19 17:49:28,043 - __main__ - INFO - Successfully processed image img_attention_functional_roles_26_2
+2025-12-19 17:49:28,043 - __main__ - INFO - JSON block summary: 1 images found, 1 processed successfully, 0 failed
+2025-12-19 17:49:28,043 - __main__ - INFO - Processing image img_attention_functional_roles_26_1 from path: E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_functional_roles.pdf-26-1.png
+2025-12-19 17:49:29,028 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2025-12-19 17:49:33,856 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-19 17:49:33,862 - __main__ - INFO - Successfully processed image img_attention_functional_roles_26_1
+2025-12-19 17:49:33,863 - __main__ - INFO - JSON block summary: 1 images found, 1 processed successfully, 0 failed
+2025-12-19 17:49:33,863 - __main__ - INFO - Processing image img_attention_functional_roles_27_1 from path: E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_functional_roles.pdf-27-1.png
+2025-12-19 17:49:34,823 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2025-12-19 17:49:41,032 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-19 17:49:41,036 - __main__ - INFO - Successfully processed image img_attention_functional_roles_27_1
+2025-12-19 17:49:41,036 - __main__ - INFO - JSON block summary: 1 images found, 1 processed successfully, 0 failed
+2025-12-19 17:49:41,036 - __main__ - INFO - Processing image img_attention_functional_roles_27_0 from path: E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_functional_roles.pdf-27-0.png
+2025-12-19 17:49:41,995 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2025-12-19 17:49:45,278 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-19 17:49:45,282 - __main__ - INFO - Successfully processed image img_attention_functional_roles_27_0
+2025-12-19 17:49:45,283 - __main__ - INFO - JSON block summary: 1 images found, 1 processed successfully, 0 failed
+2025-12-19 17:49:45,283 - __main__ - INFO - Processing image img_attention_functional_roles_27_2 from path: E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_functional_roles.pdf-27-2.png
+2025-12-19 17:49:46,250 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2025-12-19 17:49:51,407 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-19 17:49:51,412 - __main__ - INFO - Successfully processed image img_attention_functional_roles_27_2
+2025-12-19 17:49:51,412 - __main__ - INFO - JSON block summary: 1 images found, 1 processed successfully, 0 failed
+2025-12-19 17:49:51,412 - __main__ - INFO - Processing image img_attention_functional_roles_27_3 from path: E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_functional_roles.pdf-27-3.png
+2025-12-19 17:49:52,389 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2025-12-19 17:50:00,873 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-19 17:50:00,881 - __main__ - INFO - Successfully processed image img_attention_functional_roles_27_3
+2025-12-19 17:50:00,881 - __main__ - INFO - JSON block summary: 1 images found, 1 processed successfully, 0 failed
+2025-12-19 17:50:00,881 - __main__ - INFO - Processing image img_attention_functional_roles_28_1 from path: E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_functional_roles.pdf-28-1.png
+2025-12-19 17:50:01,650 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2025-12-19 17:50:07,276 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-19 17:50:07,286 - __main__ - INFO - Successfully processed image img_attention_functional_roles_28_1
+2025-12-19 17:50:07,287 - __main__ - INFO - JSON block summary: 1 images found, 1 processed successfully, 0 failed
+2025-12-19 17:50:07,288 - __main__ - INFO - Processing image img_attention_functional_roles_28_0 from path: E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_functional_roles.pdf-28-0.png
+2025-12-19 17:50:08,267 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2025-12-19 17:50:13,662 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-19 17:50:13,670 - __main__ - INFO - Successfully processed image img_attention_functional_roles_28_0
+2025-12-19 17:50:13,671 - __main__ - INFO - JSON block summary: 1 images found, 1 processed successfully, 0 failed
+2025-12-19 17:50:13,671 - __main__ - INFO - Processing image img_attention_functional_roles_28_2 from path: E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_functional_roles.pdf-28-2.png
+2025-12-19 17:50:14,644 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2025-12-19 17:50:20,115 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-19 17:50:20,125 - __main__ - INFO - Successfully processed image img_attention_functional_roles_28_2
+2025-12-19 17:50:20,126 - __main__ - INFO - JSON block summary: 1 images found, 1 processed successfully, 0 failed
+2025-12-19 17:50:20,127 - __main__ - INFO - Processing image img_attention_functional_roles_28_3 from path: E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_functional_roles.pdf-28-3.png
+2025-12-19 17:50:21,077 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2025-12-19 17:50:29,521 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-12-19 17:50:29,526 - __main__ - INFO - Successfully processed image img_attention_functional_roles_28_3
+2025-12-19 17:50:29,527 - __main__ - INFO - JSON block summary: 1 images found, 1 processed successfully, 0 failed
+2025-12-19 17:50:29,527 - __main__ - INFO - Processed 45 JSON blocks
+2025-12-19 17:50:29,527 - __main__ - INFO - Writing output to: E:\Python Stuff\MAS-for-multimodal-knowledge-graph\markdown_outputs\attention_functional_roles_raw_with_image_ids_with_captions.md
+2025-12-19 17:50:29,529 - __main__ - INFO - Successfully wrote caption-enriched markdown to: E:\Python Stuff\MAS-for-multimodal-knowledge-graph\markdown_outputs\attention_functional_roles_raw_with_image_ids_with_captions.md
+2025-12-19 17:50:29,529 - __main__ - INFO - ============================================================
+2025-12-19 17:50:29,529 - __main__ - INFO - Markdown Image Processing - Completed Successfully
+2025-12-19 17:50:29,530 - __main__ - INFO - Output file: E:\Python Stuff\MAS-for-multimodal-knowledge-graph\markdown_outputs\attention_functional_roles_raw_with_image_ids_with_captions.md
+2025-12-19 17:50:29,530 - __main__ - INFO - ============================================================
