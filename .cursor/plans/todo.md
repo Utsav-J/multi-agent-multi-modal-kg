@@ -60,7 +60,7 @@ Below is a **concrete, implementation-oriented to-do list**, ordered exactly in 
 
 ---
 
-### ☐ 1.2 Assign stable image IDs
+### ☐ 1.2 Assign stable image IDs DONE
 
 * Generate deterministic IDs:
 
