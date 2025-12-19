@@ -172,7 +172,7 @@ Below is a **concrete, implementation-oriented to-do list**, ordered exactly in 
 
 ## Phase 4 — Chunking & Ingestion
 
-### ☐ 4.1 Update chunker to treat image blocks atomically
+### ☐ 4.1 Update chunker to treat image blocks atomically DONE
 
 * Prevent splitting inside `:::image` blocks
 * Chunk size ≈ 5000 tokens

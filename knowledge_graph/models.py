@@ -1,6 +1,11 @@
 from pydantic import BaseModel, Field
 from typing import List, Optional
 
+class MetadataItem(BaseModel):
+    """Closed schema key-value item to avoid additionalProperties in JSON Schema."""
+    key: str = Field(..., description="Metadata key name.")
+    value: str = Field(..., description="Metadata value as string.")
+
 
 class Node(BaseModel):
     """Represents an entity or concept node in the knowledge graph."""
@@ -13,6 +18,13 @@ class Node(BaseModel):
         ...,
         description="Type or category of the node (e.g. Person, Location, Company).",
     )
+    # Keep metadata "closed schema" while allowing multiple fields per node.
+    # Example for Image:
+    #   metadata=[MetadataItem(key="source_path", value="E:/...png"), ...]
+    metadata: List[MetadataItem] = Field(
+        default_factory=list,
+        description="Optional metadata as a list of key/value pairs.",
+    )
 
 
 class Relationship(BaseModel):
@@ -23,14 +35,6 @@ class Relationship(BaseModel):
     type: str = Field(
         ..., description="Type of relationship (e.g. FOUNDED, ATTENDED, BORN_IN)."
     )
-
-
-class MetadataItem(BaseModel):
-    """Closed schema key-value item to avoid additionalProperties in JSON Schema."""
-
-    key: str = Field(..., description="Metadata key name.")
-    value: str = Field(..., description="Metadata value as string.")
-
 
 class Document(BaseModel):
     """Represents the original text or chunk from which nodes and relationships were extracted."""

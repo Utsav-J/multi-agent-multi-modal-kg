@@ -3,6 +3,7 @@ import sys
 import os
 import logging
 import json
+import re
 from pathlib import Path
 from dotenv import load_dotenv
 from google import genai
@@ -34,6 +35,10 @@ logger = logging.getLogger(__name__)
 CHUNKS_DIR = project_root / "chunking_outputs"
 OUTPUT_DIR = project_root / "knowledge_graph_outputs"
 REGISTRY_PATH = OUTPUT_DIR / "global_entity_registry.json"
+MARKDOWN_DIR = project_root / "markdown_outputs"
+
+# Regex to extract fenced json blocks from markdown
+FENCED_JSON_BLOCK_RE = re.compile(r"```json\s*([\s\S]*?)\s*```", re.IGNORECASE)
 
 
 def load_global_registry() -> set:
@@ -53,6 +58,233 @@ def save_global_registry(entities: set):
             json.dump(sorted(list(entities)), f, ensure_ascii=False, indent=2)
     except Exception as e:
         logger.error(f"Failed to save registry: {e}")
+
+
+def _safe_json_loads_maybe_trailing_commas(s: str) -> dict:
+    """
+    Load JSON that may contain trailing commas before '}' or ']'.
+    """
+    # Remove trailing commas before closing braces/brackets
+    cleaned = re.sub(r",\s*([}\]])", r"\1", s)
+    return json.loads(cleaned)
+
+
+def _extract_image_metadata_from_markdown(markdown_path: Path) -> dict:
+    """
+    Extract image metadata dicts from markdown fenced ```json blocks.
+
+    Each fenced block is expected to contain exactly one object of the form:
+        "img_xxx": { ... }
+
+    Returns:
+        Dict[str, dict] mapping image_id -> metadata dict.
+    """
+    text = markdown_path.read_text(encoding="utf-8")
+    blocks = FENCED_JSON_BLOCK_RE.findall(text)
+
+    images: dict = {}
+    for block in blocks:
+        # Wrap to make valid JSON object
+        candidate = "{\n" + block.strip() + "\n}\n"
+        try:
+            obj = _safe_json_loads_maybe_trailing_commas(candidate)
+        except Exception:
+            # Fallback: skip unparseable blocks
+            continue
+
+        # Expect single entry per block
+        for image_id, meta in obj.items():
+            if (
+                isinstance(image_id, str)
+                and image_id.startswith("img_")
+                and isinstance(meta, dict)
+            ):
+                images[image_id] = meta
+    return images
+
+
+@tool
+def extract_image_entities_from_chunks_tool(
+    chunks_filename: str,
+    include_metadata: bool = False,
+) -> str:
+    """
+    Extract image entities from the markdown source(s) referenced by a chunks JSONL file.
+
+    For a given chunks file in `chunking_outputs/`, each chunk is expected to have:
+        "metadata": {"source": "<markdown_filename>.md"}
+
+    This tool will:
+    - Load the chunk file and collect unique markdown source filenames
+    - Read each markdown from `markdown_outputs/`
+    - Parse fenced ```json blocks (image metadata + captioning output)
+    - Create deterministic graph nodes/relationships:
+        - Image (id=image_id, type="Image")
+        - Document (id=document_id, type="Document")
+        - Section (id=f"{document_id}::section::{section}", type="Section")
+        - Concept nodes for depicted_concepts (type="Concept")
+      Relationships:
+        - (Image)-[:PART_OF]->(Document)
+        - (Image)-[:LOCATED_IN]->(Section)
+        - (Image)-[:DEPICTS]->(Concept) for each depicted_concepts
+
+    Notes:
+    - Images missing a `caption` are skipped (per schema hard rule).
+    - Global entity registry is updated and saved.
+
+    Returns:
+        Success message with output file path.
+    """
+    logger.info(
+        f"Tool invoked: extract_image_entities_from_chunks_tool for '{chunks_filename}'"
+    )
+
+    input_path = CHUNKS_DIR / chunks_filename
+    if not input_path.exists():
+        error_msg = f"Error: Input file not found at {input_path}"
+        logger.error(error_msg)
+        return error_msg
+
+    # Read chunks and collect sources
+    sources: set[str] = set()
+    chunks: list[dict] = []
+    with open(input_path, "r", encoding="utf-8") as f:
+        for line in f:
+            if not line.strip():
+                continue
+            obj = json.loads(line)
+            chunks.append(obj)
+            src = (obj.get("metadata") or {}).get("source")
+            if isinstance(src, str) and src.strip():
+                sources.add(src.strip())
+
+    if not sources:
+        msg = "No markdown sources found in chunk metadata under key 'source'."
+        logger.warning(msg)
+        return msg
+
+    logger.info(f"Discovered {len(sources)} markdown source file(s) from chunks.")
+
+    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+    output_path = OUTPUT_DIR / (input_path.stem + "_images_graph.jsonl")
+
+    seen_entity_ids = load_global_registry()
+    logger.info(f"Loaded {len(seen_entity_ids)} existing entities from registry.")
+
+    # We'll write one GraphDocument per markdown source
+    from knowledge_graph.models import GraphDocument, Node, Relationship, MetadataItem
+
+    def _doc_id_from_source(source_name: str) -> str:
+        # document_id should be stable; simplest: stem of the markdown filename
+        return Path(source_name).stem
+
+    written = 0
+    skipped_no_caption = 0
+    total_images = 0
+
+    with open(output_path, "w", encoding="utf-8") as out_f:
+        for source in sorted(sources):
+            md_path = MARKDOWN_DIR / source
+            if not md_path.exists():
+                logger.warning(f"Markdown source missing: {md_path}")
+                continue
+
+            images = _extract_image_metadata_from_markdown(md_path)
+            if not images:
+                logger.info(f"No image json blocks found in: {source}")
+                continue
+
+            document_id = _doc_id_from_source(source)
+            doc_node = Node(id=document_id, type="Document")
+
+            nodes: list[Node] = [doc_node]
+            rels: list[Relationship] = []
+
+            # Simple dedupe sets
+            node_keys: set[tuple[str, str]] = {(doc_node.type, doc_node.id)}
+            rel_keys: set[tuple[str, str, str]] = set()
+
+            def _add_node(node: Node):
+                key = (node.type, node.id)
+                if key not in node_keys:
+                    nodes.append(node)
+                    node_keys.add(key)
+
+            def _add_rel(rel: Relationship):
+                key = (rel.type, rel.source.id, rel.target.id)
+                if key not in rel_keys:
+                    rels.append(rel)
+                    rel_keys.add(key)
+
+            for image_id, meta in images.items():
+                total_images += 1
+                caption = meta.get("caption")
+                if not caption:
+                    skipped_no_caption += 1
+                    continue
+
+                # Store the image path on the Image entity (per requirement)
+                image_path = meta.get("path")
+                img_metadata = []
+                if isinstance(image_path, str) and image_path.strip():
+                    img_metadata.append(
+                        MetadataItem(key="source_path", value=image_path.strip())
+                    )
+
+                img_node = Node(id=image_id, type="Image", metadata=img_metadata)
+                _add_node(img_node)
+
+                # Image -> Document
+                _add_rel(Relationship(source=img_node, target=doc_node, type="PART_OF"))
+
+                # Image -> Section
+                section = meta.get("section") or "Unknown"
+                section_id = f"{document_id}::section::{section}"
+                sec_node = Node(id=section_id, type="Section")
+                _add_node(sec_node)
+                _add_rel(
+                    Relationship(source=img_node, target=sec_node, type="LOCATED_IN")
+                )
+
+                # Concepts from depicted_concepts
+                depicted = meta.get("depicted_concepts") or []
+                if isinstance(depicted, list):
+                    for concept in depicted:
+                        if not isinstance(concept, str) or not concept.strip():
+                            continue
+                        concept_node = Node(id=concept.strip(), type="Concept")
+                        _add_node(concept_node)
+                        _add_rel(
+                            Relationship(
+                                source=img_node,
+                                target=concept_node,
+                                type="DEPICTS",
+                            )
+                        )
+
+            graph_doc = GraphDocument(nodes=nodes, relationships=rels)
+
+            graph_dict = graph_doc.model_dump()
+            if include_metadata:
+                graph_dict["markdown_source"] = source
+                graph_dict["source_chunk_file"] = chunks_filename
+
+            out_f.write(json.dumps(graph_dict, ensure_ascii=False) + "\n")
+            out_f.flush()
+            written += 1
+
+            # Update registry
+            for node in nodes:
+                seen_entity_ids.add(node.id)
+            save_global_registry(seen_entity_ids)
+
+    logger.info(
+        f"Image entity extraction complete. markdown_files_written={written}, "
+        f"images_seen={total_images}, images_skipped_no_caption={skipped_no_caption}"
+    )
+    logger.info(f"Updated registry with {len(seen_entity_ids)} entities.")
+
+    return f"Successfully extracted image entities. Graph data saved to: {output_path.name}"
 
 
 @tool
@@ -275,11 +507,26 @@ def main():
     )
 
     tools = [extract_graph_from_chunks_tool]
+    # Add image entity extraction tool as well
+    tools.append(extract_image_entities_from_chunks_tool)
+
+    # sys_prompt = (
+    #     "You are a helpful AI assistant specializing in knowledge graph construction. "
+    #     "Your goal is to process text chunks and extract structured graph data (nodes and relationships). "
+    #     "Use the 'extract_graph_from_chunks_tool' to process the JSONL file provided by the user. "
+    #     "You can also extract image entities from the markdown sources referenced by chunks using "
+    #     "the 'extract_image_entities_from_chunks_tool'. "
+    #     "You can choose whether to include metadata based on user instructions. "
+    #     "You can also specify the batch size or token limit for processing chunks. "
+    #     "Always report the path of the generated output file."
+    # )
 
     sys_prompt = (
         "You are a helpful AI assistant specializing in knowledge graph construction. "
         "Your goal is to process text chunks and extract structured graph data (nodes and relationships). "
-        "Use the 'extract_graph_from_chunks_tool' to process the JSONL file provided by the user. "
+        # "Use the 'extract_graph_from_chunks_tool' to process the JSONL file provided by the user. "
+        "Extract image entities from the markdown sources referenced by chunks using "
+        "the 'extract_image_entities_from_chunks_tool'. "
         "You can choose whether to include metadata based on user instructions. "
         "You can also specify the batch size or token limit for processing chunks. "
         "Always report the path of the generated output file."
@@ -289,7 +536,7 @@ def main():
 
     # Construct user input based on arguments
     user_input = f"Extract graph from {args.filename}"
-    default_user_input = f"Extract graph from neuronal_attention_circuits_raw_chunks_5k.jsonl without metadata using a token limit of 5500"
+    default_user_input = f"Extract image entities from attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k.jsonl  without metadata"
     if args.no_metadata:
         user_input += " without including metadata"
     else:
