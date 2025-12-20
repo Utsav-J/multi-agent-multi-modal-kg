@@ -858,3 +858,1080 @@ Raw graph rows:
 4.  **Application in Reading Comprehension:** Self-attention has been successfully applied in tasks like reading comprehension, which inherently requires effective anaphora resolution to understand the text.
 
 The graph context primarily points to the source document "attention_is_all_you_need_raw_with_image_ids_with_captions.md" but does not provide additional details on anaphora resolution.
+2025-12-20 22:15:04,883 - __main__ - INFO - Initializing resources...
+2025-12-20 22:15:04,884 - __main__ - INFO - Loading EmbeddingGemma model...
+2025-12-20 22:15:04,912 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-12-20 22:15:04,912 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: google/embeddinggemma-300m
+2025-12-20 22:15:16,637 - sentence_transformers.SentenceTransformer - INFO - 14 prompts are loaded, with the keys: ['query', 'document', 'BitextMining', 'Clustering', 'Classification', 'InstructionRetrieval', 'MultilabelClassification', 'PairClassification', 'Reranking', 'Retrieval', 'Retrieval-query', 'Retrieval-document', 'STS', 'Summarization']
+2025-12-20 22:15:16,638 - __main__ - INFO - Loading vector store from E:\Python Stuff\MAS-for-multimodal-knowledge-graph\vector_store_outputs\index...
+2025-12-20 22:15:16,687 - faiss.loader - INFO - Loading faiss with AVX2 support.
+2025-12-20 22:15:17,817 - faiss.loader - INFO - Successfully loaded faiss with AVX2 support.
+2025-12-20 22:15:18,014 - __main__ - INFO - User query received: show me images related to attention mechanism
+2025-12-20 22:15:18,015 - __main__ - INFO - Starting Query Agent with query: 'show me images related to attention mechanism'
+2025-12-20 22:15:18,015 - __main__ - INFO - Invoking RAG retrieval tool...
+2025-12-20 22:15:18,027 - __main__ - INFO - RAG Tool invoked with user query: show me images related to attention mechanism
+2025-12-20 22:15:18,847 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-12-20 22:15:18,984 - __main__ - INFO - Generated 5 RAG subqueries:
+2025-12-20 22:15:18,984 - __main__ - INFO -   Subquery 1: attention mechanism illustrations
+2025-12-20 22:15:18,984 - __main__ - INFO -   Subquery 2: visual representations of attention mechanism
+2025-12-20 22:15:18,984 - __main__ - INFO -   Subquery 3: attention mechanism diagrams
+2025-12-20 22:15:18,984 - __main__ - INFO -   Subquery 4: images of attention mechanism in deep learning
+2025-12-20 22:15:18,984 - __main__ - INFO -   Subquery 5: attention mechanism figures
+2025-12-20 22:15:18,985 - __main__ - INFO - RAG internal retrieval query: attention mechanism illustrations
+2025-12-20 22:15:22,426 - __main__ - INFO - RAG retrieved 3 documents for subquery 'attention mechanism illustrations'
+2025-12-20 22:15:22,426 - __main__ - INFO - RAG internal retrieval query: visual representations of attention mechanism
+2025-12-20 22:15:22,532 - __main__ - INFO - RAG retrieved 3 documents for subquery 'visual representations of attention mechanism'
+2025-12-20 22:15:22,532 - __main__ - INFO - RAG internal retrieval query: attention mechanism diagrams
+2025-12-20 22:15:22,630 - __main__ - INFO - RAG retrieved 3 documents for subquery 'attention mechanism diagrams'
+2025-12-20 22:15:22,630 - __main__ - INFO - RAG internal retrieval query: images of attention mechanism in deep learning
+2025-12-20 22:15:22,729 - __main__ - INFO - RAG retrieved 3 documents for subquery 'images of attention mechanism in deep learning'
+2025-12-20 22:15:22,729 - __main__ - INFO - RAG internal retrieval query: attention mechanism figures
+2025-12-20 22:15:22,823 - __main__ - INFO - RAG retrieved 3 documents for subquery 'attention mechanism figures'
+2025-12-20 22:15:22,824 - __main__ - INFO - Total unique documents after de-duplication across all subqueries: 6
+2025-12-20 22:15:22,824 - __main__ - INFO - RAG Unique Doc 1:
+  Source: attention_functional_roles_raw_chunks_2k.jsonl
+  Chunk ID: attention_functional_roles_raw_chunks_2k_6
+  Metadata: {'source': 'attention_functional_roles_raw.md'}
+2025-12-20 22:15:22,824 - __main__ - INFO - RAG Unique Doc 2:
+  Source: neuronal_attention_circuits_raw_chunks_2k.jsonl
+  Chunk ID: neuronal_attention_circuits_raw_chunks_2k_0
+  Metadata: {'source': 'neuronal_attention_circuits_raw.md'}
+2025-12-20 22:15:22,824 - __main__ - INFO - RAG Unique Doc 3:
+  Source: neuronal_attention_circuits_raw_chunks_2k.jsonl
+  Chunk ID: neuronal_attention_circuits_raw_chunks_2k_15
+  Metadata: {'source': 'neuronal_attention_circuits_raw.md'}
+2025-12-20 22:15:22,824 - __main__ - INFO - RAG Unique Doc 4:
+  Source: attention_functional_roles_raw_chunks_2k.jsonl
+  Chunk ID: attention_functional_roles_raw_chunks_2k_0
+  Metadata: {'source': 'attention_functional_roles_raw.md'}
+2025-12-20 22:15:22,824 - __main__ - INFO - RAG Unique Doc 5:
+  Source: attention_is_all_you_need_raw_chunks_2k.jsonl
+  Chunk ID: attention_is_all_you_need_raw_chunks_2k_1
+  Metadata: {'source': 'attention_is_all_you_need_raw.md'}
+2025-12-20 22:15:22,824 - __main__ - INFO - RAG Unique Doc 6:
+  Source: neuronal_attention_circuits_raw_chunks_2k.jsonl
+  Chunk ID: neuronal_attention_circuits_raw_chunks_2k_12
+  Metadata: {'source': 'neuronal_attention_circuits_raw.md'}
+2025-12-20 22:15:22,824 - __main__ - INFO - RAG context returned to LLM (multi-subquery, k=3, deduplicated): num_chunks=6, total_chars=40409
+2025-12-20 22:15:22,824 - __main__ - INFO - Invoking Graph retrieval tool...
+2025-12-20 22:15:22,825 - __main__ - INFO - Graph Tool invoked with user query: show me images related to attention mechanism
+2025-12-20 22:15:22,825 - __main__ - INFO - Connecting to Neo4j at neo4j+s://d15b3f68.databases.neo4j.io...
+2025-12-20 22:15:25,026 - __main__ - INFO - Resolving entities from graph for query: show me images related to attention mechanism
+2025-12-20 22:15:25,210 - __main__ - INFO - Grounded entities to be provided to Cypher generator:
+- Attention mechanism (Concept)
+- Self-attention mechanism (Concept)
+- Sequence to sequence learning (Concept)
+- Attention weights (Concept)
+- Attention map (Concept)
+2025-12-20 22:15:25,379 - __main__ - INFO - Initializing grounded GraphCypherQAChain...
+2025-12-20 22:15:29,961 - __main__ - INFO - Generated Cypher query for graph retrieval:
+2025-12-20 22:15:29,962 - __main__ - INFO - MATCH (c:Concept {id:'Attention mechanism'})<-[:DEPICTS]-(i:Image) RETURN i.source_path LIMIT 10
+2025-12-20 22:15:29,962 - __main__ - INFO - Raw graph context rows returned from Neo4j:
+[{'i.source_path': 'E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-12-0.png'}]
+2025-12-20 22:15:30,163 - neo4j.notifications - WARNING - Received notification from DBMS server: {severity: WARNING} {code: Neo.ClientNotification.Statement.UnknownPropertyKeyWarning} {category: UNRECOGNIZED} {title: The provided property key is not in the database} {description: One of the property names in your query is not available in the database, make sure you didn't misspell it or that the label is available when you run this statement in your application (the missing property name is: path)} {position: line: 13, column: 45, offset: 539} for query: '\n                UNWIND $concept_ids AS cid\n                MATCH (c:Concept {id: cid})\n                OPTIONAL MATCH (i1:Image)-[:DEPICTS]->(c)\n                OPTIONAL MATCH (c)<-[:MENTIONS]-(d:Document)-[:MENTIONS]->(i2:Image)\n                WITH cid,\n                     collect(DISTINCT i1) + collect(DISTINCT i2) AS imgs\n                UNWIND imgs AS i\n                WITH cid, i\n                WHERE i IS NOT NULL\n                RETURN DISTINCT\n                  i.id AS image_id,\n                  coalesce(i.source_path, i.path) AS image_path,\n                  cid AS related_concept\n                LIMIT $limit\n                '
+2025-12-20 22:15:30,236 - __main__ - INFO - Graph context returned to LLM:
+Raw graph rows:
+{'i.source_path': 'E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-12-0.png'}
+
+Images (from graph):
+- img_attention_is_all_you_need_12_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-12-0.png | related_to=Attention mechanism
+- img_attention_is_all_you_need_2_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-2-0.png | related_to=Attention mechanism
+- img_attention_is_all_you_need_3_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-3-0.png | related_to=Attention mechanism
+- img_attention_is_all_you_need_3_1 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-3-1.png | related_to=Attention mechanism
+- img_attention_is_all_you_need_13_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-13-0.png | related_to=Attention mechanism
+- img_attention_is_all_you_need_14_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-14-0.png | related_to=Attention mechanism
+- img_attention_is_all_you_need_14_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-14-0.png | related_to=Self-attention mechanism
+- img_attention_is_all_you_need_2_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-2-0.png | related_to=Self-attention mechanism
+- img_attention_is_all_you_need_3_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-3-0.png | related_to=Self-attention mechanism
+- img_attention_is_all_you_need_3_1 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-3-1.png | related_to=Self-attention mechanism
+- img_attention_is_all_you_need_12_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-12-0.png | related_to=Self-attention mechanism
+- img_attention_is_all_you_need_13_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-13-0.png | related_to=Self-attention mechanism
+2025-12-20 22:15:30,250 - __main__ - INFO - Synthesizing final answer from RAG and Graph contexts...
+2025-12-20 22:15:39,980 - __main__ - INFO - Final Answer: The following images are related to the attention mechanism:
+
+**Image paths:**
+- img_attention_is_all_you_need_12_0: E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-12-0.png
+- img_attention_is_all_you_need_2_0: E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-2-0.png
+- img_attention_is_all_you_need_3_0: E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-3-0.png
+- img_attention_is_all_you_need_3_1: E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-3-1.png
+- img_attention_is_all_you_need_13_0: E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-13-0.png
+- img_attention_is_all_you_need_14_0: E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-14-0.png
+- img_attention_functional_roles_1_0: E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_functional_roles.pdf-1-0.png
+- img_attention_functional_roles_1_1: E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_functional_roles.pdf-1-1.png
+- img_attention_functional_roles_1_2: E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_functional_roles.pdf-1-2.png
+- img_attention_functional_roles_1_3: E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_functional_roles.pdf-1-3.png
+- img_attention_functional_roles_1_4: E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_functional_roles.pdf-1-4.png
+- img_attention_functional_roles_1_5: E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_functional_roles.pdf-1-5.png
+- img_attention_functional_roles_1_6: E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_functional_roles.pdf-1-6.png
+- img_attention_functional_roles_1_7: E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_functional_roles.pdf-1-7.png
+- img_attention_functional_roles_1_8: E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_functional_roles.pdf-1-8.png
+- img_attention_functional_roles_1_11: E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_functional_roles.pdf-1-11.png
+- img_neuronal_attention_circuits_15_0: E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/neuronal_attention_circuits.pdf-15-0.png
+- img_neuronal_attention_circuits_15_1: E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/neuronal_attention_circuits.pdf-15-1.png
+
+The text context describes some of these images:
+*   **Figure 1** (e.g., `attention_is_all_you_need.pdf-2-0.png`) illustrates the Transformer model architecture, which uses stacked self-attention and point-wise, fully connected layers for both the encoder and decoder.
+*   **Figure 2** (e.g., `attention_is_all_you_need.pdf-3-0.png`, `attention_is_all_you_need.pdf-3-1.png`) depicts Scaled Dot-Product Attention and Multi-Head Attention, showing how multiple attention layers run in parallel.
+*   Another **Figure 1** (e.g., `attention_functional_roles.pdf-1-0.png` to `attention_functional_roles.pdf-1-11.png`) from a different source illustrates how the human brain engages multiple regions for distinct cognitive functions to answer complex questions, drawing an analogy to whether specific attention heads in large vision-language models play similar functional roles.
+*   **Figure 5** (`neuronal_attention_circuits.pdf-15-0.png`) and **Figure 6** (`neuronal_attention_circuits.pdf-15-1.png`) present saliency maps for OpenAI CarRacing and Udacity Simulator, respectively, demonstrating the Neuronal Attention Circuit's (NAC) ability to maintain focus on relevant regions like the road's horizon.
+2025-12-20 22:16:51,271 - __main__ - INFO - Initializing resources...
+2025-12-20 22:16:51,271 - __main__ - INFO - Loading EmbeddingGemma model...
+2025-12-20 22:16:51,274 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-12-20 22:16:51,274 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: google/embeddinggemma-300m
+2025-12-20 22:16:58,800 - sentence_transformers.SentenceTransformer - INFO - 14 prompts are loaded, with the keys: ['query', 'document', 'BitextMining', 'Clustering', 'Classification', 'InstructionRetrieval', 'MultilabelClassification', 'PairClassification', 'Reranking', 'Retrieval', 'Retrieval-query', 'Retrieval-document', 'STS', 'Summarization']
+2025-12-20 22:16:58,801 - __main__ - INFO - Loading vector store from E:\Python Stuff\MAS-for-multimodal-knowledge-graph\vector_store_outputs\index...
+2025-12-20 22:16:58,813 - faiss.loader - INFO - Loading faiss with AVX2 support.
+2025-12-20 22:16:58,893 - faiss.loader - INFO - Successfully loaded faiss with AVX2 support.
+2025-12-20 22:16:58,933 - __main__ - INFO - User query received: show me images related to attention mechanism
+2025-12-20 22:16:58,934 - __main__ - INFO - Starting Query Agent with query: 'show me images related to attention mechanism'
+2025-12-20 22:16:58,934 - __main__ - INFO - Invoking RAG retrieval tool...
+2025-12-20 22:16:58,936 - __main__ - INFO - RAG Tool invoked with user query: show me images related to attention mechanism
+2025-12-20 22:16:59,350 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-12-20 22:16:59,415 - __main__ - INFO - Generated 3 RAG subqueries:
+2025-12-20 22:16:59,416 - __main__ - INFO -   Subquery 1: attention mechanism illustrations
+2025-12-20 22:16:59,416 - __main__ - INFO -   Subquery 2: visual representations of attention in deep learning
+2025-12-20 22:16:59,416 - __main__ - INFO -   Subquery 3: attention mechanism diagrams
+2025-12-20 22:16:59,417 - __main__ - INFO - RAG internal retrieval query: attention mechanism illustrations
+2025-12-20 22:16:59,638 - __main__ - INFO - RAG retrieved 3 documents for subquery 'attention mechanism illustrations'
+2025-12-20 22:16:59,639 - __main__ - INFO - RAG internal retrieval query: visual representations of attention in deep learning
+2025-12-20 22:16:59,728 - __main__ - INFO - RAG retrieved 3 documents for subquery 'visual representations of attention in deep learning'
+2025-12-20 22:16:59,729 - __main__ - INFO - RAG internal retrieval query: attention mechanism diagrams
+2025-12-20 22:16:59,812 - __main__ - INFO - RAG retrieved 3 documents for subquery 'attention mechanism diagrams'
+2025-12-20 22:16:59,812 - __main__ - INFO - Total unique documents after de-duplication across all subqueries: 5
+2025-12-20 22:16:59,812 - __main__ - INFO - RAG Unique Doc 1:
+  Source: attention_functional_roles_raw_chunks_2k.jsonl
+  Chunk ID: attention_functional_roles_raw_chunks_2k_6
+  Metadata: {'source': 'attention_functional_roles_raw.md'}
+2025-12-20 22:16:59,812 - __main__ - INFO - RAG Unique Doc 2:
+  Source: neuronal_attention_circuits_raw_chunks_2k.jsonl
+  Chunk ID: neuronal_attention_circuits_raw_chunks_2k_0
+  Metadata: {'source': 'neuronal_attention_circuits_raw.md'}
+2025-12-20 22:16:59,813 - __main__ - INFO - RAG Unique Doc 3:
+  Source: neuronal_attention_circuits_raw_chunks_2k.jsonl
+  Chunk ID: neuronal_attention_circuits_raw_chunks_2k_15
+  Metadata: {'source': 'neuronal_attention_circuits_raw.md'}
+2025-12-20 22:16:59,813 - __main__ - INFO - RAG Unique Doc 4:
+  Source: attention_functional_roles_raw_chunks_2k.jsonl
+  Chunk ID: attention_functional_roles_raw_chunks_2k_0
+  Metadata: {'source': 'attention_functional_roles_raw.md'}
+2025-12-20 22:16:59,813 - __main__ - INFO - RAG Unique Doc 5:
+  Source: attention_is_all_you_need_raw_chunks_2k.jsonl
+  Chunk ID: attention_is_all_you_need_raw_chunks_2k_1
+  Metadata: {'source': 'attention_is_all_you_need_raw.md'}
+2025-12-20 22:16:59,813 - __main__ - INFO - RAG context returned to LLM (multi-subquery, k=3, deduplicated): num_chunks=5, total_chars=35721
+2025-12-20 22:16:59,813 - __main__ - INFO - Invoking Graph retrieval tool...
+2025-12-20 22:16:59,814 - __main__ - INFO - Graph Tool invoked with user query: show me images related to attention mechanism
+2025-12-20 22:16:59,814 - __main__ - INFO - Connecting to Neo4j at neo4j+s://d15b3f68.databases.neo4j.io...
+2025-12-20 22:17:02,201 - __main__ - INFO - Resolving entities from graph for query: show me images related to attention mechanism
+2025-12-20 22:17:02,415 - __main__ - INFO - Grounded entities to be provided to Cypher generator:
+- Attention mechanism (Concept)
+- Self-attention mechanism (Concept)
+- Sequence to sequence learning (Concept)
+- Attention weights (Concept)
+- Attention map (Concept)
+2025-12-20 22:17:02,627 - __main__ - INFO - Initializing grounded GraphCypherQAChain...
+2025-12-20 22:17:08,296 - __main__ - INFO - Generated Cypher query for graph retrieval:
+2025-12-20 22:17:08,297 - __main__ - INFO - MATCH (c:Concept {id: "Attention mechanism"})<-[:DEPICTS]-(i:Image)
+RETURN i.source_path AS image_path, i.id AS image_id
+2025-12-20 22:17:08,297 - __main__ - INFO - Raw graph context rows returned from Neo4j:
+[{'image_path': 'E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-12-0.png', 'image_id': 'img_attention_is_all_you_need_12_0'}]
+2025-12-20 22:17:08,560 - __main__ - INFO - Graph context returned to LLM:
+Raw graph rows:
+{'image_path': 'E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-12-0.png', 'image_id': 'img_attention_is_all_you_need_12_0'}
+
+Images (from graph):
+- img_attention_is_all_you_need_12_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-12-0.png | related_to=Attention mechanism
+- img_attention_is_all_you_need_2_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-2-0.png | related_to=Attention mechanism
+- img_attention_is_all_you_need_3_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-3-0.png | related_to=Attention mechanism
+- img_attention_is_all_you_need_3_1 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-3-1.png | related_to=Attention mechanism
+- img_attention_is_all_you_need_13_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-13-0.png | related_to=Attention mechanism
+- img_attention_is_all_you_need_14_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-14-0.png | related_to=Attention mechanism
+- img_attention_is_all_you_need_14_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-14-0.png | related_to=Self-attention mechanism
+- img_attention_is_all_you_need_2_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-2-0.png | related_to=Self-attention mechanism
+- img_attention_is_all_you_need_3_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-3-0.png | related_to=Self-attention mechanism
+- img_attention_is_all_you_need_3_1 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-3-1.png | related_to=Self-attention mechanism
+- img_attention_is_all_you_need_12_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-12-0.png | related_to=Self-attention mechanism
+- img_attention_is_all_you_need_13_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-13-0.png | related_to=Self-attention mechanism
+2025-12-20 22:17:08,563 - __main__ - INFO - Synthesizing final answer from RAG and Graph contexts...
+2025-12-20 22:17:13,210 - __main__ - INFO - Final Answer: The graph context provides several images related to the attention mechanism and self-attention mechanism. The text context further explains these concepts, particularly detailing the Transformer architecture, Scaled Dot-Product Attention, and Multi-Head Attention.
+
+The Transformer model architecture, as described in the text, utilizes stacked self-attention and point-wise, fully connected layers for both the encoder and decoder. An attention function maps a query and a set of key-value pairs to an output, computed as a weighted sum of values based on the compatibility of the query with corresponding keys. Specifically, "Scaled Dot-Product Attention" involves computing dot products of queries with keys, scaling by the square root of the key dimension, and applying a softmax function to get weights. "Multi-Head Attention" extends this by performing several attention functions in parallel on linearly projected versions of queries, keys, and values, allowing the model to attend to different representation subspaces.
+
+**Image paths:**
+*   img_attention_is_all_you_need_12_0: E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-12-0.png
+*   img_attention_is_all_you_need_2_0: E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-2-0.png
+*   img_attention_is_all_you_need_3_0: E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-3-0.png
+*   img_attention_is_all_you_need_3_1: E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-3-1.png
+*   img_attention_is_all_you_need_13_0: E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-13-0.png
+*   img_attention_is_all_you_need_14_0: E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-14-0.png
+2025-12-20 22:31:54,067 - __main__ - INFO - Initializing resources...
+2025-12-20 22:31:54,067 - __main__ - INFO - Loading EmbeddingGemma model...
+2025-12-20 22:31:54,070 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-12-20 22:31:54,070 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: google/embeddinggemma-300m
+2025-12-20 22:32:01,612 - sentence_transformers.SentenceTransformer - INFO - 14 prompts are loaded, with the keys: ['query', 'document', 'BitextMining', 'Clustering', 'Classification', 'InstructionRetrieval', 'MultilabelClassification', 'PairClassification', 'Reranking', 'Retrieval', 'Retrieval-query', 'Retrieval-document', 'STS', 'Summarization']
+2025-12-20 22:32:01,613 - __main__ - INFO - Loading vector store from E:\Python Stuff\MAS-for-multimodal-knowledge-graph\vector_store_outputs\index...
+2025-12-20 22:32:01,622 - faiss.loader - INFO - Loading faiss with AVX2 support.
+2025-12-20 22:32:01,656 - faiss.loader - INFO - Successfully loaded faiss with AVX2 support.
+2025-12-20 22:32:01,668 - __main__ - INFO - User query received: how does attention mechanism help in anaphora resolution?
+2025-12-20 22:32:01,668 - __main__ - INFO - Starting Query Agent with query: 'how does attention mechanism help in anaphora resolution?'
+2025-12-20 22:32:01,668 - __main__ - INFO - Invoking RAG retrieval tool...
+2025-12-20 22:32:01,669 - __main__ - INFO - RAG Tool invoked with user query: how does attention mechanism help in anaphora resolution?
+2025-12-20 22:32:02,051 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-12-20 22:32:02,107 - __main__ - INFO - Generated 5 RAG subqueries:
+2025-12-20 22:32:02,108 - __main__ - INFO -   Subquery 1: attention mechanism anaphora resolution
+2025-12-20 22:32:02,108 - __main__ - INFO -   Subquery 2: anaphora resolution using attention in NLP
+2025-12-20 22:32:02,108 - __main__ - INFO -   Subquery 3: role of attention in coreference resolution
+2025-12-20 22:32:02,108 - __main__ - INFO -   Subquery 4: attention-based models for anaphora resolution
+2025-12-20 22:32:02,108 - __main__ - INFO -   Subquery 5: coreference resolution with attention mechanisms
+2025-12-20 22:32:02,109 - __main__ - INFO - RAG internal retrieval query: attention mechanism anaphora resolution
+2025-12-20 22:32:02,294 - __main__ - INFO - RAG retrieved 3 documents for subquery 'attention mechanism anaphora resolution'
+2025-12-20 22:32:02,295 - __main__ - INFO - RAG internal retrieval query: anaphora resolution using attention in NLP
+2025-12-20 22:32:02,419 - __main__ - INFO - RAG retrieved 3 documents for subquery 'anaphora resolution using attention in NLP'
+2025-12-20 22:32:02,419 - __main__ - INFO - RAG internal retrieval query: role of attention in coreference resolution
+2025-12-20 22:32:02,523 - __main__ - INFO - RAG retrieved 3 documents for subquery 'role of attention in coreference resolution'
+2025-12-20 22:32:02,523 - __main__ - INFO - RAG internal retrieval query: attention-based models for anaphora resolution
+2025-12-20 22:32:02,617 - __main__ - INFO - RAG retrieved 3 documents for subquery 'attention-based models for anaphora resolution'
+2025-12-20 22:32:02,617 - __main__ - INFO - RAG internal retrieval query: coreference resolution with attention mechanisms
+2025-12-20 22:32:02,720 - __main__ - INFO - RAG retrieved 3 documents for subquery 'coreference resolution with attention mechanisms'
+2025-12-20 22:32:02,720 - __main__ - INFO - Total unique documents after de-duplication across all subqueries: 8
+2025-12-20 22:32:02,720 - __main__ - INFO - RAG Unique Doc 1:
+  Source: neuronal_attention_circuits_raw_chunks_2k.jsonl
+  Chunk ID: neuronal_attention_circuits_raw_chunks_2k_0
+  Metadata: {'source': 'neuronal_attention_circuits_raw.md'}
+2025-12-20 22:32:02,721 - __main__ - INFO - RAG Unique Doc 2:
+  Source: attention_is_all_you_need_raw_chunks_2k.jsonl
+  Chunk ID: attention_is_all_you_need_raw_chunks_2k_2
+  Metadata: {'source': 'attention_is_all_you_need_raw.md'}
+2025-12-20 22:32:02,721 - __main__ - INFO - RAG Unique Doc 3:
+  Source: attention_is_all_you_need_raw_chunks_2k.jsonl
+  Chunk ID: attention_is_all_you_need_raw_chunks_2k_0
+  Metadata: {'source': 'attention_is_all_you_need_raw.md'}
+2025-12-20 22:32:02,721 - __main__ - INFO - RAG Unique Doc 4:
+  Source: attention_is_all_you_need_raw_chunks_2k.jsonl
+  Chunk ID: attention_is_all_you_need_raw_chunks_2k_6
+  Metadata: {'source': 'attention_is_all_you_need_raw.md'}
+2025-12-20 22:32:02,721 - __main__ - INFO - RAG Unique Doc 5:
+  Source: attention_is_all_you_need_raw_chunks_2k.jsonl
+  Chunk ID: attention_is_all_you_need_raw_chunks_2k_1
+  Metadata: {'source': 'attention_is_all_you_need_raw.md'}
+2025-12-20 22:32:02,721 - __main__ - INFO - RAG Unique Doc 6:
+  Source: attention_functional_roles_raw_chunks_2k.jsonl
+  Chunk ID: attention_functional_roles_raw_chunks_2k_6
+  Metadata: {'source': 'attention_functional_roles_raw.md'}
+2025-12-20 22:32:02,721 - __main__ - INFO - RAG Unique Doc 7:
+  Source: attention_functional_roles_raw_chunks_2k.jsonl
+  Chunk ID: attention_functional_roles_raw_chunks_2k_2
+  Metadata: {'source': 'attention_functional_roles_raw.md'}
+2025-12-20 22:32:02,721 - __main__ - INFO - RAG Unique Doc 8:
+  Source: attention_functional_roles_raw_chunks_2k.jsonl
+  Chunk ID: attention_functional_roles_raw_chunks_2k_0
+  Metadata: {'source': 'attention_functional_roles_raw.md'}
+2025-12-20 22:32:02,722 - __main__ - INFO - RAG context returned to LLM (multi-subquery, k=3, deduplicated): num_chunks=8, total_chars=57739
+2025-12-20 22:32:02,722 - __main__ - INFO - Invoking Graph retrieval tool...
+2025-12-20 22:32:02,722 - __main__ - INFO - Graph Tool invoked with user query: how does attention mechanism help in anaphora resolution?
+2025-12-20 22:32:02,723 - __main__ - INFO - Connecting to Neo4j at neo4j+s://d15b3f68.databases.neo4j.io...
+2025-12-20 22:32:04,832 - __main__ - INFO - Resolving entities from graph for query: how does attention mechanism help in anaphora resolution?
+2025-12-20 22:32:05,014 - __main__ - INFO - Grounded entities to be provided to Cypher generator:
+- Attention mechanism (Concept)
+- Self-attention mechanism (Concept)
+- anaphora resolution (Concept)
+- Attention weights (Concept)
+- Attention map (Concept)
+2025-12-20 22:32:05,195 - __main__ - INFO - Initializing grounded GraphCypherQAChain...
+2025-12-20 22:32:15,054 - __main__ - INFO - Generated Cypher query for graph retrieval:
+2025-12-20 22:32:15,055 - __main__ - INFO - MATCH (attention:Concept {id:'Attention mechanism'})<-[:MENTIONS]-(d:Document)-[:MENTIONS]->(anaphora:Concept {id:'anaphora resolution'})
+RETURN d.id, d.text, d.source_type, d.source_id
+LIMIT 10
+2025-12-20 22:32:15,055 - __main__ - INFO - Raw graph context rows returned from Neo4j:
+[{'d.id': '36f927c2ec5951b1af0611a9728d214b', 'd.text': 'attention_is_all_you_need_raw_with_image_ids_with_captions.md::images', 'd.source_type': 'markdown', 'd.source_id': 'attention_is_all_you_need_raw_with_image_ids_with_captions.md::images'}]
+2025-12-20 22:32:15,389 - __main__ - INFO - Graph context returned to LLM:
+Raw graph rows:
+{'d.id': '36f927c2ec5951b1af0611a9728d214b', 'd.text': 'attention_is_all_you_need_raw_with_image_ids_with_captions.md::images', 'd.source_type': 'markdown', 'd.source_id': 'attention_is_all_you_need_raw_with_image_ids_with_captions.md::images'}
+
+Images (from graph):
+- img_attention_is_all_you_need_12_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-12-0.png | related_to=Attention mechanism
+- img_attention_is_all_you_need_2_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-2-0.png | related_to=Attention mechanism
+- img_attention_is_all_you_need_3_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-3-0.png | related_to=Attention mechanism
+- img_attention_is_all_you_need_3_1 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-3-1.png | related_to=Attention mechanism
+- img_attention_is_all_you_need_13_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-13-0.png | related_to=Attention mechanism
+- img_attention_is_all_you_need_14_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-14-0.png | related_to=Attention mechanism
+- img_attention_is_all_you_need_14_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-14-0.png | related_to=Self-attention mechanism
+- img_attention_is_all_you_need_2_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-2-0.png | related_to=Self-attention mechanism
+- img_attention_is_all_you_need_3_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-3-0.png | related_to=Self-attention mechanism
+- img_attention_is_all_you_need_3_1 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-3-1.png | related_to=Self-attention mechanism
+- img_attention_is_all_you_need_12_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-12-0.png | related_to=Self-attention mechanism
+- img_attention_is_all_you_need_13_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-13-0.png | related_to=Self-attention mechanism
+2025-12-20 22:32:15,390 - __main__ - INFO - Synthesizing final answer from RAG and Graph contexts...
+2025-12-20 22:32:23,544 - __main__ - INFO - Final Answer: Attention mechanisms, particularly self-attention, significantly aid in anaphora resolution by effectively capturing long-range dependencies within a sequence. Anaphora resolution requires identifying what a pronoun or noun phrase refers to, often necessitating connections between words that are far apart in a sentence or document.
+
+Here's how attention mechanisms help:
+
+1.  **Modeling Long-Range Dependencies:** Attention mechanisms allow models to focus on relevant observations and model dependencies between words regardless of their distance in the input or output sequences. This is a crucial advantage over traditional recurrent neural networks (RNNs) which struggle with long-term dependencies due to issues like vanishing gradients and their inherently sequential nature.
+2.  **Shorter Path Lengths:** Self-attention layers connect all positions in a sequence with a constant number of sequentially executed operations. This results in shorter path lengths between any two input and output positions, making it easier for the model to learn and establish long-range dependencies, which is vital for linking an anaphor to its antecedent.
+3.  **Understanding Syntactic and Semantic Structure:** Attention heads can learn to perform different tasks and exhibit behavior related to the syntactic and semantic structure of sentences. This ability to discern grammatical and meaning-based relationships is fundamental for correctly identifying the referent of an anaphor.
+4.  **Interpretable Connections:** Visualizations of attention mechanisms demonstrate their ability to attend to distant dependencies, such as connecting a verb to a distant part of a phrase to complete its meaning. This capability to link semantically related but spatially separated words is directly applicable to resolving anaphora.
+
+While the provided text does not explicitly name "anaphora resolution" as a task, it details the core functionalities of attention mechanisms—especially self-attention—that are directly beneficial for such a task, including handling long-range dependencies and understanding sentence structure.
+
+**Image paths:**
+*   img_attention_is_all_you_need_12_0: E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-12-0.png
+*   img_attention_is_all_you_need_2_0: E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-2-0.png
+*   img_attention_is_all_you_need_3_0: E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-3-0.png
+*   img_attention_is_all_you_need_3_1: E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-3-1.png
+*   img_attention_is_all_you_need_13_0: E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-13-0.png
+*   img_attention_is_all_you_need_14_0: E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-14-0.png
+
+**Chunks used:**
+*   attention_is_all_you_need_raw_chunks_2k.jsonl
+*   neuronal_attention_circuits_raw_chunks_2k.jsonl
+*   attention_functional_roles_raw_chunks_2k.jsonl
+2025-12-20 22:33:21,220 - __main__ - INFO - Initializing resources...
+2025-12-20 22:33:21,221 - __main__ - INFO - Loading EmbeddingGemma model...
+2025-12-20 22:33:21,224 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-12-20 22:33:21,224 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: google/embeddinggemma-300m
+2025-12-20 22:33:28,422 - sentence_transformers.SentenceTransformer - INFO - 14 prompts are loaded, with the keys: ['query', 'document', 'BitextMining', 'Clustering', 'Classification', 'InstructionRetrieval', 'MultilabelClassification', 'PairClassification', 'Reranking', 'Retrieval', 'Retrieval-query', 'Retrieval-document', 'STS', 'Summarization']
+2025-12-20 22:33:28,423 - __main__ - INFO - Loading vector store from E:\Python Stuff\MAS-for-multimodal-knowledge-graph\vector_store_outputs\index...
+2025-12-20 22:33:28,428 - faiss.loader - INFO - Loading faiss with AVX2 support.
+2025-12-20 22:33:28,469 - faiss.loader - INFO - Successfully loaded faiss with AVX2 support.
+2025-12-20 22:33:28,490 - __main__ - INFO - User query received: how does attention mechanism relate to multi head attention?
+2025-12-20 22:33:28,491 - __main__ - INFO - Starting Query Agent with query: 'how does attention mechanism relate to multi head attention?'
+2025-12-20 22:33:28,491 - __main__ - INFO - Invoking RAG retrieval tool...
+2025-12-20 22:33:28,492 - __main__ - INFO - RAG Tool invoked with user query: how does attention mechanism relate to multi head attention?
+2025-12-20 22:33:28,908 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-12-20 22:33:28,976 - __main__ - INFO - Generated 5 RAG subqueries:
+2025-12-20 22:33:28,978 - __main__ - INFO -   Subquery 1: attention mechanism
+2025-12-20 22:33:28,978 - __main__ - INFO -   Subquery 2: multi-head attention
+2025-12-20 22:33:28,979 - __main__ - INFO -   Subquery 3: relation between attention mechanism and multi-head attention
+2025-12-20 22:33:28,979 - __main__ - INFO -   Subquery 4: transformer multi-head attention
+2025-12-20 22:33:28,979 - __main__ - INFO -   Subquery 5: self-attention mechanism
+2025-12-20 22:33:28,980 - __main__ - INFO - RAG internal retrieval query: attention mechanism
+2025-12-20 22:33:29,238 - __main__ - INFO - RAG retrieved 3 documents for subquery 'attention mechanism'
+2025-12-20 22:33:29,238 - __main__ - INFO - RAG internal retrieval query: multi-head attention
+2025-12-20 22:33:29,370 - __main__ - INFO - RAG retrieved 3 documents for subquery 'multi-head attention'
+2025-12-20 22:33:29,371 - __main__ - INFO - RAG internal retrieval query: relation between attention mechanism and multi-head attention
+2025-12-20 22:33:29,514 - __main__ - INFO - RAG retrieved 3 documents for subquery 'relation between attention mechanism and multi-head attention'
+2025-12-20 22:33:29,514 - __main__ - INFO - RAG internal retrieval query: transformer multi-head attention
+2025-12-20 22:33:29,663 - __main__ - INFO - RAG retrieved 3 documents for subquery 'transformer multi-head attention'
+2025-12-20 22:33:29,663 - __main__ - INFO - RAG internal retrieval query: self-attention mechanism
+2025-12-20 22:33:29,792 - __main__ - INFO - RAG retrieved 3 documents for subquery 'self-attention mechanism'
+2025-12-20 22:33:29,792 - __main__ - INFO - Total unique documents after de-duplication across all subqueries: 8
+2025-12-20 22:33:29,792 - __main__ - INFO - RAG Unique Doc 1:
+  Source: neuronal_attention_circuits_raw_chunks_2k.jsonl
+  Chunk ID: neuronal_attention_circuits_raw_chunks_2k_0
+  Metadata: {'source': 'neuronal_attention_circuits_raw.md'}
+2025-12-20 22:33:29,792 - __main__ - INFO - RAG Unique Doc 2:
+  Source: attention_is_all_you_need_raw_chunks_2k.jsonl
+  Chunk ID: attention_is_all_you_need_raw_chunks_2k_1
+  Metadata: {'source': 'attention_is_all_you_need_raw.md'}
+2025-12-20 22:33:29,792 - __main__ - INFO - RAG Unique Doc 3:
+  Source: attention_functional_roles_raw_chunks_2k.jsonl
+  Chunk ID: attention_functional_roles_raw_chunks_2k_6
+  Metadata: {'source': 'attention_functional_roles_raw.md'}
+2025-12-20 22:33:29,792 - __main__ - INFO - RAG Unique Doc 4:
+  Source: attention_functional_roles_raw_chunks_2k.jsonl
+  Chunk ID: attention_functional_roles_raw_chunks_2k_2
+  Metadata: {'source': 'attention_functional_roles_raw.md'}
+2025-12-20 22:33:29,792 - __main__ - INFO - RAG Unique Doc 5:
+  Source: attention_functional_roles_raw_chunks_2k.jsonl
+  Chunk ID: attention_functional_roles_raw_chunks_2k_0
+  Metadata: {'source': 'attention_functional_roles_raw.md'}
+2025-12-20 22:33:29,793 - __main__ - INFO - RAG Unique Doc 6:
+  Source: attention_is_all_you_need_raw_chunks_2k.jsonl
+  Chunk ID: attention_is_all_you_need_raw_chunks_2k_0
+  Metadata: {'source': 'attention_is_all_you_need_raw.md'}
+2025-12-20 22:33:29,793 - __main__ - INFO - RAG Unique Doc 7:
+  Source: attention_is_all_you_need_raw_chunks_2k.jsonl
+  Chunk ID: attention_is_all_you_need_raw_chunks_2k_4
+  Metadata: {'source': 'attention_is_all_you_need_raw.md'}
+2025-12-20 22:33:29,793 - __main__ - INFO - RAG Unique Doc 8:
+  Source: attention_is_all_you_need_raw_chunks_2k.jsonl
+  Chunk ID: attention_is_all_you_need_raw_chunks_2k_2
+  Metadata: {'source': 'attention_is_all_you_need_raw.md'}
+2025-12-20 22:33:29,793 - __main__ - INFO - RAG context returned to LLM (multi-subquery, k=3, deduplicated): num_chunks=8, total_chars=59688
+2025-12-20 22:33:29,793 - __main__ - INFO - Invoking Graph retrieval tool...
+2025-12-20 22:33:29,794 - __main__ - INFO - Graph Tool invoked with user query: how does attention mechanism relate to multi head attention?
+2025-12-20 22:33:29,794 - __main__ - INFO - Connecting to Neo4j at neo4j+s://d15b3f68.databases.neo4j.io...
+2025-12-20 22:33:31,759 - __main__ - INFO - Resolving entities from graph for query: how does attention mechanism relate to multi head attention?
+2025-12-20 22:33:31,932 - __main__ - INFO - Grounded entities to be provided to Cypher generator:
+- Multi-head attention (Concept)
+- Multi-Head Attention (Concept)
+- Masked Multi-Head Attention (Concept)
+- Attention mechanism (Concept)
+- Self-attention mechanism (Concept)
+2025-12-20 22:33:32,100 - __main__ - INFO - Initializing grounded GraphCypherQAChain...
+2025-12-20 22:33:39,802 - __main__ - INFO - Generated Cypher query for graph retrieval:
+2025-12-20 22:33:39,803 - __main__ - INFO - MATCH p = shortestPath((c1:Concept {id: "Attention mechanism"})-[*..4]-(c2:Concept {id: "Multi-head attention"}))
+RETURN p
+LIMIT 1
+2025-12-20 22:33:39,803 - __main__ - INFO - Raw graph context rows returned from Neo4j:
+[{'p': [{'id': 'Attention mechanism'}, 'MENTIONS', {'derived_from_chunk_file': 'attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k.jsonl', 'markdown_source': 'attention_is_all_you_need_raw_with_image_ids_with_captions.md', 'source_type': 'markdown', 'id': '36f927c2ec5951b1af0611a9728d214b', 'text': 'attention_is_all_you_need_raw_with_image_ids_with_captions.md::images', 'source_id': 'attention_is_all_you_need_raw_with_image_ids_with_captions.md::images'}, 'MENTIONS', {'id': 'Multi-head attention'}]}]
+2025-12-20 22:33:40,013 - __main__ - INFO - Graph context returned to LLM:
+Raw graph rows:
+{'p': [{'id': 'Attention mechanism'}, 'MENTIONS', {'derived_from_chunk_file': 'attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k.jsonl', 'markdown_source': 'attention_is_all_you_need_raw_with_image_ids_with_captions.md', 'source_type': 'markdown', 'id': '36f927c2ec5951b1af0611a9728d214b', 'text': 'attention_is_all_you_need_raw_with_image_ids_with_captions.md::images', 'source_id': 'attention_is_all_you_need_raw_with_image_ids_with_captions.md::images'}, 'MENTIONS', {'id': 'Multi-head attention'}]}
+
+Images (from graph):
+- img_attention_is_all_you_need_3_1 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-3-1.png | related_to=Multi-head attention
+- img_attention_is_all_you_need_2_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-2-0.png | related_to=Multi-head attention
+- img_attention_is_all_you_need_3_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-3-0.png | related_to=Multi-head attention
+- img_attention_is_all_you_need_12_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-12-0.png | related_to=Multi-head attention
+- img_attention_is_all_you_need_13_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-13-0.png | related_to=Multi-head attention
+- img_attention_is_all_you_need_14_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-14-0.png | related_to=Multi-head attention
+- img_attention_is_all_you_need_2_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-2-0.png | related_to=Multi-Head Attention
+- img_attention_is_all_you_need_3_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-3-0.png | related_to=Multi-Head Attention
+- img_attention_is_all_you_need_3_1 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-3-1.png | related_to=Multi-Head Attention
+- img_attention_is_all_you_need_12_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-12-0.png | related_to=Multi-Head Attention
+- img_attention_is_all_you_need_13_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-13-0.png | related_to=Multi-Head Attention
+- img_attention_is_all_you_need_14_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-14-0.png | related_to=Multi-Head Attention
+2025-12-20 22:33:40,015 - __main__ - INFO - Synthesizing final answer from RAG and Graph contexts...
+2025-12-20 22:33:48,445 - __main__ - INFO - Final Answer: The attention mechanism is a core component that allows models to focus on specific parts of an input sequence by computing the similarity between queries and keys to derive weights for values. The output of an attention function is a weighted sum of these values. A common type is Scaled Dot-Product Attention, which involves computing dot products of queries with all keys, scaling by the square root of the key dimension (`dk`), and applying a softmax function to obtain the weights.
+
+Multi-Head Attention (MHA) is an extension of this fundamental attention mechanism. Instead of performing a single attention function, MHA linearly projects the queries, keys, and values multiple times (`h` times) using different, learned linear transformations. Each of these projected versions then undergoes an attention function in parallel, resulting in `dv`-dimensional output values from each "head". These outputs are subsequently concatenated and projected once more to produce the final result.
+
+The primary benefit of Multi-Head Attention is that it enables the model to jointly attend to information from different representation subspaces and at different positions simultaneously. This parallel processing allows for a more comprehensive understanding of dependencies within the data, as a single attention head might otherwise average out important information. Research also suggests that these individual "attention heads" can exhibit functional specialization, performing distinct cognitive roles such as pattern induction, truthfulness, or visual grounding in models like Vision-Language Models (VLMs).
+
+**Image paths:**
+- img_attention_is_all_you_need_3_1 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-3-1.png
+- img_attention_is_all_you_need_2_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-2-0.png
+- img_attention_is_all_you_need_3_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-3-0.png
+- img_attention_is_all_you_need_12_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-12-0.png
+- img_attention_is_all_you_need_13_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-13-0.png
+- img_attention_is_all_you_need_14_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-14-0.png
+
+**Chunks used:**
+- attention_is_all_you_need_raw_chunks_2k.jsonl
+- neuronal_attention_circuits_raw_chunks_2k.jsonl
+- attention_functional_roles_raw_chunks_2k.jsonl
+2025-12-20 22:35:34,579 - __main__ - INFO - Initializing resources...
+2025-12-20 22:35:34,579 - __main__ - INFO - Loading EmbeddingGemma model...
+2025-12-20 22:35:34,582 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-12-20 22:35:34,582 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: google/embeddinggemma-300m
+2025-12-20 22:35:42,533 - sentence_transformers.SentenceTransformer - INFO - 14 prompts are loaded, with the keys: ['query', 'document', 'BitextMining', 'Clustering', 'Classification', 'InstructionRetrieval', 'MultilabelClassification', 'PairClassification', 'Reranking', 'Retrieval', 'Retrieval-query', 'Retrieval-document', 'STS', 'Summarization']
+2025-12-20 22:35:42,534 - __main__ - INFO - Loading vector store from E:\Python Stuff\MAS-for-multimodal-knowledge-graph\vector_store_outputs\index...
+2025-12-20 22:35:42,541 - faiss.loader - INFO - Loading faiss with AVX2 support.
+2025-12-20 22:35:42,587 - faiss.loader - INFO - Successfully loaded faiss with AVX2 support.
+2025-12-20 22:35:42,615 - __main__ - INFO - User query received: how does attention mechanism relate to multi head attention?
+2025-12-20 22:35:42,615 - __main__ - INFO - Starting Query Agent with query: 'how does attention mechanism relate to multi head attention?'
+2025-12-20 22:35:42,616 - __main__ - INFO - Invoking RAG retrieval tool...
+2025-12-20 22:35:42,618 - __main__ - INFO - RAG Tool invoked with user query: how does attention mechanism relate to multi head attention?
+2025-12-20 22:35:43,135 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-12-20 22:35:43,222 - __main__ - INFO - Generated 5 RAG subqueries:
+2025-12-20 22:35:43,222 - __main__ - INFO -   Subquery 1: attention mechanism
+2025-12-20 22:35:43,223 - __main__ - INFO -   Subquery 2: multi-head attention
+2025-12-20 22:35:43,223 - __main__ - INFO -   Subquery 3: relation between attention mechanism and multi-head attention
+2025-12-20 22:35:43,223 - __main__ - INFO -   Subquery 4: self-attention and multi-head attention
+2025-12-20 22:35:43,223 - __main__ - INFO -   Subquery 5: transformer attention mechanism
+2025-12-20 22:35:43,224 - __main__ - INFO - RAG internal retrieval query: attention mechanism
+2025-12-20 22:35:43,440 - __main__ - INFO - RAG retrieved 3 documents for subquery 'attention mechanism'
+2025-12-20 22:35:43,440 - __main__ - INFO - RAG internal retrieval query: multi-head attention
+2025-12-20 22:35:43,561 - __main__ - INFO - RAG retrieved 3 documents for subquery 'multi-head attention'
+2025-12-20 22:35:43,561 - __main__ - INFO - RAG internal retrieval query: relation between attention mechanism and multi-head attention
+2025-12-20 22:35:43,695 - __main__ - INFO - RAG retrieved 3 documents for subquery 'relation between attention mechanism and multi-head attention'
+2025-12-20 22:35:43,695 - __main__ - INFO - RAG internal retrieval query: self-attention and multi-head attention
+2025-12-20 22:35:43,820 - __main__ - INFO - RAG retrieved 3 documents for subquery 'self-attention and multi-head attention'
+2025-12-20 22:35:43,821 - __main__ - INFO - RAG internal retrieval query: transformer attention mechanism
+2025-12-20 22:35:43,938 - __main__ - INFO - RAG retrieved 3 documents for subquery 'transformer attention mechanism'
+2025-12-20 22:35:43,938 - __main__ - INFO - Total unique documents after de-duplication across all subqueries: 7
+2025-12-20 22:35:43,938 - __main__ - INFO - RAG Unique Doc 1:
+  Source: neuronal_attention_circuits_raw_chunks_2k.jsonl
+  Chunk ID: neuronal_attention_circuits_raw_chunks_2k_0
+  Metadata: {'source': 'neuronal_attention_circuits_raw.md'}
+2025-12-20 22:35:43,938 - __main__ - INFO - RAG Unique Doc 2:
+  Source: attention_is_all_you_need_raw_chunks_2k.jsonl
+  Chunk ID: attention_is_all_you_need_raw_chunks_2k_1
+  Metadata: {'source': 'attention_is_all_you_need_raw.md'}
+2025-12-20 22:35:43,938 - __main__ - INFO - RAG Unique Doc 3:
+  Source: attention_functional_roles_raw_chunks_2k.jsonl
+  Chunk ID: attention_functional_roles_raw_chunks_2k_6
+  Metadata: {'source': 'attention_functional_roles_raw.md'}
+2025-12-20 22:35:43,938 - __main__ - INFO - RAG Unique Doc 4:
+  Source: attention_functional_roles_raw_chunks_2k.jsonl
+  Chunk ID: attention_functional_roles_raw_chunks_2k_2
+  Metadata: {'source': 'attention_functional_roles_raw.md'}
+2025-12-20 22:35:43,938 - __main__ - INFO - RAG Unique Doc 5:
+  Source: attention_functional_roles_raw_chunks_2k.jsonl
+  Chunk ID: attention_functional_roles_raw_chunks_2k_0
+  Metadata: {'source': 'attention_functional_roles_raw.md'}
+2025-12-20 22:35:43,938 - __main__ - INFO - RAG Unique Doc 6:
+  Source: attention_is_all_you_need_raw_chunks_2k.jsonl
+  Chunk ID: attention_is_all_you_need_raw_chunks_2k_2
+  Metadata: {'source': 'attention_is_all_you_need_raw.md'}
+2025-12-20 22:35:43,939 - __main__ - INFO - RAG Unique Doc 7:
+  Source: attention_is_all_you_need_raw_chunks_2k.jsonl
+  Chunk ID: attention_is_all_you_need_raw_chunks_2k_0
+  Metadata: {'source': 'attention_is_all_you_need_raw.md'}
+2025-12-20 22:35:43,939 - __main__ - INFO - RAG context returned to LLM (multi-subquery, k=3, deduplicated): num_chunks=7, total_chars=53380
+2025-12-20 22:35:43,939 - __main__ - INFO - Invoking Graph retrieval tool...
+2025-12-20 22:35:43,940 - __main__ - INFO - Graph Tool invoked with user query: how does attention mechanism relate to multi head attention?
+2025-12-20 22:35:43,940 - __main__ - INFO - Connecting to Neo4j at neo4j+s://d15b3f68.databases.neo4j.io...
+2025-12-20 22:35:46,152 - __main__ - INFO - Resolving entities from graph for query: how does attention mechanism relate to multi head attention?
+2025-12-20 22:35:46,368 - __main__ - INFO - Grounded entities to be provided to Cypher generator:
+- Multi-head attention (Concept)
+- Multi-Head Attention (Concept)
+- Masked Multi-Head Attention (Concept)
+- Attention mechanism (Concept)
+- Self-attention mechanism (Concept)
+2025-12-20 22:35:46,576 - __main__ - INFO - Initializing grounded GraphCypherQAChain...
+2025-12-20 22:35:52,107 - __main__ - INFO - Generated Cypher query for graph retrieval:
+2025-12-20 22:35:52,107 - __main__ - INFO - MATCH (a:Concept {id:'Attention mechanism'})<-[:MENTIONS]-(d:Document)-[:MENTIONS]->(b:Concept {id:'Multi-head attention'})
+WHERE d.source_type = 'chunk'
+RETURN d.source_id, d.chunk_file, d.chunk_id, d.chunk_index, d.text
+LIMIT 10
+2025-12-20 22:35:52,107 - __main__ - INFO - Raw graph context rows returned from Neo4j:
+[]
+2025-12-20 22:35:52,108 - __main__ - INFO - Graph retrieval returned empty context; running fallback queries...
+2025-12-20 22:35:53,203 - __main__ - INFO - Graph context returned to LLM:
+Fallback graph context (LLM query returned empty rows):
+
+Shortest paths (<=4 hops):
+{'p': [{'id': 'Multi-head attention'}, 'MENTIONS', {'derived_from_chunk_file': 'attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k.jsonl', 'markdown_source': 'attention_is_all_you_need_raw_with_image_ids_with_captions.md', 'source_type': 'markdown', 'id': '36f927c2ec5951b1af0611a9728d214b', 'text': 'attention_is_all_you_need_raw_with_image_ids_with_captions.md::images', 'source_id': 'attention_is_all_you_need_raw_with_image_ids_with_captions.md::images'}, 'MENTIONS', {'id': 'Multi-Head Attention'}]}
+
+Neighborhood of Concept 'Multi-head attention':
+{'rel': 'MENTIONS', 'n_labels': ['Document'], 'n_id': '36f927c2ec5951b1af0611a9728d214b'}
+{'rel': 'DEPICTS', 'n_labels': ['Image'], 'n_id': 'img_attention_is_all_you_need_3_1'}
+
+Images (from graph):
+- img_attention_is_all_you_need_3_1 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-3-1.png | related_to=Multi-head attention
+- img_attention_is_all_you_need_2_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-2-0.png | related_to=Multi-head attention
+- img_attention_is_all_you_need_3_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-3-0.png | related_to=Multi-head attention
+- img_attention_is_all_you_need_12_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-12-0.png | related_to=Multi-head attention
+- img_attention_is_all_you_need_13_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-13-0.png | related_to=Multi-head attention
+- img_attention_is_all_you_need_14_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-14-0.png | related_to=Multi-head attention
+- img_attention_is_all_you_need_2_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-2-0.png | related_to=Multi-Head Attention
+- img_attention_is_all_you_need_3_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-3-0.png | related_to=Multi-Head Attention
+- img_attention_is_all_you_need_3_1 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-3-1.png | related_to=Multi-Head Attention
+- img_attention_is_all_you_need_12_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-12-0.png | related_to=Multi-Head Attention
+- img_attention_is_all_you_need_13_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-13-0.png | related_to=Multi-Head Attention
+- img_attention_is_all_you_need_14_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-14-0.png | related_to=Multi-Head Attention
+2025-12-20 22:35:53,209 - __main__ - INFO - Synthesizing final answer from RAG and Graph contexts...
+2025-12-20 22:35:59,522 - __main__ - INFO - Final Answer: The attention mechanism allows models to focus on the most relevant observations by computing the similarity between queries (q) and keys (k). A specific type is "Scaled Dot-Product Attention," which calculates attention by taking the dot products of queries with all keys, scaling them, and applying a softmax function to get weights for the values.
+
+Multi-Head Attention (MHA) is an extension of this fundamental attention mechanism. Instead of performing a single attention function, MHA linearly projects the queries, keys, and values multiple times (h times) using different, learned linear projections. An attention function is then performed in parallel on each of these projected versions, yielding multiple output values. These outputs are subsequently concatenated and projected once more to produce the final result.
+
+The key relationship is that Multi-Head Attention enhances the basic attention mechanism by enabling the model to jointly attend to information from different representation subspaces at various positions simultaneously. This parallel processing helps overcome the limitation of a single attention head, where averaging might inhibit the model's ability to capture diverse aspects of the input.
+
+**Image paths:**
+- img_attention_is_all_you_need_3_1 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-3-1.png
+- img_attention_is_all_you_need_2_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-2-0.png
+- img_attention_is_all_you_need_3_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-3-0.png
+- img_attention_is_all_you_need_12_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-12-0.png
+- img_attention_is_all_you_need_13_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-13-0.png
+- img_attention_is_all_you_need_14_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-14-0.png
+2025-12-20 22:37:32,477 - __main__ - INFO - Initializing resources...
+2025-12-20 22:37:32,478 - __main__ - INFO - Loading EmbeddingGemma model...
+2025-12-20 22:37:32,480 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-12-20 22:37:32,480 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: google/embeddinggemma-300m
+2025-12-20 22:37:40,209 - sentence_transformers.SentenceTransformer - INFO - 14 prompts are loaded, with the keys: ['query', 'document', 'BitextMining', 'Clustering', 'Classification', 'InstructionRetrieval', 'MultilabelClassification', 'PairClassification', 'Reranking', 'Retrieval', 'Retrieval-query', 'Retrieval-document', 'STS', 'Summarization']
+2025-12-20 22:37:40,210 - __main__ - INFO - Loading vector store from E:\Python Stuff\MAS-for-multimodal-knowledge-graph\vector_store_outputs\index...
+2025-12-20 22:37:40,222 - faiss.loader - INFO - Loading faiss with AVX2 support.
+2025-12-20 22:37:40,298 - faiss.loader - INFO - Successfully loaded faiss with AVX2 support.
+2025-12-20 22:37:40,333 - __main__ - INFO - User query received: how does attention mechanism relate to multi head attention?
+2025-12-20 22:37:40,335 - __main__ - INFO - Starting Query Agent with query: 'how does attention mechanism relate to multi head attention?'
+2025-12-20 22:37:40,336 - __main__ - INFO - Invoking RAG retrieval tool...
+2025-12-20 22:37:40,338 - __main__ - INFO - RAG Tool invoked with user query: how does attention mechanism relate to multi head attention?
+2025-12-20 22:37:40,895 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-12-20 22:37:40,967 - __main__ - INFO - Generated 5 RAG subqueries:
+2025-12-20 22:37:40,969 - __main__ - INFO -   Subquery 1: attention mechanism
+2025-12-20 22:37:40,969 - __main__ - INFO -   Subquery 2: multi-head attention
+2025-12-20 22:37:40,969 - __main__ - INFO -   Subquery 3: relation between attention mechanism and multi-head attention
+2025-12-20 22:37:40,970 - __main__ - INFO -   Subquery 4: transformer attention
+2025-12-20 22:37:40,970 - __main__ - INFO -   Subquery 5: self-attention mechanism
+2025-12-20 22:37:40,971 - __main__ - INFO - RAG internal retrieval query: attention mechanism
+2025-12-20 22:37:41,240 - __main__ - INFO - RAG retrieved 3 documents for subquery 'attention mechanism'
+2025-12-20 22:37:41,241 - __main__ - INFO - RAG internal retrieval query: multi-head attention
+2025-12-20 22:37:41,334 - __main__ - INFO - RAG retrieved 3 documents for subquery 'multi-head attention'
+2025-12-20 22:37:41,334 - __main__ - INFO - RAG internal retrieval query: relation between attention mechanism and multi-head attention
+2025-12-20 22:37:41,439 - __main__ - INFO - RAG retrieved 3 documents for subquery 'relation between attention mechanism and multi-head attention'
+2025-12-20 22:37:41,439 - __main__ - INFO - RAG internal retrieval query: transformer attention
+2025-12-20 22:37:41,534 - __main__ - INFO - RAG retrieved 3 documents for subquery 'transformer attention'
+2025-12-20 22:37:41,534 - __main__ - INFO - RAG internal retrieval query: self-attention mechanism
+2025-12-20 22:37:41,631 - __main__ - INFO - RAG retrieved 3 documents for subquery 'self-attention mechanism'
+2025-12-20 22:37:41,631 - __main__ - INFO - Total unique documents after de-duplication across all subqueries: 8
+2025-12-20 22:37:41,631 - __main__ - INFO - RAG Unique Doc 1:
+  Source: neuronal_attention_circuits_raw_chunks_2k.jsonl
+  Chunk ID: neuronal_attention_circuits_raw_chunks_2k_0
+  Metadata: {'source': 'neuronal_attention_circuits_raw.md'}
+2025-12-20 22:37:41,631 - __main__ - INFO - RAG Unique Doc 2:
+  Source: attention_is_all_you_need_raw_chunks_2k.jsonl
+  Chunk ID: attention_is_all_you_need_raw_chunks_2k_1
+  Metadata: {'source': 'attention_is_all_you_need_raw.md'}
+2025-12-20 22:37:41,631 - __main__ - INFO - RAG Unique Doc 3:
+  Source: attention_functional_roles_raw_chunks_2k.jsonl
+  Chunk ID: attention_functional_roles_raw_chunks_2k_6
+  Metadata: {'source': 'attention_functional_roles_raw.md'}
+2025-12-20 22:37:41,631 - __main__ - INFO - RAG Unique Doc 4:
+  Source: attention_functional_roles_raw_chunks_2k.jsonl
+  Chunk ID: attention_functional_roles_raw_chunks_2k_2
+  Metadata: {'source': 'attention_functional_roles_raw.md'}
+2025-12-20 22:37:41,631 - __main__ - INFO - RAG Unique Doc 5:
+  Source: attention_functional_roles_raw_chunks_2k.jsonl
+  Chunk ID: attention_functional_roles_raw_chunks_2k_0
+  Metadata: {'source': 'attention_functional_roles_raw.md'}
+2025-12-20 22:37:41,632 - __main__ - INFO - RAG Unique Doc 6:
+  Source: attention_is_all_you_need_raw_chunks_2k.jsonl
+  Chunk ID: attention_is_all_you_need_raw_chunks_2k_0
+  Metadata: {'source': 'attention_is_all_you_need_raw.md'}
+2025-12-20 22:37:41,632 - __main__ - INFO - RAG Unique Doc 7:
+  Source: attention_is_all_you_need_raw_chunks_2k.jsonl
+  Chunk ID: attention_is_all_you_need_raw_chunks_2k_4
+  Metadata: {'source': 'attention_is_all_you_need_raw.md'}
+2025-12-20 22:37:41,632 - __main__ - INFO - RAG Unique Doc 8:
+  Source: attention_is_all_you_need_raw_chunks_2k.jsonl
+  Chunk ID: attention_is_all_you_need_raw_chunks_2k_2
+  Metadata: {'source': 'attention_is_all_you_need_raw.md'}
+2025-12-20 22:37:41,632 - __main__ - INFO - RAG context returned to LLM (multi-subquery, k=3, deduplicated): num_chunks=8, total_chars=59688
+2025-12-20 22:37:41,632 - __main__ - INFO - Invoking Graph retrieval tool...
+2025-12-20 22:37:41,633 - __main__ - INFO - Graph Tool invoked with user query: how does attention mechanism relate to multi head attention?
+2025-12-20 22:37:41,633 - __main__ - INFO - Connecting to Neo4j at neo4j+s://d15b3f68.databases.neo4j.io...
+2025-12-20 22:37:43,938 - __main__ - INFO - Resolving entities from graph for query: how does attention mechanism relate to multi head attention?
+2025-12-20 22:37:44,159 - __main__ - INFO - Grounded entities to be provided to Cypher generator:
+- Multi-head attention (Concept)
+- Multi-Head Attention (Concept)
+- Masked Multi-Head Attention (Concept)
+- Attention mechanism (Concept)
+- Self-attention mechanism (Concept)
+2025-12-20 22:37:44,376 - __main__ - INFO - Initializing grounded GraphCypherQAChain...
+2025-12-20 22:37:50,071 - __main__ - INFO - Generated Cypher query for graph retrieval:
+2025-12-20 22:37:50,072 - __main__ - INFO - MATCH (a:Concept {id:'Attention mechanism'})<-[:MENTIONS]-(d:Document)-[:MENTIONS]->(b:Concept {id:'Multi-head attention'})
+WHERE d.source_type = 'chunk'
+RETURN d.source_id, d.chunk_file, d.chunk_id, d.chunk_index
+LIMIT 10
+2025-12-20 22:37:50,072 - __main__ - INFO - Raw graph context rows returned from Neo4j:
+[]
+2025-12-20 22:37:50,074 - __main__ - INFO - Graph retrieval returned empty context; running fallback queries...
+2025-12-20 22:37:51,221 - __main__ - INFO - Graph context returned to LLM:
+Fallback graph context (LLM query returned empty rows):
+
+Shortest paths (<=4 hops):
+{'p': [{'id': 'Multi-head attention'}, 'MENTIONS', {'derived_from_chunk_file': 'attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k.jsonl', 'markdown_source': 'attention_is_all_you_need_raw_with_image_ids_with_captions.md', 'source_type': 'markdown', 'id': '36f927c2ec5951b1af0611a9728d214b', 'text': 'attention_is_all_you_need_raw_with_image_ids_with_captions.md::images', 'source_id': 'attention_is_all_you_need_raw_with_image_ids_with_captions.md::images'}, 'MENTIONS', {'id': 'Multi-Head Attention'}]}
+
+Neighborhood of Concept 'Multi-head attention':
+{'rel': 'MENTIONS', 'n_labels': ['Document'], 'n_id': '36f927c2ec5951b1af0611a9728d214b'}
+{'rel': 'DEPICTS', 'n_labels': ['Image'], 'n_id': 'img_attention_is_all_you_need_3_1'}
+
+Images (from graph):
+- img_attention_is_all_you_need_3_1 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-3-1.png | related_to=Multi-head attention
+- img_attention_is_all_you_need_2_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-2-0.png | related_to=Multi-head attention
+- img_attention_is_all_you_need_3_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-3-0.png | related_to=Multi-head attention
+- img_attention_is_all_you_need_12_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-12-0.png | related_to=Multi-head attention
+- img_attention_is_all_you_need_13_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-13-0.png | related_to=Multi-head attention
+- img_attention_is_all_you_need_14_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-14-0.png | related_to=Multi-head attention
+- img_attention_is_all_you_need_2_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-2-0.png | related_to=Multi-Head Attention
+- img_attention_is_all_you_need_3_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-3-0.png | related_to=Multi-Head Attention
+- img_attention_is_all_you_need_3_1 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-3-1.png | related_to=Multi-Head Attention
+- img_attention_is_all_you_need_12_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-12-0.png | related_to=Multi-Head Attention
+- img_attention_is_all_you_need_13_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-13-0.png | related_to=Multi-Head Attention
+- img_attention_is_all_you_need_14_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-14-0.png | related_to=Multi-Head Attention
+2025-12-20 22:37:51,224 - __main__ - INFO - Synthesizing final answer from RAG and Graph contexts...
+2025-12-20 22:38:00,558 - __main__ - INFO - Final Answer: The attention mechanism is a core component in models like the Transformer, designed to allow the model to focus on the most relevant parts of the input sequence when processing data. It functions by mapping a query and a set of key-value pairs to an output. This output is a weighted sum of the values, where the weights are determined by a compatibility function between the query and each corresponding key. A common implementation is Scaled Dot-Product Attention, which computes dot products between queries and keys, scales them, and applies a softmax function to get the weights.
+
+Multi-Head Attention (MHA) is an extension of this fundamental attention mechanism. Instead of performing a single attention function, MHA linearly projects the queries, keys, and values multiple times (e.g., `h` times) into different, learned representation subspaces. An attention function is then performed in parallel on each of these projected versions, yielding multiple output values (one from each "head"). These outputs are then concatenated and linearly projected again to produce the final result.
+
+The relationship can be summarized as follows:
+*   **Attention Mechanism (General):** The foundational concept that allows a model to weigh the importance of different parts of an input sequence relative to a query. It computes a single set of attention weights.
+*   **Multi-Head Attention:** An enhancement that runs several attention mechanisms in parallel. This parallel processing enables the model to jointly attend to information from different representation subspaces and at different positions simultaneously. This helps to counteract the averaging effect that a single attention head might have, allowing for a richer and more diverse understanding of the input.
+
+In models like the Transformer, Multi-Head Attention is crucial for capturing complex dependencies and is used in various ways, including self-attention layers within the encoder and decoder, and encoder-decoder attention layers. Research also indicates that individual attention heads in models like Vision-Language Models (VLMs) can exhibit functional specialization, performing distinct cognitive roles such as visual grounding or cross-modal interactions.
+
+**Image paths:**
+*   img_attention_is_all_you_need_3_1 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-3-1.png
+*   img_attention_is_all_you_need_2_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-2-0.png
+*   img_attention_is_all_you_need_3_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-3-0.png
+*   img_attention_is_all_you_need_12_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-12-0.png
+*   img_attention_is_all_you_need_13_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-13-0.png
+*   img_attention_is_all_you_need_14_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-14-0.png
+2025-12-20 22:38:45,541 - __main__ - INFO - Initializing resources...
+2025-12-20 22:38:45,542 - __main__ - INFO - Loading EmbeddingGemma model...
+2025-12-20 22:38:45,544 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-12-20 22:38:45,544 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: google/embeddinggemma-300m
+2025-12-20 22:38:53,690 - sentence_transformers.SentenceTransformer - INFO - 14 prompts are loaded, with the keys: ['query', 'document', 'BitextMining', 'Clustering', 'Classification', 'InstructionRetrieval', 'MultilabelClassification', 'PairClassification', 'Reranking', 'Retrieval', 'Retrieval-query', 'Retrieval-document', 'STS', 'Summarization']
+2025-12-20 22:38:53,690 - __main__ - INFO - Loading vector store from E:\Python Stuff\MAS-for-multimodal-knowledge-graph\vector_store_outputs\index...
+2025-12-20 22:38:53,696 - faiss.loader - INFO - Loading faiss with AVX2 support.
+2025-12-20 22:38:53,731 - faiss.loader - INFO - Successfully loaded faiss with AVX2 support.
+2025-12-20 22:38:53,749 - __main__ - INFO - User query received: how does attention mechanism relate to multi head attention?
+2025-12-20 22:38:53,750 - __main__ - INFO - Starting Query Agent with query: 'how does attention mechanism relate to multi head attention?'
+2025-12-20 22:38:53,750 - __main__ - INFO - Invoking RAG retrieval tool...
+2025-12-20 22:38:53,750 - __main__ - INFO - RAG Tool invoked with user query: how does attention mechanism relate to multi head attention?
+2025-12-20 22:38:54,111 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-12-20 22:38:54,183 - __main__ - INFO - Generated 3 RAG subqueries:
+2025-12-20 22:38:54,184 - __main__ - INFO -   Subquery 1: attention mechanism
+2025-12-20 22:38:54,185 - __main__ - INFO -   Subquery 2: multi-head attention
+2025-12-20 22:38:54,185 - __main__ - INFO -   Subquery 3: relation between attention and multi-head attention
+2025-12-20 22:38:54,186 - __main__ - INFO - RAG internal retrieval query: attention mechanism
+2025-12-20 22:38:54,425 - __main__ - INFO - RAG retrieved 3 documents for subquery 'attention mechanism'
+2025-12-20 22:38:54,425 - __main__ - INFO - RAG internal retrieval query: multi-head attention
+2025-12-20 22:38:54,524 - __main__ - INFO - RAG retrieved 3 documents for subquery 'multi-head attention'
+2025-12-20 22:38:54,525 - __main__ - INFO - RAG internal retrieval query: relation between attention and multi-head attention
+2025-12-20 22:38:54,631 - __main__ - INFO - RAG retrieved 3 documents for subquery 'relation between attention and multi-head attention'
+2025-12-20 22:38:54,631 - __main__ - INFO - Total unique documents after de-duplication across all subqueries: 5
+2025-12-20 22:38:54,631 - __main__ - INFO - RAG Unique Doc 1:
+  Source: neuronal_attention_circuits_raw_chunks_2k.jsonl
+  Chunk ID: neuronal_attention_circuits_raw_chunks_2k_0
+  Metadata: {'source': 'neuronal_attention_circuits_raw.md'}
+2025-12-20 22:38:54,631 - __main__ - INFO - RAG Unique Doc 2:
+  Source: attention_is_all_you_need_raw_chunks_2k.jsonl
+  Chunk ID: attention_is_all_you_need_raw_chunks_2k_1
+  Metadata: {'source': 'attention_is_all_you_need_raw.md'}
+2025-12-20 22:38:54,631 - __main__ - INFO - RAG Unique Doc 3:
+  Source: attention_functional_roles_raw_chunks_2k.jsonl
+  Chunk ID: attention_functional_roles_raw_chunks_2k_6
+  Metadata: {'source': 'attention_functional_roles_raw.md'}
+2025-12-20 22:38:54,631 - __main__ - INFO - RAG Unique Doc 4:
+  Source: attention_functional_roles_raw_chunks_2k.jsonl
+  Chunk ID: attention_functional_roles_raw_chunks_2k_2
+  Metadata: {'source': 'attention_functional_roles_raw.md'}
+2025-12-20 22:38:54,632 - __main__ - INFO - RAG Unique Doc 5:
+  Source: attention_functional_roles_raw_chunks_2k.jsonl
+  Chunk ID: attention_functional_roles_raw_chunks_2k_0
+  Metadata: {'source': 'attention_functional_roles_raw.md'}
+2025-12-20 22:38:54,632 - __main__ - INFO - RAG context returned to LLM (multi-subquery, k=3, deduplicated): num_chunks=5, total_chars=37882
+2025-12-20 22:38:54,632 - __main__ - INFO - Invoking Graph retrieval tool...
+2025-12-20 22:38:54,632 - __main__ - INFO - Graph Tool invoked with user query: how does attention mechanism relate to multi head attention?
+2025-12-20 22:38:54,633 - __main__ - INFO - Connecting to Neo4j at neo4j+s://d15b3f68.databases.neo4j.io...
+2025-12-20 22:38:56,587 - __main__ - INFO - Resolving entities from graph for query: how does attention mechanism relate to multi head attention?
+2025-12-20 22:38:56,774 - __main__ - INFO - Grounded entities to be provided to Cypher generator:
+- Multi-head attention (Concept)
+- Multi-Head Attention (Concept)
+- Masked Multi-Head Attention (Concept)
+- Attention mechanism (Concept)
+- Self-attention mechanism (Concept)
+2025-12-20 22:38:56,952 - __main__ - INFO - Initializing grounded GraphCypherQAChain...
+2025-12-20 22:39:02,919 - __main__ - INFO - Generated Cypher query for graph retrieval:
+2025-12-20 22:39:02,919 - __main__ - INFO - MATCH (a:Concept {id:'Attention mechanism'})<-[:MENTIONS]-(d:Document)-[:MENTIONS]->(b:Concept {id:'Multi-head attention'})
+WHERE d.source_type = 'chunk'
+RETURN d.source_id, d.chunk_file, d.chunk_id, d.chunk_index
+LIMIT 10
+2025-12-20 22:39:02,919 - __main__ - INFO - Raw graph context rows returned from Neo4j:
+[]
+2025-12-20 22:39:02,920 - __main__ - INFO - Graph retrieval returned empty context; running fallback queries...
+2025-12-20 22:39:03,905 - __main__ - INFO - Graph context returned to LLM:
+Fallback graph context (LLM query returned empty rows):
+
+Shortest paths (<=4 hops):
+{'p': [{'id': 'Multi-head attention'}, 'MENTIONS', {'derived_from_chunk_file': 'attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k.jsonl', 'markdown_source': 'attention_is_all_you_need_raw_with_image_ids_with_captions.md', 'source_type': 'markdown', 'id': '36f927c2ec5951b1af0611a9728d214b', 'text': 'attention_is_all_you_need_raw_with_image_ids_with_captions.md::images', 'source_id': 'attention_is_all_you_need_raw_with_image_ids_with_captions.md::images'}, 'MENTIONS', {'id': 'Multi-Head Attention'}]}
+
+Neighborhood of Concept 'Multi-head attention':
+{'rel': 'MENTIONS', 'n_labels': ['Document'], 'n_id': '36f927c2ec5951b1af0611a9728d214b'}
+{'rel': 'DEPICTS', 'n_labels': ['Image'], 'n_id': 'img_attention_is_all_you_need_3_1'}
+
+Images (from graph):
+- img_attention_is_all_you_need_3_1 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-3-1.png | related_to=Multi-head attention
+- img_attention_is_all_you_need_2_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-2-0.png | related_to=Multi-head attention
+- img_attention_is_all_you_need_3_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-3-0.png | related_to=Multi-head attention
+- img_attention_is_all_you_need_12_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-12-0.png | related_to=Multi-head attention
+- img_attention_is_all_you_need_13_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-13-0.png | related_to=Multi-head attention
+- img_attention_is_all_you_need_14_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-14-0.png | related_to=Multi-head attention
+- img_attention_is_all_you_need_2_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-2-0.png | related_to=Multi-Head Attention
+- img_attention_is_all_you_need_3_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-3-0.png | related_to=Multi-Head Attention
+- img_attention_is_all_you_need_3_1 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-3-1.png | related_to=Multi-Head Attention
+- img_attention_is_all_you_need_12_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-12-0.png | related_to=Multi-Head Attention
+- img_attention_is_all_you_need_13_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-13-0.png | related_to=Multi-Head Attention
+- img_attention_is_all_you_need_14_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-14-0.png | related_to=Multi-Head Attention
+
+Chunks (inferred from derived_from_chunk_file):
+- attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k.jsonl::attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k_0
+  chunk_file: attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k.jsonl
+  chunk_path: E:\Python Stuff\MAS-for-multimodal-knowledge-graph\chunking_outputs\attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k.jsonl
+  chunk_id: attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k_0
+  chunk_index: 0
+  metadata: {'source': 'attention_is_all_you_need_raw_with_image_ids_with_captions.md'}
+  token_size_config: 5000
+  resolved_via: derived_from_chunk_file + content_match
+  excerpt: Provided proper attribution is provided, Google hereby grants permission to
+reproduce the tables and figures in this paper solely for use in journalistic or
+scholarly works.
+
+## **Attention Is All You Need**
+
+
+
+**Niki Parmar** _[∗]_
+Google Research
+```
+nikip@google.com
+
+```
+
+
+**Ashish Vaswani** _[∗]_
+Google Brain
+```
+avaswani@google.com
+
+```
+
+**Llion Jones** _[∗]_
+Google Research
+```
+ llion@google.com
+
+```
+
+
+**Noam Shazeer** _[∗]_
+Google Brain
+```
+noam@google.com
+
+```
+
+
+**Jakob Uszkoreit** _[∗]_
+Google Research
+```
+usz@google.com
+
+```
+
+
+**Aidan N. Gomez** _[∗†]_
+University of Toronto
+```
+aidan…
+
+- attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k.jsonl::attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k_2
+  chunk_file: attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k.jsonl
+  chunk_path: E:\Python Stuff\MAS-for-multimodal-knowledge-graph\chunking_outputs\attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k.jsonl
+  chunk_id: attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k_2
+  chunk_index: 2
+  metadata: {'source': 'attention_is_all_you_need_raw_with_image_ids_with_captions.md'}
+  token_size_config: 5000
+  resolved_via: derived_from_chunk_file + content_match
+  excerpt: [37]. We used a vocabulary of 16K tokens for the WSJ only setting and a vocabulary of 32K tokens
+for the semi-supervised setting.
+
+
+We performed only a small number of experiments to select the dropout, both attention and residual
+(section 5.4), learning rates and beam size on the Section 22 development set, all other parameters
+remained unchanged from the English-to-German base translation model. During inference, we
+
+
+9
+
+
+Table 4: The Transformer generalizes well to English constituency parsing (Results are on Section 23
+of WSJ)
+
+|Parser|Training|WSJ23F1|
+|---|---|---|
+|Vinyals & Kaiser el a…
+2025-12-20 22:39:04,079 - __main__ - INFO - Synthesizing final answer from RAG and Graph contexts...
+2025-12-20 22:39:11,122 - __main__ - INFO - Final Answer: The attention mechanism allows models to focus on the most relevant observations by computing the similarity between queries (q) and keys (k). It treats all time steps equally, mitigating limitations found in recurrent neural networks (RNNs) like vanishing gradients and challenges with irregularly sampled data.
+
+Multi-Head Attention (MHA) is an extension of this fundamental attention mechanism. Instead of performing a single attention function, MHA linearly projects the queries, keys, and values multiple times (e.g., `h` times) into different, learned subspaces of reduced dimensions. An attention function is then performed in parallel on each of these projected versions, yielding multiple output values. These outputs are subsequently concatenated and projected once more to produce the final result.
+
+The primary benefit of Multi-Head Attention is that it enables the model to jointly attend to information from different representation subspaces at various positions. This parallel processing allows the model to capture a richer and more diverse set of relationships within the data, as a single attention head might average out these distinct aspects.
+
+**Image paths:**
+* img_attention_is_all_you_need_3_1 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-3-1.png
+* img_attention_is_all_you_need_2_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-2-0.png
+* img_attention_is_all_you_need_3_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-3-0.png
+* img_attention_is_all_you_need_12_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-12-0.png
+* img_attention_is_all_you_need_13_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-13-0.png
+* img_attention_is_all_you_need_14_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-14-0.png
+
+**Chunks used:**
+* attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k.jsonl::attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k_0
+* attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k.jsonl::attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k_2
+2025-12-20 22:40:13,010 - __main__ - INFO - Initializing resources...
+2025-12-20 22:40:13,011 - __main__ - INFO - Loading EmbeddingGemma model...
+2025-12-20 22:40:13,013 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-12-20 22:40:13,013 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: google/embeddinggemma-300m
+2025-12-20 22:40:19,648 - sentence_transformers.SentenceTransformer - INFO - 14 prompts are loaded, with the keys: ['query', 'document', 'BitextMining', 'Clustering', 'Classification', 'InstructionRetrieval', 'MultilabelClassification', 'PairClassification', 'Reranking', 'Retrieval', 'Retrieval-query', 'Retrieval-document', 'STS', 'Summarization']
+2025-12-20 22:40:19,648 - __main__ - INFO - Loading vector store from E:\Python Stuff\MAS-for-multimodal-knowledge-graph\vector_store_outputs\index...
+2025-12-20 22:40:19,654 - faiss.loader - INFO - Loading faiss with AVX2 support.
+2025-12-20 22:40:19,680 - faiss.loader - INFO - Successfully loaded faiss with AVX2 support.
+2025-12-20 22:40:19,693 - __main__ - INFO - User query received: how does attention mechanism relate to multi head attention?
+2025-12-20 22:40:19,694 - __main__ - INFO - Starting Query Agent with query: 'how does attention mechanism relate to multi head attention?'
+2025-12-20 22:40:19,694 - __main__ - INFO - Invoking RAG retrieval tool...
+2025-12-20 22:40:19,695 - __main__ - INFO - RAG Tool invoked with user query: how does attention mechanism relate to multi head attention?
+2025-12-20 22:40:19,994 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-12-20 22:40:20,019 - __main__ - INFO - Generated 3 RAG subqueries:
+2025-12-20 22:40:20,019 - __main__ - INFO -   Subquery 1: attention mechanism
+2025-12-20 22:40:20,020 - __main__ - INFO -   Subquery 2: multi-head attention
+2025-12-20 22:40:20,020 - __main__ - INFO -   Subquery 3: relation between attention mechanism and multi-head attention
+2025-12-20 22:40:20,020 - __main__ - INFO - RAG internal retrieval query: attention mechanism
+2025-12-20 22:40:20,158 - __main__ - INFO - RAG retrieved 3 documents for subquery 'attention mechanism'
+2025-12-20 22:40:20,158 - __main__ - INFO - RAG internal retrieval query: multi-head attention
+2025-12-20 22:40:20,261 - __main__ - INFO - RAG retrieved 3 documents for subquery 'multi-head attention'
+2025-12-20 22:40:20,261 - __main__ - INFO - RAG internal retrieval query: relation between attention mechanism and multi-head attention
+2025-12-20 22:40:20,357 - __main__ - INFO - RAG retrieved 3 documents for subquery 'relation between attention mechanism and multi-head attention'
+2025-12-20 22:40:20,357 - __main__ - INFO - Total unique documents after de-duplication across all subqueries: 5
+2025-12-20 22:40:20,357 - __main__ - INFO - RAG Unique Doc 1:
+  Source: neuronal_attention_circuits_raw_chunks_2k.jsonl
+  Chunk ID: neuronal_attention_circuits_raw_chunks_2k_0
+  Metadata: {'source': 'neuronal_attention_circuits_raw.md'}
+2025-12-20 22:40:20,357 - __main__ - INFO - RAG Unique Doc 2:
+  Source: attention_is_all_you_need_raw_chunks_2k.jsonl
+  Chunk ID: attention_is_all_you_need_raw_chunks_2k_1
+  Metadata: {'source': 'attention_is_all_you_need_raw.md'}
+2025-12-20 22:40:20,357 - __main__ - INFO - RAG Unique Doc 3:
+  Source: attention_functional_roles_raw_chunks_2k.jsonl
+  Chunk ID: attention_functional_roles_raw_chunks_2k_6
+  Metadata: {'source': 'attention_functional_roles_raw.md'}
+2025-12-20 22:40:20,357 - __main__ - INFO - RAG Unique Doc 4:
+  Source: attention_functional_roles_raw_chunks_2k.jsonl
+  Chunk ID: attention_functional_roles_raw_chunks_2k_2
+  Metadata: {'source': 'attention_functional_roles_raw.md'}
+2025-12-20 22:40:20,357 - __main__ - INFO - RAG Unique Doc 5:
+  Source: attention_functional_roles_raw_chunks_2k.jsonl
+  Chunk ID: attention_functional_roles_raw_chunks_2k_0
+  Metadata: {'source': 'attention_functional_roles_raw.md'}
+2025-12-20 22:40:20,357 - __main__ - INFO - RAG context returned to LLM (multi-subquery, k=3, deduplicated): num_chunks=5, total_chars=37882
+2025-12-20 22:40:20,358 - __main__ - INFO - Invoking Graph retrieval tool...
+2025-12-20 22:40:20,358 - __main__ - INFO - Graph Tool invoked with user query: how does attention mechanism relate to multi head attention?
+2025-12-20 22:40:20,358 - __main__ - INFO - Connecting to Neo4j at neo4j+s://d15b3f68.databases.neo4j.io...
+2025-12-20 22:40:22,248 - __main__ - INFO - Resolving entities from graph for query: how does attention mechanism relate to multi head attention?
+2025-12-20 22:40:22,471 - __main__ - INFO - Grounded entities to be provided to Cypher generator:
+- Multi-head attention (Concept)
+- Multi-Head Attention (Concept)
+- Masked Multi-Head Attention (Concept)
+- Attention mechanism (Concept)
+- Self-attention mechanism (Concept)
+2025-12-20 22:40:22,655 - __main__ - INFO - Initializing grounded GraphCypherQAChain...
+2025-12-20 22:40:28,145 - __main__ - INFO - Generated Cypher query for graph retrieval:
+2025-12-20 22:40:28,146 - __main__ - INFO - MATCH (a:Concept {id:'Attention mechanism'})<-[:MENTIONS]-(d:Document)-[:MENTIONS]->(b:Concept {id:'Multi-head attention'})
+WHERE d.source_type = 'chunk'
+RETURN d.source_id, d.chunk_file, d.chunk_id, d.chunk_index
+LIMIT 10
+2025-12-20 22:40:28,146 - __main__ - INFO - Raw graph context rows returned from Neo4j:
+[]
+2025-12-20 22:40:28,147 - __main__ - INFO - Graph retrieval returned empty context; running fallback queries...
+2025-12-20 22:40:29,070 - __main__ - INFO - Graph context returned to LLM:
+Fallback graph context (LLM query returned empty rows):
+
+Shortest paths (<=4 hops):
+{'p': [{'id': 'Multi-head attention'}, 'MENTIONS', {'derived_from_chunk_file': 'attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k.jsonl', 'markdown_source': 'attention_is_all_you_need_raw_with_image_ids_with_captions.md', 'source_type': 'markdown', 'id': '36f927c2ec5951b1af0611a9728d214b', 'text': 'attention_is_all_you_need_raw_with_image_ids_with_captions.md::images', 'source_id': 'attention_is_all_you_need_raw_with_image_ids_with_captions.md::images'}, 'MENTIONS', {'id': 'Multi-Head Attention'}]}
+
+Neighborhood of Concept 'Multi-head attention':
+{'rel': 'MENTIONS', 'n_labels': ['Document'], 'n_id': '36f927c2ec5951b1af0611a9728d214b'}
+{'rel': 'DEPICTS', 'n_labels': ['Image'], 'n_id': 'img_attention_is_all_you_need_3_1'}
+
+Images (from graph):
+- img_attention_is_all_you_need_3_1 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-3-1.png | related_to=Multi-head attention
+- img_attention_is_all_you_need_2_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-2-0.png | related_to=Multi-head attention
+- img_attention_is_all_you_need_3_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-3-0.png | related_to=Multi-head attention
+- img_attention_is_all_you_need_12_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-12-0.png | related_to=Multi-head attention
+- img_attention_is_all_you_need_13_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-13-0.png | related_to=Multi-head attention
+- img_attention_is_all_you_need_14_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-14-0.png | related_to=Multi-head attention
+- img_attention_is_all_you_need_2_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-2-0.png | related_to=Multi-Head Attention
+- img_attention_is_all_you_need_3_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-3-0.png | related_to=Multi-Head Attention
+- img_attention_is_all_you_need_3_1 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-3-1.png | related_to=Multi-Head Attention
+- img_attention_is_all_you_need_12_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-12-0.png | related_to=Multi-Head Attention
+- img_attention_is_all_you_need_13_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-13-0.png | related_to=Multi-Head Attention
+- img_attention_is_all_you_need_14_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-14-0.png | related_to=Multi-Head Attention
+
+Chunks (inferred from derived_from_chunk_file):
+- attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k.jsonl::attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k_0
+  chunk_file: attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k.jsonl
+  chunk_path: E:\Python Stuff\MAS-for-multimodal-knowledge-graph\chunking_outputs\attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k.jsonl
+  chunk_id: attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k_0
+  chunk_index: 0
+  metadata: {'source': 'attention_is_all_you_need_raw_with_image_ids_with_captions.md'}
+  token_size_config: 5000
+  resolved_via: derived_from_chunk_file + content_match
+  excerpt: Provided proper attribution is provided, Google hereby grants permission to
+reproduce the tables and figures in this paper solely for use in journalistic or
+scholarly works.
+
+## **Attention Is All You Need**
+
+
+
+**Niki Parmar** _[∗]_
+Google Research
+```
+nikip@google.com
+
+```
+
+
+**Ashish Vaswani** _[∗]_
+Google Brain
+```
+avaswani@google.com
+
+```
+
+**Llion Jones** _[∗]_
+Google Research
+```
+ llion@google.com
+
+```
+
+
+**Noam Shazeer** _[∗]_
+Google Brain
+```
+noam@google.com
+
+```
+
+
+**Jakob Uszkoreit** _[∗]_
+Google Research
+```
+usz@google.com
+
+```
+
+
+**Aidan N. Gomez** _[∗†]_
+University of Toronto
+```
+aidan…
+
+- attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k.jsonl::attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k_2
+  chunk_file: attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k.jsonl
+  chunk_path: E:\Python Stuff\MAS-for-multimodal-knowledge-graph\chunking_outputs\attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k.jsonl
+  chunk_id: attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k_2
+  chunk_index: 2
+  metadata: {'source': 'attention_is_all_you_need_raw_with_image_ids_with_captions.md'}
+  token_size_config: 5000
+  resolved_via: derived_from_chunk_file + content_match
+  excerpt: [37]. We used a vocabulary of 16K tokens for the WSJ only setting and a vocabulary of 32K tokens
+for the semi-supervised setting.
+
+
+We performed only a small number of experiments to select the dropout, both attention and residual
+(section 5.4), learning rates and beam size on the Section 22 development set, all other parameters
+remained unchanged from the English-to-German base translation model. During inference, we
+
+
+9
+
+
+Table 4: The Transformer generalizes well to English constituency parsing (Results are on Section 23
+of WSJ)
+
+|Parser|Training|WSJ23F1|
+|---|---|---|
+|Vinyals & Kaiser el a…
+2025-12-20 22:40:29,072 - __main__ - INFO - Synthesizing final answer from RAG and Graph contexts...
+2025-12-20 22:40:38,021 - __main__ - INFO - Final Answer: Multi-Head Attention is an extension of the general attention mechanism, designed to enhance a model's ability to focus on different aspects of information simultaneously.
+
+Here's how they relate:
+
+1.  **Attention Mechanism:** An attention function maps a query and a set of key-value pairs to an output. It computes the similarity between queries (q) and keys (k), scaling by the key dimension, and then uses these compatibility scores as weights to sum the values. This allows models to focus on the most relevant observations in sequential data, mitigating limitations of traditional recurrent neural networks (RNNs).
+
+2.  **Multi-Head Attention (MHA):** MHA extends this concept by allowing the model to attend to different representation subspaces in parallel. Instead of performing a single attention function on the full `d_model`-dimensional keys, values, and queries, MHA:
+    *   Linearly projects the queries, keys, and values `h` times using different, learned linear projections. Each projection transforms the input into `d_k` (for queries and keys) and `d_v` (for values) dimensions, creating `h` sets of projected queries, keys, and values.
+    *   Performs the attention function (e.g., Scaled Dot-Product Attention) in parallel on each of these `h` projected sets, yielding `h` separate `d_v`-dimensional output values.
+    *   Concatenates these `h` output values.
+    *   Projects the concatenated result once again to produce the final output.
+
+**Key Benefits of Multi-Head Attention:**
+*   It enables the model to jointly attend to information from different representation subspaces at different positions within the input. A single attention head, by averaging, might inhibit this diverse focus.
+*   Attention heads can exhibit functional specialization, meaning different heads might be responsible for distinct cognitive functions such as pattern induction, truthfulness, information retrieval, safety alignment, or visual grounding in models like Large Language Models (LLMs) and Vision-Language Models (VLMs).
+
+**Image paths:**
+*   img_attention_is_all_you_need_3_1 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-3-1.png
+*   img_attention_is_all_you_need_2_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-2-0.png
+*   img_attention_is_all_you_need_3_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-3-0.png
+*   img_attention_is_all_you_need_12_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-12-0.png
+*   img_attention_is_all_you_need_13_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-13-0.png
+*   img_attention_is_all_you_need_14_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-14-0.png
+
+**Chunks used:**
+*   attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k.jsonl::attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k_0
+*   attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k.jsonl::attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k_2

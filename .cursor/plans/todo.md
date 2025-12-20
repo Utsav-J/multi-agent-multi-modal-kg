@@ -170,7 +170,7 @@ Below is a **concrete, implementation-oriented to-do list**, ordered exactly in 
 
 ---
 
-## Phase 4 — Chunking & Ingestion
+## Phase 4 — Chunking & Ingestion DONE
 
 ### ☐ 4.1 Update chunker to treat image blocks atomically DONE
 
@@ -192,7 +192,7 @@ Below is a **concrete, implementation-oriented to-do list**, ordered exactly in 
 
 ---
 
-## Phase 5 — Entity & Relationship Extraction (LangChain + Gemini)
+## Phase 5 — Entity & Relationship Extraction (LangChain + Gemini) DONE
 
 ### ☐ 5.1 Update extraction prompt
 
@@ -233,7 +233,7 @@ Explicitly instruct Gemini:
 
 ---
 
-## Phase 6 — Graph Validation & Quality Control
+## Phase 6 — Graph Validation & Quality Control DONE
 
 ### ☐ 6.1 Sanity-check image grounding
 
@@ -261,14 +261,14 @@ Explicitly instruct Gemini:
 
 ## Phase 7 — Optional Enhancements (High ROI)
 
-### ☐ 7.1 Add CLIP embeddings for images
+### ☐ 7.1 Add CLIP embeddings for images DONE
 
 * Store vector per image
 * Enable cross-modal similarity later
 
 ---
 
-### ☐ 7.2 Add “explains” vs “illustrates” relation typing
+### ☐ 7.2 Add “explains” vs “illustrates” relation typing DONE
 
 * Distinguish:
 
@@ -278,7 +278,7 @@ Explicitly instruct Gemini:
 
 ---
 
-### ☐ 7.3 Add provenance metadata
+### ☐ 7.3 Add provenance metadata DONE
 
 * Link images to:
 
@@ -302,3 +302,8 @@ If you want, next we can:
 * Convert this into a **GitHub issue checklist**
 * Design the **Neo4j constraints & indexes**
 * Write the **exact Gemini extraction prompt** you should use
+
+
+IMAGE RETRIEVE HUDA IMAGE KO PATH LAI INCLUDE GARNE RESULT MA
+DOCUMENT KO LINKS HUDA KHERI WHEN ANY DOCUMENT IS RETRIEVED AS AN ENTITY DURING GRAPH RETRIEVAL, TESKO ATTRIBUTE HERERA ASSOCIATED CHUNK LAI NI PASS GARNE 
+AS A CONTEXT

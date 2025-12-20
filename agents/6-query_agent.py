@@ -5,7 +5,6 @@ import logging
 from pathlib import Path
 from dotenv import load_dotenv
 
-# Add project root to sys.path
 project_root = Path(__file__).resolve().parent.parent
 sys.path.append(str(project_root))
 
@@ -26,6 +25,16 @@ llm_for_tools = None
 # Load environment variables
 load_dotenv()
 
+# Windows console often defaults to cp1252 which can crash logging when unicode appears
+# in retrieved chunks/markdown. Force UTF-8 best-effort.
+try:
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    if hasattr(sys.stderr, "reconfigure"):
+        sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+except Exception:
+    pass
+
 # Configure logging: log to both console and a file under `logs/query_agent_logs.txt`
 logs_dir = project_root / "logs"
 logs_dir.mkdir(parents=True, exist_ok=True)
@@ -42,6 +51,7 @@ logger = logging.getLogger(__name__)
 
 # Define paths
 VECTOR_STORE_DIR = project_root / "vector_store_outputs"
+CHUNKING_OUTPUTS_DIR = project_root / "chunking_outputs"
 
 
 class EmbeddingGemmaWrapper(Embeddings):
@@ -348,12 +358,176 @@ def graph_retrieval_tool(query: str) -> str:
                     cypher_hints = (
                         f"- There may be NO direct edge between Concept '{a}' and Concept '{b}'.\n"
                         "- Prefer evidence queries like:\n"
-                        "  MATCH (a:Concept {id:$a})<-[:MENTIONS]-(d:Document)-[:MENTIONS]->(b:Concept {id:$b}) RETURN d LIMIT 10\n"
+                        "  MATCH (a:Concept {id:$a})<-[:MENTIONS]-(d:Document)-[:MENTIONS]->(b:Concept {id:$b})\n"
+                        "  WHERE d.source_type = 'chunk'\n"
+                        "  RETURN d.source_id, d.chunk_file, d.chunk_id, d.chunk_index LIMIT 10\n"
                         "  or shortestPath((a)-[*..4]-(b))\n"
                         "- Use the grounded entity ids literally."
                     )
             except Exception:
                 pass
+
+        # Image evidence helper: pull Image nodes + their paths connected to grounded concepts.
+        def _extract_image_paths_for_concepts(
+            concept_ids: list[str], limit: int = 10
+        ) -> list[dict]:
+            if not concept_ids:
+                return []
+            rows = graph.query(
+                """
+                UNWIND $concept_ids AS cid
+                MATCH (c:Concept {id: cid})
+                OPTIONAL MATCH (i1:Image)-[:DEPICTS]->(c)
+                OPTIONAL MATCH (c)<-[:MENTIONS]-(d:Document)-[:MENTIONS]->(i2:Image)
+                WITH cid,
+                     collect(DISTINCT i1) + collect(DISTINCT i2) AS imgs
+                UNWIND imgs AS i
+                WITH cid, i
+                WHERE i IS NOT NULL
+                WITH cid, i, properties(i) AS p
+                RETURN DISTINCT
+                  i.id AS image_id,
+                  coalesce(p.source_path, p.path) AS image_path,
+                  cid AS related_concept
+                LIMIT $limit
+                """,
+                params={"concept_ids": concept_ids, "limit": limit},
+            )
+            # Keep only rows with a path
+            return [
+                r for r in (rows or []) if r.get("image_id") and r.get("image_path")
+            ]
+
+        # Chunk evidence helpers: resolve Document.source_id -> chunk in chunking_outputs/<chunk_filename>
+        def _extract_strings_deep(obj):
+            """Yield all string values from nested dict/list structures."""
+            stack = [obj]
+            while stack:
+                cur = stack.pop()
+                if cur is None:
+                    continue
+                if isinstance(cur, str):
+                    yield cur
+                elif isinstance(cur, dict):
+                    for v in cur.values():
+                        stack.append(v)
+                elif isinstance(cur, (list, tuple)):
+                    for v in cur:
+                        stack.append(v)
+
+        def _extract_source_ids_from_rows(rows: list[dict] | None) -> list[str]:
+            if not rows:
+                return []
+            out: list[str] = []
+            seen: set[str] = set()
+            for row in rows:
+                for s in _extract_strings_deep(row):
+                    # Resolve only chunk JSONLs (skip markdown pointers like *.md::images)
+                    if ".jsonl::" in s and s not in seen:
+                        seen.add(s)
+                        out.append(s)
+            return out
+
+        def _parse_chunk_source_id(source_id: str) -> tuple[str, str] | None:
+            """
+            Expected format:
+              <chunk_filename>::<chunk_entry_id>
+            Example:
+              attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k.jsonl::attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k_1
+            """
+            if not isinstance(source_id, str) or "::" not in source_id:
+                return None
+            chunk_filename, chunk_entry_id = source_id.split("::", 1)
+            if not chunk_filename.endswith(".jsonl") or not chunk_entry_id:
+                return None
+            return chunk_filename, chunk_entry_id
+
+        def _load_chunk_entry(chunk_filename: str, chunk_entry_id: str) -> dict | None:
+            chunk_path = CHUNKING_OUTPUTS_DIR / chunk_filename
+            if not chunk_path.exists():
+                return None
+            try:
+                import json
+
+                with open(chunk_path, "r", encoding="utf-8") as f:
+                    for line in f:
+                        line = line.strip()
+                        if not line:
+                            continue
+                        try:
+                            obj = json.loads(line)
+                        except Exception:
+                            continue
+                        if obj.get("id") == chunk_entry_id:
+                            return obj
+            except Exception:
+                return None
+            return None
+
+        def _extract_chunk_filenames_from_rows(rows: list[dict] | None) -> list[str]:
+            """
+            Extract chunk JSONL filenames from returned rows (e.g., derived_from_chunk_file, chunk_file).
+            """
+            if not rows:
+                return []
+            out: list[str] = []
+            seen: set[str] = set()
+            for row in rows:
+                # Fast path for common keys
+                for k in ("derived_from_chunk_file", "chunk_file", "d.chunk_file"):
+                    v = row.get(k)
+                    if isinstance(v, str) and v.endswith(".jsonl") and v not in seen:
+                        seen.add(v)
+                        out.append(v)
+                # Deep scan for any *.jsonl filenames
+                for s in _extract_strings_deep(row):
+                    if s.endswith(".jsonl") and s not in seen:
+                        seen.add(s)
+                        out.append(s)
+            return out
+
+        def _find_chunks_in_file_by_terms(
+            chunk_filename: str, terms: list[str], limit: int = 5
+        ) -> list[dict]:
+            """
+            Best-effort: scan a chunk file and return chunk entries whose content mentions any term.
+            Used when the graph returns a markdown Document that only points back to a chunk file
+            (e.g., derived_from_chunk_file) but not a specific chunk id.
+            """
+            if not terms:
+                return []
+            chunk_path = CHUNKING_OUTPUTS_DIR / chunk_filename
+            if not chunk_path.exists():
+                return []
+            lowered_terms = [
+                t.lower() for t in terms if isinstance(t, str) and t.strip()
+            ]
+            if not lowered_terms:
+                return []
+            matches: list[dict] = []
+            try:
+                import json
+
+                with open(chunk_path, "r", encoding="utf-8") as f:
+                    for line in f:
+                        line = line.strip()
+                        if not line:
+                            continue
+                        try:
+                            obj = json.loads(line)
+                        except Exception:
+                            continue
+                        content = obj.get("content", "")
+                        if not isinstance(content, str):
+                            continue
+                        hay = content.lower()
+                        if any(t in hay for t in lowered_terms):
+                            matches.append(obj)
+                            if len(matches) >= limit:
+                                break
+            except Exception:
+                return []
+            return matches
 
         # 2. Build Cypher chain with constrained prompt
         logger.info("Initializing grounded GraphCypherQAChain...")
@@ -394,6 +568,9 @@ def graph_retrieval_tool(query: str) -> str:
                 )
 
         final_graph_context = result.get("result", "No result returned.")
+        # Keep any fallback query rows that may include Document.source_id values
+        fallback_rows_for_sources: list[dict] = []
+        fallback_rows_all: list[dict] = []
 
         # ---------------------------------------------------------------------
         # Robust fallback retrieval
@@ -506,11 +683,14 @@ def graph_retrieval_tool(query: str) -> str:
                 fallback_parts.append(
                     _format_rows("Direct Concept-Concept edges", direct)
                 )
+                if direct:
+                    fallback_rows_all.extend(direct)
 
                 # (B) Co-mention evidence through documents (very common in your schema)
                 comention = graph.query(
                     """
                     MATCH (a:Concept {id:$a})<-[:MENTIONS]-(d:Document)-[:MENTIONS]->(b:Concept {id:$b})
+                    WHERE d.source_type = 'chunk'
                     RETURN
                       d.source_id AS source_id,
                       d.source_type AS source_type,
@@ -525,6 +705,9 @@ def graph_retrieval_tool(query: str) -> str:
                 fallback_parts.append(
                     _format_rows("Co-mention via Document evidence", comention)
                 )
+                if comention:
+                    fallback_rows_for_sources.extend(comention)
+                    fallback_rows_all.extend(comention)
 
                 # (C) Short path (any relationships) to surface how nodes connect
                 path_rows = graph.query(
@@ -541,6 +724,8 @@ def graph_retrieval_tool(query: str) -> str:
                 fallback_parts.append(
                     _format_rows("Shortest paths (<=4 hops)", path_rows)
                 )
+                if path_rows:
+                    fallback_rows_all.extend(path_rows)
 
             # (D) Neighborhood expansion for the top grounded concept
             if top2:
@@ -556,6 +741,8 @@ def graph_retrieval_tool(query: str) -> str:
                 fallback_parts.append(
                     _format_rows(f"Neighborhood of Concept '{a}'", neigh)
                 )
+                if neigh:
+                    fallback_rows_all.extend(neigh)
 
             fallback_text = "\n\n".join([p for p in fallback_parts if p])
             if fallback_text.strip():
@@ -567,6 +754,133 @@ def graph_retrieval_tool(query: str) -> str:
                 final_graph_context = (
                     "No graph connections found (even after fallbacks)."
                 )
+
+        # ---------------------------------------------------------------------
+        # Image path block (always append when images are found)
+        # ---------------------------------------------------------------------
+        try:
+            concept_ids_for_images = _pick_top_concepts(entities)[:2]
+            image_rows = _extract_image_paths_for_concepts(
+                concept_ids_for_images, limit=15
+            )
+            if image_rows:
+                lines = []
+                for r in image_rows:
+                    lines.append(
+                        f"- {r.get('image_id')} | {r.get('image_path')} | related_to={r.get('related_concept')}"
+                    )
+                final_graph_context = (
+                    final_graph_context
+                    + "\n\nImages (from graph):\n"
+                    + "\n".join(lines)
+                )
+        except Exception:
+            # Image block is best-effort; don't break graph retrieval
+            pass
+
+        # ---------------------------------------------------------------------
+        # Chunk resolution block (from Document.source_id)
+        # ---------------------------------------------------------------------
+        try:
+            combined_rows: list[dict] = []
+            if raw_context_rows:
+                combined_rows.extend(raw_context_rows)
+            if fallback_rows_all:
+                combined_rows.extend(fallback_rows_all)
+
+            source_ids = _extract_source_ids_from_rows(combined_rows)
+            chunk_lines: list[str] = []
+
+            for sid in source_ids:
+                parsed = _parse_chunk_source_id(sid)
+                if not parsed:
+                    continue
+                chunk_filename, chunk_entry_id = parsed
+                entry = _load_chunk_entry(chunk_filename, chunk_entry_id)
+                chunk_path = CHUNKING_OUTPUTS_DIR / chunk_filename
+
+                if not entry:
+                    chunk_lines.append(
+                        "\n".join(
+                            [
+                                f"- {sid}",
+                                f"  chunk_file: {chunk_filename}",
+                                f"  chunk_path: {chunk_path}",
+                                "  status: NOT_FOUND_IN_FILE",
+                            ]
+                        )
+                    )
+                    continue
+
+                content = entry.get("content", "")
+                if isinstance(content, str) and len(content) > 600:
+                    excerpt = content[:600] + "…"
+                else:
+                    excerpt = content
+
+                chunk_lines.append(
+                    "\n".join(
+                        [
+                            f"- {sid}",
+                            f"  chunk_file: {chunk_filename}",
+                            f"  chunk_path: {chunk_path}",
+                            f"  chunk_id: {entry.get('id')}",
+                            f"  chunk_index: {entry.get('chunk_index')}",
+                            f"  metadata: {entry.get('metadata')}",
+                            f"  token_size_config: {entry.get('token_size_config')}",
+                            f"  excerpt: {excerpt}",
+                        ]
+                    )
+                )
+
+            if chunk_lines:
+                final_graph_context = (
+                    final_graph_context
+                    + "\n\nChunks (resolved from Document.source_id):\n"
+                    + "\n\n".join(chunk_lines)
+                )
+            else:
+                # If we didn't get explicit chunk source_ids (common when the graph returns
+                # a markdown Document), try using derived_from_chunk_file + content matching.
+                chunk_files = _extract_chunk_filenames_from_rows(combined_rows)
+                # Use grounded entity names as search terms (cap for speed/noise).
+                terms = [e.get("name") for e in entities if e.get("name")]
+                terms = terms[:6]
+                inferred_lines: list[str] = []
+                for cf in chunk_files[:3]:
+                    hits = _find_chunks_in_file_by_terms(cf, terms, limit=3)
+                    for entry in hits:
+                        sid = f"{cf}::{entry.get('id')}"
+                        content = entry.get("content", "")
+                        excerpt = (
+                            (content[:600] + "…")
+                            if isinstance(content, str) and len(content) > 600
+                            else content
+                        )
+                        inferred_lines.append(
+                            "\n".join(
+                                [
+                                    f"- {sid}",
+                                    f"  chunk_file: {cf}",
+                                    f"  chunk_path: {CHUNKING_OUTPUTS_DIR / cf}",
+                                    f"  chunk_id: {entry.get('id')}",
+                                    f"  chunk_index: {entry.get('chunk_index')}",
+                                    f"  metadata: {entry.get('metadata')}",
+                                    f"  token_size_config: {entry.get('token_size_config')}",
+                                    "  resolved_via: derived_from_chunk_file + content_match",
+                                    f"  excerpt: {excerpt}",
+                                ]
+                            )
+                        )
+                if inferred_lines:
+                    final_graph_context = (
+                        final_graph_context
+                        + "\n\nChunks (inferred from derived_from_chunk_file):\n"
+                        + "\n\n".join(inferred_lines)
+                    )
+        except Exception:
+            # Chunk resolution is best-effort; don't break graph retrieval
+            pass
 
         logger.info("Graph context returned to LLM:\n%s", final_graph_context)
 
@@ -631,6 +945,11 @@ Instructions:
   and the text for detailed explanations or empirical results.
 - Do NOT ignore either source unless it is clearly irrelevant.
 - If information is missing from both sources, say that it's not available instead of hallucinating.
+- If the GRAPH CONTEXT contains an "Images (from graph)" section, you MUST include a separate "Image paths" block
+  in your final answer listing each image id and its path.
+- If the GRAPH CONTEXT contains a "Chunks (resolved from Document.source_id)" OR "Chunks (inferred from derived_from_chunk_file)" section,
+  you MUST include a separate "Chunks used" block in your final answer listing each chunk source_id (and the chunk_file + chunk_id if present).
+  If the GRAPH CONTEXT does NOT contain either section, do NOT include a "Chunks used" block.
 Provide a clear, concise answer to the user's question.
 """
 
@@ -640,6 +959,113 @@ Provide a clear, concise answer to the user's question.
         final_text = (
             final_msg.content if isinstance(final_msg, str) else final_msg.content
         )
+
+        # -----------------------------------------------------------------
+        # Deterministic post-processing (avoid hallucinated "chunks used")
+        # -----------------------------------------------------------------
+        def _strip_section(text: str, header_starts: tuple[str, ...]) -> str:
+            """
+            Remove a section that starts with any header in header_starts and
+            continues until the next blank line.
+            """
+            lines = text.splitlines()
+            out: list[str] = []
+            i = 0
+            while i < len(lines):
+                line = lines[i]
+                if any(line.strip().startswith(h) for h in header_starts):
+                    # skip header line + following non-empty lines
+                    i += 1
+                    while i < len(lines) and lines[i].strip() != "":
+                        i += 1
+                    # also skip the blank separator if present
+                    if i < len(lines) and lines[i].strip() == "":
+                        i += 1
+                    continue
+                out.append(line)
+                i += 1
+            return "\n".join(out).strip()
+
+        def _extract_image_paths_from_graph_context(
+            graph_text: str,
+        ) -> list[tuple[str, str]]:
+            if "Images (from graph):" not in graph_text:
+                return []
+            block = graph_text.split("Images (from graph):", 1)[1]
+            lines = []
+            for ln in block.splitlines():
+                if ln.startswith("- "):
+                    # "- <id> | <path> | related_to=..."
+                    parts = [p.strip() for p in ln[2:].split("|")]
+                    if len(parts) >= 2:
+                        lines.append((parts[0], parts[1]))
+                elif ln.strip() == "":
+                    break
+            # de-dupe preserving order
+            seen = set()
+            out = []
+            for img_id, img_path in lines:
+                key = (img_id, img_path)
+                if key not in seen:
+                    seen.add(key)
+                    out.append(key)
+            return out
+
+        def _extract_chunk_source_ids_from_graph_context(graph_text: str) -> list[str]:
+            marker = None
+            if "Chunks (resolved from Document.source_id):" in graph_text:
+                marker = "Chunks (resolved from Document.source_id):"
+            elif "Chunks (inferred from derived_from_chunk_file):" in graph_text:
+                marker = "Chunks (inferred from derived_from_chunk_file):"
+            if not marker:
+                return []
+            block = graph_text.split(marker, 1)[1]
+            out = []
+            for ln in block.splitlines():
+                if ln.startswith("- "):
+                    out.append(ln[2:].strip())
+            # de-dupe preserving order
+            seen = set()
+            uniq = []
+            for s in out:
+                if s not in seen:
+                    seen.add(s)
+                    uniq.append(s)
+            return uniq
+
+        # Strip "Chunks used" if the graph context doesn't contain resolved chunks.
+        if (
+            "Chunks (resolved from Document.source_id):" not in graph_result
+            and "Chunks (inferred from derived_from_chunk_file):" not in graph_result
+        ):
+            final_text = _strip_section(
+                final_text,
+                (
+                    "**Chunks used:**",
+                    "Chunks used:",
+                ),
+            )
+
+        # Ensure deterministic image paths section when graph provides images.
+        img_pairs = _extract_image_paths_from_graph_context(graph_result)
+        if img_pairs and "Image paths" not in final_text:
+            final_text = (
+                final_text.strip()
+                + "\n\nImage paths:\n"
+                + "\n".join(
+                    [f"- {img_id}: {img_path}" for img_id, img_path in img_pairs]
+                )
+            )
+
+        # Ensure deterministic chunks section when graph provides resolved chunks.
+        chunk_sids = _extract_chunk_source_ids_from_graph_context(graph_result)
+        if chunk_sids and "Chunks used" not in final_text:
+            final_text = (
+                final_text.strip()
+                + "\n\nChunks used:\n"
+                + "\n".join([f"- {sid}" for sid in chunk_sids])
+            )
+
         logger.info("Final Answer: %s", final_text)
         print("\n=== Final Answer ===\n")
         print(final_text)

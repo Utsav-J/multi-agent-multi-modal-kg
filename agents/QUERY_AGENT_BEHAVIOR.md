@@ -191,6 +191,45 @@ Returned fallback format:
 
 ---
 
+### 4.7 Image path reporting (Image nodes)
+
+If the graph retrieval finds `:Image` nodes connected to the grounded concepts (e.g., via `DEPICTS` or document co-mentions),
+it appends an explicit section to the graph context:
+
+- `Images (from graph):`
+  - each line includes **image id** and **image path** (from `source_path` or `path`)
+
+The final answer synthesizer is instructed to always include a dedicated **"Image paths"** block in the final answer whenever
+an `Images (from graph)` section is present.
+
+---
+
+### 4.8 Chunk reporting (Document.source_id → chunking_outputs)
+
+When graph retrieval returns (or can infer) a link to a chunk JSONL entry, the agent resolves it to an **exact chunk** from
+`chunking_outputs/<chunk_filename>`.
+
+Two cases:
+
+1. **Direct resolution** (best): a `Document.source_id` appears in results in the format:
+   - `<chunk_filename>::<chunk_entry_id>`
+   - Example: `attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k.jsonl::attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k_1`
+   The agent loads that JSONL file and finds the matching `{"id": "<chunk_entry_id>", ...}` line.
+
+2. **Inference** (fallback): when the graph returns a *markdown* `Document` (e.g. `source_type=markdown`) that contains
+   `derived_from_chunk_file`, the agent scans that chunk file and selects a small number of chunks whose `content`
+   mentions the grounded entity names.
+
+The graph context will include one of these sections:
+
+- `Chunks (resolved from Document.source_id): ...`
+- `Chunks (inferred from derived_from_chunk_file): ...`
+
+The final answer is post-processed to include a **"Chunks used"** block listing the exact chunk `source_id` values whenever
+one of these sections is present (and to avoid hallucinating chunk usage when not present).
+
+---
+
 ## 5) Final answer synthesis
 
 After both tools return strings:
