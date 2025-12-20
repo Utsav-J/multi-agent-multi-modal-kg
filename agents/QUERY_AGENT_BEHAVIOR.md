@@ -60,6 +60,22 @@ The agent calls `load_dotenv()` at import time, so it expects a `.env` (or real 
 
 ---
 
+## Related: why some node metadata might (not) appear in Neo4j
+
+Your KG extraction JSONL uses `knowledge_graph.models.Node.metadata` as a list of `{key, value}` items.
+For Neo4j to show these as node properties, the ingestion step must map them into LangChain node `properties`,
+so they become stored as Neo4j properties.
+
+Example input node:
+
+- `{"id":"img_...", "type":"Image", "metadata":[{"key":"source_path","value":"...png"}]}`
+
+Expected Neo4j node:
+
+- `(:Image {id:"img_...", source_path:"...png"})`
+
+---
+
 ## Step-by-step behavior
 
 ## 1) Startup + logging

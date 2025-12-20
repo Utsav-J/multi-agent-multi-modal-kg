@@ -40,6 +40,32 @@ def convert_to_langchain_format(custom_graph_doc: GraphDocument) -> LCGraphDocum
     """
     Converts your custom Pydantic GraphDocument to LangChain's format.
     """
+
+    def _metadata_items_to_properties(items: list[MetadataItem] | None) -> dict:
+        """
+        Convert MetadataItem list to a Neo4j-friendly properties dict.
+
+        - Duplicate keys become lists (Neo4j supports list properties).
+        - All values are stored as strings (as defined in MetadataItem).
+        """
+        props: dict = {}
+        if not items:
+            return props
+
+        for m in items:
+            if not m or not getattr(m, "key", None):
+                continue
+            k = m.key
+            v = m.value
+            if k in props:
+                if isinstance(props[k], list):
+                    props[k].append(v)
+                else:
+                    props[k] = [props[k], v]
+            else:
+                props[k] = v
+        return props
+
     # Convert Source Document
     # Ensure metadata is in a format acceptable by LangChain (dict)
     metadata = {}
@@ -65,7 +91,7 @@ def convert_to_langchain_format(custom_graph_doc: GraphDocument) -> LCGraphDocum
         LCNode(
             id=node.id,
             type=node.type,
-            properties={},
+            properties=_metadata_items_to_properties(getattr(node, "metadata", None)),
         )
         for node in custom_graph_doc.nodes
     ]
@@ -162,6 +188,34 @@ def load_jsonl_and_ingest(file_path: str, graph: Neo4jGraph):
         if lc_documents:
             print(f"Ingesting {len(lc_documents)} documents into Neo4j...")
             graph.add_graph_documents(lc_documents, include_source=True)
+            # IMPORTANT:
+            # langchain_neo4j currently uses apoc.merge.node([label], {id}, onCreateProps, onMatchProps)
+            # with onMatchProps={}, meaning node properties won't be updated if the node already exists.
+            # We run an explicit "upsert properties" pass so metadata becomes visible on existing nodes.
+            try:
+                upsert_rows = []
+                for doc in lc_documents:
+                    for n in doc.nodes:
+                        upsert_rows.append(
+                            {
+                                "id": n.id,
+                                "type": n.type,
+                                "properties": n.properties or {},
+                            }
+                        )
+
+                if upsert_rows:
+                    graph.query(
+                        """
+                        UNWIND $data AS row
+                        CALL apoc.merge.node([row.type], {id: row.id}, row.properties, row.properties)
+                        YIELD node
+                        RETURN count(node) AS upserted
+                        """,
+                        params={"data": upsert_rows},
+                    )
+            except Exception as e:
+                print(f"Warning: failed to upsert node properties: {e}")
             print("Ingestion complete.")
         else:
             print("No valid documents found to ingest.")
