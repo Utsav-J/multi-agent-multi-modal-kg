@@ -187,21 +187,20 @@ class Neo4jKGConstructor:
         Optionally create a Document node and link it to extracted entities.
         This helps track provenance.
         """
-        if graph_doc.source and graph_doc.source.page_content:
-            # Create a hash or ID for the document
-            import hashlib
+        if graph_doc.source and graph_doc.source.source_id:
+            doc_id = graph_doc.source.source_id
 
-            doc_id = hashlib.md5(graph_doc.source.page_content.encode()).hexdigest()
-
-            # Create Document node
+            # Create Document node (pointer, not payload)
             query = """
             MERGE (d:Document {id: $doc_id})
-            SET d.content = $content
+            SET d.source_id = $source_id,
+                d.source_type = $source_type
             """
             session.run(
                 query,
                 doc_id=doc_id,
-                content=graph_doc.source.page_content[:1000],  # Truncate if too long
+                source_id=graph_doc.source.source_id,
+                source_type=graph_doc.source.source_type,
             )
 
             # Link document to all nodes extracted from it

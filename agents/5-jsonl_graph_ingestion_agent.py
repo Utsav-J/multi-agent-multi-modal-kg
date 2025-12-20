@@ -43,12 +43,19 @@ def convert_to_langchain_format(custom_graph_doc: GraphDocument) -> LCGraphDocum
     # Convert Source Document
     # Ensure metadata is in a format acceptable by LangChain (dict)
     metadata = {}
-    if custom_graph_doc.source.metadata:
+    if custom_graph_doc.source and custom_graph_doc.source.metadata:
         for m in custom_graph_doc.source.metadata:
             metadata[m.key] = m.value
 
+    # Always include source_id/source_type for provenance even if metadata list is empty.
+    if custom_graph_doc.source:
+        metadata.setdefault("source_id", custom_graph_doc.source.source_id)
+        metadata.setdefault("source_type", custom_graph_doc.source.source_type)
+
     lc_source = LCDocument(
-        page_content=custom_graph_doc.source.page_content, metadata=metadata
+        # Source is a pointer, not payload.
+        page_content=(custom_graph_doc.source.source_id if custom_graph_doc.source else ""),
+        metadata=metadata,
     )
 
     # Convert Nodes
@@ -116,8 +123,9 @@ def load_jsonl_and_ingest(file_path: str, graph: Neo4jGraph):
 
                     # Reconstruct Document
                     source_doc = Document(
-                        page_content=source_data.get("page_content", ""),
-                        metadata=metadata_list if metadata_list else None,
+                        source_id=source_data.get("source_id", "unknown"),
+                        source_type=source_data.get("source_type", "chunk"),
+                        metadata=metadata_list,
                     )
 
                     # Reconstruct Nodes

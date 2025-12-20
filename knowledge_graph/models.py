@@ -1,8 +1,10 @@
 from pydantic import BaseModel, Field
 from typing import List, Optional
 
+
 class MetadataItem(BaseModel):
     """Closed schema key-value item to avoid additionalProperties in JSON Schema."""
+
     key: str = Field(..., description="Metadata key name.")
     value: str = Field(..., description="Metadata value as string.")
 
@@ -18,9 +20,6 @@ class Node(BaseModel):
         ...,
         description="Type or category of the node (e.g. Person, Location, Company).",
     )
-    # Keep metadata "closed schema" while allowing multiple fields per node.
-    # Example for Image:
-    #   metadata=[MetadataItem(key="source_path", value="E:/...png"), ...]
     metadata: List[MetadataItem] = Field(
         default_factory=list,
         description="Optional metadata as a list of key/value pairs.",
@@ -36,15 +35,27 @@ class Relationship(BaseModel):
         ..., description="Type of relationship (e.g. FOUNDED, ATTENDED, BORN_IN)."
     )
 
-class Document(BaseModel):
-    """Represents the original text or chunk from which nodes and relationships were extracted."""
 
-    page_content: str = Field(
-        ..., description="Raw text content of the source document or chunk."
+class Document(BaseModel):
+    """Reference (pointer) to external evidence from which a graph was extracted.
+
+    Treat this as a stable, resolvable reference (e.g., chunk filename + chunk id/index),
+    not the full payload content.
+    """
+
+    source_id: str = Field(
+        ...,
+        description=(
+            "Stable identifier for the evidence (e.g. '<chunks_file>::<chunk_id>' or a URI)."
+        ),
     )
-    metadata: Optional[List[MetadataItem]] = Field(
+    source_type: str = Field(
+        default="chunk",
+        description="Type of source (e.g. chunk, chunk_batch, paper, markdown, image).",
+    )
+    metadata: List[MetadataItem] = Field(
         default_factory=list,
-        description="Optional metadata as a list of key/value pairs.",
+        description="Additional pointer metadata (chunk filename, chunk index, page number, etc.).",
     )
 
 
@@ -58,9 +69,11 @@ class GraphDocument(BaseModel):
     relationships: List[Relationship] = Field(
         ..., description="List of relationships connecting the nodes."
     )
-    # source: Document = Field(
-    #     ..., description="The document or chunk this graph was extracted from."
-    # )
+    # Keep optional to avoid hard parse-failures from the LLM; agent code stamps provenance deterministically.
+    source: Optional[Document] = Field(
+        default=None,
+        description="Pointer to the source evidence for this extraction (chunk filename + id/index).",
+    )
 
 
 extracted_sample_data = GraphDocument(
@@ -200,7 +213,12 @@ extracted_sample_data = GraphDocument(
         ),
     ],
     source=Document(
-        page_content="The system receives input data consisting of text, code, images, audio, and video. A retriever component, which can operate on dense or sparse data, selects relevant information from the input data. A generator component then utilizes the retrieved information to produce a result in the same multimodal format. The output consists of text, code, images, audio, and video, mirroring the input. ### Figure - RAG Architecture with and without Retrieval-Augmented Generation ![RAG architecture diagram](rag_paper.pdf-1-1.png) Caption: This figure illustrates the difference between a Large Language Model (LLM) query without and with Retrieval-Augmented Generation (RAG). The RAG approach utilizes external data to enhance the LLM's response.",
-        metadata=None,
+        source_id="rag_paper_annotated_chunks_5k.jsonl::rag_paper_annotated_chunks_5k_0",
+        source_type="chunk",
+        metadata=[
+            MetadataItem(key="chunk_file", value="rag_paper_annotated_chunks_5k.jsonl"),
+            MetadataItem(key="chunk_id", value="rag_paper_annotated_chunks_5k_0"),
+            MetadataItem(key="chunk_index", value="0"),
+        ],
     ),
 )

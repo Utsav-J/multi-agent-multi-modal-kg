@@ -128,6 +128,15 @@ The following entities have already been extracted from previous chunks. If you 
       "type": "LIVES_IN"
     }
   ],
+  "source": {
+    "source_id": "sliding_window_attention_raw_with_image_ids_with_captions_chunks_5k.jsonl::sliding_window_attention_raw_with_image_ids_with_captions_chunks_5k_0",
+    "source_type": "chunk",
+    "metadata": [
+      {"key": "chunk_file", "value": "sliding_window_attention_raw_with_image_ids_with_captions_chunks_5k.jsonl"},
+      {"key": "chunk_id", "value": "sliding_window_attention_raw_with_image_ids_with_captions_chunks_5k_0"},
+      {"key": "chunk_index", "value": "0"}
+    ]
+  }
 }
 ```
 
@@ -135,7 +144,14 @@ Do **not** include explanations, commentary, or extra text.
 If no entities or relations are found, return an empty JSON:
 
 ```json
-{"nodes": [], "relationships": []}
+{"nodes": [], "relationships": [], "source": {"source_id": "{source_id}", "source_type": "{source_type}", "metadata": {source_metadata_json}}}
+```
+
+# Provenance (MANDATORY)
+You MUST include the following `source` object EXACTLY as provided (do not alter values):
+
+```json
+{source_json}
 ```
 
 # Text to Process
@@ -146,14 +162,25 @@ Here is the document chunk to extract entities and relationships from:
 
 
 def render_graph_construction_instructions(
-    chunk: str, existing_entities: Optional[List[str]] = None
+    chunk: str,
+    existing_entities: Optional[List[str]] = None,
+    source_json: str = '{"source_id":"unknown","source_type":"chunk","metadata":[]}',
+    source_id: str = "unknown",
+    source_type: str = "chunk",
+    source_metadata_json: str = "[]",
 ) -> str:
     formatted_existing_entities = "None"
     if existing_entities:
         formatted_existing_entities = ", ".join(existing_entities)
 
-    return graph_construction_instructions.replace("{chunk}", chunk).replace(
-        "{existing_entities}", formatted_existing_entities
+    # Keep simple string replacement to avoid introducing f-string braces collisions.
+    return (
+        graph_construction_instructions.replace("{chunk}", chunk)
+        .replace("{existing_entities}", formatted_existing_entities)
+        .replace("{source_json}", source_json)
+        .replace("{source_id}", source_id)
+        .replace("{source_type}", source_type)
+        .replace("{source_metadata_json}", source_metadata_json)
     )
 
 

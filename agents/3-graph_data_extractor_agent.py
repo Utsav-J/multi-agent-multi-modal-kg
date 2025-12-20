@@ -17,6 +17,8 @@ load_dotenv()
 
 # Import from knowledge_graph module
 from knowledge_graph.models import GraphDocument
+
+# prompt used for entity extraction
 from knowledge_graph.prompts import render_graph_construction_instructions
 
 from langchain_google_genai import ChatGoogleGenerativeAI
@@ -172,7 +174,13 @@ def extract_image_entities_from_chunks_tool(
     logger.info(f"Loaded {len(seen_entity_ids)} existing entities from registry.")
 
     # We'll write one GraphDocument per markdown source
-    from knowledge_graph.models import GraphDocument, Node, Relationship, MetadataItem
+    from knowledge_graph.models import (
+        GraphDocument,
+        Node,
+        Relationship,
+        MetadataItem,
+        Document,
+    )
 
     def _doc_id_from_source(source_name: str) -> str:
         # document_id should be stable; simplest: stem of the markdown filename
@@ -262,7 +270,18 @@ def extract_image_entities_from_chunks_tool(
                             )
                         )
 
-            graph_doc = GraphDocument(nodes=nodes, relationships=rels)
+            # Source is a pointer, not payload: this graph was extracted from a markdown file.
+            source_doc = Document(
+                source_id=f"{source}::images",
+                source_type="markdown",
+                metadata=[
+                    MetadataItem(key="markdown_source", value=source),
+                    MetadataItem(key="derived_from_chunk_file", value=chunks_filename),
+                ],
+            )
+            graph_doc = GraphDocument(
+                nodes=nodes, relationships=rels, source=source_doc
+            )
 
             graph_dict = graph_doc.model_dump()
             if include_metadata:
@@ -328,7 +347,6 @@ def extract_graph_from_chunks_tool(
         # Using the same model as in construction.py
         client = genai.Client(api_key=os.getenv("GOOGLE_API_KEY"))
 
-        results = []
         seen_entity_ids = load_global_registry()
         logger.info(f"Loaded {len(seen_entity_ids)} existing entities from registry.")
 
@@ -346,6 +364,62 @@ def extract_graph_from_chunks_tool(
             current_batch = []
             current_batch_tokens = 0
             processed_batches = 0
+
+            from knowledge_graph.models import Document, MetadataItem
+
+            def _build_source_doc(batch_chunks: list[dict]) -> Document:
+                # Prefer the chunk "id" if present; fall back to chunk_index.
+                chunk_ids = [
+                    c.get("id") for c in batch_chunks if c.get("id") is not None
+                ]
+                chunk_indices = [
+                    str(c.get("chunk_index"))
+                    for c in batch_chunks
+                    if c.get("chunk_index") is not None
+                ]
+
+                if len(batch_chunks) == 1:
+                    # Pointer to a single chunk.
+                    one = batch_chunks[0]
+                    cid = (
+                        one.get("id")
+                        or f"{Path(chunks_filename).stem}_{one.get('chunk_index', 'unknown')}"
+                    )
+                    meta = [
+                        MetadataItem(key="chunk_file", value=chunks_filename),
+                        MetadataItem(key="chunk_id", value=str(cid)),
+                    ]
+                    if one.get("chunk_index") is not None:
+                        meta.append(
+                            MetadataItem(
+                                key="chunk_index", value=str(one.get("chunk_index"))
+                            )
+                        )
+                    return Document(
+                        source_id=f"{chunks_filename}::{cid}",
+                        source_type="chunk",
+                        metadata=meta,
+                    )
+
+                # Pointer to a batch (when you enable adaptive batching).
+                meta = [
+                    MetadataItem(key="chunk_file", value=chunks_filename),
+                ]
+                if chunk_ids:
+                    meta.append(
+                        MetadataItem(key="chunk_ids", value=json.dumps(chunk_ids))
+                    )
+                if chunk_indices:
+                    meta.append(
+                        MetadataItem(
+                            key="chunk_indices", value=json.dumps(chunk_indices)
+                        )
+                    )
+                return Document(
+                    source_id=f"{chunks_filename}::batch::{chunk_ids[0] if chunk_ids else 'unknown'}",
+                    source_type="chunk_batch",
+                    metadata=meta,
+                )
 
             def process_batch(batch_chunks):
                 if not batch_chunks:
@@ -378,11 +452,23 @@ def extract_graph_from_chunks_tool(
                     # Pass existing entities to context
                     existing_entities_list = sorted(list(seen_entity_ids))
 
+                    source_doc = _build_source_doc(batch_chunks)
+                    source_json = json.dumps(
+                        source_doc.model_dump(), ensure_ascii=False
+                    )
+
                     response = client.models.generate_content(
                         model="gemini-2.5-flash",
                         contents=render_graph_construction_instructions(
                             chunk=combined_content,
                             existing_entities=existing_entities_list,
+                            source_json=source_json,
+                            source_id=source_doc.source_id,
+                            source_type=source_doc.source_type,
+                            source_metadata_json=json.dumps(
+                                source_doc.model_dump().get("metadata", []),
+                                ensure_ascii=False,
+                            ),
                         ),
                         config=genai.types.GenerateContentConfig(
                             response_mime_type="application/json",
@@ -392,6 +478,9 @@ def extract_graph_from_chunks_tool(
 
                     if response.parsed:
                         graph_doc: GraphDocument = response.parsed
+
+                        # Deterministically stamp provenance (pointer, not payload).
+                        graph_doc.source = source_doc
 
                         # Track extracted entities for context in future chunks
                         for node in graph_doc.nodes:
