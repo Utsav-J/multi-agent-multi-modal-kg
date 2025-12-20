@@ -69,3 +69,792 @@ Key types and concepts of attention include:
 *   **Continuous-time Attention (CTA) and Neuronal Attention Circuit (NAC):** These are more recent advancements that integrate continuous-time dynamics, often using Ordinary Differential Equations (ODEs), to model attention. NAC, for instance, computes attention logits as the solution to a first-order ODE, modulated by nonlinear, interlinked gates inspired by biological neuronal circuits.
 
 Attention mechanisms are integral to models like the Transformer, and their individual "attention heads" have been shown to exhibit functional specialization in Large Language Models (LLMs) and Vision-Language Models (VLMs), performing tasks such as pattern induction, information retrieval, and visual grounding.
+2025-12-20 19:34:37,885 - __main__ - INFO - Initializing resources...
+2025-12-20 19:34:37,885 - __main__ - INFO - Loading EmbeddingGemma model...
+2025-12-20 19:34:37,887 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-12-20 19:34:37,887 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: google/embeddinggemma-300m
+2025-12-20 19:34:47,715 - sentence_transformers.SentenceTransformer - INFO - 14 prompts are loaded, with the keys: ['query', 'document', 'BitextMining', 'Clustering', 'Classification', 'InstructionRetrieval', 'MultilabelClassification', 'PairClassification', 'Reranking', 'Retrieval', 'Retrieval-query', 'Retrieval-document', 'STS', 'Summarization']
+2025-12-20 19:34:47,716 - __main__ - INFO - Loading vector store from E:\Python Stuff\MAS-for-multimodal-knowledge-graph\vector_store_outputs\index...
+2025-12-20 19:34:47,756 - faiss.loader - INFO - Loading faiss with AVX2 support.
+2025-12-20 19:34:48,401 - faiss.loader - INFO - Successfully loaded faiss with AVX2 support.
+2025-12-20 19:34:48,445 - __main__ - INFO - User query received: how does attention mechanism relate to multi head attention?
+2025-12-20 19:34:48,445 - __main__ - INFO - Starting Query Agent with query: 'how does attention mechanism relate to multi head attention?'
+2025-12-20 19:34:48,445 - __main__ - INFO - Invoking RAG retrieval tool...
+2025-12-20 19:34:48,446 - __main__ - INFO - RAG Tool invoked with user query: how does attention mechanism relate to multi head attention?
+2025-12-20 19:34:49,309 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-12-20 19:34:49,344 - __main__ - INFO - Generated 5 RAG subqueries:
+2025-12-20 19:34:49,345 - __main__ - INFO -   Subquery 1: attention mechanism
+2025-12-20 19:34:49,345 - __main__ - INFO -   Subquery 2: multi-head attention
+2025-12-20 19:34:49,345 - __main__ - INFO -   Subquery 3: attention mechanism vs multi-head attention
+2025-12-20 19:34:49,346 - __main__ - INFO -   Subquery 4: transformer multi-head attention
+2025-12-20 19:34:49,346 - __main__ - INFO -   Subquery 5: self-attention mechanism
+2025-12-20 19:34:49,346 - __main__ - INFO - RAG internal retrieval query: attention mechanism
+2025-12-20 19:34:52,016 - __main__ - INFO - RAG retrieved 3 documents for subquery 'attention mechanism'
+2025-12-20 19:34:52,016 - __main__ - INFO - RAG internal retrieval query: multi-head attention
+2025-12-20 19:34:52,090 - __main__ - INFO - RAG retrieved 3 documents for subquery 'multi-head attention'
+2025-12-20 19:34:52,091 - __main__ - INFO - RAG internal retrieval query: attention mechanism vs multi-head attention
+2025-12-20 19:34:52,166 - __main__ - INFO - RAG retrieved 3 documents for subquery 'attention mechanism vs multi-head attention'
+2025-12-20 19:34:52,166 - __main__ - INFO - RAG internal retrieval query: transformer multi-head attention
+2025-12-20 19:34:52,241 - __main__ - INFO - RAG retrieved 3 documents for subquery 'transformer multi-head attention'
+2025-12-20 19:34:52,241 - __main__ - INFO - RAG internal retrieval query: self-attention mechanism
+2025-12-20 19:34:52,313 - __main__ - INFO - RAG retrieved 3 documents for subquery 'self-attention mechanism'
+2025-12-20 19:34:52,313 - __main__ - INFO - Total unique documents after de-duplication across all subqueries: 8
+2025-12-20 19:34:52,313 - __main__ - INFO - RAG Unique Doc 1:
+  Source: neuronal_attention_circuits_raw_chunks_2k.jsonl
+  Chunk ID: neuronal_attention_circuits_raw_chunks_2k_0
+  Metadata: {'source': 'neuronal_attention_circuits_raw.md'}
+2025-12-20 19:34:52,313 - __main__ - INFO - RAG Unique Doc 2:
+  Source: attention_is_all_you_need_raw_chunks_2k.jsonl
+  Chunk ID: attention_is_all_you_need_raw_chunks_2k_1
+  Metadata: {'source': 'attention_is_all_you_need_raw.md'}
+2025-12-20 19:34:52,313 - __main__ - INFO - RAG Unique Doc 3:
+  Source: attention_functional_roles_raw_chunks_2k.jsonl
+  Chunk ID: attention_functional_roles_raw_chunks_2k_6
+  Metadata: {'source': 'attention_functional_roles_raw.md'}
+2025-12-20 19:34:52,314 - __main__ - INFO - RAG Unique Doc 4:
+  Source: attention_functional_roles_raw_chunks_2k.jsonl
+  Chunk ID: attention_functional_roles_raw_chunks_2k_2
+  Metadata: {'source': 'attention_functional_roles_raw.md'}
+2025-12-20 19:34:52,314 - __main__ - INFO - RAG Unique Doc 5:
+  Source: attention_functional_roles_raw_chunks_2k.jsonl
+  Chunk ID: attention_functional_roles_raw_chunks_2k_0
+  Metadata: {'source': 'attention_functional_roles_raw.md'}
+2025-12-20 19:34:52,314 - __main__ - INFO - RAG Unique Doc 6:
+  Source: attention_is_all_you_need_raw_chunks_2k.jsonl
+  Chunk ID: attention_is_all_you_need_raw_chunks_2k_0
+  Metadata: {'source': 'attention_is_all_you_need_raw.md'}
+2025-12-20 19:34:52,314 - __main__ - INFO - RAG Unique Doc 7:
+  Source: attention_is_all_you_need_raw_chunks_2k.jsonl
+  Chunk ID: attention_is_all_you_need_raw_chunks_2k_4
+  Metadata: {'source': 'attention_is_all_you_need_raw.md'}
+2025-12-20 19:34:52,314 - __main__ - INFO - RAG Unique Doc 8:
+  Source: attention_is_all_you_need_raw_chunks_2k.jsonl
+  Chunk ID: attention_is_all_you_need_raw_chunks_2k_2
+  Metadata: {'source': 'attention_is_all_you_need_raw.md'}
+2025-12-20 19:34:52,315 - __main__ - INFO - RAG context returned to LLM (multi-subquery, k=3, deduplicated): num_chunks=8, total_chars=59688
+2025-12-20 19:34:52,315 - __main__ - INFO - Invoking Graph retrieval tool...
+2025-12-20 19:34:52,316 - __main__ - INFO - Graph Tool invoked with user query: how does attention mechanism relate to multi head attention?
+2025-12-20 19:34:52,316 - __main__ - INFO - Connecting to Neo4j at neo4j+s://d15b3f68.databases.neo4j.io...
+2025-12-20 19:34:54,382 - __main__ - INFO - Resolving entities from graph for query: how does attention mechanism relate to multi head attention?
+2025-12-20 19:34:54,606 - __main__ - INFO - Grounded entities to be provided to Cypher generator:
+- None (Concept)
+- None (Concept)
+- None (Concept)
+- None (Concept)
+- None (Concept)
+2025-12-20 19:34:54,608 - __main__ - INFO - Initializing grounded GraphCypherQAChain...
+2025-12-20 19:35:03,945 - __main__ - INFO - Generated Cypher query for graph retrieval:
+2025-12-20 19:35:03,945 - __main__ - INFO - None
+2025-12-20 19:35:03,945 - __main__ - INFO - Raw graph context rows returned from Neo4j:
+[]
+2025-12-20 19:35:03,946 - __main__ - INFO - Graph context returned to LLM:
+I don't know the answer.
+2025-12-20 19:35:03,957 - __main__ - INFO - Synthesizing final answer from RAG and Graph contexts...
+2025-12-20 19:35:07,802 - __main__ - INFO - Final Answer: The attention mechanism is a core component that allows models to focus on the most relevant observations by computing the similarity between queries and keys. It treats all time steps equally and scales the similarity by the key dimension to maintain stable gradients.
+
+Multi-Head Attention (MHA) is an extension of this fundamental attention mechanism. Instead of performing a single attention function, MHA linearly projects the queries, keys, and values multiple times (e.g., `h` times) into different, learned representation subspaces. It then performs the attention function on each of these projected versions in parallel, effectively running several attention layers simultaneously. The outputs from these parallel "heads" are concatenated and then projected again to produce the final values. This parallel processing allows the model to jointly attend to information from different representation subspaces at various positions, which a single attention head might inhibit due to averaging.
+2025-12-20 19:39:11,933 - __main__ - INFO - Initializing resources...
+2025-12-20 19:39:11,934 - __main__ - INFO - Loading EmbeddingGemma model...
+2025-12-20 19:39:11,936 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-12-20 19:39:11,936 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: google/embeddinggemma-300m
+2025-12-20 19:39:18,613 - sentence_transformers.SentenceTransformer - INFO - 14 prompts are loaded, with the keys: ['query', 'document', 'BitextMining', 'Clustering', 'Classification', 'InstructionRetrieval', 'MultilabelClassification', 'PairClassification', 'Reranking', 'Retrieval', 'Retrieval-query', 'Retrieval-document', 'STS', 'Summarization']
+2025-12-20 19:39:18,613 - __main__ - INFO - Loading vector store from E:\Python Stuff\MAS-for-multimodal-knowledge-graph\vector_store_outputs\index...
+2025-12-20 19:39:18,619 - faiss.loader - INFO - Loading faiss with AVX2 support.
+2025-12-20 19:39:18,642 - faiss.loader - INFO - Successfully loaded faiss with AVX2 support.
+2025-12-20 19:39:18,652 - __main__ - INFO - User query received: how does attention mechanism relate to multi head attention?
+2025-12-20 19:39:18,653 - __main__ - INFO - Starting Query Agent with query: 'how does attention mechanism relate to multi head attention?'
+2025-12-20 19:39:18,653 - __main__ - INFO - Invoking RAG retrieval tool...
+2025-12-20 19:39:18,654 - __main__ - INFO - RAG Tool invoked with user query: how does attention mechanism relate to multi head attention?
+2025-12-20 19:39:18,972 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-12-20 19:39:19,008 - __main__ - INFO - Generated 3 RAG subqueries:
+2025-12-20 19:39:19,008 - __main__ - INFO -   Subquery 1: attention mechanism
+2025-12-20 19:39:19,009 - __main__ - INFO -   Subquery 2: multi-head attention
+2025-12-20 19:39:19,009 - __main__ - INFO -   Subquery 3: relation between attention mechanism and multi-head attention
+2025-12-20 19:39:19,009 - __main__ - INFO - RAG internal retrieval query: attention mechanism
+2025-12-20 19:39:19,129 - __main__ - INFO - RAG retrieved 3 documents for subquery 'attention mechanism'
+2025-12-20 19:39:19,130 - __main__ - INFO - RAG internal retrieval query: multi-head attention
+2025-12-20 19:39:19,201 - __main__ - INFO - RAG retrieved 3 documents for subquery 'multi-head attention'
+2025-12-20 19:39:19,201 - __main__ - INFO - RAG internal retrieval query: relation between attention mechanism and multi-head attention
+2025-12-20 19:39:19,286 - __main__ - INFO - RAG retrieved 3 documents for subquery 'relation between attention mechanism and multi-head attention'
+2025-12-20 19:39:19,287 - __main__ - INFO - Total unique documents after de-duplication across all subqueries: 5
+2025-12-20 19:39:19,287 - __main__ - INFO - RAG Unique Doc 1:
+  Source: neuronal_attention_circuits_raw_chunks_2k.jsonl
+  Chunk ID: neuronal_attention_circuits_raw_chunks_2k_0
+  Metadata: {'source': 'neuronal_attention_circuits_raw.md'}
+2025-12-20 19:39:19,287 - __main__ - INFO - RAG Unique Doc 2:
+  Source: attention_is_all_you_need_raw_chunks_2k.jsonl
+  Chunk ID: attention_is_all_you_need_raw_chunks_2k_1
+  Metadata: {'source': 'attention_is_all_you_need_raw.md'}
+2025-12-20 19:39:19,287 - __main__ - INFO - RAG Unique Doc 3:
+  Source: attention_functional_roles_raw_chunks_2k.jsonl
+  Chunk ID: attention_functional_roles_raw_chunks_2k_6
+  Metadata: {'source': 'attention_functional_roles_raw.md'}
+2025-12-20 19:39:19,287 - __main__ - INFO - RAG Unique Doc 4:
+  Source: attention_functional_roles_raw_chunks_2k.jsonl
+  Chunk ID: attention_functional_roles_raw_chunks_2k_2
+  Metadata: {'source': 'attention_functional_roles_raw.md'}
+2025-12-20 19:39:19,288 - __main__ - INFO - RAG Unique Doc 5:
+  Source: attention_functional_roles_raw_chunks_2k.jsonl
+  Chunk ID: attention_functional_roles_raw_chunks_2k_0
+  Metadata: {'source': 'attention_functional_roles_raw.md'}
+2025-12-20 19:39:19,288 - __main__ - INFO - RAG context returned to LLM (multi-subquery, k=3, deduplicated): num_chunks=5, total_chars=37882
+2025-12-20 19:39:19,288 - __main__ - INFO - Invoking Graph retrieval tool...
+2025-12-20 19:39:19,289 - __main__ - INFO - Graph Tool invoked with user query: how does attention mechanism relate to multi head attention?
+2025-12-20 19:39:19,289 - __main__ - INFO - Connecting to Neo4j at neo4j+s://d15b3f68.databases.neo4j.io...
+2025-12-20 19:39:21,281 - __main__ - INFO - Resolving entities from graph for query: how does attention mechanism relate to multi head attention?
+2025-12-20 19:39:21,472 - __main__ - INFO - Grounded entities to be provided to Cypher generator:
+- Multi-head attention (Concept)
+- Multi-Head Attention (Concept)
+- Masked Multi-Head Attention (Concept)
+- Attention mechanism (Concept)
+- Self-attention mechanism (Concept)
+2025-12-20 19:39:21,473 - __main__ - INFO - Initializing grounded GraphCypherQAChain...
+2025-12-20 19:39:26,724 - __main__ - INFO - Generated Cypher query for graph retrieval:
+2025-12-20 19:39:26,724 - __main__ - INFO - cypher
+MATCH (c1:Concept {id: "Attention mechanism"})-[r]->(c2:Concept)
+WHERE c2.id IN ["Multi-head attention", "Multi-Head Attention"]
+RETURN c1, r, c2
+UNION ALL
+MATCH (c1:Concept {id: "Multi-head attention"})-[r]->(c2:Concept {id: "Attention mechanism"})
+RETURN c1, r, c2
+UNION ALL
+MATCH (c1:Concept {id: "Multi-Head Attention"})-[r]->(c2:Concept {id: "Attention mechanism"})
+RETURN c1, r, c2
+
+2025-12-20 19:39:26,725 - __main__ - INFO - Raw graph context rows returned from Neo4j:
+[]
+2025-12-20 19:39:26,725 - __main__ - INFO - Graph context returned to LLM:
+I don't know the answer.
+2025-12-20 19:39:26,726 - __main__ - INFO - Synthesizing final answer from RAG and Graph contexts...
+2025-12-20 19:39:30,868 - __main__ - INFO - Final Answer: The attention mechanism allows models to focus on the most relevant observations by computing the similarity between queries and keys. Multi-Head Attention (MHA) is an extension of this basic attention mechanism.
+
+Specifically, Multi-Head Attention enhances the attention mechanism by:
+1.  **Parallel Processing**: Instead of performing a single attention function, MHA linearly projects the queries, keys, and values multiple times (e.g., `h` times) into different, learned subspaces.
+2.  **Multiple "Heads"**: It then performs the attention function in parallel on each of these projected versions, creating `h` "attention heads."
+3.  **Concatenation and Projection**: The outputs from these parallel attention heads are concatenated and then linearly projected again to produce the final output.
+
+This parallel processing allows the model to jointly attend to information from different representation subspaces and at different positions, which a single attention head might inhibit due to averaging. The total computational cost of MHA can be similar to single-head attention if the dimensions of each head are reduced proportionally.
+2025-12-20 19:40:31,721 - __main__ - INFO - Initializing resources...
+2025-12-20 19:40:31,722 - __main__ - INFO - Loading EmbeddingGemma model...
+2025-12-20 19:40:31,724 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-12-20 19:40:31,724 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: google/embeddinggemma-300m
+2025-12-20 19:40:38,179 - sentence_transformers.SentenceTransformer - INFO - 14 prompts are loaded, with the keys: ['query', 'document', 'BitextMining', 'Clustering', 'Classification', 'InstructionRetrieval', 'MultilabelClassification', 'PairClassification', 'Reranking', 'Retrieval', 'Retrieval-query', 'Retrieval-document', 'STS', 'Summarization']
+2025-12-20 19:40:38,179 - __main__ - INFO - Loading vector store from E:\Python Stuff\MAS-for-multimodal-knowledge-graph\vector_store_outputs\index...
+2025-12-20 19:40:38,186 - faiss.loader - INFO - Loading faiss with AVX2 support.
+2025-12-20 19:40:38,210 - faiss.loader - INFO - Successfully loaded faiss with AVX2 support.
+2025-12-20 19:40:38,220 - __main__ - INFO - User query received: how does attention mechanism help in anaphora resolution?
+2025-12-20 19:40:38,221 - __main__ - INFO - Starting Query Agent with query: 'how does attention mechanism help in anaphora resolution?'
+2025-12-20 19:40:38,221 - __main__ - INFO - Invoking RAG retrieval tool...
+2025-12-20 19:40:38,222 - __main__ - INFO - RAG Tool invoked with user query: how does attention mechanism help in anaphora resolution?
+2025-12-20 19:40:38,604 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-12-20 19:40:38,623 - __main__ - INFO - Generated 5 RAG subqueries:
+2025-12-20 19:40:38,623 - __main__ - INFO -   Subquery 1: attention mechanism anaphora resolution
+2025-12-20 19:40:38,624 - __main__ - INFO -   Subquery 2: anaphora resolution using attention in NLP
+2025-12-20 19:40:38,624 - __main__ - INFO -   Subquery 3: role of attention in coreference resolution
+2025-12-20 19:40:38,624 - __main__ - INFO -   Subquery 4: attention-based models for anaphora resolution
+2025-12-20 19:40:38,624 - __main__ - INFO -   Subquery 5: coreference resolution with attention mechanisms
+2025-12-20 19:40:38,624 - __main__ - INFO - RAG internal retrieval query: attention mechanism anaphora resolution
+2025-12-20 19:40:38,750 - __main__ - INFO - RAG retrieved 3 documents for subquery 'attention mechanism anaphora resolution'
+2025-12-20 19:40:38,750 - __main__ - INFO - RAG internal retrieval query: anaphora resolution using attention in NLP
+2025-12-20 19:40:38,846 - __main__ - INFO - RAG retrieved 3 documents for subquery 'anaphora resolution using attention in NLP'
+2025-12-20 19:40:38,846 - __main__ - INFO - RAG internal retrieval query: role of attention in coreference resolution
+2025-12-20 19:40:38,917 - __main__ - INFO - RAG retrieved 3 documents for subquery 'role of attention in coreference resolution'
+2025-12-20 19:40:38,918 - __main__ - INFO - RAG internal retrieval query: attention-based models for anaphora resolution
+2025-12-20 19:40:38,994 - __main__ - INFO - RAG retrieved 3 documents for subquery 'attention-based models for anaphora resolution'
+2025-12-20 19:40:38,994 - __main__ - INFO - RAG internal retrieval query: coreference resolution with attention mechanisms
+2025-12-20 19:40:39,070 - __main__ - INFO - RAG retrieved 3 documents for subquery 'coreference resolution with attention mechanisms'
+2025-12-20 19:40:39,070 - __main__ - INFO - Total unique documents after de-duplication across all subqueries: 8
+2025-12-20 19:40:39,071 - __main__ - INFO - RAG Unique Doc 1:
+  Source: neuronal_attention_circuits_raw_chunks_2k.jsonl
+  Chunk ID: neuronal_attention_circuits_raw_chunks_2k_0
+  Metadata: {'source': 'neuronal_attention_circuits_raw.md'}
+2025-12-20 19:40:39,071 - __main__ - INFO - RAG Unique Doc 2:
+  Source: attention_is_all_you_need_raw_chunks_2k.jsonl
+  Chunk ID: attention_is_all_you_need_raw_chunks_2k_2
+  Metadata: {'source': 'attention_is_all_you_need_raw.md'}
+2025-12-20 19:40:39,071 - __main__ - INFO - RAG Unique Doc 3:
+  Source: attention_is_all_you_need_raw_chunks_2k.jsonl
+  Chunk ID: attention_is_all_you_need_raw_chunks_2k_0
+  Metadata: {'source': 'attention_is_all_you_need_raw.md'}
+2025-12-20 19:40:39,071 - __main__ - INFO - RAG Unique Doc 4:
+  Source: attention_is_all_you_need_raw_chunks_2k.jsonl
+  Chunk ID: attention_is_all_you_need_raw_chunks_2k_6
+  Metadata: {'source': 'attention_is_all_you_need_raw.md'}
+2025-12-20 19:40:39,072 - __main__ - INFO - RAG Unique Doc 5:
+  Source: attention_is_all_you_need_raw_chunks_2k.jsonl
+  Chunk ID: attention_is_all_you_need_raw_chunks_2k_1
+  Metadata: {'source': 'attention_is_all_you_need_raw.md'}
+2025-12-20 19:40:39,072 - __main__ - INFO - RAG Unique Doc 6:
+  Source: attention_functional_roles_raw_chunks_2k.jsonl
+  Chunk ID: attention_functional_roles_raw_chunks_2k_6
+  Metadata: {'source': 'attention_functional_roles_raw.md'}
+2025-12-20 19:40:39,072 - __main__ - INFO - RAG Unique Doc 7:
+  Source: attention_functional_roles_raw_chunks_2k.jsonl
+  Chunk ID: attention_functional_roles_raw_chunks_2k_2
+  Metadata: {'source': 'attention_functional_roles_raw.md'}
+2025-12-20 19:40:39,072 - __main__ - INFO - RAG Unique Doc 8:
+  Source: attention_functional_roles_raw_chunks_2k.jsonl
+  Chunk ID: attention_functional_roles_raw_chunks_2k_0
+  Metadata: {'source': 'attention_functional_roles_raw.md'}
+2025-12-20 19:40:39,072 - __main__ - INFO - RAG context returned to LLM (multi-subquery, k=3, deduplicated): num_chunks=8, total_chars=57739
+2025-12-20 19:40:39,073 - __main__ - INFO - Invoking Graph retrieval tool...
+2025-12-20 19:40:39,073 - __main__ - INFO - Graph Tool invoked with user query: how does attention mechanism help in anaphora resolution?
+2025-12-20 19:40:39,074 - __main__ - INFO - Connecting to Neo4j at neo4j+s://d15b3f68.databases.neo4j.io...
+2025-12-20 19:40:41,018 - __main__ - INFO - Resolving entities from graph for query: how does attention mechanism help in anaphora resolution?
+2025-12-20 19:40:41,202 - __main__ - INFO - Grounded entities to be provided to Cypher generator:
+- Attention mechanism (Concept)
+- Self-attention mechanism (Concept)
+- anaphora resolution (Concept)
+- Attention weights (Concept)
+- Attention map (Concept)
+2025-12-20 19:40:41,203 - __main__ - INFO - Initializing grounded GraphCypherQAChain...
+2025-12-20 19:40:47,822 - __main__ - INFO - Generated Cypher query for graph retrieval:
+2025-12-20 19:40:47,823 - __main__ - INFO - cypher
+MATCH (c1:Concept {id: "Attention mechanism"})-[:ADDRESSES|MITIGATES]->(c2:Concept {id: "anaphora resolution"})
+RETURN c1, c2
+
+2025-12-20 19:40:47,824 - __main__ - INFO - Raw graph context rows returned from Neo4j:
+[]
+2025-12-20 19:40:47,825 - __main__ - INFO - Graph context returned to LLM:
+I don't know the answer.
+2025-12-20 19:40:47,828 - __main__ - INFO - Synthesizing final answer from RAG and Graph contexts...
+2025-12-20 19:40:55,080 - __main__ - INFO - Final Answer: While the provided text context does not explicitly mention "anaphora resolution," it details how attention mechanisms, particularly self-attention, offer capabilities that are highly beneficial for tasks requiring the identification of long-range dependencies and semantic relationships, which are crucial for anaphora resolution. The graph context does not provide an answer.
+
+Based on the text, attention mechanisms help by:
+
+1.  **Focusing on Relevant Observations:** Attention allows models to "focus on the most relevant observations," which in anaphora resolution would mean identifying potential antecedents for a given anaphor.
+2.  **Modeling Long-Range Dependencies:** Attention mechanisms "model dependencies without regard to their distance in the input or output sequences." This is a critical advantage for anaphora resolution, as anaphors and their antecedents can be far apart in a text. Self-attention, in particular, connects all positions with a constant number of sequential operations, making it "easier to learn long-range dependencies" compared to recurrent layers.
+3.  **Understanding Syntactic and Semantic Structure:** Attention heads have been observed to "exhibit behavior related to the syntactic and semantic structure of the sentences," which is fundamental for correctly linking pronouns or other anaphors to their referents.
+4.  **Applications in Related Tasks:** Self-attention has been successfully applied in tasks like reading comprehension and textual entailment, which often involve resolving references and understanding relationships between different parts of a text. An example provided shows attention heads attending to "a distant dependency of the verb ‘making’," illustrating its ability to connect related words across a sentence.
+
+In essence, attention mechanisms provide the ability to efficiently identify and weigh the importance of different words in a sequence, regardless of their position, thereby enabling the model to effectively link anaphors to their antecedents by capturing the necessary long-range syntactic and semantic relationships.
+2025-12-20 19:45:40,088 - __main__ - INFO - Initializing resources...
+2025-12-20 19:45:40,088 - __main__ - INFO - Loading EmbeddingGemma model...
+2025-12-20 19:45:40,090 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-12-20 19:45:40,090 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: google/embeddinggemma-300m
+2025-12-20 19:45:46,565 - sentence_transformers.SentenceTransformer - INFO - 14 prompts are loaded, with the keys: ['query', 'document', 'BitextMining', 'Clustering', 'Classification', 'InstructionRetrieval', 'MultilabelClassification', 'PairClassification', 'Reranking', 'Retrieval', 'Retrieval-query', 'Retrieval-document', 'STS', 'Summarization']
+2025-12-20 19:45:46,566 - __main__ - INFO - Loading vector store from E:\Python Stuff\MAS-for-multimodal-knowledge-graph\vector_store_outputs\index...
+2025-12-20 19:45:46,569 - faiss.loader - INFO - Loading faiss with AVX2 support.
+2025-12-20 19:45:46,594 - faiss.loader - INFO - Successfully loaded faiss with AVX2 support.
+2025-12-20 19:45:46,607 - __main__ - INFO - User query received: how does attention mechanism help in anaphora resolution?
+2025-12-20 19:45:46,607 - __main__ - INFO - Starting Query Agent with query: 'how does attention mechanism help in anaphora resolution?'
+2025-12-20 19:45:46,607 - __main__ - INFO - Invoking RAG retrieval tool...
+2025-12-20 19:45:46,608 - __main__ - INFO - RAG Tool invoked with user query: how does attention mechanism help in anaphora resolution?
+2025-12-20 19:45:47,687 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-12-20 19:45:47,712 - __main__ - INFO - Generated 5 RAG subqueries:
+2025-12-20 19:45:47,712 - __main__ - INFO -   Subquery 1: attention mechanism anaphora resolution
+2025-12-20 19:45:47,712 - __main__ - INFO -   Subquery 2: anaphora resolution with attention in NLP
+2025-12-20 19:45:47,712 - __main__ - INFO -   Subquery 3: role of attention in coreference resolution
+2025-12-20 19:45:47,712 - __main__ - INFO -   Subquery 4: attention-based models for anaphora resolution
+2025-12-20 19:45:47,712 - __main__ - INFO -   Subquery 5: coreference resolution using attention mechanisms
+2025-12-20 19:45:47,712 - __main__ - INFO - RAG internal retrieval query: attention mechanism anaphora resolution
+2025-12-20 19:45:47,855 - __main__ - INFO - RAG retrieved 3 documents for subquery 'attention mechanism anaphora resolution'
+2025-12-20 19:45:47,855 - __main__ - INFO - RAG internal retrieval query: anaphora resolution with attention in NLP
+2025-12-20 19:45:47,946 - __main__ - INFO - RAG retrieved 3 documents for subquery 'anaphora resolution with attention in NLP'
+2025-12-20 19:45:47,946 - __main__ - INFO - RAG internal retrieval query: role of attention in coreference resolution
+2025-12-20 19:45:48,043 - __main__ - INFO - RAG retrieved 3 documents for subquery 'role of attention in coreference resolution'
+2025-12-20 19:45:48,043 - __main__ - INFO - RAG internal retrieval query: attention-based models for anaphora resolution
+2025-12-20 19:45:48,154 - __main__ - INFO - RAG retrieved 3 documents for subquery 'attention-based models for anaphora resolution'
+2025-12-20 19:45:48,154 - __main__ - INFO - RAG internal retrieval query: coreference resolution using attention mechanisms
+2025-12-20 19:45:48,237 - __main__ - INFO - RAG retrieved 3 documents for subquery 'coreference resolution using attention mechanisms'
+2025-12-20 19:45:48,237 - __main__ - INFO - Total unique documents after de-duplication across all subqueries: 8
+2025-12-20 19:45:48,237 - __main__ - INFO - RAG Unique Doc 1:
+  Source: neuronal_attention_circuits_raw_chunks_2k.jsonl
+  Chunk ID: neuronal_attention_circuits_raw_chunks_2k_0
+  Metadata: {'source': 'neuronal_attention_circuits_raw.md'}
+2025-12-20 19:45:48,237 - __main__ - INFO - RAG Unique Doc 2:
+  Source: attention_is_all_you_need_raw_chunks_2k.jsonl
+  Chunk ID: attention_is_all_you_need_raw_chunks_2k_2
+  Metadata: {'source': 'attention_is_all_you_need_raw.md'}
+2025-12-20 19:45:48,237 - __main__ - INFO - RAG Unique Doc 3:
+  Source: attention_is_all_you_need_raw_chunks_2k.jsonl
+  Chunk ID: attention_is_all_you_need_raw_chunks_2k_0
+  Metadata: {'source': 'attention_is_all_you_need_raw.md'}
+2025-12-20 19:45:48,237 - __main__ - INFO - RAG Unique Doc 4:
+  Source: attention_is_all_you_need_raw_chunks_2k.jsonl
+  Chunk ID: attention_is_all_you_need_raw_chunks_2k_6
+  Metadata: {'source': 'attention_is_all_you_need_raw.md'}
+2025-12-20 19:45:48,237 - __main__ - INFO - RAG Unique Doc 5:
+  Source: attention_is_all_you_need_raw_chunks_2k.jsonl
+  Chunk ID: attention_is_all_you_need_raw_chunks_2k_1
+  Metadata: {'source': 'attention_is_all_you_need_raw.md'}
+2025-12-20 19:45:48,237 - __main__ - INFO - RAG Unique Doc 6:
+  Source: attention_functional_roles_raw_chunks_2k.jsonl
+  Chunk ID: attention_functional_roles_raw_chunks_2k_6
+  Metadata: {'source': 'attention_functional_roles_raw.md'}
+2025-12-20 19:45:48,237 - __main__ - INFO - RAG Unique Doc 7:
+  Source: attention_functional_roles_raw_chunks_2k.jsonl
+  Chunk ID: attention_functional_roles_raw_chunks_2k_2
+  Metadata: {'source': 'attention_functional_roles_raw.md'}
+2025-12-20 19:45:48,237 - __main__ - INFO - RAG Unique Doc 8:
+  Source: attention_functional_roles_raw_chunks_2k.jsonl
+  Chunk ID: attention_functional_roles_raw_chunks_2k_0
+  Metadata: {'source': 'attention_functional_roles_raw.md'}
+2025-12-20 19:45:48,237 - __main__ - INFO - RAG context returned to LLM (multi-subquery, k=3, deduplicated): num_chunks=8, total_chars=57739
+2025-12-20 19:45:48,237 - __main__ - INFO - Invoking Graph retrieval tool...
+2025-12-20 19:45:48,238 - __main__ - INFO - Graph Tool invoked with user query: how does attention mechanism help in anaphora resolution?
+2025-12-20 19:45:48,238 - __main__ - INFO - Connecting to Neo4j at neo4j+s://d15b3f68.databases.neo4j.io...
+2025-12-20 19:45:50,177 - __main__ - INFO - Resolving entities from graph for query: how does attention mechanism help in anaphora resolution?
+2025-12-20 19:45:50,377 - __main__ - INFO - Grounded entities to be provided to Cypher generator:
+- Attention mechanism (Concept)
+- Self-attention mechanism (Concept)
+- anaphora resolution (Concept)
+- Attention weights (Concept)
+- Attention map (Concept)
+2025-12-20 19:45:50,377 - __main__ - INFO - Initializing grounded GraphCypherQAChain...
+2025-12-20 19:45:57,034 - __main__ - INFO - Generated Cypher query for graph retrieval:
+2025-12-20 19:45:57,035 - __main__ - INFO - cypher
+MATCH (c1:Concept {id: "Attention mechanism"})-[:ADDRESSES|MITIGATES]->(c2:Concept {id: "anaphora resolution"})
+RETURN c1, c2
+
+2025-12-20 19:45:57,035 - __main__ - INFO - Raw graph context rows returned from Neo4j:
+[]
+2025-12-20 19:45:57,035 - __main__ - INFO - Graph retrieval returned empty context; running fallback queries...
+2025-12-20 19:45:57,598 - neo4j.notifications - INFO - Received notification from DBMS server: {severity: INFORMATION} {code: Neo.ClientNotification.Statement.CartesianProduct} {category: PERFORMANCE} {title: This query builds a cartesian product between disconnected patterns.} {description: If a part of a query contains multiple disconnected patterns, this will build a cartesian product between all those parts. This may produce a large amount of data and slow down query processing. While occasionally intended, it may often be possible to reformulate the query that avoids the use of this cross product, perhaps by adding a relationship between the different parts or by using OPTIONAL MATCH (identifier is: (b))} {position: line: 2, column: 21, offset: 21} for query: '\n                    MATCH (a:Concept {id:$a}), (b:Concept {id:$b})\n                    MATCH p = shortestPath((a)-[*..4]-(b))\n                    RETURN p\n                    LIMIT 5\n                    '
+2025-12-20 19:45:57,874 - __main__ - INFO - Graph context returned to LLM:
+Fallback graph context (LLM query returned empty rows):
+
+Co-mention via Document evidence:
+{'source_id': 'attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k.jsonl::attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k_0', 'source_type': 'chunk', 'chunk_file': 'attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k.jsonl', 'chunk_id': 'attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k_0', 'chunk_index': '0', 'markdown_source': None}
+{'source_id': 'attention_is_all_you_need_raw_with_image_ids_with_captions.md::images', 'source_type': 'markdown', 'chunk_file': None, 'chunk_id': None, 'chunk_index': None, 'markdown_source': 'attention_is_all_you_need_raw_with_image_ids_with_captions.md'}
+
+Shortest paths (<=4 hops):
+{'p': [{'id': 'Attention mechanism'}, 'MENTIONS', {'chunk_index': '0', 'chunk_file': 'attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k.jsonl', 'source_type': 'chunk', 'id': 'c35df05545627694d3b4bbf52619a5da', 'text': 'attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k.jsonl::attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k_0', 'source_id': 'attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k.jsonl::attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k_0', 'chunk_id': 'attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k_0'}, 'MENTIONS', {'id': 'Self-attention mechanism'}]}
+
+Neighborhood of Concept 'Attention mechanism':
+{'rel': 'MENTIONS', 'n_labels': ['Document'], 'n_id': 'c35df05545627694d3b4bbf52619a5da'}
+{'rel': 'MENTIONS', 'n_labels': ['Document'], 'n_id': '888d0bd62e26d30498c9f50b218a6001'}
+{'rel': 'MENTIONS', 'n_labels': ['Document'], 'n_id': '36f927c2ec5951b1af0611a9728d214b'}
+{'rel': 'DEPICTS', 'n_labels': ['Image'], 'n_id': 'img_attention_is_all_you_need_12_0'}
+{'rel': 'BUILDS_ON', 'n_labels': ['Model'], 'n_id': 'Transformer'}
+{'rel': 'BUILDS_ON', 'n_labels': ['Model'], 'n_id': 'Encoder-decoder architectures'}
+{'rel': 'COMPARED_WITH', 'n_labels': ['Concept'], 'n_id': 'Active memory'}
+{'rel': 'EXTENDS', 'n_labels': ['Model'], 'n_id': 'Transformer'}
+2025-12-20 19:45:57,875 - __main__ - INFO - Synthesizing final answer from RAG and Graph contexts...
+2025-12-20 19:46:06,190 - __main__ - INFO - Final Answer: While neither the provided text nor graph context explicitly mentions "anaphora resolution," the text offers strong indirect evidence for how attention mechanisms would be beneficial for this task.
+
+Anaphora resolution requires identifying the relationship between a pronoun or noun phrase and its antecedent, which often involves understanding long-range dependencies and the syntactic and semantic structure of sentences. The text highlights that attention mechanisms:
+
+1.  **Capture Long-Range Dependencies:** Attention mechanisms "mitigate this limitation by treating all time steps equally and allowing models to focus on the most relevant observations," and are effective at "capturing long-term dependencies" and "long-range dependencies." This is crucial for linking an anaphor to an antecedent that might appear much earlier in a text.
+2.  **Understand Syntactic and Semantic Structure:** Attention heads "clearly learn to perform different tasks, many appear to exhibit behavior related to the syntactic and semantic structure of the sentences." This ability to discern grammatical and meaning-based relationships is fundamental for correctly resolving anaphora.
+3.  **Focus on Relevant Information:** Attention allows models to "focus on the most relevant observations," which would enable a model to identify the correct antecedent among many potential candidates.
+4.  **Success in Related Tasks:** Self-attention has been successfully applied in tasks like "reading comprehension" and "textual entailment," which often implicitly involve anaphora resolution to understand the full meaning of a text.
+
+In summary, attention mechanisms help by enabling models to effectively identify and link words across long distances within a sequence, understand the underlying grammatical and semantic relationships, and focus on the most pertinent information, all of which are critical for accurate anaphora resolution. The graph context confirms the existence of "Attention mechanism" and its relation to "Self-attention mechanism" and "Transformer" models, which are known to leverage these capabilities.
+2025-12-20 19:46:59,170 - __main__ - INFO - Initializing resources...
+2025-12-20 19:46:59,170 - __main__ - INFO - Loading EmbeddingGemma model...
+2025-12-20 19:46:59,172 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-12-20 19:46:59,172 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: google/embeddinggemma-300m
+2025-12-20 19:47:05,572 - sentence_transformers.SentenceTransformer - INFO - 14 prompts are loaded, with the keys: ['query', 'document', 'BitextMining', 'Clustering', 'Classification', 'InstructionRetrieval', 'MultilabelClassification', 'PairClassification', 'Reranking', 'Retrieval', 'Retrieval-query', 'Retrieval-document', 'STS', 'Summarization']
+2025-12-20 19:47:05,573 - __main__ - INFO - Loading vector store from E:\Python Stuff\MAS-for-multimodal-knowledge-graph\vector_store_outputs\index...
+2025-12-20 19:47:05,578 - faiss.loader - INFO - Loading faiss with AVX2 support.
+2025-12-20 19:47:05,605 - faiss.loader - INFO - Successfully loaded faiss with AVX2 support.
+2025-12-20 19:47:05,616 - __main__ - INFO - User query received: how does attention mechanism help in anaphora resolution?
+2025-12-20 19:47:05,617 - __main__ - INFO - Starting Query Agent with query: 'how does attention mechanism help in anaphora resolution?'
+2025-12-20 19:47:05,617 - __main__ - INFO - Invoking RAG retrieval tool...
+2025-12-20 19:47:05,617 - __main__ - INFO - RAG Tool invoked with user query: how does attention mechanism help in anaphora resolution?
+2025-12-20 19:47:05,942 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-12-20 19:47:05,963 - __main__ - INFO - Generated 4 RAG subqueries:
+2025-12-20 19:47:05,964 - __main__ - INFO -   Subquery 1: attention mechanism anaphora resolution
+2025-12-20 19:47:05,964 - __main__ - INFO -   Subquery 2: anaphora resolution using attention in NLP
+2025-12-20 19:47:05,964 - __main__ - INFO -   Subquery 3: role of attention in coreference resolution
+2025-12-20 19:47:05,964 - __main__ - INFO -   Subquery 4: attention-based models for anaphora resolution
+2025-12-20 19:47:05,964 - __main__ - INFO - RAG internal retrieval query: attention mechanism anaphora resolution
+2025-12-20 19:47:06,104 - __main__ - INFO - RAG retrieved 3 documents for subquery 'attention mechanism anaphora resolution'
+2025-12-20 19:47:06,104 - __main__ - INFO - RAG internal retrieval query: anaphora resolution using attention in NLP
+2025-12-20 19:47:06,185 - __main__ - INFO - RAG retrieved 3 documents for subquery 'anaphora resolution using attention in NLP'
+2025-12-20 19:47:06,185 - __main__ - INFO - RAG internal retrieval query: role of attention in coreference resolution
+2025-12-20 19:47:06,270 - __main__ - INFO - RAG retrieved 3 documents for subquery 'role of attention in coreference resolution'
+2025-12-20 19:47:06,270 - __main__ - INFO - RAG internal retrieval query: attention-based models for anaphora resolution
+2025-12-20 19:47:06,348 - __main__ - INFO - RAG retrieved 3 documents for subquery 'attention-based models for anaphora resolution'
+2025-12-20 19:47:06,348 - __main__ - INFO - Total unique documents after de-duplication across all subqueries: 8
+2025-12-20 19:47:06,348 - __main__ - INFO - RAG Unique Doc 1:
+  Source: neuronal_attention_circuits_raw_chunks_2k.jsonl
+  Chunk ID: neuronal_attention_circuits_raw_chunks_2k_0
+  Metadata: {'source': 'neuronal_attention_circuits_raw.md'}
+2025-12-20 19:47:06,348 - __main__ - INFO - RAG Unique Doc 2:
+  Source: attention_is_all_you_need_raw_chunks_2k.jsonl
+  Chunk ID: attention_is_all_you_need_raw_chunks_2k_2
+  Metadata: {'source': 'attention_is_all_you_need_raw.md'}
+2025-12-20 19:47:06,348 - __main__ - INFO - RAG Unique Doc 3:
+  Source: attention_is_all_you_need_raw_chunks_2k.jsonl
+  Chunk ID: attention_is_all_you_need_raw_chunks_2k_0
+  Metadata: {'source': 'attention_is_all_you_need_raw.md'}
+2025-12-20 19:47:06,348 - __main__ - INFO - RAG Unique Doc 4:
+  Source: attention_is_all_you_need_raw_chunks_2k.jsonl
+  Chunk ID: attention_is_all_you_need_raw_chunks_2k_6
+  Metadata: {'source': 'attention_is_all_you_need_raw.md'}
+2025-12-20 19:47:06,348 - __main__ - INFO - RAG Unique Doc 5:
+  Source: attention_is_all_you_need_raw_chunks_2k.jsonl
+  Chunk ID: attention_is_all_you_need_raw_chunks_2k_1
+  Metadata: {'source': 'attention_is_all_you_need_raw.md'}
+2025-12-20 19:47:06,349 - __main__ - INFO - RAG Unique Doc 6:
+  Source: attention_functional_roles_raw_chunks_2k.jsonl
+  Chunk ID: attention_functional_roles_raw_chunks_2k_6
+  Metadata: {'source': 'attention_functional_roles_raw.md'}
+2025-12-20 19:47:06,349 - __main__ - INFO - RAG Unique Doc 7:
+  Source: attention_functional_roles_raw_chunks_2k.jsonl
+  Chunk ID: attention_functional_roles_raw_chunks_2k_2
+  Metadata: {'source': 'attention_functional_roles_raw.md'}
+2025-12-20 19:47:06,349 - __main__ - INFO - RAG Unique Doc 8:
+  Source: attention_functional_roles_raw_chunks_2k.jsonl
+  Chunk ID: attention_functional_roles_raw_chunks_2k_0
+  Metadata: {'source': 'attention_functional_roles_raw.md'}
+2025-12-20 19:47:06,349 - __main__ - INFO - RAG context returned to LLM (multi-subquery, k=3, deduplicated): num_chunks=8, total_chars=57739
+2025-12-20 19:47:06,349 - __main__ - INFO - Invoking Graph retrieval tool...
+2025-12-20 19:47:06,350 - __main__ - INFO - Graph Tool invoked with user query: how does attention mechanism help in anaphora resolution?
+2025-12-20 19:47:06,350 - __main__ - INFO - Connecting to Neo4j at neo4j+s://d15b3f68.databases.neo4j.io...
+2025-12-20 19:47:10,659 - __main__ - INFO - Resolving entities from graph for query: how does attention mechanism help in anaphora resolution?
+2025-12-20 19:47:10,864 - __main__ - INFO - Grounded entities to be provided to Cypher generator:
+- Attention mechanism (Concept)
+- Self-attention mechanism (Concept)
+- anaphora resolution (Concept)
+- Attention weights (Concept)
+- Attention map (Concept)
+2025-12-20 19:47:10,865 - __main__ - INFO - Initializing grounded GraphCypherQAChain...
+2025-12-20 19:47:18,166 - __main__ - INFO - Generated Cypher query for graph retrieval:
+2025-12-20 19:47:18,166 - __main__ - INFO - MATCH (c1:Concept {id: 'Attention mechanism'})-[r:ADDRESSES|MITIGATES]->(c2:Concept {id: 'anaphora resolution'})
+RETURN c1, r, c2
+2025-12-20 19:47:18,166 - __main__ - INFO - Raw graph context rows returned from Neo4j:
+[]
+2025-12-20 19:47:18,166 - __main__ - INFO - Graph retrieval returned empty context; running fallback queries...
+2025-12-20 19:47:18,997 - __main__ - INFO - Graph context returned to LLM:
+Fallback graph context (LLM query returned empty rows):
+
+Co-mention via Document evidence:
+{'source_id': 'attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k.jsonl::attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k_0', 'source_type': 'chunk', 'chunk_file': 'attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k.jsonl', 'chunk_id': 'attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k_0', 'chunk_index': '0', 'markdown_source': None}
+{'source_id': 'attention_is_all_you_need_raw_with_image_ids_with_captions.md::images', 'source_type': 'markdown', 'chunk_file': None, 'chunk_id': None, 'chunk_index': None, 'markdown_source': 'attention_is_all_you_need_raw_with_image_ids_with_captions.md'}
+
+Shortest paths (<=4 hops):
+{'p': [{'id': 'Attention mechanism'}, 'MENTIONS', {'chunk_index': '0', 'chunk_file': 'attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k.jsonl', 'source_type': 'chunk', 'id': 'c35df05545627694d3b4bbf52619a5da', 'text': 'attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k.jsonl::attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k_0', 'source_id': 'attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k.jsonl::attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k_0', 'chunk_id': 'attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k_0'}, 'MENTIONS', {'id': 'Self-attention mechanism'}]}
+
+Neighborhood of Concept 'Attention mechanism':
+{'rel': 'MENTIONS', 'n_labels': ['Document'], 'n_id': 'c35df05545627694d3b4bbf52619a5da'}
+{'rel': 'MENTIONS', 'n_labels': ['Document'], 'n_id': '888d0bd62e26d30498c9f50b218a6001'}
+{'rel': 'MENTIONS', 'n_labels': ['Document'], 'n_id': '36f927c2ec5951b1af0611a9728d214b'}
+{'rel': 'DEPICTS', 'n_labels': ['Image'], 'n_id': 'img_attention_is_all_you_need_12_0'}
+{'rel': 'BUILDS_ON', 'n_labels': ['Model'], 'n_id': 'Transformer'}
+{'rel': 'BUILDS_ON', 'n_labels': ['Model'], 'n_id': 'Encoder-decoder architectures'}
+{'rel': 'COMPARED_WITH', 'n_labels': ['Concept'], 'n_id': 'Active memory'}
+{'rel': 'EXTENDS', 'n_labels': ['Model'], 'n_id': 'Transformer'}
+2025-12-20 19:47:19,000 - __main__ - INFO - Synthesizing final answer from RAG and Graph contexts...
+2025-12-20 19:47:26,210 - __main__ - INFO - Final Answer: While neither the provided text nor graph context explicitly mentions "anaphora resolution," the text offers strong indirect evidence for how attention mechanisms would be beneficial for this task.
+
+Anaphora resolution requires identifying the relationship between a pronoun or noun phrase and its antecedent, which often involves understanding long-range dependencies and the syntactic and semantic structure of sentences. The text highlights that attention mechanisms:
+
+1.  **Capture Long-Range Dependencies:** Attention mechanisms "mitigate this limitation by treating all time steps equally and allowing models to focus on the most relevant observations," and are effective at "capturing long-term dependencies" and "long-range dependencies." This is crucial for linking an anaphor to an antecedent that might appear much earlier in a text.
+2.  **Understand Syntactic and Semantic Structure:** Attention heads "clearly learn to perform different tasks, many appear to exhibit behavior related to the syntactic and semantic structure of the sentences." This ability to discern grammatical and meaning-based relationships is fundamental for correctly resolving anaphora.
+3.  **Focus on Relevant Information:** Attention allows models to "focus on the most relevant observations," which would enable a model to identify the correct antecedent among many potential candidates.
+4.  **Success in Related Tasks:** Self-attention has been successfully applied in tasks like "reading comprehension" and "textual entailment," which often implicitly involve anaphora resolution to understand the full meaning of a text.
+
+In summary, attention mechanisms help by enabling models to effectively identify and link words across long distances within a sequence, understand the underlying grammatical and semantic relationships, and focus on the most pertinent information, all of which are critical for accurate anaphora resolution. The graph context confirms the existence of "Attention mechanism" and its relation to "Self-attention mechanism" and "Transformer" models, which are known to leverage these capabilities.
+2025-12-20 19:48:15,008 - __main__ - INFO - Initializing resources...
+2025-12-20 19:48:15,009 - __main__ - INFO - Loading EmbeddingGemma model...
+2025-12-20 19:48:15,011 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-12-20 19:48:15,011 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: google/embeddinggemma-300m
+2025-12-20 19:48:21,814 - sentence_transformers.SentenceTransformer - INFO - 14 prompts are loaded, with the keys: ['query', 'document', 'BitextMining', 'Clustering', 'Classification', 'InstructionRetrieval', 'MultilabelClassification', 'PairClassification', 'Reranking', 'Retrieval', 'Retrieval-query', 'Retrieval-document', 'STS', 'Summarization']
+2025-12-20 19:48:21,814 - __main__ - INFO - Loading vector store from E:\Python Stuff\MAS-for-multimodal-knowledge-graph\vector_store_outputs\index...
+2025-12-20 19:48:21,819 - faiss.loader - INFO - Loading faiss with AVX2 support.
+2025-12-20 19:48:21,842 - faiss.loader - INFO - Successfully loaded faiss with AVX2 support.
+2025-12-20 19:48:21,853 - __main__ - INFO - User query received: how does attention mechanism help in anaphora resolution?
+2025-12-20 19:48:21,854 - __main__ - INFO - Starting Query Agent with query: 'how does attention mechanism help in anaphora resolution?'
+2025-12-20 19:48:21,854 - __main__ - INFO - Invoking RAG retrieval tool...
+2025-12-20 19:48:21,854 - __main__ - INFO - RAG Tool invoked with user query: how does attention mechanism help in anaphora resolution?
+2025-12-20 19:48:22,213 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-12-20 19:48:22,237 - __main__ - INFO - Generated 5 RAG subqueries:
+2025-12-20 19:48:22,238 - __main__ - INFO -   Subquery 1: attention mechanism anaphora resolution
+2025-12-20 19:48:22,238 - __main__ - INFO -   Subquery 2: anaphora resolution using attention
+2025-12-20 19:48:22,238 - __main__ - INFO -   Subquery 3: neural attention models for anaphora resolution
+2025-12-20 19:48:22,238 - __main__ - INFO -   Subquery 4: role of attention in coreference resolution
+2025-12-20 19:48:22,238 - __main__ - INFO -   Subquery 5: attention-based approaches for anaphora resolution
+2025-12-20 19:48:22,238 - __main__ - INFO - RAG internal retrieval query: attention mechanism anaphora resolution
+2025-12-20 19:48:22,375 - __main__ - INFO - RAG retrieved 3 documents for subquery 'attention mechanism anaphora resolution'
+2025-12-20 19:48:22,375 - __main__ - INFO - RAG internal retrieval query: anaphora resolution using attention
+2025-12-20 19:48:22,458 - __main__ - INFO - RAG retrieved 3 documents for subquery 'anaphora resolution using attention'
+2025-12-20 19:48:22,459 - __main__ - INFO - RAG internal retrieval query: neural attention models for anaphora resolution
+2025-12-20 19:48:22,549 - __main__ - INFO - RAG retrieved 3 documents for subquery 'neural attention models for anaphora resolution'
+2025-12-20 19:48:22,550 - __main__ - INFO - RAG internal retrieval query: role of attention in coreference resolution
+2025-12-20 19:48:22,627 - __main__ - INFO - RAG retrieved 3 documents for subquery 'role of attention in coreference resolution'
+2025-12-20 19:48:22,627 - __main__ - INFO - RAG internal retrieval query: attention-based approaches for anaphora resolution
+2025-12-20 19:48:22,722 - __main__ - INFO - RAG retrieved 3 documents for subquery 'attention-based approaches for anaphora resolution'
+2025-12-20 19:48:22,722 - __main__ - INFO - Total unique documents after de-duplication across all subqueries: 10
+2025-12-20 19:48:22,723 - __main__ - INFO - RAG Unique Doc 1:
+  Source: neuronal_attention_circuits_raw_chunks_2k.jsonl
+  Chunk ID: neuronal_attention_circuits_raw_chunks_2k_0
+  Metadata: {'source': 'neuronal_attention_circuits_raw.md'}
+2025-12-20 19:48:22,723 - __main__ - INFO - RAG Unique Doc 2:
+  Source: attention_is_all_you_need_raw_chunks_2k.jsonl
+  Chunk ID: attention_is_all_you_need_raw_chunks_2k_2
+  Metadata: {'source': 'attention_is_all_you_need_raw.md'}
+2025-12-20 19:48:22,723 - __main__ - INFO - RAG Unique Doc 3:
+  Source: attention_is_all_you_need_raw_chunks_2k.jsonl
+  Chunk ID: attention_is_all_you_need_raw_chunks_2k_0
+  Metadata: {'source': 'attention_is_all_you_need_raw.md'}
+2025-12-20 19:48:22,723 - __main__ - INFO - RAG Unique Doc 4:
+  Source: attention_is_all_you_need_raw_chunks_2k.jsonl
+  Chunk ID: attention_is_all_you_need_raw_chunks_2k_1
+  Metadata: {'source': 'attention_is_all_you_need_raw.md'}
+2025-12-20 19:48:22,723 - __main__ - INFO - RAG Unique Doc 5:
+  Source: neuronal_attention_circuits_raw_chunks_2k.jsonl
+  Chunk ID: neuronal_attention_circuits_raw_chunks_2k_3
+  Metadata: {'source': 'neuronal_attention_circuits_raw.md'}
+2025-12-20 19:48:22,723 - __main__ - INFO - RAG Unique Doc 6:
+  Source: attention_functional_roles_raw_chunks_2k.jsonl
+  Chunk ID: attention_functional_roles_raw_chunks_2k_6
+  Metadata: {'source': 'attention_functional_roles_raw.md'}
+2025-12-20 19:48:22,723 - __main__ - INFO - RAG Unique Doc 7:
+  Source: attention_functional_roles_raw_chunks_2k.jsonl
+  Chunk ID: attention_functional_roles_raw_chunks_2k_2
+  Metadata: {'source': 'attention_functional_roles_raw.md'}
+2025-12-20 19:48:22,723 - __main__ - INFO - RAG Unique Doc 8:
+  Source: attention_functional_roles_raw_chunks_2k.jsonl
+  Chunk ID: attention_functional_roles_raw_chunks_2k_0
+  Metadata: {'source': 'attention_functional_roles_raw.md'}
+2025-12-20 19:48:22,723 - __main__ - INFO - RAG Unique Doc 9:
+  Source: sliding_window_attention_annotated_chunks_2k.jsonl
+  Chunk ID: sliding_window_attention_annotated_chunks_2k_1
+  Metadata: {'source': 'sliding_window_attention_annotated.md'}
+2025-12-20 19:48:22,723 - __main__ - INFO - RAG Unique Doc 10:
+  Source: neuronal_attention_circuits_raw_chunks_2k.jsonl
+  Chunk ID: neuronal_attention_circuits_raw_chunks_2k_4
+  Metadata: {'source': 'neuronal_attention_circuits_raw.md'}
+2025-12-20 19:48:22,723 - __main__ - INFO - RAG context returned to LLM (multi-subquery, k=3, deduplicated): num_chunks=10, total_chars=73320
+2025-12-20 19:48:22,723 - __main__ - INFO - Invoking Graph retrieval tool...
+2025-12-20 19:48:22,724 - __main__ - INFO - Graph Tool invoked with user query: how does attention mechanism help in anaphora resolution?
+2025-12-20 19:48:22,724 - __main__ - INFO - Connecting to Neo4j at neo4j+s://d15b3f68.databases.neo4j.io...
+2025-12-20 19:48:27,330 - __main__ - INFO - Resolving entities from graph for query: how does attention mechanism help in anaphora resolution?
+2025-12-20 19:48:27,674 - __main__ - INFO - Grounded entities to be provided to Cypher generator:
+- Attention mechanism (Concept)
+- Self-attention mechanism (Concept)
+- anaphora resolution (Concept)
+- Attention weights (Concept)
+- Attention map (Concept)
+2025-12-20 19:48:27,674 - __main__ - INFO - Initializing grounded GraphCypherQAChain...
+2025-12-20 19:48:40,367 - __main__ - INFO - Generated Cypher query for graph retrieval:
+2025-12-20 19:48:40,367 - __main__ - INFO - MATCH (c1:Concept {id: 'Attention mechanism'})-[r:ADDRESSES|MITIGATES]->(c2:Concept {id: 'anaphora resolution'})
+RETURN c1, r, c2
+2025-12-20 19:48:40,367 - __main__ - INFO - Raw graph context rows returned from Neo4j:
+[]
+2025-12-20 19:48:40,367 - __main__ - INFO - Graph retrieval returned empty context; running fallback queries...
+2025-12-20 19:48:41,498 - __main__ - INFO - Graph context returned to LLM:
+Fallback graph context (LLM query returned empty rows):
+
+Co-mention via Document evidence:
+{'source_id': 'attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k.jsonl::attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k_0', 'source_type': 'chunk', 'chunk_file': 'attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k.jsonl', 'chunk_id': 'attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k_0', 'chunk_index': '0', 'markdown_source': None}
+{'source_id': 'attention_is_all_you_need_raw_with_image_ids_with_captions.md::images', 'source_type': 'markdown', 'chunk_file': None, 'chunk_id': None, 'chunk_index': None, 'markdown_source': 'attention_is_all_you_need_raw_with_image_ids_with_captions.md'}
+
+Shortest paths (<=4 hops):
+{'p': [{'id': 'Attention mechanism'}, 'MENTIONS', {'chunk_index': '0', 'chunk_file': 'attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k.jsonl', 'source_type': 'chunk', 'id': 'c35df05545627694d3b4bbf52619a5da', 'text': 'attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k.jsonl::attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k_0', 'source_id': 'attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k.jsonl::attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k_0', 'chunk_id': 'attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k_0'}, 'MENTIONS', {'id': 'Self-attention mechanism'}]}
+
+Neighborhood of Concept 'Attention mechanism':
+{'rel': 'MENTIONS', 'n_labels': ['Document'], 'n_id': 'c35df05545627694d3b4bbf52619a5da'}
+{'rel': 'MENTIONS', 'n_labels': ['Document'], 'n_id': '888d0bd62e26d30498c9f50b218a6001'}
+{'rel': 'MENTIONS', 'n_labels': ['Document'], 'n_id': '36f927c2ec5951b1af0611a9728d214b'}
+{'rel': 'DEPICTS', 'n_labels': ['Image'], 'n_id': 'img_attention_is_all_you_need_12_0'}
+{'rel': 'BUILDS_ON', 'n_labels': ['Model'], 'n_id': 'Transformer'}
+{'rel': 'BUILDS_ON', 'n_labels': ['Model'], 'n_id': 'Encoder-decoder architectures'}
+{'rel': 'COMPARED_WITH', 'n_labels': ['Concept'], 'n_id': 'Active memory'}
+{'rel': 'EXTENDS', 'n_labels': ['Model'], 'n_id': 'Transformer'}
+2025-12-20 19:48:41,499 - __main__ - INFO - Synthesizing final answer from RAG and Graph contexts...
+2025-12-20 19:48:48,622 - __main__ - INFO - Final Answer: While neither the provided text nor graph context explicitly mentions "anaphora resolution," the descriptions of how attention mechanisms function strongly suggest their utility for this task.
+
+Attention mechanisms help in tasks like anaphora resolution by:
+
+1.  **Capturing Long-Range Dependencies:** Attention mechanisms, particularly self-attention, allow models to "model dependencies without regard to their distance in the input or output sequences." This is crucial for anaphora resolution, as the antecedent of a pronoun or noun phrase can often be far from the anaphor in a text. Self-attention layers connect all positions with a constant number of sequentially executed operations, making it easier to learn these long-range dependencies compared to recurrent layers.
+2.  **Focusing on Relevant Information:** Attention enables models to "focus on the most relevant observations" when processing a sequence. For anaphora resolution, this means the model can identify and weigh the importance of potential antecedents for a given anaphor, rather than being limited by sequential processing.
+3.  **Understanding Syntactic and Semantic Structure:** The text notes that "individual attention heads clearly learn to perform different tasks, many appear to exhibit behavior related to the syntactic and semantic structure of the sentences." This ability to discern syntactic and semantic relationships is fundamental for correctly linking anaphors to their antecedents. Multi-Head Attention further enhances this by allowing the model to "jointly attend to information from different representation subspaces at different positions," which can capture various facets of the anaphor-antecedent relationship.
+2025-12-20 19:50:06,966 - __main__ - INFO - Initializing resources...
+2025-12-20 19:50:06,966 - __main__ - INFO - Loading EmbeddingGemma model...
+2025-12-20 19:50:06,969 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-12-20 19:50:06,969 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: google/embeddinggemma-300m
+2025-12-20 19:50:13,573 - sentence_transformers.SentenceTransformer - INFO - 14 prompts are loaded, with the keys: ['query', 'document', 'BitextMining', 'Clustering', 'Classification', 'InstructionRetrieval', 'MultilabelClassification', 'PairClassification', 'Reranking', 'Retrieval', 'Retrieval-query', 'Retrieval-document', 'STS', 'Summarization']
+2025-12-20 19:50:13,573 - __main__ - INFO - Loading vector store from E:\Python Stuff\MAS-for-multimodal-knowledge-graph\vector_store_outputs\index...
+2025-12-20 19:50:13,579 - faiss.loader - INFO - Loading faiss with AVX2 support.
+2025-12-20 19:50:13,603 - faiss.loader - INFO - Successfully loaded faiss with AVX2 support.
+2025-12-20 19:50:13,611 - __main__ - INFO - User query received: how does attention mechanism help in anaphora resolution?
+2025-12-20 19:50:13,612 - __main__ - INFO - Starting Query Agent with query: 'how does attention mechanism help in anaphora resolution?'
+2025-12-20 19:50:13,612 - __main__ - INFO - Invoking RAG retrieval tool...
+2025-12-20 19:50:13,612 - __main__ - INFO - RAG Tool invoked with user query: how does attention mechanism help in anaphora resolution?
+2025-12-20 19:50:14,029 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-12-20 19:50:14,055 - __main__ - INFO - Generated 5 RAG subqueries:
+2025-12-20 19:50:14,056 - __main__ - INFO -   Subquery 1: attention mechanism anaphora resolution
+2025-12-20 19:50:14,056 - __main__ - INFO -   Subquery 2: anaphora resolution using attention
+2025-12-20 19:50:14,056 - __main__ - INFO -   Subquery 3: attention-based models for anaphora resolution
+2025-12-20 19:50:14,056 - __main__ - INFO -   Subquery 4: role of attention in anaphora resolution
+2025-12-20 19:50:14,056 - __main__ - INFO -   Subquery 5: anaphora resolution techniques with attention mechanism
+2025-12-20 19:50:14,056 - __main__ - INFO - RAG internal retrieval query: attention mechanism anaphora resolution
+2025-12-20 19:50:14,194 - __main__ - INFO - RAG retrieved 3 documents for subquery 'attention mechanism anaphora resolution'
+2025-12-20 19:50:14,194 - __main__ - INFO - RAG internal retrieval query: anaphora resolution using attention
+2025-12-20 19:50:14,278 - __main__ - INFO - RAG retrieved 3 documents for subquery 'anaphora resolution using attention'
+2025-12-20 19:50:14,278 - __main__ - INFO - RAG internal retrieval query: attention-based models for anaphora resolution
+2025-12-20 19:50:14,360 - __main__ - INFO - RAG retrieved 3 documents for subquery 'attention-based models for anaphora resolution'
+2025-12-20 19:50:14,361 - __main__ - INFO - RAG internal retrieval query: role of attention in anaphora resolution
+2025-12-20 19:50:14,443 - __main__ - INFO - RAG retrieved 3 documents for subquery 'role of attention in anaphora resolution'
+2025-12-20 19:50:14,443 - __main__ - INFO - RAG internal retrieval query: anaphora resolution techniques with attention mechanism
+2025-12-20 19:50:14,539 - __main__ - INFO - RAG retrieved 3 documents for subquery 'anaphora resolution techniques with attention mechanism'
+2025-12-20 19:50:14,539 - __main__ - INFO - Total unique documents after de-duplication across all subqueries: 5
+2025-12-20 19:50:14,539 - __main__ - INFO - RAG Unique Doc 1:
+  Source: neuronal_attention_circuits_raw_chunks_2k.jsonl
+  Chunk ID: neuronal_attention_circuits_raw_chunks_2k_0
+  Metadata: {'source': 'neuronal_attention_circuits_raw.md'}
+2025-12-20 19:50:14,539 - __main__ - INFO - RAG Unique Doc 2:
+  Source: attention_is_all_you_need_raw_chunks_2k.jsonl
+  Chunk ID: attention_is_all_you_need_raw_chunks_2k_2
+  Metadata: {'source': 'attention_is_all_you_need_raw.md'}
+2025-12-20 19:50:14,539 - __main__ - INFO - RAG Unique Doc 3:
+  Source: attention_is_all_you_need_raw_chunks_2k.jsonl
+  Chunk ID: attention_is_all_you_need_raw_chunks_2k_0
+  Metadata: {'source': 'attention_is_all_you_need_raw.md'}
+2025-12-20 19:50:14,539 - __main__ - INFO - RAG Unique Doc 4:
+  Source: attention_is_all_you_need_raw_chunks_2k.jsonl
+  Chunk ID: attention_is_all_you_need_raw_chunks_2k_1
+  Metadata: {'source': 'attention_is_all_you_need_raw.md'}
+2025-12-20 19:50:14,539 - __main__ - INFO - RAG Unique Doc 5:
+  Source: neuronal_attention_circuits_raw_chunks_2k.jsonl
+  Chunk ID: neuronal_attention_circuits_raw_chunks_2k_4
+  Metadata: {'source': 'neuronal_attention_circuits_raw.md'}
+2025-12-20 19:50:14,539 - __main__ - INFO - RAG context returned to LLM (multi-subquery, k=3, deduplicated): num_chunks=5, total_chars=37265
+2025-12-20 19:50:14,539 - __main__ - INFO - Invoking Graph retrieval tool...
+2025-12-20 19:50:14,540 - __main__ - INFO - Graph Tool invoked with user query: how does attention mechanism help in anaphora resolution?
+2025-12-20 19:50:14,540 - __main__ - INFO - Connecting to Neo4j at neo4j+s://d15b3f68.databases.neo4j.io...
+2025-12-20 19:50:20,873 - __main__ - INFO - Resolving entities from graph for query: how does attention mechanism help in anaphora resolution?
+2025-12-20 19:50:22,296 - __main__ - INFO - Grounded entities to be provided to Cypher generator:
+- Attention mechanism (Concept)
+- Self-attention mechanism (Concept)
+- anaphora resolution (Concept)
+- Attention weights (Concept)
+- Attention map (Concept)
+2025-12-20 19:50:24,771 - __main__ - INFO - Initializing grounded GraphCypherQAChain...
+2025-12-20 19:50:44,173 - __main__ - INFO - Generated Cypher query for graph retrieval:
+2025-12-20 19:50:44,174 - __main__ - INFO - MATCH (c1:Concept {id: "Attention mechanism"})
+MATCH (c2:Concept {id: "anaphora resolution"})
+MATCH (c1)<-[:MENTIONS]-(d:Document)-[:MENTIONS]->(c2)
+RETURN d.id, d.text, d.source_type, d.source_id
+LIMIT 10
+2025-12-20 19:50:44,174 - __main__ - INFO - Raw graph context rows returned from Neo4j:
+[{'d.id': '36f927c2ec5951b1af0611a9728d214b', 'd.text': 'attention_is_all_you_need_raw_with_image_ids_with_captions.md::images', 'd.source_type': 'markdown', 'd.source_id': 'attention_is_all_you_need_raw_with_image_ids_with_captions.md::images'}]
+2025-12-20 19:50:44,175 - __main__ - INFO - Graph retrieval returned empty context; running fallback queries...
+2025-12-20 19:50:47,951 - __main__ - INFO - Graph context returned to LLM:
+Fallback graph context (LLM query returned empty rows):
+
+Co-mention via Document evidence:
+{'source_id': 'attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k.jsonl::attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k_0', 'source_type': 'chunk', 'chunk_file': 'attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k.jsonl', 'chunk_id': 'attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k_0', 'chunk_index': '0', 'markdown_source': None}
+{'source_id': 'attention_is_all_you_need_raw_with_image_ids_with_captions.md::images', 'source_type': 'markdown', 'chunk_file': None, 'chunk_id': None, 'chunk_index': None, 'markdown_source': 'attention_is_all_you_need_raw_with_image_ids_with_captions.md'}
+
+Shortest paths (<=4 hops):
+{'p': [{'id': 'Attention mechanism'}, 'MENTIONS', {'chunk_index': '0', 'chunk_file': 'attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k.jsonl', 'source_type': 'chunk', 'id': 'c35df05545627694d3b4bbf52619a5da', 'text': 'attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k.jsonl::attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k_0', 'source_id': 'attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k.jsonl::attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k_0', 'chunk_id': 'attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k_0'}, 'MENTIONS', {'id': 'Self-attention mechanism'}]}
+
+Neighborhood of Concept 'Attention mechanism':
+{'rel': 'MENTIONS', 'n_labels': ['Document'], 'n_id': 'c35df05545627694d3b4bbf52619a5da'}
+{'rel': 'MENTIONS', 'n_labels': ['Document'], 'n_id': '888d0bd62e26d30498c9f50b218a6001'}
+{'rel': 'MENTIONS', 'n_labels': ['Document'], 'n_id': '36f927c2ec5951b1af0611a9728d214b'}
+{'rel': 'DEPICTS', 'n_labels': ['Image'], 'n_id': 'img_attention_is_all_you_need_12_0'}
+{'rel': 'BUILDS_ON', 'n_labels': ['Model'], 'n_id': 'Transformer'}
+{'rel': 'BUILDS_ON', 'n_labels': ['Model'], 'n_id': 'Encoder-decoder architectures'}
+{'rel': 'COMPARED_WITH', 'n_labels': ['Concept'], 'n_id': 'Active memory'}
+{'rel': 'EXTENDS', 'n_labels': ['Model'], 'n_id': 'Transformer'}
+2025-12-20 19:50:47,952 - __main__ - INFO - Synthesizing final answer from RAG and Graph contexts...
+2025-12-20 19:50:55,385 - __main__ - INFO - Final Answer: Neither the provided text nor the graph context directly discusses how attention mechanisms specifically help in anaphora resolution.
+
+However, based on the general capabilities of attention mechanisms described in the text, we can infer their utility for such a task:
+
+1.  **Modeling Long-Range Dependencies:** Anaphora resolution often requires linking a pronoun or anaphoric expression to an antecedent that may appear much earlier in a sentence or document. The text states that "attention mechanisms... allow modeling of dependencies without regard to their distance in the input or output sequences" and mitigate the limitations of recurrent neural networks in capturing "long-term dependencies." This ability to connect distant parts of a sequence is crucial for identifying the correct antecedent.
+2.  **Focusing on Relevant Information:** Attention allows models to "focus on the most relevant observations." In anaphora resolution, this means the model can learn to weigh the importance of different words in the context when trying to resolve an anaphor, effectively highlighting potential antecedents.
+3.  **Self-Attention for Contextual Understanding:** Self-attention layers, as used in the Transformer model (which builds on attention mechanisms according to the graph), enable "each position in the encoder [to] attend to all positions in the previous layer." This means that when processing a pronoun, the model can simultaneously consider all preceding words in the sequence to find its referent, without being limited by sequential processing.
+4.  **Multi-Head Attention for Diverse Relationships:** Multi-Head Attention allows the model to "jointly attend to information from different representation subspaces at different positions." This could be beneficial for anaphora resolution by allowing the model to simultaneously consider various linguistic cues (e.g., grammatical agreement, semantic compatibility, syntactic roles) when determining the correct antecedent.
+
+While anaphora resolution is not explicitly mentioned, the text notes that self-attention has been successfully applied in tasks like "reading comprehension" and "textual entailment," which often involve understanding coreference and dependencies within text.
+2025-12-20 19:51:36,949 - __main__ - INFO - Initializing resources...
+2025-12-20 19:51:36,949 - __main__ - INFO - Loading EmbeddingGemma model...
+2025-12-20 19:51:36,952 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-12-20 19:51:36,952 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: google/embeddinggemma-300m
+2025-12-20 19:51:43,826 - sentence_transformers.SentenceTransformer - INFO - 14 prompts are loaded, with the keys: ['query', 'document', 'BitextMining', 'Clustering', 'Classification', 'InstructionRetrieval', 'MultilabelClassification', 'PairClassification', 'Reranking', 'Retrieval', 'Retrieval-query', 'Retrieval-document', 'STS', 'Summarization']
+2025-12-20 19:51:43,826 - __main__ - INFO - Loading vector store from E:\Python Stuff\MAS-for-multimodal-knowledge-graph\vector_store_outputs\index...
+2025-12-20 19:51:43,831 - faiss.loader - INFO - Loading faiss with AVX2 support.
+2025-12-20 19:51:43,853 - faiss.loader - INFO - Successfully loaded faiss with AVX2 support.
+2025-12-20 19:51:43,862 - __main__ - INFO - User query received: how does attention mechanism help in anaphora resolution?
+2025-12-20 19:51:43,862 - __main__ - INFO - Starting Query Agent with query: 'how does attention mechanism help in anaphora resolution?'
+2025-12-20 19:51:43,862 - __main__ - INFO - Invoking RAG retrieval tool...
+2025-12-20 19:51:43,863 - __main__ - INFO - RAG Tool invoked with user query: how does attention mechanism help in anaphora resolution?
+2025-12-20 19:51:44,226 - httpx - INFO - HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-12-20 19:51:44,260 - __main__ - INFO - Generated 5 RAG subqueries:
+2025-12-20 19:51:44,260 - __main__ - INFO -   Subquery 1: attention mechanism anaphora resolution
+2025-12-20 19:51:44,260 - __main__ - INFO -   Subquery 2: anaphora resolution using attention in NLP
+2025-12-20 19:51:44,261 - __main__ - INFO -   Subquery 3: role of attention in coreference resolution
+2025-12-20 19:51:44,261 - __main__ - INFO -   Subquery 4: attention-based models for anaphora resolution
+2025-12-20 19:51:44,261 - __main__ - INFO -   Subquery 5: coreference resolution with attention mechanisms
+2025-12-20 19:51:44,261 - __main__ - INFO - RAG internal retrieval query: attention mechanism anaphora resolution
+2025-12-20 19:51:44,410 - __main__ - INFO - RAG retrieved 3 documents for subquery 'attention mechanism anaphora resolution'
+2025-12-20 19:51:44,410 - __main__ - INFO - RAG internal retrieval query: anaphora resolution using attention in NLP
+2025-12-20 19:51:44,504 - __main__ - INFO - RAG retrieved 3 documents for subquery 'anaphora resolution using attention in NLP'
+2025-12-20 19:51:44,505 - __main__ - INFO - RAG internal retrieval query: role of attention in coreference resolution
+2025-12-20 19:51:44,587 - __main__ - INFO - RAG retrieved 3 documents for subquery 'role of attention in coreference resolution'
+2025-12-20 19:51:44,587 - __main__ - INFO - RAG internal retrieval query: attention-based models for anaphora resolution
+2025-12-20 19:51:44,667 - __main__ - INFO - RAG retrieved 3 documents for subquery 'attention-based models for anaphora resolution'
+2025-12-20 19:51:44,667 - __main__ - INFO - RAG internal retrieval query: coreference resolution with attention mechanisms
+2025-12-20 19:51:44,749 - __main__ - INFO - RAG retrieved 3 documents for subquery 'coreference resolution with attention mechanisms'
+2025-12-20 19:51:44,749 - __main__ - INFO - Total unique documents after de-duplication across all subqueries: 8
+2025-12-20 19:51:44,749 - __main__ - INFO - RAG Unique Doc 1:
+  Source: neuronal_attention_circuits_raw_chunks_2k.jsonl
+  Chunk ID: neuronal_attention_circuits_raw_chunks_2k_0
+  Metadata: {'source': 'neuronal_attention_circuits_raw.md'}
+2025-12-20 19:51:44,749 - __main__ - INFO - RAG Unique Doc 2:
+  Source: attention_is_all_you_need_raw_chunks_2k.jsonl
+  Chunk ID: attention_is_all_you_need_raw_chunks_2k_2
+  Metadata: {'source': 'attention_is_all_you_need_raw.md'}
+2025-12-20 19:51:44,749 - __main__ - INFO - RAG Unique Doc 3:
+  Source: attention_is_all_you_need_raw_chunks_2k.jsonl
+  Chunk ID: attention_is_all_you_need_raw_chunks_2k_0
+  Metadata: {'source': 'attention_is_all_you_need_raw.md'}
+2025-12-20 19:51:44,749 - __main__ - INFO - RAG Unique Doc 4:
+  Source: attention_is_all_you_need_raw_chunks_2k.jsonl
+  Chunk ID: attention_is_all_you_need_raw_chunks_2k_6
+  Metadata: {'source': 'attention_is_all_you_need_raw.md'}
+2025-12-20 19:51:44,750 - __main__ - INFO - RAG Unique Doc 5:
+  Source: attention_is_all_you_need_raw_chunks_2k.jsonl
+  Chunk ID: attention_is_all_you_need_raw_chunks_2k_1
+  Metadata: {'source': 'attention_is_all_you_need_raw.md'}
+2025-12-20 19:51:44,750 - __main__ - INFO - RAG Unique Doc 6:
+  Source: attention_functional_roles_raw_chunks_2k.jsonl
+  Chunk ID: attention_functional_roles_raw_chunks_2k_6
+  Metadata: {'source': 'attention_functional_roles_raw.md'}
+2025-12-20 19:51:44,750 - __main__ - INFO - RAG Unique Doc 7:
+  Source: attention_functional_roles_raw_chunks_2k.jsonl
+  Chunk ID: attention_functional_roles_raw_chunks_2k_2
+  Metadata: {'source': 'attention_functional_roles_raw.md'}
+2025-12-20 19:51:44,750 - __main__ - INFO - RAG Unique Doc 8:
+  Source: attention_functional_roles_raw_chunks_2k.jsonl
+  Chunk ID: attention_functional_roles_raw_chunks_2k_0
+  Metadata: {'source': 'attention_functional_roles_raw.md'}
+2025-12-20 19:51:44,750 - __main__ - INFO - RAG context returned to LLM (multi-subquery, k=3, deduplicated): num_chunks=8, total_chars=57739
+2025-12-20 19:51:44,750 - __main__ - INFO - Invoking Graph retrieval tool...
+2025-12-20 19:51:44,750 - __main__ - INFO - Graph Tool invoked with user query: how does attention mechanism help in anaphora resolution?
+2025-12-20 19:51:44,750 - __main__ - INFO - Connecting to Neo4j at neo4j+s://d15b3f68.databases.neo4j.io...
+2025-12-20 19:51:46,765 - __main__ - INFO - Resolving entities from graph for query: how does attention mechanism help in anaphora resolution?
+2025-12-20 19:51:46,945 - __main__ - INFO - Grounded entities to be provided to Cypher generator:
+- Attention mechanism (Concept)
+- Self-attention mechanism (Concept)
+- anaphora resolution (Concept)
+- Attention weights (Concept)
+- Attention map (Concept)
+2025-12-20 19:51:47,121 - __main__ - INFO - Initializing grounded GraphCypherQAChain...
+2025-12-20 19:52:04,520 - __main__ - INFO - Generated Cypher query for graph retrieval:
+2025-12-20 19:52:04,520 - __main__ - INFO - MATCH (c1:Concept {id: "Attention mechanism"})
+MATCH (c2:Concept {id: "anaphora resolution"})
+MATCH (c1)<-[:MENTIONS]-(d:Document)-[:MENTIONS]->(c2)
+RETURN d.id, d.text, d.source_type, d.source_id
+LIMIT 10
+2025-12-20 19:52:04,521 - __main__ - INFO - Raw graph context rows returned from Neo4j:
+[{'d.id': '36f927c2ec5951b1af0611a9728d214b', 'd.text': 'attention_is_all_you_need_raw_with_image_ids_with_captions.md::images', 'd.source_type': 'markdown', 'd.source_id': 'attention_is_all_you_need_raw_with_image_ids_with_captions.md::images'}]
+2025-12-20 19:52:04,521 - __main__ - INFO - Graph context returned to LLM:
+Raw graph rows:
+{'d.id': '36f927c2ec5951b1af0611a9728d214b', 'd.text': 'attention_is_all_you_need_raw_with_image_ids_with_captions.md::images', 'd.source_type': 'markdown', 'd.source_id': 'attention_is_all_you_need_raw_with_image_ids_with_captions.md::images'}
+2025-12-20 19:52:04,522 - __main__ - INFO - Synthesizing final answer from RAG and Graph contexts...
+2025-12-20 19:52:11,230 - __main__ - INFO - Final Answer: The attention mechanism, particularly self-attention, significantly aids in anaphora resolution by:
+
+1.  **Modeling Long-Range Dependencies:** Attention allows models to capture dependencies between words regardless of their distance in a sequence. This is crucial for anaphora resolution, as pronouns (anaphors) and their antecedents can be far apart in a text. By treating all time steps equally, attention enables the model to focus on the most relevant observations for resolving these distant relationships.
+2.  **Shortening Path Lengths:** Self-attention connects all positions in a sequence with a constant number of sequential operations. This reduces the path length between any two input and output positions, making it easier for the network to learn long-range dependencies, which is essential for linking anaphors to their correct antecedents.
+3.  **Learning Syntactic and Semantic Structure:** Individual attention heads can learn to perform different tasks and exhibit behavior related to the syntactic and semantic structure of sentences. This specialization helps in identifying the grammatical and meaningful connections between anaphors and their antecedents.
+4.  **Application in Reading Comprehension:** Self-attention has been successfully applied in tasks like reading comprehension, which inherently requires effective anaphora resolution to understand the text.
+
+The graph context primarily points to the source document "attention_is_all_you_need_raw_with_image_ids_with_captions.md" but does not provide additional details on anaphora resolution.

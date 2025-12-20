@@ -56,16 +56,17 @@ def resolve_entities(graph: Neo4jGraph, query: str, limit: int = 5):
     YIELD node, score
     RETURN
         labels(node) AS labels,
-        node.text AS name,
+        coalesce(node.id, node.text, node.name) AS name,
         score
     ORDER BY score DESC
     LIMIT $limit
     """
 
-    return graph.query(
+    rows = graph.query(
         cypher,
         params={"query": query, "limit": limit},
     )
+    return [r for r in (rows or []) if r.get("name")]
 
 
 def query_graph(query: str):

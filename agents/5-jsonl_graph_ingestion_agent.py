@@ -54,7 +54,9 @@ def convert_to_langchain_format(custom_graph_doc: GraphDocument) -> LCGraphDocum
 
     lc_source = LCDocument(
         # Source is a pointer, not payload.
-        page_content=(custom_graph_doc.source.source_id if custom_graph_doc.source else ""),
+        page_content=(
+            custom_graph_doc.source.source_id if custom_graph_doc.source else ""
+        ),
         metadata=metadata,
     )
 
@@ -175,7 +177,7 @@ if __name__ == "__main__":
     input_file = (
         project_root
         / "knowledge_graph_outputs"
-        / "attention_is_all_you_need_annotated_chunks_graph.jsonl"
+        / "attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k_graph.jsonl"
     )
 
     # Connect to Neo4j

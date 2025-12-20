@@ -31,6 +31,7 @@ A comprehensive Multi-Agent System (MAS) for processing research papers into a N
 ### 5. Natural Language Querying (Agent 6)
 *   **Text-to-Cypher:** Converts user questions (e.g., "How does the attention mechanism work?") into Cypher queries.
 *   **Graph QA:** Executes the query against Neo4j and synthesizes a natural language answer based on the retrieved subgraph.
+*   **Detailed behavior**: See `agents/QUERY_AGENT_BEHAVIOR.md` (keep this updated whenever Agent 6 changes).
 
 ### 6. Pipeline Orchestrator
 *   **End-to-End Automation:** `main_pipeline.py` automates the entire flow from raw PDF to queryable database.
@@ -45,7 +46,7 @@ A comprehensive Multi-Agent System (MAS) for processing research papers into a N
 │   ├── 2-chunker_agent.py             # Markdown -> 5k/2k Token Chunks
 │   ├── 3-graph_data_extractor_agent.py # Chunks -> Graph Data (JSONL)
 │   ├── 5-jsonl_graph_ingestion_agent.py # JSONL -> Neo4j Database
-│   └── 6-graph_query_agent.py         # QA Interface
+│   └── 6-query_agent.py               # QA Interface (see agents/QUERY_AGENT_BEHAVIOR.md)
 ├── data/                              # Input PDFs
 ├── knowledge_graph_outputs/           # Generated Graph Data & Registry
 ├── markdown_outputs/                  # Intermediate Markdown & Images
