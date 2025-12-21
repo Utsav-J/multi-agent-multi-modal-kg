@@ -5,6 +5,85 @@ This file documents the **current runtime behavior** of `agents/6-query_agent.py
 **Maintenance rule:** whenever you change `agents/6-query_agent.py`, update this doc in the same commit/PR.
 
 ---
+## `agents/6-query_agent.py` — Hybrid Query Agent (RAG + Neo4j KG)
+
+### Purpose
+
+This agent answers natural-language questions by combining:
+
+- **Dense text retrieval (RAG)** from a local FAISS index built over 2k-token chunks
+- **Graph retrieval** from Neo4j using entity grounding + constrained Cypher generation + deterministic fallbacks
+
+It then synthesizes a final response using a Gemini chat model, with explicit instructions to:
+
+- use both contexts,
+- prefer the graph for relational/structural facts,
+- prefer retrieved text for detailed explanations,
+- and avoid hallucinating when evidence is missing.
+
+### How to run
+
+From repo root:
+
+- Ask a question:
+  - `uv run agents/6-query_agent.py "how does multi-head attention differ from single-head attention?"`
+
+### Canonical behavior doc
+
+The file `agents/QUERY_AGENT_BEHAVIOR.md` is the authoritative, detailed runtime specification for this agent.
+
+**Maintenance rule**: whenever `agents/6-query_agent.py` changes, update `agents/QUERY_AGENT_BEHAVIOR.md` in the same commit/PR.
+
+### Where it sits in the pipeline
+
+Upstream requirements:
+
+- `vector_store_outputs/index` exists (built by `agents/4-vector_store_creation_agent.py`)
+- Neo4j is populated with KG outputs (ingested using `agents/5-jsonl_graph_ingestion_agent.py` or equivalent)
+
+Downstream:
+
+- Produces final answers and evidence traces (logged to `logs/query_agent_logs.txt`).
+
+### Inputs
+
+CLI positional arg:
+
+- `query` (optional, defaults to `"what is attention?"`)
+
+### Outputs
+
+- Prints `=== Final Answer ===` and the synthesized response.
+- Logs detailed steps to:
+  - stdout
+  - `logs/query_agent_logs.txt`
+
+### Key components (high-level)
+
+- **RAG retrieval**:
+  - loads FAISS index from `vector_store_outputs/index`
+  - uses EmbeddingGemma embeddings via SentenceTransformers (`google/embeddinggemma-300m`)
+  - expands the user query into subqueries via `utils.rag_rephrase.generate_rag_subqueries`
+  - retrieves `k=3` per subquery, then de-duplicates chunks
+
+- **Graph retrieval**:
+  - connects to Neo4j via `NEO4J_URI`, `NEO4J_USERNAME`, `NEO4J_PASSWORD`
+  - grounds entities using a full-text index named `entityIndex`
+  - generates Cypher via `GraphCypherQAChain` with a constrained prompt that forbids inventing entities/relationship types
+  - falls back to deterministic evidence queries when the LLM query yields empty context
+  - optionally appends:
+    - `Images (from graph)` including image paths
+    - `Chunks (...)` sections resolving chunk ids back to `chunking_outputs/*.jsonl`
+
+### Reproducibility notes (for research writing)
+
+- Retrieval outputs depend on the FAISS index, embedding model version, and subquery generator behavior.
+- Graph answers depend on Neo4j content, presence of `entityIndex`, and the constrained Cypher generator.
+- Final synthesis uses `gemini-2.5-flash` with `temperature=0`; the agent also performs deterministic post-processing to enforce evidence blocks when present in graph context.
+
+### Paper-ready “Method” description (suggested wording)
+
+We answer queries using a hybrid evidence model: dense retrieval over chunked document text provides explanatory context, while a Neo4j knowledge graph provides structured relational evidence. The system grounds entity mentions using a graph full-text index, generates Cypher queries under strict constraints to prevent hallucinated entities, and falls back to deterministic evidence queries when direct relations are absent. A final LLM synthesizer combines retrieved text and graph evidence into a single answer, explicitly reporting image and chunk provenance when available.
 
 ## What it does (high-level)
 
