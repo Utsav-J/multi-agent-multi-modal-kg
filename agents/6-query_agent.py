@@ -2,6 +2,10 @@ import sys
 import os
 import argparse
 import logging
+import json
+import time
+import uuid
+from datetime import datetime, timezone
 from pathlib import Path
 from dotenv import load_dotenv
 
@@ -21,6 +25,10 @@ from utils.rag_rephrase import generate_rag_subqueries
 
 vector_store = None
 llm_for_tools = None
+LAST_QUERY_TRACE: dict = {
+    "rag": None,
+    "graph": None,
+}
 
 # Load environment variables
 load_dotenv()
@@ -175,11 +183,24 @@ def rag_retrieval_tool(query: str) -> str:
         str: Retrieved documents concatenated.
     """
     logger.info("RAG Tool invoked with user query: %s", query)
-    global vector_store
+    global vector_store, LAST_QUERY_TRACE
+
+    rag_trace: dict = {
+        "query": query,
+        "rewritten_or_decomposed_queries": [],
+        "k_per_subquery": 3,
+        "retrieved_chunks": [],
+        "retrieved_by_subquery": [],
+        "error": None,
+    }
+    t0 = time.perf_counter()
 
     if not vector_store:
         vector_store = load_vector_store()
         if not vector_store:
+            rag_trace["error"] = "Vector store is not available."
+            rag_trace["latency_ms"] = int((time.perf_counter() - t0) * 1000)
+            LAST_QUERY_TRACE["rag"] = rag_trace
             return "Error: Vector store is not available."
 
     # 1. Generate optimized RAG subqueries using Groq-backed util
@@ -198,6 +219,8 @@ def rag_retrieval_tool(query: str) -> str:
     for i, sq in enumerate(subqueries, 1):
         logger.info("  Subquery %d: %s", i, sq)
 
+    rag_trace["rewritten_or_decomposed_queries"] = list(subqueries)
+
     try:
         # Use k=3 per subquery as requested
         retriever = vector_store.as_retriever(search_kwargs={"k": 3})
@@ -205,6 +228,7 @@ def rag_retrieval_tool(query: str) -> str:
         # 2. Run retrieval for each subquery and collect unique chunks
         seen_keys: set[tuple] = set()
         unique_docs = []
+        retrieved_by_subquery: list[dict] = []
 
         for sq in subqueries:
             logger.info("RAG internal retrieval query: %s", sq)
@@ -215,16 +239,25 @@ def rag_retrieval_tool(query: str) -> str:
                 continue
 
             logger.info("RAG retrieved %d documents for subquery '%s'", len(docs), sq)
+            subquery_hits: list[dict] = []
             for d in docs:
                 key = (
                     d.metadata.get("source_file", ""),
                     d.metadata.get("chunk_id", ""),
                     d.page_content,
                 )
+                subquery_hits.append(
+                    {
+                        "chunk_id": d.metadata.get("chunk_id", "unknown"),
+                        "source_file": d.metadata.get("source_file", "unknown"),
+                    }
+                )
                 if key in seen_keys:
                     continue
                 seen_keys.add(key)
                 unique_docs.append(d)
+
+            retrieved_by_subquery.append({"subquery": sq, "hits": subquery_hits})
 
         # 3. Log each unique retrieved document with clear differentiation and metadata (no content)
         logger.info(
@@ -255,6 +288,19 @@ def rag_retrieval_tool(query: str) -> str:
             ]
         )
 
+        rag_trace["retrieved_by_subquery"] = retrieved_by_subquery
+        rag_trace["retrieved_chunks"] = [
+            {
+                "chunk_id": d.metadata.get("chunk_id", "unknown"),
+                "source_file": d.metadata.get("source_file", "unknown"),
+                "metadata": dict(d.metadata or {}),
+                "text": d.page_content,
+            }
+            for d in unique_docs
+        ]
+        rag_trace["latency_ms"] = int((time.perf_counter() - t0) * 1000)
+        LAST_QUERY_TRACE["rag"] = rag_trace
+
         # Log only metadata summary of the context returned to the LLM, not full content
         logger.info(
             "RAG context returned to LLM (multi-subquery, k=3, deduplicated): "
@@ -267,6 +313,9 @@ def rag_retrieval_tool(query: str) -> str:
 
     except Exception as e:
         logger.error(f"Error in RAG retrieval: {e}", exc_info=True)
+        rag_trace["error"] = str(e)
+        rag_trace["latency_ms"] = int((time.perf_counter() - t0) * 1000)
+        LAST_QUERY_TRACE["rag"] = rag_trace
         return f"Error occurred during retrieval: {str(e)}"
 
 
@@ -283,6 +332,18 @@ def graph_retrieval_tool(query: str) -> str:
         str: The answer derived from the graph database.
     """
     logger.info(f"Graph Tool invoked with user query: {query}")
+    global LAST_QUERY_TRACE
+    t0 = time.perf_counter()
+
+    graph_trace: dict = {
+        "query": query,
+        "grounded_entities": [],
+        "generated_cypher": None,
+        "raw_context_rows": None,
+        "fallback_used": False,
+        "retrieved_subgraph": {"nodes": [], "edges": []},
+        "error": None,
+    }
 
     try:
         url = os.getenv("NEO4J_URI")
@@ -321,7 +382,12 @@ def graph_retrieval_tool(query: str) -> str:
 
         if not entities:
             logger.warning("No matching entities found.")
+            graph_trace["grounded_entities"] = []
+            graph_trace["latency_ms"] = int((time.perf_counter() - t0) * 1000)
+            LAST_QUERY_TRACE["graph"] = graph_trace
             return "No relevant entities found in the knowledge graph."
+
+        graph_trace["grounded_entities"] = entities
 
         entity_str = "\n".join(
             f"- {e['name']} ({', '.join(e['labels'])})" for e in entities
@@ -559,6 +625,7 @@ def graph_retrieval_tool(query: str) -> str:
             logger.info("Generated Cypher query for graph retrieval:")
             generated_cypher = steps[0].get("query") or steps[0].get("cypher")
             logger.info(generated_cypher)
+            graph_trace["generated_cypher"] = generated_cypher
 
             if len(steps) > 1 and "context" in steps[1]:
                 raw_context_rows = steps[1]["context"]
@@ -566,6 +633,7 @@ def graph_retrieval_tool(query: str) -> str:
                     "Raw graph context rows returned from Neo4j:\n%s",
                     raw_context_rows,
                 )
+                graph_trace["raw_context_rows"] = raw_context_rows
 
         final_graph_context = result.get("result", "No result returned.")
         # Keep any fallback query rows that may include Document.source_id values
@@ -666,6 +734,7 @@ def graph_retrieval_tool(query: str) -> str:
             logger.info(
                 "Graph retrieval returned empty context; running fallback queries..."
             )
+            graph_trace["fallback_used"] = True
             top2 = _pick_top_concepts(entities)
             fallback_parts: list[str] = []
 
@@ -884,10 +953,87 @@ def graph_retrieval_tool(query: str) -> str:
 
         logger.info("Graph context returned to LLM:\n%s", final_graph_context)
 
+        # ---------------------------------------------------------------------
+        # Retrieve a concrete subgraph (nodes + edges) around grounded entities
+        # ---------------------------------------------------------------------
+        try:
+            grounded_names = [e.get("name") for e in (entities or []) if e.get("name")][
+                :10
+            ]
+            if grounded_names:
+                subgraph_rows = graph.query(
+                    """
+                    MATCH (n)
+                    WHERE coalesce(n.id, n.text, n.name) IN $names
+                    OPTIONAL MATCH (n)-[r]-(m)
+                    WITH n, r, m
+                    LIMIT $limit_rows
+                    RETURN
+                      collect(DISTINCT {
+                        id: coalesce(n.id, n.text, n.name),
+                        labels: labels(n),
+                        properties: properties(n)
+                      }) +
+                      collect(DISTINCT CASE
+                        WHEN m IS NULL THEN NULL
+                        ELSE {
+                          id: coalesce(m.id, m.text, m.name),
+                          labels: labels(m),
+                          properties: properties(m)
+                        }
+                      END) AS nodes,
+                      collect(DISTINCT CASE
+                        WHEN r IS NULL THEN NULL
+                        ELSE {
+                          source: coalesce(startNode(r).id, startNode(r).text, startNode(r).name),
+                          type: type(r),
+                          target: coalesce(endNode(r).id, endNode(r).text, endNode(r).name),
+                          properties: properties(r)
+                        }
+                      END) AS edges
+                    """,
+                    params={"names": grounded_names, "limit_rows": 200},
+                )
+                if subgraph_rows:
+                    row0 = (subgraph_rows or [{}])[0] or {}
+                    nodes = [n for n in (row0.get("nodes") or []) if n]
+                    edges = [e for e in (row0.get("edges") or []) if e]
+                    # De-dupe nodes by id, preserve first-seen order.
+                    seen_n = set()
+                    uniq_nodes = []
+                    for n in nodes:
+                        nid = n.get("id")
+                        if not nid or nid in seen_n:
+                            continue
+                        seen_n.add(nid)
+                        uniq_nodes.append(n)
+                    # De-dupe edges by (source,type,target)
+                    seen_e = set()
+                    uniq_edges = []
+                    for e in edges:
+                        key = (e.get("source"), e.get("type"), e.get("target"))
+                        if key in seen_e:
+                            continue
+                        seen_e.add(key)
+                        uniq_edges.append(e)
+                    graph_trace["retrieved_subgraph"] = {
+                        "nodes": uniq_nodes,
+                        "edges": uniq_edges,
+                    }
+        except Exception:
+            # Subgraph capture is best-effort; do not break answering.
+            pass
+
+        graph_trace["latency_ms"] = int((time.perf_counter() - t0) * 1000)
+        LAST_QUERY_TRACE["graph"] = graph_trace
+
         return final_graph_context
 
     except Exception as e:
         logger.error(f"Error in Graph retrieval: {e}", exc_info=True)
+        graph_trace["error"] = str(e)
+        graph_trace["latency_ms"] = int((time.perf_counter() - t0) * 1000)
+        LAST_QUERY_TRACE["graph"] = graph_trace
         return f"Error occurred during graph query: {str(e)}"
 
 
@@ -915,13 +1061,19 @@ def main():
     logger.info("User query received: %s", args.query)
     logger.info("Starting Query Agent with query: '%s'", args.query)
 
+    total_t0 = time.perf_counter()
+
     # 1) Always call RAG tool
     logger.info("Invoking RAG retrieval tool...")
+    rag_t0 = time.perf_counter()
     rag_result = rag_retrieval_tool.invoke(args.query)
+    rag_ms = int((time.perf_counter() - rag_t0) * 1000)
 
     # 2) Always call Graph tool
     logger.info("Invoking Graph retrieval tool...")
+    graph_t0 = time.perf_counter()
     graph_result = graph_retrieval_tool.invoke(args.query)
+    graph_ms = int((time.perf_counter() - graph_t0) * 1000)
 
     # 3) Synthesize final answer using both contexts
     synthesis_prompt = f"""
@@ -955,10 +1107,58 @@ Provide a clear, concise answer to the user's question.
 
     logger.info("Synthesizing final answer from RAG and Graph contexts...")
     try:
+        synth_t0 = time.perf_counter()
         final_msg = llm_for_tools.invoke(synthesis_prompt)
+        synth_ms = int((time.perf_counter() - synth_t0) * 1000)
         final_text = (
             final_msg.content if isinstance(final_msg, str) else final_msg.content
         )
+
+        def _deep_find_ints(obj, keys: set[str]) -> dict:
+            found: dict = {}
+            stack = [obj]
+            while stack:
+                cur = stack.pop()
+                if cur is None:
+                    continue
+                if isinstance(cur, dict):
+                    for k, v in cur.items():
+                        if isinstance(k, str) and k in keys and isinstance(v, int):
+                            found[k] = v
+                        stack.append(v)
+                elif isinstance(cur, (list, tuple)):
+                    for v in cur:
+                        stack.append(v)
+            return found
+
+        def _extract_token_usage(msg) -> dict | None:
+            """
+            Best-effort extraction of token usage from LangChain message metadata.
+            Availability depends on the underlying model/provider.
+            """
+            try:
+                meta = {}
+                if hasattr(msg, "response_metadata") and isinstance(
+                    getattr(msg, "response_metadata"), dict
+                ):
+                    meta.update(getattr(msg, "response_metadata") or {})
+                if hasattr(msg, "additional_kwargs") and isinstance(
+                    getattr(msg, "additional_kwargs"), dict
+                ):
+                    meta.update(getattr(msg, "additional_kwargs") or {})
+
+                token_keys = {
+                    "input_tokens",
+                    "output_tokens",
+                    "total_tokens",
+                    "prompt_token_count",
+                    "candidates_token_count",
+                    "completion_token_count",
+                }
+                found = _deep_find_ints(meta, token_keys)
+                return found or None
+            except Exception:
+                return None
 
         # -----------------------------------------------------------------
         # Deterministic post-processing (avoid hallucinated "chunks used")
@@ -1069,6 +1269,55 @@ Provide a clear, concise answer to the user's question.
         logger.info("Final Answer: %s", final_text)
         print("\n=== Final Answer ===\n")
         print(final_text)
+
+        # -----------------------------------------------------------------
+        # Structured per-query log (JSON) after the final answer
+        # -----------------------------------------------------------------
+        try:
+            trace_record = {
+                "run_id": str(uuid.uuid4()),
+                "timestamp_utc": datetime.now(timezone.utc).isoformat(),
+                "user_question": args.query,
+                "rewritten_or_decomposed_queries": (
+                    (LAST_QUERY_TRACE.get("rag") or {}).get(
+                        "rewritten_or_decomposed_queries", []
+                    )
+                ),
+                "retrieved_chunks": (LAST_QUERY_TRACE.get("rag") or {}).get(
+                    "retrieved_chunks", []
+                ),
+                "retrieved_graph_subgraph": (
+                    (LAST_QUERY_TRACE.get("graph") or {}).get(
+                        "retrieved_subgraph", {"nodes": [], "edges": []}
+                    )
+                ),
+                "final_answer": final_text,
+                "token_usage": _extract_token_usage(final_msg),
+                "latency_ms": {
+                    "rag": rag_ms,
+                    "graph": graph_ms,
+                    "synthesis": synth_ms,
+                    "total": int((time.perf_counter() - total_t0) * 1000),
+                },
+                "internal": {
+                    "rag": LAST_QUERY_TRACE.get("rag"),
+                    "graph": LAST_QUERY_TRACE.get("graph"),
+                },
+            }
+
+            trace_path = logs_dir / "query_traces.jsonl"
+            with open(trace_path, "a", encoding="utf-8") as f:
+                f.write(json.dumps(trace_record, ensure_ascii=False) + "\n")
+
+            logger.info(
+                "QUERY_TRACE_JSON %s",
+                json.dumps(trace_record, ensure_ascii=False),
+            )
+
+            print("\n=== Query Trace (JSON) ===\n")
+            print(json.dumps(trace_record, ensure_ascii=False, indent=2))
+        except Exception as e:
+            logger.warning("Failed to write structured query trace: %s", e)
     except Exception as e:
         logger.exception("Final answer synthesis failed.")
         print("Error during final answer synthesis:", e)

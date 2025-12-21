@@ -117,6 +117,7 @@ If no query is provided, it defaults to:
 - **Output**:
   - Prints `=== Final Answer ===` + the final synthesized answer to stdout.
   - Writes detailed logs to `logs/query_agent_logs.txt`.
+  - Appends a structured per-query JSON trace line to `logs/query_traces.jsonl`.
 
 ---
 
@@ -332,6 +333,39 @@ After both tools return strings:
 - Raw Neo4j context rows (if available)
 - Fallback query execution notice (only when needed)
 - Final answer text
+- Structured query trace emitted after the answer (see below)
+
+---
+
+## Structured per-query trace logging (JSON)
+
+After printing the final answer, the agent emits a **structured JSON record** and persists it for later analysis.
+
+### Where it is written
+
+- **File (JSONL)**: `logs/query_traces.jsonl`
+  - One JSON object per line, appended after each run.
+- **Stdout**: printed after the final answer under:
+  - `=== Query Trace (JSON) ===`
+- **Text log**: also logged as a single-line `QUERY_TRACE_JSON ...` entry in `logs/query_agent_logs.txt`.
+
+### What is captured per query
+
+The per-query JSON record includes:
+
+- **User question**: `user_question`
+- **Rewritten / decomposed queries**: `rewritten_or_decomposed_queries`
+- **Retrieved chunks**: `retrieved_chunks`
+  - includes `chunk_id`, `source_file`, chunk `metadata`, and chunk `text`
+- **Retrieved graph subgraph**: `retrieved_graph_subgraph`
+  - `nodes`: list of `{id, labels, properties}`
+  - `edges`: list of `{source, type, target, properties}`
+- **Final answer**: `final_answer`
+- **Token usage**: `token_usage` (best-effort; may be null depending on provider metadata availability)
+- **Latency**: `latency_ms`
+  - `rag`, `graph`, `synthesis`, `total`
+
+For debugging, the record also includes an `internal` block that contains the raw per-tool trace objects (`rag` and `graph`) used to build the top-level summary fields.
 
 ---
 
