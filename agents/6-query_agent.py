@@ -36,6 +36,7 @@ load_dotenv()
 # Windows console often defaults to cp1252 which can crash logging when unicode appears
 # in retrieved chunks/markdown. Force UTF-8 best-effort.
 try:
+    
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     if hasattr(sys.stderr, "reconfigure"):
