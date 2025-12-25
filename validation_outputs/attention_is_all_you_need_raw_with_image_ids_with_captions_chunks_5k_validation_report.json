@@ -1,11 +1,14 @@
 {
   "document_id": "attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k",
   "metrics": {
+    "entity_coverage": 0.0,
+    "relation_coverage": 0.0,
+    "node_faithfulness": 0.0,
+    "relation_faithfulness": 0.0,
     "orphan_ratio": 0.0,
-    "component_ratio": 1.0,
-    "type_violation_rate": 0.0
+    "component_ratio": 0.003076923076923077,
+    "type_violation_rate": 0.0,
+    "semantic_plausibility": 0.98
   },
-  "notes": [
-    "High component fragmentation - graph is highly fragmented"
-  ]
+  "notes": []
 }
