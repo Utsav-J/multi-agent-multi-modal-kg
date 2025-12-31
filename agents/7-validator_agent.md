@@ -147,3 +147,5 @@ Key assumptions:
 
 This positions the validator as a **self-consistency auditor**, not a fact checker.
 
+
+
