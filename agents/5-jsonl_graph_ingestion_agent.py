@@ -1,3 +1,4 @@
+import time
 import json
 import os
 import sys
@@ -227,23 +228,36 @@ def load_jsonl_and_ingest(file_path: str, graph: Neo4jGraph):
 
 
 if __name__ == "__main__":
-    # Define the input file path
-    input_file = (
-        project_root
-        / "knowledge_graph_outputs"
-        / "attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k_graph.jsonl"
-    )
+    # Define the knowledge_graph_outputs directory
+    output_dir = project_root / "knowledge_graph_outputs"
 
     # Connect to Neo4j
     try:
         graph = connect_to_neo4j()
-        print(1)
         graph.query("RETURN 1")
-        print(1)
         print("Connected to Neo4j.")
 
-        print(1)
-        load_jsonl_and_ingest(str(input_file), graph)
+        # Find all .jsonl files in the knowledge_graph_outputs folder
+        jsonl_files = list(output_dir.glob("*.jsonl"))
+        print(jsonl_files)
+
+        time.sleep(5)
+        if not jsonl_files:
+            print("No .jsonl files found in knowledge_graph_outputs folder.")
+        else:
+            print(f"Found {len(jsonl_files)} .jsonl file(s) to process.\n")
+
+            # Loop through each .jsonl file and process it
+            for jsonl_file in jsonl_files:
+                print(f"\n{'='*60}")
+                print(f"Processing: {jsonl_file.name}")
+                print(f"{'='*60}")
+                load_jsonl_and_ingest(str(jsonl_file), graph)
+                print(f"Completed: {jsonl_file.name}\n")
+
+            print(f"\n{'='*60}")
+            print(f"All {len(jsonl_files)} file(s) processed successfully!")
+            print(f"{'='*60}")
 
     except Exception as e:
         print(f"Failed to connect to Neo4j or execute graph operations: {e}")

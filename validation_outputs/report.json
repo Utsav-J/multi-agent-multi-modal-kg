@@ -1,0 +1,14 @@
+{
+  "document_id": "attention_functional_roles_raw_with_image_ids_with_captions_chunks_5k.jsonl",
+  "metrics": {
+    "entity_coverage": 0.0,
+    "relation_coverage": 0.0,
+    "node_faithfulness": 0.0,
+    "relation_faithfulness": 0.0,
+    "orphan_ratio": 0.0,
+    "component_ratio": 0.000544069640914037,
+    "type_violation_rate": 0.0,
+    "semantic_plausibility": 0.9387755102040817
+  },
+  "notes": []
+}
