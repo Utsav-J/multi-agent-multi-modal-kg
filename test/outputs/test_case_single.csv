@@ -1,0 +1,2040 @@
+query,category,rag_context,graph_context,retrieval_context,final_answer,rag_latency_ms,graph_latency_ms,synthesis_latency_ms,total_latency_ms,token_usage,rag_subqueries,rag_chunks_count,graph_entities_count,graph_cypher,rag_error,graph_error,timestamp
+What are the three attention logit computation modes supported by the Neuronal Attention Circuit (NAC)?,,"Content: **D.2. Ablations Details**
+
+
+The brief descriptions of variants and ablation are also divided into four subcategories:
+**Top-** _**K**_ **Ablations:** _NAC-2k_ uses Top- _K_ =2 to compute the
+logits and _NAC-32k_ uses Top- _K_ =32. All variants use the
+exact computation mode with 50% sparsity.
+**Sparsity Ablations:** _NAC-02s_ uses 20% sparsity to compute the logits and _NAC-09s_ uses 90%. _NAC-PW_ employs
+full pairwise (non-sparse) concatenation for input curation.
+_NAC-FC_ replaces the sparse NCP gating mechanism with
+a simple fully connected layer. All variants use the exact
+computation mode with Top- _K_ =8.
+**Modes variants:** _NAC-Euler_ computes attention logits using the explicit Euler integration method. _NAC-Steady_ derives attention logits from the steady-state solution of the
+exact formulation. _NAC-Exact/05s/8k_ computes attention
+logits using the closed-form exact solution. It also overlaps
+with other ablations, so we combined it into a single one.
+All modes use Top- _K_ =8, 50% sparsity and _δt_ =1.0. The
+sensitivity of NAC to _δt_ is visualized in Figure 4
+
+
+_Figure 4._ Effect of _δt_ on output of NAC.
+
+
+
+14
+
+
+
+![](E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/neuronal_attention_circuits.pdf-13-0.png)
+**Neuronal Attention Circuit (NAC) for Representation Learning**
+
+
+
+**D.3. Experimental Details**
+
+
+D.3.1. EVENT-BASED MNIST
+
+
+**Dataset Explanation and Curation:** The MNIST dataset,
+introduced by (Deng, 2012), is a widely used benchmark for
+computer vision and image classification tasks. It consists
+of 70,000 grayscale images of handwritten digits (0–9), each
+of size 28 _×_ 28 pixels, split into 60,000 training and 10,000
+testing samples.
+**Preprocessing:** We follow the preprocessing pipeline described in (Lechner & Hasani, 2022), which proceeds as
+follows. First, a threshold is applied to convert the 8-bit
+pixel values into binary values, with 128 as the threshold
+on a scale from 0 (minimum intensity) to 255 (maximum
+intensity). Second, each 28 _×_ 28 image is reshaped into a
+one-dimensional time series of length 784. Third, the binary
+time series is encoded in an event-based format, eliminating
+consecutive occurrences of the same value; for example, the
+sequence [1 _,_ 1 _,_ 1 _,_ 1] is transformed into (1 _, t_ = 4). This encoding introduces a temporal dimension and compresses the
+sequences from 784 to an average of 53 time steps. Finally,
+to facilitate efficient batching and training, each sequence
+is padded to a fixed length of 256, and the time dimension
+is normalized such that each symbol corresponds to one
+unit of time. The resulting dataset defines a per-sequence
+classification problem on irregularly sampled time series.
+**Neural Network Architecture:** We develop an end-to-end
+hybrid neural network by combining compact convolutional
+layers with NAC or counterparts baselines for fair comparison. Detailed hyperparameters and architectural specifications are provided in Table 4.
+
+
+D.3.2. PERSON ACTIVITY RECOGNITION (PAR)
+
+
+**Dataset Explanation and Curation:** We used the
+Localized Person Activity Recognition dataset provided by
+UC Irvine (Vidulin et al., 2010). The dataset comprises
+25 recordings of human participants performing different
+physical activities. The eleven possible activities are
+“walking,” “falling,” “lying down,” “lying,” “sitting down,”
+“sitting,” “standing up from lying,” “on all fours,” “sitting
+on the ground,” “standing up from sitting,” and “standing
+up from sitting on the ground.” The objective of this
+experiment is to recognize the participant’s activity from
+inertial sensors, formulating the task as a per-time-step
+classification problem. The input data consist of sensor
+readings from four inertial measurement units placed on
+participants’ arms and feet. While the sensors are sampled
+at a fixed interval of 211 ms, recordings exhibit different
+phase shifts and are thus treated as irregularly sampled time
+series.
+
+**Preprocessing:** We first separated each participant’s
+recordings based on sequence identity and calculated
+elapsed time in seconds using the sampling period. To
+
+
+
+mitigate class imbalance, we removed excess samples from
+overrepresented classes to match the size of the smallest
+class. Subsequently, the data were normalized using a
+standard scaler. Finally, the dataset was split into a 90:10
+ratio for training and testing.
+**Neural Network Architecture:** Following the approach in
+Section D.3.1, we developed an end-to-end hybrid neural
+network combining convolutional heads with NAC or other
+baselines. Hyperparameter details are summarized in Table
+4.
+
+
+D.3.3. AUTONOMOUS VEHICLE
+
+
+**Dataset Explanation and Curation:** We followed the data
+collection methodology described in (Razzaq & Hongwei,
+2023). For OpenAI-CarRacing, a PPO-trained agent (5M
+timesteps) was used to record 20 episodes, yielding approximately 48,174 RGB images of size 92 _×_ 92 _×_ 3 with
+corresponding action labels across five discrete actions (noact, move left, forward, move right, stop). The dataset was
+split with 10% reserved for testing and the remaining 90%
+for training. For the Udacity simulator, we manually controlled the vehicle for 50 minutes, producing 15647 RGB
+images of size 320 _×_ 160 _×_ 3, captured from three camera
+streams (left, center, right) along with their corresponding
+continuous steering values. This dataset was split into 20%
+testing and 80% training.
+**Preprocessing:** No preprocessing was applied to the
+OpenAI-CarRacing dataset. For the Udacity simulator, we
+followed the preprocessing steps in (Shibuya, 2017). Each
+image was first cropped to remove irrelevant regions and
+resized to 66 _×_ 120 _×_ 3. Images were then converted from
+RGB to YUV color space to match the network input. To improve robustness, data augmentation techniques, including
+random flips, translations, shadow overlays, and brightness
+variations, were applied to simulate lateral shifts and diverse
+lighting conditions.
+**Neural Network Architecture:** For OpenAI-CarRacing,
+we modified the neural network architecture proposed in
+(Razzaq & Hongwei, 2023), which combines compact CNN
+layers for spatial feature extraction with LNNs to capture
+temporal dynamics. In our implementation, the LNN layers
+were replaced with NAC and its comparable alternatives
+for fair evaluation. Full hyperparameter configurations are
+provided in Table 4. For the Udacity simulator, we modified
+the network proposed in (Bojarski et al., 2016) by replacing
+three latent MLP layers with NAC and its counterparts. Full
+hyperparameters for this configuration are summarized in
+Table 4.
+
+**Saliency Maps:** A saliency map visualizes the regions of
+the input that a model attends to when making decisions.
+Figure 5 shows the saliency maps for the OpenAI CarRacing environment. We observe that only NAC (Steady, Euler,
+
+
+
+15
+
+
+**Neuronal Attention Circuit (NAC) for Representation Learning**
+
+
+_Figure 5._ Saliency maps for OpenAI CarRacing
+
+
+_Figure 6._ Saliency maps for Udacity Simulator
+
+
+
+![](E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/neuronal_attention_circuits.pdf-15-0.png)
+
+![](E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/neuronal_attention_circuits.pdf-15-1.png)
+Source: neuronal_attention_circuits_raw_chunks_2k.jsonl
+
+Content: ## **Neuronal Attention Circuit (NAC) for Representation Learning**
+
+**Waleed Razzaq** [1] **Izis Kankaraway** [1] **Yun-Bo Zhao** [1 2]
+
+
+
+**Abstract**
+
+Attention improves representation learning over
+RNNs, but its discrete nature limits continuoustime (CT) modeling. We introduce Neuronal Attention Circuit (NAC), a novel, biologically plausible CT-Attention mechanism that reformulates
+
+attention logits computation as the solution to a
+linear first-order ODE with nonlinear interlinked
+gates derived from repurposing _C. elegans_ Neuronal Circuit Policies (NCPs) wiring mechanism.
+NAC replaces dense projections with sparse sensory gates for key-query projections and a sparse
+backbone network with two heads for computing
+_content-target_ and _learnable time-constant_ gates,
+enabling efficient adaptive dynamics. NAC supports three attention logit computation modes: (i)
+explicit Euler integration, (ii) exact closed-form
+solution, and (iii) steady-state approximation. To
+improve memory intensity, we implemented a
+sparse Top- _K_ pairwise concatenation scheme that
+selectively curates key-query interactions. We
+provide rigorous theoretical guarantees, including
+state stability, bounded approximation errors, and
+universal approximation. Empirically, we implemented NAC in diverse domains, including irregular time-series classification, lane-keeping for
+autonomous vehicles, and industrial prognostics.
+We observed that NAC matches or outperforms
+competing baselines in accuracy and occupies an
+intermediate position in runtime and memory efficiency compared with several CT baselines.
+
+
+**1. Introduction**
+
+
+Learning representations of sequential data in temporal or
+spatio-temporal domains is essential for capturing patterns
+and enabling accurate forecasting. Discrete-time Recurrent neural networks (DT-RNNs) such as RNN (Rumelhart et al., 1985; Jordan, 1997), Long-short term memory
+
+
+1Department of Automation, University of Science & Technology of China, Hefei, China [2] Institute of Artificial Intelligence,
+Hefei Comprehensive National Science Center. Correspondence to:
+Yun-Bo Zhao _<_ ybzhao@ustc.edu.cn _>_, Waleed Razzaq _<_ waleedrazzaq@mail.ustc.edu.cn _>_ .
+
+
+_Preprint. December 12, 2025._
+
+
+
+(LSTM) (Hochreiter & Schmidhuber, 1997), and Gated Recurrent Unit (GRU) (Cho et al., 2014) model sequential dependencies by iteratively updating hidden states to represent
+or predict future elements in a sequence. While effective
+for regularly sampled sequences, DT-RNNs face challenges
+with irregularly sampled data because they assume uniform
+time intervals. In addition, vanishing gradients can make
+it difficult to capture long-term dependencies (Hochreiter,
+1998).
+Continuous-time RNNs (CT-RNNs) (Rubanova et al., 2019)
+model hidden states as ordinary differential equations
+(ODEs), allowing them to process inputs that arrive at arbitrary or irregular time intervals. Mixed-memory RNNs
+(mmRNNs) (Lechner & Hasani, 2022) build on this idea
+by separating memory compartments from time-continuous
+states, helping maintain stable error propagation while capturing continuous-time dynamics. Liquid neural networks
+(LNNs) (Hasani et al., 2021; 2022) take a biologically inspired approach by assigning variable time-constants to hidden states, improving adaptability and robustness, though
+vanishing gradients can still pose challenges during training.
+The attention mechanisms (Vaswani et al., 2017) mitigate
+this limitation by treating all time steps equally and allowing models to focus on the most relevant observations. It
+computes the similarity between queries ( _q_ ) and keys ( _k_ ),
+scaling by the key dimension to keep gradients stable. MultiHead Attention (MHA) (Vaswani et al., 2017) extends this
+by allowing the model to attend to different representation
+subspaces in parallel. Variants like Sparse Attention (Tay
+et al., 2020; Roy et al., 2021), BigBird (Zaheer et al., 2020),
+and Longformer (Beltagy et al., 2020) modify the attention
+pattern to reduce computational cost, particularly for long sequences, by attending only to selected positions rather than
+all pairs. Even with these improvements, attention-based
+methods still rely on discrete scaled dot-product operations,
+limiting their ability to model continuous trajectories often
+captured by CT counterparts.
+Recent work has explored bridging this gap through NeuralODE (Chen et al., 2018) formulation. mTAN (Shukla &
+Marlin, 2021) learns CT embeddings and uses time-based
+attention to interpolate irregular observations into a fixedlength representation for downstream encoder-decoder modeling. ODEFormer (d’Ascoli et al., 2023) trains a sequenceto-sequence transformer on synthetic trajectories to directly
+infer symbolic ODE systems from noisy, irregular data,
+though it struggles with chaotic systems and generalization
+
+
+
+1
+
+
+**Neuronal Attention Circuit (NAC) for Representation Learning**
+
+
+
+beyond observed conditions. Continuous-time Attention
+(CTA) (Chien & Chen, 2021) embeds a continuous-time
+attention mechanism within a Neural ODE, allowing attention weights and hidden states to evolve jointly over time.
+Still, it remains computationally intensive and sensitive to
+the accuracy of the ODE solver. ContiFormer (Chen et al.,
+2023) builds a CT-transformer by pairing ODE-defined latent trajectories with a time-aware attention mechanism to
+model dynamic relationships in data.
+Despite these innovations, a persistent and underexplored
+gap remains in developing a biologically plausible attention
+mechanism that seamlessly integrates CT dynamics with the
+abstraction of the brain’s connectome to handle irregular sequences without prohibitive computational costs. Building
+on this, we propose a novel attention mechanism called the
+_Neuronal Attention Circuit_ (NAC), in which attention logits
+are computed as the solution to a first-order ODE modulated
+by nonlinear, interlinked gates derived from repurposing
+Neuronal Circuit Policies (NCPs) from the nervous system
+of _C. elegans_ nematode (refer to Appendix A.2 for more
+information). Unlike standard attention, which projects keyquery pairs through a dense layer, NAC employs a sensory
+gate to transform input features and a backbone to model
+nonlinear interactions, with multiple heads producing outputs structured for attention logits computation. Based on
+the solutions to ODE, we define three computation modes:
+(i) Exact, using the closed-form ODE solution; (ii) Euler,
+approximating the solution via _explicit Euler_ integration;
+and (iii) Steady, using only the steady-state solution, analogous to standard attention scores. To reduce computational
+complexity, we implemented a sparse Top- _K_ pairwise concatenation algorithm that selectively curates key-query inputs. We evaluate NAC across multiple domains, including
+irregularly sampled time series, autonomous vehicle lanekeeping, and Industry 4.0, comparing it to state-of-the-art
+baselines. NAC consistently matches or outperforms these
+models, while runtime and peak memory benchmarks place
+it between CT-RNNs in terms of speed and CT-Attentions
+in terms of memory requirements.
+
+
+**2. Neuronal Attention Circuit (NAC)**
+
+
+We propose a simple alternative formulation of the attention
+logits _a_ (refer to Appendix A.1 for more information), interpreting them as the solution to a first-order linear ODE
+modulated by nonlinear, interlinked gates:
+
+
+
+from repurposing NCPs. We refer to this formulation as
+the Neuronal Attention Circuit (NAC). It enables the logits
+_at_ to evolve dynamically with input-dependent, variable
+time constants, mirroring the adaptive temporal dynamics
+found in _C. elegans_ nervous systems while improving
+computational efficiency and expressiveness. Moreover, it
+introduces continuous depth into the attention mechanism,
+bridging discrete-layer computation with dynamic temporal
+evolution.
+
+**Motivation behind this formulation:** The proposed
+formulation is loosely motivated by the input-dependent
+time-constant mechanism of Liquid Neural Networks
+(LNNs), a class of CT-RNNs inspired by biological nervous
+systems and synaptic transmission. In this framework, the
+dynamics of non-spiking neurons are described by a linear
+ODE with nonlinear, interlinked gates: _ddt_ **xt** = **[x]** _τ_ **[t]** [+] **[ S][t]** _[,]_
+Source: neuronal_attention_circuits_raw_chunks_2k.jsonl
+
+Content: Scores: _S ←_ _Q · K_ _[⊤]_
+
+Effective Top- _K_ : _K_ eff _←_ min( _K, Tk_ )
+Indices: _I_ topk _←_ top ~~k~~ ( _S, K_ eff)
+Gather: _K_ selected _←_ gather( _K, I_ topk) _∈_ R _[B][×][H][×][T][q]_ _[×][K]_ [eff] _[×][D]_
+
+Tiled: _Q_ tiled _←_ tile( _Q, K_ eff) _∈_ R _[B][×][H][×][T][q]_ _[×][K]_ [eff] _[×][D]_
+
+Concatenate: _U_ topk _←_ [ _Q_ tiled; _K_ selected ] _∈_ R _[B][×][H][×][T][q]_ _[×][K]_ [eff] _[×]_ [2] _[D]_
+
+**return** _U_ topk
+
+
+**2.2. Designing the Neural Network**
+
+
+We now outline the design of a neural network layer guided
+by the preceding analysis. The process involves five steps:
+(i) repurposing NCPs; (ii) input curation; (iii) construction
+of the time vector ( _t_ ); (iv) computing attention logits and
+weights; and (v) generating the attention output. Figure 2
+provides a graphical overview of NAC.
+**Repurposing NCPs:** We repurpose the NCPs framework
+by converting its fixed, biologically derived wiring (see Figure 1(a)) into a flexible recurrent architecture that allows
+configurable input–output mappings. Instead of enforcing
+a static connectome, our approach exposes adjacency matrices as modifiable structures defining sparse input and
+recurrent connections. This enables selective information
+
+routing across neuron groups while retaining the original circuit topology. Decoupling wiring specifications from model
+instantiation allows dynamic connectivity adjustments to
+accommodate different input modalities without full retraining. Algorithm 1 summarizes the steps for repurposing the
+NCPs wiring mechanism. Key features include group-wise
+masking for neuron isolation, adaptive remapping of inputs
+and outputs for task-specific adaptation, and tunable sparsity
+_s_ to balance expressiveness and efficiency.
+In our implementation, the sensory neuron gate ( _NN_ sensory)
+projects the _q_, _k_, and _v_ representations (see Figure 1(b)).
+This enables sensory neurons to maintain structured, contextaware representations rather than collapsing inputs into fully
+
+
+
+connected layers. As a result, the network preserves locality
+and modularity, which improves information routing.
+
+
+_NN_ sensory = NCPCell( _G_ input = [ _Ns_ ] _, G_ output = [ _Ns_ ] _,_
+
+_D_ = [ _Ni, Nc, Nm_ ] _, s_ )
+(13)
+The inter-to-motor pathways form a backbone network
+( _NN_ backbone) with branches that compute _ϕ_ and _ωτ_ (see
+Figure 1(c)). Instead of learning _ϕ_ and _ωτ_ independently,
+this backbone allows the model to learn shared representations, enabling multiple benefits: (i) separate head layers
+enable the system to capture temporal and structural dependencies independently; (ii) accelerates convergence during
+training.
+
+
+_NN_ backbone = NCPCell( _G_ input = [ _Ni_ ] _, G_ output = [ _Nm_ ] _,_
+
+_D_ = [ _Ns_ ] _, s_ )
+(14)
+The output heads are defined as:
+
+
+_ϕ_ = _σ_ ( _NN_ backbone( **u** )) (15)
+
+_ωτ_ = softplus( _NN_ backbone( **u** )) + _ε,_ _ε >_ 0 (16)
+
+
+Here, _ϕ_ serves as a _content–target gate_ head, where the
+sigmoid function _σ_ ( _·_ ) determines the target signal strength.
+In contrast, _ωτ_ is a strictly positive _time–constant gate_ head
+that controls the rate of convergence and the steady-state
+amplitude. Conceptually, this parallels recurrent gating: _ϕ_
+regulates _what_ content to emphasize, while _ωτ_ governs _how_
+_quickly_ and _to what extent_ it is expressed.
+**Input Curation:** We experimented with different
+strategies for constructing query–key inputs. Initially, we implemented full pairwise concatenation,
+where queries _Q ∈_ R _[B][×][H][×][T][q][×][D]_ are combined with
+all keys _K_ _∈_ R _[B][×][H][×][T][k][×][D]_ to form a joint tensor
+_U ∈_ R _[B][×][H][×][T][q][×][T][k][×]_ [2] _[D]_ . While this preserved complete
+feature information and enabled expressive, learnable
+similarity functions, it was memory-intensive, making it impractical for longer sequences. To mitigate this, we applied
+a sparse Top- _K_ optimization: for each query, we compute
+pairwise scores _S_ = _Q · K_ _[⊤]_ _∈_ R _[B][×][H][×][T][q][×][T][k]_, select the
+Top- _K_ eff = min( _K, Tk_ ) keys, and construct concatenated
+pairs _U_ topk _∈_ R _[B][×][H][×][T][q][×][K]_ [eff] _[×]_ [2] _[D]_ . This approach preserves
+the most relevant interactions while substantially reducing
+memory requirements in the concatenation and subsequent
+backbone processing stages, allowing the method to scale
+linearly with the sequence length in those components.
+However, the initial computation of _S_ remains quadratic
+(see Appendix C.3). Algorithm 2 outlines the steps required
+for input curation.
+**Time Vector:** NAC builds on continuous-depth models
+as (Hasani et al., 2022) that adapt their temporal dynamics to the task. It constructs an internal, normalized
+pseudo-time vector _t_ pseudo using a sigmoidal transformation,
+_t_ pseudo = _σ_ ( _ta · t_ + _tb_ ), where _ta_ and _tb_ are learnable affine
+
+
+
+4
+
+
+**Neuronal Attention Circuit (NAC) for Representation Learning**
+
+
+
+parameters and _σ_ is the sigmoid function. For time-varying
+datasets (e.g., irregularly sampled series), each time point
+_t_ is derived from the sample’s timestamp, while for tasks
+without meaningful timing, _t_ is set to 1. The resulting _t_ pseudo
+lies in [0 _,_ 1] and provides a smooth, bounded representation
+of time for modulating the network’s dynamics.
+**Attention logits and weights:** Starting from Eqn. 3,
+consider the trajectory of a query–key pair with initial
+condition _a_ 0 = 0:
+
+
+
+_at_ = _[ϕ]_
+
+_ωτ_
+
+
+
+�1 _−_ _e_ _[−][ω][τ][ t]_ [�] _,_ (17)
+
+
+
+followed by the _softmax_ normalization to calculate attention weights. The resulting attention weights _αt_ [(] _[h]_ [)] are then
+used to integrate with the value vector _v_ [(] _[h]_ [)], producing headspecific attention outputs. Finally, these outputs are concatenated and linearly projected back into the model dimension.
+This formulation ensures that each head learns distinct dynamic compatibilities governed by its own parameterization
+of _ϕ_ and _ωτ_, while the aggregation across heads preserves
+the expressive capacity of the standard multi-head attention
+mechanism.
+
+
+**2.3. NAC as Universal Approximator**
+
+
+We now establish the universal approximation capability of
+NAC by extending the classical Universal Approximation
+Theorem (UAT) (Nishijima, 2021) to the proposed mechanism. For brevity, we consider a network with a single
+NAC layer processing fixed-dimensional inputs, though the
+argument generalizes to sequences.
+Source: neuronal_attention_circuits_raw_chunks_2k.jsonl
+
+Content: **2.3. NAC as Universal Approximator**
+
+
+We now establish the universal approximation capability of
+NAC by extending the classical Universal Approximation
+Theorem (UAT) (Nishijima, 2021) to the proposed mechanism. For brevity, we consider a network with a single
+NAC layer processing fixed-dimensional inputs, though the
+argument generalizes to sequences.
+
+
+**Theorem 2** (Universal Approximation by NAC) **.** _Let K ⊂_
+R _[n]_ _be a compact set and f_ : _K →_ R _[m]_ _be a continuous_
+_function. For any ϵ >_ 0 _, there exists a neural network_
+_consisting of a single NAC layer, with sufficiently large_
+_model dimension dmodel, number of heads H, sparsity s,_
+_and nonlinear activations, such that the network’s output_
+_g_ : R _[n]_ _→_ R _[m]_ _satisfies_
+
+
+sup _∥f_ ( _x_ ) _−_ _g_ ( _x_ ) _∥_ _< ϵ._ (20)
+_x∈K_
+
+
+_The proof is provided in Appendix B.3._
+
+
+**3. Evaluation**
+
+
+We evaluate the proposed architecture against a range of
+baselines, including (DT & CT) RNN, (DT & CT) attention,
+and multiple NAC ablation configurations. Experiments
+are conducted across diverse domains, including irregular
+time-series modeling, lane keeping of autonomous vehicles,
+and Industry 4.0 prognostics. All results are obtained using 5-fold cross-validation, where models are trained using
+BPTT (see Appendix C.2) on each fold and evaluated across
+all folds. We report the mean ( _µ_ ) and standard deviation ( _σ_ )
+to capture variability and quantify uncertainty in the predictions. Table 1 provides results for all experiments, and the
+details of the baselines, ablation, environment utilized, the
+data curation and preprocessing, and neural network architectures for all experiments are provided in the Appendix
+D.3.
+
+
+**3.1. Irregular Time-series**
+
+
+We evaluate the proposed architecture on two irregular timeseries datasets: (i) Event-based MNIST; and (ii) Person
+Activity Recognition (PAR).
+
+
+
+For finite _t_, the exponential factor (1 _−_ _e_ _[−][ω][τ][ t]_ ) regulates the
+buildup of attention, giving _ωτ_ a temporal gating role. Normalizing across all keys via _softmax_ yields attention weights
+_αt_ = softmax( _at_ ), defining a valid probability distribution
+where _ϕ_ amplifies or suppresses content alignments, and _ωτ_
+shapes both the speed and saturation of these preferences.
+As _t →∞_, the trajectory converges to the steady state
+
+
+_a_ _[∗]_ _t_ [=] _[ϕ]_ _≈_ _[q][⊤][k]_ _,_ (18)
+
+_ωτ_ ~~_√_~~ _dk_
+
+
+which is analogous to scaled-dot attention under specific
+parameterization when the backbone _NN_ backbone is configured as a linear projection such that _ϕ_ ( **u** ) = _q_ _[⊤]_ _k_ and
+_ωτ_ ( _u_ ) = _[√]_ _dk_ (e.g., by setting NCP weights to emulate
+bilinear forms and disabling nonlinearities). In general, the
+nonlinear backbone allows for more expressive similarities,
+with the approximation holding when trained to mimic dot
+products.
+**Attention output:** Finally, the attention output is computed
+by integrating the attention weights with the value matrix:
+
+
+NAC( _q, k, v_ ) = _αtvtdt_ (19)
+� _T_
+
+
+In practice, the integration is approximated using a Riemannstyle approach, where the weighted elements are computed
+by multiplying each _vt_ with its corresponding _αt_ . These are
+then summed and multiplied by a fixed pseudo-time step
+_δt_, chosen as a scalar (typically between 0.5–1.0) hyperparameter during layer initialization. This yields a continuous
+analogue of standard weighted sums, giving finer resolution
+of the attention trajectory without altering the underlying
+values. Sensitivity to attention output w.r.t _δt_ is visualized
+in Appendix D.2.
+
+
+2.2.1. EXTENSION TO MULTI-HEAD
+
+
+To scale this mechanism to multi-head attention, we project
+the input sequence into _H_ independent subspaces (heads)
+of dimension _d_ model _/H_, yielding query, key, and value tensors ( _q_ [(] _[h]_ [)] _, k_ [(] _[h]_ [)] _, v_ [(] _[h]_ [)] ) for _h ∈{_ 1 _, . . ., H}_ . For each head,
+pairwise logits are computed according to Eqns. 2,3 or 18,
+
+
+
+5
+
+
+**Neuronal Attention Circuit (NAC) for Representation Learning**
+
+
+_Figure 2._ Illustration of the architecture of **(a)** Neuronal Attention Circuit mechanism ; **(b)** Multi-Head Extension
+
+
+
+![](E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/neuronal_attention_circuits.pdf-5-0.png)
+
+**Event-based MNIST:** Event-based MNIST is the trans
+formation of the widely recognized MNIST dataset with
+irregular sampling added originally proposed in (Lechner
+& Hasani, 2022). The transformation was done in two
+steps: (i) flattening each 28×28 image into a time series
+of length 784, and (ii) encoding the binary time series into
+an event-based format by collapsing consecutive identical
+values (e.g., 1,1,1,1 → (1, t=4)). This representation requires models to handle temporal dependencies effectively.
+NAC-PW achieved first place with an accuracy of 96.64%,
+followed by NAC-Exact/05s/8k at 96.12%. GRU-ODE and
+ContiFormer ranked third with 96.04%.
+
+**Person Activity Recognition (PAR):** We employed the
+Localized Person Activity dataset from UC Irvine (Vidulin
+et al., 2010). The dataset contains data from five participants,
+each equipped with inertial measurement sensors sampled
+every 211 ms. The goal of this experiment is to predict a
+person’s activity from a set of predefined actions, making it
+a classification task. All models performed well on this task,
+with NAC-PW achieving 89.15% accuracy and taking first
+place. NAC-Exact/05s/8k and GRU-ODE ranked second
+with 89.01% accuracy, while NAC-02s ranked third with
+88.84% mean accuracy.
+
+
+**3.2. Lane-Keeping of Autonomous Vehicles**
+
+
+Lane keeping in autonomous vehicles (AVs) is a fundamental problem in robotics and AI. Early works (Tiang et al.,
+2018; Park et al., 2021) primarily emphasized accuracy,
+often relying on large models. More recent research (Lechner et al., 2020; Razzaq & Hongwei, 2023) has shifted toward designing compact architectures suitable for resourceconstrained devices. The goal of this experiment is to create
+a long causal structure between the road’s horizon and the
+Source: neuronal_attention_circuits_raw_chunks_2k.jsonl
+
+Content: the ceiling and floor functions, respectively. This results
+in a larger overall architectural size and increased runtime.
+
+
+
+Future work will support user-defined NCPs configurations
+or randomized wiring to enable more efficient architectures.
+**Learnable sparse Top-** _**K**_ **selection:** Sparse Top- _K_ attention can miss important context, is sensitive to _k_, and may
+be harder to optimize. A further limitation is that it still
+computes the full _QK_ _[⊤]_ matrix, which can dominate the
+cost for very long sequences. Future work includes adaptive
+or learnable Top- _K_ selection, improved key scoring, and
+hardware-aware optimization to strengthen accuracy and
+robustness.
+
+
+**5. Conclusion**
+
+
+In this paper, we introduce the Neuronal Attention Circuit
+(NAC), a biologically inspired attention mechanism that
+reformulates attention logits as the solution to a first-order
+ODE modulated by nonlinear, interlinked gates derived from
+repurposing _C.elegans_ nematode NCPs. NAC bridges discrete attention with continuous-time dynamics, enabling
+adaptive temporal processing without the limitations inherent to traditional scaled dot-product attention. Based on the
+solution to ODE, we introduce three computational modes:
+(i) Euler, based on _explicit Euler_ integration; (ii) Exact, providing closed-form solutions; and (iii) Steady, approximating equilibrium states. In addition, a sparse Top- _K_ pairwise
+concatenation scheme is introduced to mitigate the memory intensity. Theoretically, we establish NAC’s log-state
+stability, exponential error bounds, and universal approximation, thereby providing rigorous guarantees of convergence
+and expressiveness. Empirical evaluations demonstrate that
+NAC achieves state-of-the-art performance across diverse
+tasks, including irregularly sampled time-series benchmarks,
+autonomous vehicle lane-keeping, and industrial prognostics. Moreover, NAC occupies an intermediate position
+between CT-RNNs and CT-Attention, offering robust temporal modeling while requiring less runtime than CT-RNNs
+and less memory than CT-Attention models.
+
+
+**Reproducibility Statement**
+
+
+The code for reproducibility is available at
+[https://github.com/itxwaleedrazzaq/](https://github.com/itxwaleedrazzaq/neuronal_attention_circuit)
+
+[neuronal_attention_circuit](https://github.com/itxwaleedrazzaq/neuronal_attention_circuit)
+
+
+**Impact Statement**
+
+
+The work addresses the growing field of continuous-time
+attention and pioneers a biologically plausible mechanism.
+It encourages research into sparse, adaptive networks that
+resemble natural wiring. From a societal perspective, it
+supports more robust AI in resource-limited settings, but it
+also raises ethical concerns when applied to areas such as
+surveillance or autonomous systems.
+
+
+
+8
+
+
+**Neuronal Attention Circuit (NAC) for Representation Learning**
+
+
+
+**References**
+
+
+Introduction to self-driving cars. URL
+[https://www.udacity.com/course/](https://www.udacity.com/course/intro-to-self-driving-cars--nd113)
+[intro-to-self-driving-cars--nd113.](https://www.udacity.com/course/intro-to-self-driving-cars--nd113)
+
+
+Aguiar-Conraria, L. and Soares, M. J. The continuous
+wavelet transform: Moving beyond uni-and bivariate analysis. _Journal of economic surveys_, 28(2):344–375, 2014.
+
+
+Beltagy, I., Peters, M. E., and Cohan, A. Longformer: The long-document transformer. _arXiv preprint_
+_arXiv:2004.05150_, 2020.
+
+
+Bojarski, M., Del Testa, D., Dworakowski, D., Firner, B.,
+Flepp, B., Goyal, P., Jackel, L. D., Monfort, M., Muller,
+U., Zhang, J., et al. End to end learning for self-driving
+cars. _arXiv preprint arXiv:1604.07316_, 2016.
+
+
+Brockman, G., Cheung, V., Pettersson, L., Schneider, J.,
+Schulman, J., Tang, J., and Zaremba, W. Openai gym.
+_arXiv preprint arXiv:1606.01540_, 2016.
+
+
+Cao, Y., Li, S., Petzold, L., and Serban, R. Adjoint sensitivity analysis for differential-algebraic equations: The
+adjoint dae system and its numerical solution. _SIAM_
+_journal on scientific computing_, 24(3):1076–1089, 2003.
+
+
+Chen, R. T., Rubanova, Y., Bettencourt, J., and Duvenaud,
+D. K. Neural ordinary differential equations. _Advances_
+_in neural information processing systems_, 31, 2018.
+
+
+Chen, Y., Ren, K., Wang, Y., Fang, Y., Sun, W., and Li, D.
+Contiformer: Continuous-time transformer for irregular
+time series modeling. _Advances in Neural Information_
+_Processing Systems_, 36:47143–47175, 2023.
+
+
+Chien, J.-T. and Chen, Y.-H. Continuous-time attention for
+sequential learning. In _Proceedings of the AAAI confer-_
+_ence on artificial intelligence_, volume 35, pp. 7116–7124,
+2021.
+
+
+Cho, K., Van Merrienboer, B., Gulcehre, C., Bahdanau,¨
+D., Bougares, F., Schwenk, H., and Bengio, Y. Learning phrase representations using rnn encoder-decoder
+for statistical machine translation. _arXiv preprint_
+_arXiv:1406.1078_, 2014.
+
+
+d’Ascoli, S., Becker, S., Mathis, A., Schwaller, P., and
+Kilbertus, N. Odeformer: Symbolic regression of dynamical systems with transformers. _arXiv preprint_
+_arXiv:2310.05573_, 2023.
+
+
+De Brouwer, E., Simm, J., Arany, A., and Moreau, Y.
+Gru-ode-bayes: Continuous modeling of sporadicallyobserved time series. _Advances in neural information_
+_processing systems_, 32, 2019.
+
+
+
+Deng, L. The mnist database of handwritten digit images
+for machine learning research [best of the web]. _IEEE_
+_signal processing magazine_, 29(6):141–142, 2012.
+
+
+Ding, Y., Jia, M., Miao, Q., and Huang, P. Remaining
+useful life estimation using deep metric transfer learning
+for kernel regression. _Reliability Engineering & System_
+_Safety_, 212:107583, 2021.
+
+
+Hasani, R., Lechner, M., Amini, A., Rus, D., and Grosu,
+R. Liquid time-constant networks. In _Proceedings of the_
+_AAAI Conference on Artificial Intelligence_, volume 35,
+pp. 7657–7666, 2021.
+
+
+Hasani, R., Lechner, M., Amini, A., Liebenwein, L., Ray,
+A., Tschaikowski, M., Teschl, G., and Rus, D. Closed
+form continuous-time neural networks. _Nature Machine_
+
+_Intelligence_, 4(11):992–1003, 2022.
+
+
+Hochreiter, S. The vanishing gradient problem during learning recurrent neural nets and problem solutions. _Interna-_
+_tional Journal of Uncertainty, Fuzziness and Knowledge-_
+_Based Systems_, 6(02):107–116, 1998.
+
+
+Hochreiter, S. and Schmidhuber, J. Long short-term memory.
+_Neural computation_, 9(8):1735–1780, 1997.
+
+
+Hong, H. S. and Thuan, N. Hust bearing: a practical dataset
+for ball bearing fault diagnosis. _Mendeley Data_, 3, 2023.
+
+
+John, F. On integration of parabolic equations by difference methods: I. linear and quasi-linear equations for the
+infinite interval. _Communications on Pure and Applied_
+_Mathematics_, 5(2):155–211, 1952.
+Source: neuronal_attention_circuits_raw_chunks_2k.jsonl
+
+Content: _a_ ( _t_ + ∆ _t_ ) = _at_ + ∆ _t ·_ _[da]_ (36)
+
+_dt_ _[.]_
+
+
+
+At _a_ = _M_, _[da]_ _dt_ _[≤]_ [0 =] _[⇒]_ _[a]_ [(] _[t]_ [ + ∆] _[t]_ [)] _[ ≤]_ _[M]_ [. At] _[ a]_ [ =] _[ m]_ [,]
+
+_dadt_ _[≥]_ [0 =] _[⇒]_ _[a]_ [(] _[t]_ [ + ∆] _[t]_ [)] _[ ≥]_ _[m]_ [. By induction over steps,]
+
+_at ∈_ [ _m, M_ ] for all _t ∈_ [0 _, T_ ].
+
+
+
+12
+
+
+**Neuronal Attention Circuit (NAC) for Representation Learning**
+
+
+
+multi-head, scale _H_ proportionally to target complexity,
+with output projection _Wo_ aggregating as in classical UAT
+proofs (Stinchcomb, 1989).
+**Input Projections:** The input _x_ is projected via NCPbased sensory projections to obtain query _q_ = _q_ proj( _x_ ), key
+_k_ = _k_ proj( _x_ ), and value _v_ = _v_ proj( _x_ ), each in R _[d]_ [model] . For
+emulation, set _q_ proj = _k_ proj = _In_ (identity on R _[n]_ ) and adjust
+
+
+**Head Splitting and Sparse Top-** _**k**_ **Pairwise Computation:**
+Split into _H_ heads, yielding _q_ [(] _[h]_ [)] _, k_ [(] _[h]_ [)] _∈_ R _[d]_ per head _h_,
+where _d_ = _d_ model _/H_ . For _T_ = 1, compute sparse top- _k_
+pairs, but since _T_ = 1, _K_ eff = 1, yielding concatenated
+pair _u_ [(] _[h]_ [)] = [ _q_ [(] _[h]_ [)] ; _k_ [(] _[h]_ [)] ] _∈_ R [2] _[d]_ . Since _q_ [(] _[h]_ [)] = _k_ [(] _[h]_ [)], this is
+
+[ _x_ [(] _[h]_ [)] ; _x_ [(] _[h]_ [)] ], but the NCP processes it generally.
+**Computation of** _ϕ_ [(] _[h]_ [)] **and** _ωτ_ [(] _[h]_ [)] **:** The scalar _ϕ_ [(] _[h]_ [)] is computed via the NCP-based inter-to-motor projection on the
+pair:
+_ϕ_ [(] _[h]_ [)] = _σ_ ( _NN_ backbone( _u_ [(] _[h]_ [)] )) (42)
+
+
+where _σ_ ( _z_ ) = (1 + _e_ _[−][z]_ ) _[−]_ [1] is the sigmoid. This NCP, with
+sufficiently large units and low sparsity, approximates any
+continuous scalar function _ϕ_ [˜] : R [2] _[d]_ _→_ [0 _,_ 1] to arbitrary precision on compact sets (by the UAT for multi-layer networks
+(Stinchcomb, 1989)). Similarly, _ωτ_ [(] _[h]_ [)] is computed via:
+
+
+_ωτ_ [(] _[h]_ [)] = softplus( _NN_ backbone( _u_ [(] _[h]_ [)] )) + _ε,_ _ε >_ 0 (43)
+
+
+By setting weights to make _ωτ_ [(] _[h]_ [)] _≡_ 1 (constant), the steadymode logit simplifies to _a_ [(] _[h]_ [)] = _ϕ_ [(] _[h]_ [)] _/ωτ_ [(] _[h]_ [)] = _ϕ_ [(] _[h]_ [)] . Thus,
+_a_ [(] _[h]_ [)] _≈_ _σ_ � _w_ [(] _[h]_ [)] _x_ + _b_ [(] _[h]_ [)][�] for chosen weights _w_ [(] _[h]_ [)] _, b_ [(] _[h]_ [)], emulating a sigmoid hidden unit.
+**Attention Weights and output:** For _T_ = 1, the softmax
+over one “key” yields _α_ [(] _[h]_ [)] = exp( _a_ [(] _[h]_ [)] ) _/_ exp( _a_ [(] _[h]_ [)] ) = 1.
+The head output is _y_ [(] _[h]_ [)] = � _T_ _[α]_ [(] _[h]_ [)] _[v]_ [(] _[h]_ [)] _[dt]_ [. Set] _[ v]_ [proj][ such that]
+
+_v_ [(] _[h]_ [)] = 1 (scalar), yielding _y_ [(] _[h]_ [)] _≈_ _σ_ � _w_ [(] _[h]_ [)] _x_ + _b_ [(] _[h]_ [)][�] . For
+vector-valued _v_ [(] _[h]_ [)], more complex combinations are possible, but scalars suffice here.
+**Output Projection:** Concatenate head outputs: _Y_ =
+
+[ _y_ [(1)] ; _y_ [(2)] ; _. . ._ ; _y_ [(] _[H]_ [)] ] _∈_ R _[H]_ . Apply the final dense layer:
+
+
+_g_ ( _x_ ) = ( _Y · Wo_ ) + _bo ∈_ R _[m]_ _._ (44)
+
+
+With _y_ [(] _[h]_ [)] _≈_ _σ_ � _w_ [(] _[h]_ [)] _x_ + _b_ [(] _[h]_ [)][�], this matches a single-hiddenlayer network with _H_ units. By the UAT, for large _H_, such
+networks approximate any continuous _f_ on compact _K_ to
+accuracy _ϵ_, by choosing appropriate _w_ [(] _[h]_ [)] _, b_ [(] _[h]_ [)] _, Wo, bo_ .
+
+
+**C. Training, Gradients and Complexity**
+
+
+**C.1. Gradient Characterization**
+
+
+We analyze the sensitivity of the dynamics with respect to
+the underlying learnable parameters. Specifically, we compute closed-form derivatives of both the steady state and the
+full trajectory _at_ with respect to the parameters _ϕ_ and _ωτ_ .
+These expressions illuminate how gradients flow through
+
+
+
+the system, and provide guidance for selecting parameterizations that avoid vanishing or exploding gradients.
+
+
+C.1.1. TRAJECTORY SENSITIVITIES FOR CLOSED-FORM
+
+
+FORMULATION
+
+
+The trajectory is given by
+
+
+_at_ = _a_ _[∗]_ + ( _a_ 0 _−_ _a_ _[∗]_ ) _e_ _[−][ω][τ][ t]_ _,_ (45)
+
+
+which depends on ( _ϕ, ωτ_ ) both through the equilibrium _a_ _[∗]_
+
+and the exponential term.
+**Derivative with respect to** _ϕ_ **:** We obtain
+
+
+
+_Interpretation_ : The gradient with respect to _ωτ_ contains
+a transient term proportional to _te_ _[−][ω][τ][ t]_, which dominates
+at intermediate times, and a steady-state contribution proportional to _−ϕ/ωτ_ [2][, which persists asymptotically. Thus,]
+sensitivity to _ωτ_ is time-dependent, peaking before vanishing exponentially in the transient component.
+
+
+**C.2. Gradient-Based Training**
+Source: neuronal_attention_circuits_raw_chunks_2k.jsonl","Fallback graph context (LLM query returned empty rows):
+
+Shortest paths (<=4 hops):
+{'p': [{'id': 'Neuronal Attention Circuit (NAC)'}, 'MENTIONS', {'derived_from_chunk_file': 'neuronal_attention_circuits_raw_with_image_ids_with_captions_chunks_5k.jsonl', 'markdown_source': 'neuronal_attention_circuits_raw_with_image_ids_with_captions.md', 'source_type': 'markdown', 'id': 'e53e1c2a9bc8acdfefcd9baa3b5e79de', 'text': 'neuronal_attention_circuits_raw_with_image_ids_with_captions.md::images', 'source_id': 'neuronal_attention_circuits_raw_with_image_ids_with_captions.md::images'}, 'MENTIONS', {'id': 'Multi-Head Neuronal Attention Circuit'}]}
+
+Neighborhood of Concept 'Neuronal Attention Circuit (NAC)':
+{'rel': 'MENTIONS', 'n_labels': ['Document'], 'n_id': 'e53e1c2a9bc8acdfefcd9baa3b5e79de'}
+{'rel': 'DEPICTS', 'n_labels': ['Image'], 'n_id': 'img_neuronal_attention_circuits_5_0'}
+
+Images (from graph):
+- img_neuronal_attention_circuits_5_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/neuronal_attention_circuits.pdf-5-0.png | related_to=Neuronal Attention Circuit (NAC)
+- img_neuronal_attention_circuits_2_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/neuronal_attention_circuits.pdf-2-0.png | related_to=Neuronal Attention Circuit (NAC)
+- img_neuronal_attention_circuits_6_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/neuronal_attention_circuits.pdf-6-0.png | related_to=Neuronal Attention Circuit (NAC)
+- img_neuronal_attention_circuits_13_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/neuronal_attention_circuits.pdf-13-0.png | related_to=Neuronal Attention Circuit (NAC)
+- img_neuronal_attention_circuits_15_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/neuronal_attention_circuits.pdf-15-0.png | related_to=Neuronal Attention Circuit (NAC)
+- img_neuronal_attention_circuits_15_1 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/neuronal_attention_circuits.pdf-15-1.png | related_to=Neuronal Attention Circuit (NAC)
+- img_neuronal_attention_circuits_5_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/neuronal_attention_circuits.pdf-5-0.png | related_to=Multi-Head Neuronal Attention Circuit
+- img_neuronal_attention_circuits_2_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/neuronal_attention_circuits.pdf-2-0.png | related_to=Multi-Head Neuronal Attention Circuit
+- img_neuronal_attention_circuits_6_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/neuronal_attention_circuits.pdf-6-0.png | related_to=Multi-Head Neuronal Attention Circuit
+- img_neuronal_attention_circuits_13_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/neuronal_attention_circuits.pdf-13-0.png | related_to=Multi-Head Neuronal Attention Circuit
+- img_neuronal_attention_circuits_15_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/neuronal_attention_circuits.pdf-15-0.png | related_to=Multi-Head Neuronal Attention Circuit
+- img_neuronal_attention_circuits_15_1 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/neuronal_attention_circuits.pdf-15-1.png | related_to=Multi-Head Neuronal Attention Circuit
+
+Chunks (inferred from derived_from_chunk_file):
+- neuronal_attention_circuits_raw_with_image_ids_with_captions_chunks_5k.jsonl::neuronal_attention_circuits_raw_with_image_ids_with_captions_chunks_5k_0
+  chunk_file: neuronal_attention_circuits_raw_with_image_ids_with_captions_chunks_5k.jsonl
+  chunk_path: E:\Python Stuff\MAS-for-multimodal-knowledge-graph\chunking_outputs\neuronal_attention_circuits_raw_with_image_ids_with_captions_chunks_5k.jsonl
+  chunk_id: neuronal_attention_circuits_raw_with_image_ids_with_captions_chunks_5k_0
+  chunk_index: 0
+  metadata: {'source': 'neuronal_attention_circuits_raw_with_image_ids_with_captions.md'}
+  token_size_config: 5000
+  resolved_via: derived_from_chunk_file + content_match
+  excerpt: ## **Neuronal Attention Circuit (NAC) for Representation Learning**
+
+**Waleed Razzaq** [1] **Izis Kankaraway** [1] **Yun-Bo Zhao** [1 2]
+
+
+
+**Abstract**
+
+Attention improves representation learning over
+RNNs, but its discrete nature limits continuoustime (CT) modeling. We introduce Neuronal Attention Circuit (NAC), a novel, biologically plausible CT-Attention mechanism that reformulates
+
+attention logits computation as the solution to a
+linear first-order ODE with nonlinear interlinked
+gates derived from repurposing _C. elegans_ Neuronal Circuit Policies (NCPs) wiring mechanism.
+NAC replaces de…
+
+- neuronal_attention_circuits_raw_with_image_ids_with_captions_chunks_5k.jsonl::neuronal_attention_circuits_raw_with_image_ids_with_captions_chunks_5k_1
+  chunk_file: neuronal_attention_circuits_raw_with_image_ids_with_captions_chunks_5k.jsonl
+  chunk_path: E:\Python Stuff\MAS-for-multimodal-knowledge-graph\chunking_outputs\neuronal_attention_circuits_raw_with_image_ids_with_captions_chunks_5k.jsonl
+  chunk_id: neuronal_attention_circuits_raw_with_image_ids_with_captions_chunks_5k_1
+  chunk_index: 1
+  metadata: {'source': 'neuronal_attention_circuits_raw_with_image_ids_with_captions.md'}
+  token_size_config: 5000
+  resolved_via: derived_from_chunk_file + content_match
+  excerpt: _|at −_ _a_ _[∗]_ _| ≤_ _Me_ _[−][ω][τ][ t]_ _._ (10)
+
+
+_Remark:_ This bound highlights that exponential convergence holds uniformly across all admissible initial
+conditions, with the constant _M_ capturing the worst-case
+deviation.
+
+
+**Corollary 3** (Sample complexity to _δ_ -accuracy) **.** _A natural_
+_operational question is the time required to achieve a target_
+_tolerance δ >_ 0 _. Solving_
+
+
+_|a_ 0 _−_ _a_ _[∗]_ _|e_ _[−][ω][τ][ t]_ _≤_ _δ,_ (11)
+
+
+_We obtain the threshold_
+
+
+
+
+[1] ln _[|][a]_ [0] _[ −]_ _[a][∗][|]_
+
+_ωτ_ _δ_
+
+
+
+_t ≥_ [1]
+
+
+
+_._ (12)
+_δ_
+
+
+
+_Remark:_ The convergence rat…
+
+- neuronal_attention_circuits_raw_with_image_ids_with_captions_chunks_5k.jsonl::neuronal_attention_circuits_raw_with_image_ids_with_captions_chunks_5k_2
+  chunk_file: neuronal_attention_circuits_raw_with_image_ids_with_captions_chunks_5k.jsonl
+  chunk_path: E:\Python Stuff\MAS-for-multimodal-knowledge-graph\chunking_outputs\neuronal_attention_circuits_raw_with_image_ids_with_captions_chunks_5k.jsonl
+  chunk_id: neuronal_attention_circuits_raw_with_image_ids_with_captions_chunks_5k_2
+  chunk_index: 2
+  metadata: {'source': 'neuronal_attention_circuits_raw_with_image_ids_with_captions.md'}
+  token_size_config: 5000
+  resolved_via: derived_from_chunk_file + content_match
+  excerpt: ```json
+""img_neuronal_attention_circuits_5_0"": {
+    ""path"": ""E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/neuronal_attention_circuits.pdf-5-0.png"",
+    ""page"": 5,
+    ""section"": ""Abstract"",
+    ""image_relevance"": ""high"",
+    ""image_type"": ""architecture"",
+    ""semantic_role"": ""defines"",
+    ""caption"": ""The image presents two architectural diagrams: a Neuronal Attention Circuit (NAC) and a Multi-Head Neuronal Attention Circuit. The single-head NAC processes time-series Query, Key, and Value inputs through Sparse Topk-Pairwise, a Backbone module, a logit computation…","--- RAG CONTEXT ---
+Content: **D.2. Ablations Details**
+
+
+The brief descriptions of variants and ablation are also divided into four subcategories:
+**Top-** _**K**_ **Ablations:** _NAC-2k_ uses Top- _K_ =2 to compute the
+logits and _NAC-32k_ uses Top- _K_ =32. All variants use the
+exact computation mode with 50% sparsity.
+**Sparsity Ablations:** _NAC-02s_ uses 20% sparsity to compute the logits and _NAC-09s_ uses 90%. _NAC-PW_ employs
+full pairwise (non-sparse) concatenation for input curation.
+_NAC-FC_ replaces the sparse NCP gating mechanism with
+a simple fully connected layer. All variants use the exact
+computation mode with Top- _K_ =8.
+**Modes variants:** _NAC-Euler_ computes attention logits using the explicit Euler integration method. _NAC-Steady_ derives attention logits from the steady-state solution of the
+exact formulation. _NAC-Exact/05s/8k_ computes attention
+logits using the closed-form exact solution. It also overlaps
+with other ablations, so we combined it into a single one.
+All modes use Top- _K_ =8, 50% sparsity and _δt_ =1.0. The
+sensitivity of NAC to _δt_ is visualized in Figure 4
+
+
+_Figure 4._ Effect of _δt_ on output of NAC.
+
+
+
+14
+
+
+
+![](E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/neuronal_attention_circuits.pdf-13-0.png)
+**Neuronal Attention Circuit (NAC) for Representation Learning**
+
+
+
+**D.3. Experimental Details**
+
+
+D.3.1. EVENT-BASED MNIST
+
+
+**Dataset Explanation and Curation:** The MNIST dataset,
+introduced by (Deng, 2012), is a widely used benchmark for
+computer vision and image classification tasks. It consists
+of 70,000 grayscale images of handwritten digits (0–9), each
+of size 28 _×_ 28 pixels, split into 60,000 training and 10,000
+testing samples.
+**Preprocessing:** We follow the preprocessing pipeline described in (Lechner & Hasani, 2022), which proceeds as
+follows. First, a threshold is applied to convert the 8-bit
+pixel values into binary values, with 128 as the threshold
+on a scale from 0 (minimum intensity) to 255 (maximum
+intensity). Second, each 28 _×_ 28 image is reshaped into a
+one-dimensional time series of length 784. Third, the binary
+time series is encoded in an event-based format, eliminating
+consecutive occurrences of the same value; for example, the
+sequence [1 _,_ 1 _,_ 1 _,_ 1] is transformed into (1 _, t_ = 4). This encoding introduces a temporal dimension and compresses the
+sequences from 784 to an average of 53 time steps. Finally,
+to facilitate efficient batching and training, each sequence
+is padded to a fixed length of 256, and the time dimension
+is normalized such that each symbol corresponds to one
+unit of time. The resulting dataset defines a per-sequence
+classification problem on irregularly sampled time series.
+**Neural Network Architecture:** We develop an end-to-end
+hybrid neural network by combining compact convolutional
+layers with NAC or counterparts baselines for fair comparison. Detailed hyperparameters and architectural specifications are provided in Table 4.
+
+
+D.3.2. PERSON ACTIVITY RECOGNITION (PAR)
+
+
+**Dataset Explanation and Curation:** We used the
+Localized Person Activity Recognition dataset provided by
+UC Irvine (Vidulin et al., 2010). The dataset comprises
+25 recordings of human participants performing different
+physical activities. The eleven possible activities are
+“walking,” “falling,” “lying down,” “lying,” “sitting down,”
+“sitting,” “standing up from lying,” “on all fours,” “sitting
+on the ground,” “standing up from sitting,” and “standing
+up from sitting on the ground.” The objective of this
+experiment is to recognize the participant’s activity from
+inertial sensors, formulating the task as a per-time-step
+classification problem. The input data consist of sensor
+readings from four inertial measurement units placed on
+participants’ arms and feet. While the sensors are sampled
+at a fixed interval of 211 ms, recordings exhibit different
+phase shifts and are thus treated as irregularly sampled time
+series.
+
+**Preprocessing:** We first separated each participant’s
+recordings based on sequence identity and calculated
+elapsed time in seconds using the sampling period. To
+
+
+
+mitigate class imbalance, we removed excess samples from
+overrepresented classes to match the size of the smallest
+class. Subsequently, the data were normalized using a
+standard scaler. Finally, the dataset was split into a 90:10
+ratio for training and testing.
+**Neural Network Architecture:** Following the approach in
+Section D.3.1, we developed an end-to-end hybrid neural
+network combining convolutional heads with NAC or other
+baselines. Hyperparameter details are summarized in Table
+4.
+
+
+D.3.3. AUTONOMOUS VEHICLE
+
+
+**Dataset Explanation and Curation:** We followed the data
+collection methodology described in (Razzaq & Hongwei,
+2023). For OpenAI-CarRacing, a PPO-trained agent (5M
+timesteps) was used to record 20 episodes, yielding approximately 48,174 RGB images of size 92 _×_ 92 _×_ 3 with
+corresponding action labels across five discrete actions (noact, move left, forward, move right, stop). The dataset was
+split with 10% reserved for testing and the remaining 90%
+for training. For the Udacity simulator, we manually controlled the vehicle for 50 minutes, producing 15647 RGB
+images of size 320 _×_ 160 _×_ 3, captured from three camera
+streams (left, center, right) along with their corresponding
+continuous steering values. This dataset was split into 20%
+testing and 80% training.
+**Preprocessing:** No preprocessing was applied to the
+OpenAI-CarRacing dataset. For the Udacity simulator, we
+followed the preprocessing steps in (Shibuya, 2017). Each
+image was first cropped to remove irrelevant regions and
+resized to 66 _×_ 120 _×_ 3. Images were then converted from
+RGB to YUV color space to match the network input. To improve robustness, data augmentation techniques, including
+random flips, translations, shadow overlays, and brightness
+variations, were applied to simulate lateral shifts and diverse
+lighting conditions.
+**Neural Network Architecture:** For OpenAI-CarRacing,
+we modified the neural network architecture proposed in
+(Razzaq & Hongwei, 2023), which combines compact CNN
+layers for spatial feature extraction with LNNs to capture
+temporal dynamics. In our implementation, the LNN layers
+were replaced with NAC and its comparable alternatives
+for fair evaluation. Full hyperparameter configurations are
+provided in Table 4. For the Udacity simulator, we modified
+the network proposed in (Bojarski et al., 2016) by replacing
+three latent MLP layers with NAC and its counterparts. Full
+hyperparameters for this configuration are summarized in
+Table 4.
+
+**Saliency Maps:** A saliency map visualizes the regions of
+the input that a model attends to when making decisions.
+Figure 5 shows the saliency maps for the OpenAI CarRacing environment. We observe that only NAC (Steady, Euler,
+
+
+
+15
+
+
+**Neuronal Attention Circuit (NAC) for Representation Learning**
+
+
+_Figure 5._ Saliency maps for OpenAI CarRacing
+
+
+_Figure 6._ Saliency maps for Udacity Simulator
+
+
+
+![](E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/neuronal_attention_circuits.pdf-15-0.png)
+
+![](E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/neuronal_attention_circuits.pdf-15-1.png)
+Source: neuronal_attention_circuits_raw_chunks_2k.jsonl
+
+Content: ## **Neuronal Attention Circuit (NAC) for Representation Learning**
+
+**Waleed Razzaq** [1] **Izis Kankaraway** [1] **Yun-Bo Zhao** [1 2]
+
+
+
+**Abstract**
+
+Attention improves representation learning over
+RNNs, but its discrete nature limits continuoustime (CT) modeling. We introduce Neuronal Attention Circuit (NAC), a novel, biologically plausible CT-Attention mechanism that reformulates
+
+attention logits computation as the solution to a
+linear first-order ODE with nonlinear interlinked
+gates derived from repurposing _C. elegans_ Neuronal Circuit Policies (NCPs) wiring mechanism.
+NAC replaces dense projections with sparse sensory gates for key-query projections and a sparse
+backbone network with two heads for computing
+_content-target_ and _learnable time-constant_ gates,
+enabling efficient adaptive dynamics. NAC supports three attention logit computation modes: (i)
+explicit Euler integration, (ii) exact closed-form
+solution, and (iii) steady-state approximation. To
+improve memory intensity, we implemented a
+sparse Top- _K_ pairwise concatenation scheme that
+selectively curates key-query interactions. We
+provide rigorous theoretical guarantees, including
+state stability, bounded approximation errors, and
+universal approximation. Empirically, we implemented NAC in diverse domains, including irregular time-series classification, lane-keeping for
+autonomous vehicles, and industrial prognostics.
+We observed that NAC matches or outperforms
+competing baselines in accuracy and occupies an
+intermediate position in runtime and memory efficiency compared with several CT baselines.
+
+
+**1. Introduction**
+
+
+Learning representations of sequential data in temporal or
+spatio-temporal domains is essential for capturing patterns
+and enabling accurate forecasting. Discrete-time Recurrent neural networks (DT-RNNs) such as RNN (Rumelhart et al., 1985; Jordan, 1997), Long-short term memory
+
+
+1Department of Automation, University of Science & Technology of China, Hefei, China [2] Institute of Artificial Intelligence,
+Hefei Comprehensive National Science Center. Correspondence to:
+Yun-Bo Zhao _<_ ybzhao@ustc.edu.cn _>_, Waleed Razzaq _<_ waleedrazzaq@mail.ustc.edu.cn _>_ .
+
+
+_Preprint. December 12, 2025._
+
+
+
+(LSTM) (Hochreiter & Schmidhuber, 1997), and Gated Recurrent Unit (GRU) (Cho et al., 2014) model sequential dependencies by iteratively updating hidden states to represent
+or predict future elements in a sequence. While effective
+for regularly sampled sequences, DT-RNNs face challenges
+with irregularly sampled data because they assume uniform
+time intervals. In addition, vanishing gradients can make
+it difficult to capture long-term dependencies (Hochreiter,
+1998).
+Continuous-time RNNs (CT-RNNs) (Rubanova et al., 2019)
+model hidden states as ordinary differential equations
+(ODEs), allowing them to process inputs that arrive at arbitrary or irregular time intervals. Mixed-memory RNNs
+(mmRNNs) (Lechner & Hasani, 2022) build on this idea
+by separating memory compartments from time-continuous
+states, helping maintain stable error propagation while capturing continuous-time dynamics. Liquid neural networks
+(LNNs) (Hasani et al., 2021; 2022) take a biologically inspired approach by assigning variable time-constants to hidden states, improving adaptability and robustness, though
+vanishing gradients can still pose challenges during training.
+The attention mechanisms (Vaswani et al., 2017) mitigate
+this limitation by treating all time steps equally and allowing models to focus on the most relevant observations. It
+computes the similarity between queries ( _q_ ) and keys ( _k_ ),
+scaling by the key dimension to keep gradients stable. MultiHead Attention (MHA) (Vaswani et al., 2017) extends this
+by allowing the model to attend to different representation
+subspaces in parallel. Variants like Sparse Attention (Tay
+et al., 2020; Roy et al., 2021), BigBird (Zaheer et al., 2020),
+and Longformer (Beltagy et al., 2020) modify the attention
+pattern to reduce computational cost, particularly for long sequences, by attending only to selected positions rather than
+all pairs. Even with these improvements, attention-based
+methods still rely on discrete scaled dot-product operations,
+limiting their ability to model continuous trajectories often
+captured by CT counterparts.
+Recent work has explored bridging this gap through NeuralODE (Chen et al., 2018) formulation. mTAN (Shukla &
+Marlin, 2021) learns CT embeddings and uses time-based
+attention to interpolate irregular observations into a fixedlength representation for downstream encoder-decoder modeling. ODEFormer (d’Ascoli et al., 2023) trains a sequenceto-sequence transformer on synthetic trajectories to directly
+infer symbolic ODE systems from noisy, irregular data,
+though it struggles with chaotic systems and generalization
+
+
+
+1
+
+
+**Neuronal Attention Circuit (NAC) for Representation Learning**
+
+
+
+beyond observed conditions. Continuous-time Attention
+(CTA) (Chien & Chen, 2021) embeds a continuous-time
+attention mechanism within a Neural ODE, allowing attention weights and hidden states to evolve jointly over time.
+Still, it remains computationally intensive and sensitive to
+the accuracy of the ODE solver. ContiFormer (Chen et al.,
+2023) builds a CT-transformer by pairing ODE-defined latent trajectories with a time-aware attention mechanism to
+model dynamic relationships in data.
+Despite these innovations, a persistent and underexplored
+gap remains in developing a biologically plausible attention
+mechanism that seamlessly integrates CT dynamics with the
+abstraction of the brain’s connectome to handle irregular sequences without prohibitive computational costs. Building
+on this, we propose a novel attention mechanism called the
+_Neuronal Attention Circuit_ (NAC), in which attention logits
+are computed as the solution to a first-order ODE modulated
+by nonlinear, interlinked gates derived from repurposing
+Neuronal Circuit Policies (NCPs) from the nervous system
+of _C. elegans_ nematode (refer to Appendix A.2 for more
+information). Unlike standard attention, which projects keyquery pairs through a dense layer, NAC employs a sensory
+gate to transform input features and a backbone to model
+nonlinear interactions, with multiple heads producing outputs structured for attention logits computation. Based on
+the solutions to ODE, we define three computation modes:
+(i) Exact, using the closed-form ODE solution; (ii) Euler,
+approximating the solution via _explicit Euler_ integration;
+and (iii) Steady, using only the steady-state solution, analogous to standard attention scores. To reduce computational
+complexity, we implemented a sparse Top- _K_ pairwise concatenation algorithm that selectively curates key-query inputs. We evaluate NAC across multiple domains, including
+irregularly sampled time series, autonomous vehicle lanekeeping, and Industry 4.0, comparing it to state-of-the-art
+baselines. NAC consistently matches or outperforms these
+models, while runtime and peak memory benchmarks place
+it between CT-RNNs in terms of speed and CT-Attentions
+in terms of memory requirements.
+
+
+**2. Neuronal Attention Circuit (NAC)**
+
+
+We propose a simple alternative formulation of the attention
+logits _a_ (refer to Appendix A.1 for more information), interpreting them as the solution to a first-order linear ODE
+modulated by nonlinear, interlinked gates:
+
+
+
+from repurposing NCPs. We refer to this formulation as
+the Neuronal Attention Circuit (NAC). It enables the logits
+_at_ to evolve dynamically with input-dependent, variable
+time constants, mirroring the adaptive temporal dynamics
+found in _C. elegans_ nervous systems while improving
+computational efficiency and expressiveness. Moreover, it
+introduces continuous depth into the attention mechanism,
+bridging discrete-layer computation with dynamic temporal
+evolution.
+
+**Motivation behind this formulation:** The proposed
+formulation is loosely motivated by the input-dependent
+time-constant mechanism of Liquid Neural Networks
+(LNNs), a class of CT-RNNs inspired by biological nervous
+systems and synaptic transmission. In this framework, the
+dynamics of non-spiking neurons are described by a linear
+ODE with nonlinear, interlinked gates: _ddt_ **xt** = **[x]** _τ_ **[t]** [+] **[ S][t]** _[,]_
+Source: neuronal_attention_circuits_raw_chunks_2k.jsonl
+
+Content: Scores: _S ←_ _Q · K_ _[⊤]_
+
+Effective Top- _K_ : _K_ eff _←_ min( _K, Tk_ )
+Indices: _I_ topk _←_ top ~~k~~ ( _S, K_ eff)
+Gather: _K_ selected _←_ gather( _K, I_ topk) _∈_ R _[B][×][H][×][T][q]_ _[×][K]_ [eff] _[×][D]_
+
+Tiled: _Q_ tiled _←_ tile( _Q, K_ eff) _∈_ R _[B][×][H][×][T][q]_ _[×][K]_ [eff] _[×][D]_
+
+Concatenate: _U_ topk _←_ [ _Q_ tiled; _K_ selected ] _∈_ R _[B][×][H][×][T][q]_ _[×][K]_ [eff] _[×]_ [2] _[D]_
+
+**return** _U_ topk
+
+
+**2.2. Designing the Neural Network**
+
+
+We now outline the design of a neural network layer guided
+by the preceding analysis. The process involves five steps:
+(i) repurposing NCPs; (ii) input curation; (iii) construction
+of the time vector ( _t_ ); (iv) computing attention logits and
+weights; and (v) generating the attention output. Figure 2
+provides a graphical overview of NAC.
+**Repurposing NCPs:** We repurpose the NCPs framework
+by converting its fixed, biologically derived wiring (see Figure 1(a)) into a flexible recurrent architecture that allows
+configurable input–output mappings. Instead of enforcing
+a static connectome, our approach exposes adjacency matrices as modifiable structures defining sparse input and
+recurrent connections. This enables selective information
+
+routing across neuron groups while retaining the original circuit topology. Decoupling wiring specifications from model
+instantiation allows dynamic connectivity adjustments to
+accommodate different input modalities without full retraining. Algorithm 1 summarizes the steps for repurposing the
+NCPs wiring mechanism. Key features include group-wise
+masking for neuron isolation, adaptive remapping of inputs
+and outputs for task-specific adaptation, and tunable sparsity
+_s_ to balance expressiveness and efficiency.
+In our implementation, the sensory neuron gate ( _NN_ sensory)
+projects the _q_, _k_, and _v_ representations (see Figure 1(b)).
+This enables sensory neurons to maintain structured, contextaware representations rather than collapsing inputs into fully
+
+
+
+connected layers. As a result, the network preserves locality
+and modularity, which improves information routing.
+
+
+_NN_ sensory = NCPCell( _G_ input = [ _Ns_ ] _, G_ output = [ _Ns_ ] _,_
+
+_D_ = [ _Ni, Nc, Nm_ ] _, s_ )
+(13)
+The inter-to-motor pathways form a backbone network
+( _NN_ backbone) with branches that compute _ϕ_ and _ωτ_ (see
+Figure 1(c)). Instead of learning _ϕ_ and _ωτ_ independently,
+this backbone allows the model to learn shared representations, enabling multiple benefits: (i) separate head layers
+enable the system to capture temporal and structural dependencies independently; (ii) accelerates convergence during
+training.
+
+
+_NN_ backbone = NCPCell( _G_ input = [ _Ni_ ] _, G_ output = [ _Nm_ ] _,_
+
+_D_ = [ _Ns_ ] _, s_ )
+(14)
+The output heads are defined as:
+
+
+_ϕ_ = _σ_ ( _NN_ backbone( **u** )) (15)
+
+_ωτ_ = softplus( _NN_ backbone( **u** )) + _ε,_ _ε >_ 0 (16)
+
+
+Here, _ϕ_ serves as a _content–target gate_ head, where the
+sigmoid function _σ_ ( _·_ ) determines the target signal strength.
+In contrast, _ωτ_ is a strictly positive _time–constant gate_ head
+that controls the rate of convergence and the steady-state
+amplitude. Conceptually, this parallels recurrent gating: _ϕ_
+regulates _what_ content to emphasize, while _ωτ_ governs _how_
+_quickly_ and _to what extent_ it is expressed.
+**Input Curation:** We experimented with different
+strategies for constructing query–key inputs. Initially, we implemented full pairwise concatenation,
+where queries _Q ∈_ R _[B][×][H][×][T][q][×][D]_ are combined with
+all keys _K_ _∈_ R _[B][×][H][×][T][k][×][D]_ to form a joint tensor
+_U ∈_ R _[B][×][H][×][T][q][×][T][k][×]_ [2] _[D]_ . While this preserved complete
+feature information and enabled expressive, learnable
+similarity functions, it was memory-intensive, making it impractical for longer sequences. To mitigate this, we applied
+a sparse Top- _K_ optimization: for each query, we compute
+pairwise scores _S_ = _Q · K_ _[⊤]_ _∈_ R _[B][×][H][×][T][q][×][T][k]_, select the
+Top- _K_ eff = min( _K, Tk_ ) keys, and construct concatenated
+pairs _U_ topk _∈_ R _[B][×][H][×][T][q][×][K]_ [eff] _[×]_ [2] _[D]_ . This approach preserves
+the most relevant interactions while substantially reducing
+memory requirements in the concatenation and subsequent
+backbone processing stages, allowing the method to scale
+linearly with the sequence length in those components.
+However, the initial computation of _S_ remains quadratic
+(see Appendix C.3). Algorithm 2 outlines the steps required
+for input curation.
+**Time Vector:** NAC builds on continuous-depth models
+as (Hasani et al., 2022) that adapt their temporal dynamics to the task. It constructs an internal, normalized
+pseudo-time vector _t_ pseudo using a sigmoidal transformation,
+_t_ pseudo = _σ_ ( _ta · t_ + _tb_ ), where _ta_ and _tb_ are learnable affine
+
+
+
+4
+
+
+**Neuronal Attention Circuit (NAC) for Representation Learning**
+
+
+
+parameters and _σ_ is the sigmoid function. For time-varying
+datasets (e.g., irregularly sampled series), each time point
+_t_ is derived from the sample’s timestamp, while for tasks
+without meaningful timing, _t_ is set to 1. The resulting _t_ pseudo
+lies in [0 _,_ 1] and provides a smooth, bounded representation
+of time for modulating the network’s dynamics.
+**Attention logits and weights:** Starting from Eqn. 3,
+consider the trajectory of a query–key pair with initial
+condition _a_ 0 = 0:
+
+
+
+_at_ = _[ϕ]_
+
+_ωτ_
+
+
+
+�1 _−_ _e_ _[−][ω][τ][ t]_ [�] _,_ (17)
+
+
+
+followed by the _softmax_ normalization to calculate attention weights. The resulting attention weights _αt_ [(] _[h]_ [)] are then
+used to integrate with the value vector _v_ [(] _[h]_ [)], producing headspecific attention outputs. Finally, these outputs are concatenated and linearly projected back into the model dimension.
+This formulation ensures that each head learns distinct dynamic compatibilities governed by its own parameterization
+of _ϕ_ and _ωτ_, while the aggregation across heads preserves
+the expressive capacity of the standard multi-head attention
+mechanism.
+
+
+**2.3. NAC as Universal Approximator**
+
+
+We now establish the universal approximation capability of
+NAC by extending the classical Universal Approximation
+Theorem (UAT) (Nishijima, 2021) to the proposed mechanism. For brevity, we consider a network with a single
+NAC layer processing fixed-dimensional inputs, though the
+argument generalizes to sequences.
+Source: neuronal_attention_circuits_raw_chunks_2k.jsonl
+
+Content: **2.3. NAC as Universal Approximator**
+
+
+We now establish the universal approximation capability of
+NAC by extending the classical Universal Approximation
+Theorem (UAT) (Nishijima, 2021) to the proposed mechanism. For brevity, we consider a network with a single
+NAC layer processing fixed-dimensional inputs, though the
+argument generalizes to sequences.
+
+
+**Theorem 2** (Universal Approximation by NAC) **.** _Let K ⊂_
+R _[n]_ _be a compact set and f_ : _K →_ R _[m]_ _be a continuous_
+_function. For any ϵ >_ 0 _, there exists a neural network_
+_consisting of a single NAC layer, with sufficiently large_
+_model dimension dmodel, number of heads H, sparsity s,_
+_and nonlinear activations, such that the network’s output_
+_g_ : R _[n]_ _→_ R _[m]_ _satisfies_
+
+
+sup _∥f_ ( _x_ ) _−_ _g_ ( _x_ ) _∥_ _< ϵ._ (20)
+_x∈K_
+
+
+_The proof is provided in Appendix B.3._
+
+
+**3. Evaluation**
+
+
+We evaluate the proposed architecture against a range of
+baselines, including (DT & CT) RNN, (DT & CT) attention,
+and multiple NAC ablation configurations. Experiments
+are conducted across diverse domains, including irregular
+time-series modeling, lane keeping of autonomous vehicles,
+and Industry 4.0 prognostics. All results are obtained using 5-fold cross-validation, where models are trained using
+BPTT (see Appendix C.2) on each fold and evaluated across
+all folds. We report the mean ( _µ_ ) and standard deviation ( _σ_ )
+to capture variability and quantify uncertainty in the predictions. Table 1 provides results for all experiments, and the
+details of the baselines, ablation, environment utilized, the
+data curation and preprocessing, and neural network architectures for all experiments are provided in the Appendix
+D.3.
+
+
+**3.1. Irregular Time-series**
+
+
+We evaluate the proposed architecture on two irregular timeseries datasets: (i) Event-based MNIST; and (ii) Person
+Activity Recognition (PAR).
+
+
+
+For finite _t_, the exponential factor (1 _−_ _e_ _[−][ω][τ][ t]_ ) regulates the
+buildup of attention, giving _ωτ_ a temporal gating role. Normalizing across all keys via _softmax_ yields attention weights
+_αt_ = softmax( _at_ ), defining a valid probability distribution
+where _ϕ_ amplifies or suppresses content alignments, and _ωτ_
+shapes both the speed and saturation of these preferences.
+As _t →∞_, the trajectory converges to the steady state
+
+
+_a_ _[∗]_ _t_ [=] _[ϕ]_ _≈_ _[q][⊤][k]_ _,_ (18)
+
+_ωτ_ ~~_√_~~ _dk_
+
+
+which is analogous to scaled-dot attention under specific
+parameterization when the backbone _NN_ backbone is configured as a linear projection such that _ϕ_ ( **u** ) = _q_ _[⊤]_ _k_ and
+_ωτ_ ( _u_ ) = _[√]_ _dk_ (e.g., by setting NCP weights to emulate
+bilinear forms and disabling nonlinearities). In general, the
+nonlinear backbone allows for more expressive similarities,
+with the approximation holding when trained to mimic dot
+products.
+**Attention output:** Finally, the attention output is computed
+by integrating the attention weights with the value matrix:
+
+
+NAC( _q, k, v_ ) = _αtvtdt_ (19)
+� _T_
+
+
+In practice, the integration is approximated using a Riemannstyle approach, where the weighted elements are computed
+by multiplying each _vt_ with its corresponding _αt_ . These are
+then summed and multiplied by a fixed pseudo-time step
+_δt_, chosen as a scalar (typically between 0.5–1.0) hyperparameter during layer initialization. This yields a continuous
+analogue of standard weighted sums, giving finer resolution
+of the attention trajectory without altering the underlying
+values. Sensitivity to attention output w.r.t _δt_ is visualized
+in Appendix D.2.
+
+
+2.2.1. EXTENSION TO MULTI-HEAD
+
+
+To scale this mechanism to multi-head attention, we project
+the input sequence into _H_ independent subspaces (heads)
+of dimension _d_ model _/H_, yielding query, key, and value tensors ( _q_ [(] _[h]_ [)] _, k_ [(] _[h]_ [)] _, v_ [(] _[h]_ [)] ) for _h ∈{_ 1 _, . . ., H}_ . For each head,
+pairwise logits are computed according to Eqns. 2,3 or 18,
+
+
+
+5
+
+
+**Neuronal Attention Circuit (NAC) for Representation Learning**
+
+
+_Figure 2._ Illustration of the architecture of **(a)** Neuronal Attention Circuit mechanism ; **(b)** Multi-Head Extension
+
+
+
+![](E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/neuronal_attention_circuits.pdf-5-0.png)
+
+**Event-based MNIST:** Event-based MNIST is the trans
+formation of the widely recognized MNIST dataset with
+irregular sampling added originally proposed in (Lechner
+& Hasani, 2022). The transformation was done in two
+steps: (i) flattening each 28×28 image into a time series
+of length 784, and (ii) encoding the binary time series into
+an event-based format by collapsing consecutive identical
+values (e.g., 1,1,1,1 → (1, t=4)). This representation requires models to handle temporal dependencies effectively.
+NAC-PW achieved first place with an accuracy of 96.64%,
+followed by NAC-Exact/05s/8k at 96.12%. GRU-ODE and
+ContiFormer ranked third with 96.04%.
+
+**Person Activity Recognition (PAR):** We employed the
+Localized Person Activity dataset from UC Irvine (Vidulin
+et al., 2010). The dataset contains data from five participants,
+each equipped with inertial measurement sensors sampled
+every 211 ms. The goal of this experiment is to predict a
+person’s activity from a set of predefined actions, making it
+a classification task. All models performed well on this task,
+with NAC-PW achieving 89.15% accuracy and taking first
+place. NAC-Exact/05s/8k and GRU-ODE ranked second
+with 89.01% accuracy, while NAC-02s ranked third with
+88.84% mean accuracy.
+
+
+**3.2. Lane-Keeping of Autonomous Vehicles**
+
+
+Lane keeping in autonomous vehicles (AVs) is a fundamental problem in robotics and AI. Early works (Tiang et al.,
+2018; Park et al., 2021) primarily emphasized accuracy,
+often relying on large models. More recent research (Lechner et al., 2020; Razzaq & Hongwei, 2023) has shifted toward designing compact architectures suitable for resourceconstrained devices. The goal of this experiment is to create
+a long causal structure between the road’s horizon and the
+Source: neuronal_attention_circuits_raw_chunks_2k.jsonl
+
+Content: the ceiling and floor functions, respectively. This results
+in a larger overall architectural size and increased runtime.
+
+
+
+Future work will support user-defined NCPs configurations
+or randomized wiring to enable more efficient architectures.
+**Learnable sparse Top-** _**K**_ **selection:** Sparse Top- _K_ attention can miss important context, is sensitive to _k_, and may
+be harder to optimize. A further limitation is that it still
+computes the full _QK_ _[⊤]_ matrix, which can dominate the
+cost for very long sequences. Future work includes adaptive
+or learnable Top- _K_ selection, improved key scoring, and
+hardware-aware optimization to strengthen accuracy and
+robustness.
+
+
+**5. Conclusion**
+
+
+In this paper, we introduce the Neuronal Attention Circuit
+(NAC), a biologically inspired attention mechanism that
+reformulates attention logits as the solution to a first-order
+ODE modulated by nonlinear, interlinked gates derived from
+repurposing _C.elegans_ nematode NCPs. NAC bridges discrete attention with continuous-time dynamics, enabling
+adaptive temporal processing without the limitations inherent to traditional scaled dot-product attention. Based on the
+solution to ODE, we introduce three computational modes:
+(i) Euler, based on _explicit Euler_ integration; (ii) Exact, providing closed-form solutions; and (iii) Steady, approximating equilibrium states. In addition, a sparse Top- _K_ pairwise
+concatenation scheme is introduced to mitigate the memory intensity. Theoretically, we establish NAC’s log-state
+stability, exponential error bounds, and universal approximation, thereby providing rigorous guarantees of convergence
+and expressiveness. Empirical evaluations demonstrate that
+NAC achieves state-of-the-art performance across diverse
+tasks, including irregularly sampled time-series benchmarks,
+autonomous vehicle lane-keeping, and industrial prognostics. Moreover, NAC occupies an intermediate position
+between CT-RNNs and CT-Attention, offering robust temporal modeling while requiring less runtime than CT-RNNs
+and less memory than CT-Attention models.
+
+
+**Reproducibility Statement**
+
+
+The code for reproducibility is available at
+[https://github.com/itxwaleedrazzaq/](https://github.com/itxwaleedrazzaq/neuronal_attention_circuit)
+
+[neuronal_attention_circuit](https://github.com/itxwaleedrazzaq/neuronal_attention_circuit)
+
+
+**Impact Statement**
+
+
+The work addresses the growing field of continuous-time
+attention and pioneers a biologically plausible mechanism.
+It encourages research into sparse, adaptive networks that
+resemble natural wiring. From a societal perspective, it
+supports more robust AI in resource-limited settings, but it
+also raises ethical concerns when applied to areas such as
+surveillance or autonomous systems.
+
+
+
+8
+
+
+**Neuronal Attention Circuit (NAC) for Representation Learning**
+
+
+
+**References**
+
+
+Introduction to self-driving cars. URL
+[https://www.udacity.com/course/](https://www.udacity.com/course/intro-to-self-driving-cars--nd113)
+[intro-to-self-driving-cars--nd113.](https://www.udacity.com/course/intro-to-self-driving-cars--nd113)
+
+
+Aguiar-Conraria, L. and Soares, M. J. The continuous
+wavelet transform: Moving beyond uni-and bivariate analysis. _Journal of economic surveys_, 28(2):344–375, 2014.
+
+
+Beltagy, I., Peters, M. E., and Cohan, A. Longformer: The long-document transformer. _arXiv preprint_
+_arXiv:2004.05150_, 2020.
+
+
+Bojarski, M., Del Testa, D., Dworakowski, D., Firner, B.,
+Flepp, B., Goyal, P., Jackel, L. D., Monfort, M., Muller,
+U., Zhang, J., et al. End to end learning for self-driving
+cars. _arXiv preprint arXiv:1604.07316_, 2016.
+
+
+Brockman, G., Cheung, V., Pettersson, L., Schneider, J.,
+Schulman, J., Tang, J., and Zaremba, W. Openai gym.
+_arXiv preprint arXiv:1606.01540_, 2016.
+
+
+Cao, Y., Li, S., Petzold, L., and Serban, R. Adjoint sensitivity analysis for differential-algebraic equations: The
+adjoint dae system and its numerical solution. _SIAM_
+_journal on scientific computing_, 24(3):1076–1089, 2003.
+
+
+Chen, R. T., Rubanova, Y., Bettencourt, J., and Duvenaud,
+D. K. Neural ordinary differential equations. _Advances_
+_in neural information processing systems_, 31, 2018.
+
+
+Chen, Y., Ren, K., Wang, Y., Fang, Y., Sun, W., and Li, D.
+Contiformer: Continuous-time transformer for irregular
+time series modeling. _Advances in Neural Information_
+_Processing Systems_, 36:47143–47175, 2023.
+
+
+Chien, J.-T. and Chen, Y.-H. Continuous-time attention for
+sequential learning. In _Proceedings of the AAAI confer-_
+_ence on artificial intelligence_, volume 35, pp. 7116–7124,
+2021.
+
+
+Cho, K., Van Merrienboer, B., Gulcehre, C., Bahdanau,¨
+D., Bougares, F., Schwenk, H., and Bengio, Y. Learning phrase representations using rnn encoder-decoder
+for statistical machine translation. _arXiv preprint_
+_arXiv:1406.1078_, 2014.
+
+
+d’Ascoli, S., Becker, S., Mathis, A., Schwaller, P., and
+Kilbertus, N. Odeformer: Symbolic regression of dynamical systems with transformers. _arXiv preprint_
+_arXiv:2310.05573_, 2023.
+
+
+De Brouwer, E., Simm, J., Arany, A., and Moreau, Y.
+Gru-ode-bayes: Continuous modeling of sporadicallyobserved time series. _Advances in neural information_
+_processing systems_, 32, 2019.
+
+
+
+Deng, L. The mnist database of handwritten digit images
+for machine learning research [best of the web]. _IEEE_
+_signal processing magazine_, 29(6):141–142, 2012.
+
+
+Ding, Y., Jia, M., Miao, Q., and Huang, P. Remaining
+useful life estimation using deep metric transfer learning
+for kernel regression. _Reliability Engineering & System_
+_Safety_, 212:107583, 2021.
+
+
+Hasani, R., Lechner, M., Amini, A., Rus, D., and Grosu,
+R. Liquid time-constant networks. In _Proceedings of the_
+_AAAI Conference on Artificial Intelligence_, volume 35,
+pp. 7657–7666, 2021.
+
+
+Hasani, R., Lechner, M., Amini, A., Liebenwein, L., Ray,
+A., Tschaikowski, M., Teschl, G., and Rus, D. Closed
+form continuous-time neural networks. _Nature Machine_
+
+_Intelligence_, 4(11):992–1003, 2022.
+
+
+Hochreiter, S. The vanishing gradient problem during learning recurrent neural nets and problem solutions. _Interna-_
+_tional Journal of Uncertainty, Fuzziness and Knowledge-_
+_Based Systems_, 6(02):107–116, 1998.
+
+
+Hochreiter, S. and Schmidhuber, J. Long short-term memory.
+_Neural computation_, 9(8):1735–1780, 1997.
+
+
+Hong, H. S. and Thuan, N. Hust bearing: a practical dataset
+for ball bearing fault diagnosis. _Mendeley Data_, 3, 2023.
+
+
+John, F. On integration of parabolic equations by difference methods: I. linear and quasi-linear equations for the
+infinite interval. _Communications on Pure and Applied_
+_Mathematics_, 5(2):155–211, 1952.
+Source: neuronal_attention_circuits_raw_chunks_2k.jsonl
+
+Content: _a_ ( _t_ + ∆ _t_ ) = _at_ + ∆ _t ·_ _[da]_ (36)
+
+_dt_ _[.]_
+
+
+
+At _a_ = _M_, _[da]_ _dt_ _[≤]_ [0 =] _[⇒]_ _[a]_ [(] _[t]_ [ + ∆] _[t]_ [)] _[ ≤]_ _[M]_ [. At] _[ a]_ [ =] _[ m]_ [,]
+
+_dadt_ _[≥]_ [0 =] _[⇒]_ _[a]_ [(] _[t]_ [ + ∆] _[t]_ [)] _[ ≥]_ _[m]_ [. By induction over steps,]
+
+_at ∈_ [ _m, M_ ] for all _t ∈_ [0 _, T_ ].
+
+
+
+12
+
+
+**Neuronal Attention Circuit (NAC) for Representation Learning**
+
+
+
+multi-head, scale _H_ proportionally to target complexity,
+with output projection _Wo_ aggregating as in classical UAT
+proofs (Stinchcomb, 1989).
+**Input Projections:** The input _x_ is projected via NCPbased sensory projections to obtain query _q_ = _q_ proj( _x_ ), key
+_k_ = _k_ proj( _x_ ), and value _v_ = _v_ proj( _x_ ), each in R _[d]_ [model] . For
+emulation, set _q_ proj = _k_ proj = _In_ (identity on R _[n]_ ) and adjust
+
+
+**Head Splitting and Sparse Top-** _**k**_ **Pairwise Computation:**
+Split into _H_ heads, yielding _q_ [(] _[h]_ [)] _, k_ [(] _[h]_ [)] _∈_ R _[d]_ per head _h_,
+where _d_ = _d_ model _/H_ . For _T_ = 1, compute sparse top- _k_
+pairs, but since _T_ = 1, _K_ eff = 1, yielding concatenated
+pair _u_ [(] _[h]_ [)] = [ _q_ [(] _[h]_ [)] ; _k_ [(] _[h]_ [)] ] _∈_ R [2] _[d]_ . Since _q_ [(] _[h]_ [)] = _k_ [(] _[h]_ [)], this is
+
+[ _x_ [(] _[h]_ [)] ; _x_ [(] _[h]_ [)] ], but the NCP processes it generally.
+**Computation of** _ϕ_ [(] _[h]_ [)] **and** _ωτ_ [(] _[h]_ [)] **:** The scalar _ϕ_ [(] _[h]_ [)] is computed via the NCP-based inter-to-motor projection on the
+pair:
+_ϕ_ [(] _[h]_ [)] = _σ_ ( _NN_ backbone( _u_ [(] _[h]_ [)] )) (42)
+
+
+where _σ_ ( _z_ ) = (1 + _e_ _[−][z]_ ) _[−]_ [1] is the sigmoid. This NCP, with
+sufficiently large units and low sparsity, approximates any
+continuous scalar function _ϕ_ [˜] : R [2] _[d]_ _→_ [0 _,_ 1] to arbitrary precision on compact sets (by the UAT for multi-layer networks
+(Stinchcomb, 1989)). Similarly, _ωτ_ [(] _[h]_ [)] is computed via:
+
+
+_ωτ_ [(] _[h]_ [)] = softplus( _NN_ backbone( _u_ [(] _[h]_ [)] )) + _ε,_ _ε >_ 0 (43)
+
+
+By setting weights to make _ωτ_ [(] _[h]_ [)] _≡_ 1 (constant), the steadymode logit simplifies to _a_ [(] _[h]_ [)] = _ϕ_ [(] _[h]_ [)] _/ωτ_ [(] _[h]_ [)] = _ϕ_ [(] _[h]_ [)] . Thus,
+_a_ [(] _[h]_ [)] _≈_ _σ_ � _w_ [(] _[h]_ [)] _x_ + _b_ [(] _[h]_ [)][�] for chosen weights _w_ [(] _[h]_ [)] _, b_ [(] _[h]_ [)], emulating a sigmoid hidden unit.
+**Attention Weights and output:** For _T_ = 1, the softmax
+over one “key” yields _α_ [(] _[h]_ [)] = exp( _a_ [(] _[h]_ [)] ) _/_ exp( _a_ [(] _[h]_ [)] ) = 1.
+The head output is _y_ [(] _[h]_ [)] = � _T_ _[α]_ [(] _[h]_ [)] _[v]_ [(] _[h]_ [)] _[dt]_ [. Set] _[ v]_ [proj][ such that]
+
+_v_ [(] _[h]_ [)] = 1 (scalar), yielding _y_ [(] _[h]_ [)] _≈_ _σ_ � _w_ [(] _[h]_ [)] _x_ + _b_ [(] _[h]_ [)][�] . For
+vector-valued _v_ [(] _[h]_ [)], more complex combinations are possible, but scalars suffice here.
+**Output Projection:** Concatenate head outputs: _Y_ =
+
+[ _y_ [(1)] ; _y_ [(2)] ; _. . ._ ; _y_ [(] _[H]_ [)] ] _∈_ R _[H]_ . Apply the final dense layer:
+
+
+_g_ ( _x_ ) = ( _Y · Wo_ ) + _bo ∈_ R _[m]_ _._ (44)
+
+
+With _y_ [(] _[h]_ [)] _≈_ _σ_ � _w_ [(] _[h]_ [)] _x_ + _b_ [(] _[h]_ [)][�], this matches a single-hiddenlayer network with _H_ units. By the UAT, for large _H_, such
+networks approximate any continuous _f_ on compact _K_ to
+accuracy _ϵ_, by choosing appropriate _w_ [(] _[h]_ [)] _, b_ [(] _[h]_ [)] _, Wo, bo_ .
+
+
+**C. Training, Gradients and Complexity**
+
+
+**C.1. Gradient Characterization**
+
+
+We analyze the sensitivity of the dynamics with respect to
+the underlying learnable parameters. Specifically, we compute closed-form derivatives of both the steady state and the
+full trajectory _at_ with respect to the parameters _ϕ_ and _ωτ_ .
+These expressions illuminate how gradients flow through
+
+
+
+the system, and provide guidance for selecting parameterizations that avoid vanishing or exploding gradients.
+
+
+C.1.1. TRAJECTORY SENSITIVITIES FOR CLOSED-FORM
+
+
+FORMULATION
+
+
+The trajectory is given by
+
+
+_at_ = _a_ _[∗]_ + ( _a_ 0 _−_ _a_ _[∗]_ ) _e_ _[−][ω][τ][ t]_ _,_ (45)
+
+
+which depends on ( _ϕ, ωτ_ ) both through the equilibrium _a_ _[∗]_
+
+and the exponential term.
+**Derivative with respect to** _ϕ_ **:** We obtain
+
+
+
+_Interpretation_ : The gradient with respect to _ωτ_ contains
+a transient term proportional to _te_ _[−][ω][τ][ t]_, which dominates
+at intermediate times, and a steady-state contribution proportional to _−ϕ/ωτ_ [2][, which persists asymptotically. Thus,]
+sensitivity to _ωτ_ is time-dependent, peaking before vanishing exponentially in the transient component.
+
+
+**C.2. Gradient-Based Training**
+Source: neuronal_attention_circuits_raw_chunks_2k.jsonl
+
+--- GRAPH CONTEXT ---
+Fallback graph context (LLM query returned empty rows):
+
+Shortest paths (<=4 hops):
+{'p': [{'id': 'Neuronal Attention Circuit (NAC)'}, 'MENTIONS', {'derived_from_chunk_file': 'neuronal_attention_circuits_raw_with_image_ids_with_captions_chunks_5k.jsonl', 'markdown_source': 'neuronal_attention_circuits_raw_with_image_ids_with_captions.md', 'source_type': 'markdown', 'id': 'e53e1c2a9bc8acdfefcd9baa3b5e79de', 'text': 'neuronal_attention_circuits_raw_with_image_ids_with_captions.md::images', 'source_id': 'neuronal_attention_circuits_raw_with_image_ids_with_captions.md::images'}, 'MENTIONS', {'id': 'Multi-Head Neuronal Attention Circuit'}]}
+
+Neighborhood of Concept 'Neuronal Attention Circuit (NAC)':
+{'rel': 'MENTIONS', 'n_labels': ['Document'], 'n_id': 'e53e1c2a9bc8acdfefcd9baa3b5e79de'}
+{'rel': 'DEPICTS', 'n_labels': ['Image'], 'n_id': 'img_neuronal_attention_circuits_5_0'}
+
+Images (from graph):
+- img_neuronal_attention_circuits_5_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/neuronal_attention_circuits.pdf-5-0.png | related_to=Neuronal Attention Circuit (NAC)
+- img_neuronal_attention_circuits_2_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/neuronal_attention_circuits.pdf-2-0.png | related_to=Neuronal Attention Circuit (NAC)
+- img_neuronal_attention_circuits_6_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/neuronal_attention_circuits.pdf-6-0.png | related_to=Neuronal Attention Circuit (NAC)
+- img_neuronal_attention_circuits_13_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/neuronal_attention_circuits.pdf-13-0.png | related_to=Neuronal Attention Circuit (NAC)
+- img_neuronal_attention_circuits_15_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/neuronal_attention_circuits.pdf-15-0.png | related_to=Neuronal Attention Circuit (NAC)
+- img_neuronal_attention_circuits_15_1 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/neuronal_attention_circuits.pdf-15-1.png | related_to=Neuronal Attention Circuit (NAC)
+- img_neuronal_attention_circuits_5_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/neuronal_attention_circuits.pdf-5-0.png | related_to=Multi-Head Neuronal Attention Circuit
+- img_neuronal_attention_circuits_2_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/neuronal_attention_circuits.pdf-2-0.png | related_to=Multi-Head Neuronal Attention Circuit
+- img_neuronal_attention_circuits_6_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/neuronal_attention_circuits.pdf-6-0.png | related_to=Multi-Head Neuronal Attention Circuit
+- img_neuronal_attention_circuits_13_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/neuronal_attention_circuits.pdf-13-0.png | related_to=Multi-Head Neuronal Attention Circuit
+- img_neuronal_attention_circuits_15_0 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/neuronal_attention_circuits.pdf-15-0.png | related_to=Multi-Head Neuronal Attention Circuit
+- img_neuronal_attention_circuits_15_1 | E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/neuronal_attention_circuits.pdf-15-1.png | related_to=Multi-Head Neuronal Attention Circuit
+
+Chunks (inferred from derived_from_chunk_file):
+- neuronal_attention_circuits_raw_with_image_ids_with_captions_chunks_5k.jsonl::neuronal_attention_circuits_raw_with_image_ids_with_captions_chunks_5k_0
+  chunk_file: neuronal_attention_circuits_raw_with_image_ids_with_captions_chunks_5k.jsonl
+  chunk_path: E:\Python Stuff\MAS-for-multimodal-knowledge-graph\chunking_outputs\neuronal_attention_circuits_raw_with_image_ids_with_captions_chunks_5k.jsonl
+  chunk_id: neuronal_attention_circuits_raw_with_image_ids_with_captions_chunks_5k_0
+  chunk_index: 0
+  metadata: {'source': 'neuronal_attention_circuits_raw_with_image_ids_with_captions.md'}
+  token_size_config: 5000
+  resolved_via: derived_from_chunk_file + content_match
+  excerpt: ## **Neuronal Attention Circuit (NAC) for Representation Learning**
+
+**Waleed Razzaq** [1] **Izis Kankaraway** [1] **Yun-Bo Zhao** [1 2]
+
+
+
+**Abstract**
+
+Attention improves representation learning over
+RNNs, but its discrete nature limits continuoustime (CT) modeling. We introduce Neuronal Attention Circuit (NAC), a novel, biologically plausible CT-Attention mechanism that reformulates
+
+attention logits computation as the solution to a
+linear first-order ODE with nonlinear interlinked
+gates derived from repurposing _C. elegans_ Neuronal Circuit Policies (NCPs) wiring mechanism.
+NAC replaces de…
+
+- neuronal_attention_circuits_raw_with_image_ids_with_captions_chunks_5k.jsonl::neuronal_attention_circuits_raw_with_image_ids_with_captions_chunks_5k_1
+  chunk_file: neuronal_attention_circuits_raw_with_image_ids_with_captions_chunks_5k.jsonl
+  chunk_path: E:\Python Stuff\MAS-for-multimodal-knowledge-graph\chunking_outputs\neuronal_attention_circuits_raw_with_image_ids_with_captions_chunks_5k.jsonl
+  chunk_id: neuronal_attention_circuits_raw_with_image_ids_with_captions_chunks_5k_1
+  chunk_index: 1
+  metadata: {'source': 'neuronal_attention_circuits_raw_with_image_ids_with_captions.md'}
+  token_size_config: 5000
+  resolved_via: derived_from_chunk_file + content_match
+  excerpt: _|at −_ _a_ _[∗]_ _| ≤_ _Me_ _[−][ω][τ][ t]_ _._ (10)
+
+
+_Remark:_ This bound highlights that exponential convergence holds uniformly across all admissible initial
+conditions, with the constant _M_ capturing the worst-case
+deviation.
+
+
+**Corollary 3** (Sample complexity to _δ_ -accuracy) **.** _A natural_
+_operational question is the time required to achieve a target_
+_tolerance δ >_ 0 _. Solving_
+
+
+_|a_ 0 _−_ _a_ _[∗]_ _|e_ _[−][ω][τ][ t]_ _≤_ _δ,_ (11)
+
+
+_We obtain the threshold_
+
+
+
+
+[1] ln _[|][a]_ [0] _[ −]_ _[a][∗][|]_
+
+_ωτ_ _δ_
+
+
+
+_t ≥_ [1]
+
+
+
+_._ (12)
+_δ_
+
+
+
+_Remark:_ The convergence rat…
+
+- neuronal_attention_circuits_raw_with_image_ids_with_captions_chunks_5k.jsonl::neuronal_attention_circuits_raw_with_image_ids_with_captions_chunks_5k_2
+  chunk_file: neuronal_attention_circuits_raw_with_image_ids_with_captions_chunks_5k.jsonl
+  chunk_path: E:\Python Stuff\MAS-for-multimodal-knowledge-graph\chunking_outputs\neuronal_attention_circuits_raw_with_image_ids_with_captions_chunks_5k.jsonl
+  chunk_id: neuronal_attention_circuits_raw_with_image_ids_with_captions_chunks_5k_2
+  chunk_index: 2
+  metadata: {'source': 'neuronal_attention_circuits_raw_with_image_ids_with_captions.md'}
+  token_size_config: 5000
+  resolved_via: derived_from_chunk_file + content_match
+  excerpt: ```json
+""img_neuronal_attention_circuits_5_0"": {
+    ""path"": ""E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/neuronal_attention_circuits.pdf-5-0.png"",
+    ""page"": 5,
+    ""section"": ""Abstract"",
+    ""image_relevance"": ""high"",
+    ""image_type"": ""architecture"",
+    ""semantic_role"": ""defines"",
+    ""caption"": ""The image presents two architectural diagrams: a Neuronal Attention Circuit (NAC) and a Multi-Head Neuronal Attention Circuit. The single-head NAC processes time-series Query, Key, and Value inputs through Sparse Topk-Pairwise, a Backbone module, a logit computation…","The Neuronal Attention Circuit (NAC) supports three attention logit computation modes:
+
+1.  **Explicit Euler integration (Euler):** This method computes attention logits using the explicit Euler integration.
+2.  **Exact closed-form solution (Exact):** This mode computes attention logits using the closed-form exact solution of the underlying ODE.
+3.  **Steady-state approximation (Steady):** This method derives attention logits from the steady-state solution of the exact formulation, approximating equilibrium states.
+
+**Image paths:**
+*   img_neuronal_attention_circuits_5_0: E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/neuronal_attention_circuits.pdf-5-0.png
+*   img_neuronal_attention_circuits_2_0: E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/neuronal_attention_circuits.pdf-2-0.png
+*   img_neuronal_attention_circuits_6_0: E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/neuronal_attention_circuits.pdf-6-0.png
+*   img_neuronal_attention_circuits_13_0: E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/neuronal_attention_circuits.pdf-13-0.png
+*   img_neuronal_attention_circuits_15_0: E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/neuronal_attention_circuits.pdf-15-0.png
+*   img_neuronal_attention_circuits_15_1: E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/neuronal_attention_circuits.pdf-15-1.png
+
+**Chunks used:**
+*   neuronal_attention_circuits_raw_with_image_ids_with_captions.md (neuronal_attention_circuits_raw_with_image_ids_with_captions_chunks_5k.jsonl::neuronal_attention_circuits_raw_with_image_ids_with_captions_chunks_5k_0)
+*   neuronal_attention_circuits_raw_with_image_ids_with_captions.md (neuronal_attention_circuits_raw_with_image_ids_with_captions_chunks_5k.jsonl::neuronal_attention_circuits_raw_with_image_ids_with_captions_chunks_5k_1)
+*   neuronal_attention_circuits_raw_with_image_ids_with_captions.md (neuronal_attention_circuits_raw_with_image_ids_with_captions_chunks_5k.jsonl::neuronal_attention_circuits_raw_with_image_ids_with_captions_chunks_5k_2)",3562,30784,5646,40004,,"['Neuronal Attention Circuit (NAC) attention logit computation modes', 'NAC supported attention logit modes', 'attention logit computation in Neuronal Attention Circuit']",6,5,"MATCH (nac)
+WHERE nac.id = 'Neuronal Attention Circuit (NAC)' AND (nac:`Concept OR nac`:Model)
+MATCH (nac)<-[:MENTIONS]-(d:Document)-[:MENTIONS]->(mode:Concept)
+WHERE d.source_type = 'chunk'
+RETURN DISTINCT mode.id
+LIMIT 3",,,2026-01-02T12:11:36.534528

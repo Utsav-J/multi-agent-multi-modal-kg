@@ -1,0 +1,61 @@
+Category,Question
+Single-Document Fact Lookup,What are the three attention logit computation modes supported by the Neuronal Attention Circuit (NAC)?
+Single-Document Fact Lookup,What is the specific BLEU score achieved by the Transformer model on the WMT 2014 English-to-German translation task?
+Single-Document Fact Lookup,"How does the ""Full Attention Decode"" method in Sliding Window Attention Adaptation (SWAA) differ from standard SWA during the prefilling stage?"
+Single-Document Fact Lookup,What are the eight cognitive functions defined in the CogVision dataset for classifying attention heads?
+Single-Document Fact Lookup,"What is the computational complexity of a self-attention layer compared to a recurrent layer as described in ""Attention Is All You Need""?"
+Single-Document Fact Lookup,Which specific biological organism's nervous system inspired the wiring mechanism of the Neuronal Attention Circuit?
+Single-Document Fact Lookup,"What is the ""attention sink"" phenomenon described in the context of the ""Keep First k Tokens"" method?"
+Single-Document Fact Lookup,How many main questions and subquestions are contained within the final CogVision dataset after filtering?
+Single-Document Fact Lookup,What are the two sub-layers present in each layer of the Transformer's encoder stack?
+Single-Document Fact Lookup,Which specific metric was used to evaluate the Remaining Useful Life (RUL) estimation in the NAC experiments?
+Multi-Document Aggregation,"Compare the computational complexity of the Neuronal Attention Circuit (NAC) with the standard self-attention mechanism described in ""Attention Is All You Need""."
+Multi-Document Aggregation,How does the "Interleaving Layers" strategy in SWAA compare to the hierarchical organization of functional heads discussed in the CogVision paper?
+Multi-Document Aggregation,"Discuss the differences in how ""Attention Is All You Need"" and ""Neuronal Attention Circuit"" handle positional information in sequence modeling."
+Multi-Document Aggregation,"Contrast the approach to long-context processing in ""Sliding Window Attention Adaptation"" with the ""sparse Top-K pairwise concatenation"" used in NAC."
+Multi-Document Aggregation,How do the findings regarding "sparse functional organization" in VLMs (CogVision paper) align with the sparsity principles used in the NAC architecture?
+Multi-Document Aggregation,"Compare the ""Keep First k Tokens"" method in SWAA with the ""positional encoding"" mechanism in the original Transformer paper in terms of preserving global context."
+Multi-Document Aggregation,"How does the ""Full Attention Decode"" method in SWAA relate to the ""decoder"" structure described in ""Attention Is All You Need""?"
+Multi-Document Aggregation,"Evaluate the ""Chain-of-Thought"" (CoT) usage in SWAA against the CoT-based subquestion decomposition in the CogVision dataset."
+Multi-Document Aggregation,"Compare the ""learning rate"" schedules used for training the Transformer in ""Attention Is All You Need"" and the NAC models in their respective experiments."
+Multi-Document Aggregation,"How does the ""Universal Approximation Theorem"" proof for NAC compare to the theoretical justifications for self-attention provided in ""Attention Is All You Need""?"
+Entity Relationship Reasoning,"How is the entity ""DeepSeek-R1"" related to the concept of ""Chain-of-Thought"" in the context of SWA adaptation?"
+Entity Relationship Reasoning,"What is the relationship between ""Flash-Attention-2"" and the ""Keep First k Tokens"" implementation in SWAA?"
+Entity Relationship Reasoning,How does the "sensory neuron" entity in NAC interact with the "backbone" entity to compute attention logits?
+Entity Relationship Reasoning,What connects the "occipital lobe" entity to the "High-Level Visual Reception" function in the CogVision framework?
+Entity Relationship Reasoning,How does the "Adam optimizer" entity function differently in the training regimes of the Transformer and NAC models?
+Entity Relationship Reasoning,"What is the relationship between ""LongBench-V2"" and ""LongMemEval"" in the evaluation of SWA adaptation strategies?"
+Entity Relationship Reasoning,How does the "Multi-Head Attention" entity relate to the "sub-layers" entity in the Transformer architecture?
+Entity Relationship Reasoning,"What is the connection between ""C. elegans"" and the ""Neuronal Circuit Policies (NCPs)"" entity in the NAC paper?"
+Entity Relationship Reasoning,How does the "KV cache" entity relate to the "FA Decode" method's efficiency in SWAA?
+Entity Relationship Reasoning,What relationship exists between "GPT-4.1" and the "CogVision" dataset construction process?
+Multi-Hop Chain Reasoning,"If ""Full Attention Decode"" is applied to a ""Qwen3-4B-Thinking"" model, how does this specifically impact the ""performance-efficiency trade-off"" compared to naive SWA?"
+Multi-Hop Chain Reasoning,"Trace the flow of information from ""input embeddings"" to ""output probabilities"" in the Transformer architecture, explicitly mentioning the role of ""Add & Norm"" layers."
+Multi-Hop Chain Reasoning,Explain how "masking cognitive heads" in VLMs leads to performance degradation on "downstream tasks" like "OK-VQA".
+Multi-Hop Chain Reasoning,How does the "explicit Euler solver" in NAC facilitate the "adaptive temporal dynamics" required for "irregular time-series classification"?
+Multi-Hop Chain Reasoning,Derive the connection between "sparse attention patterns" in SWAA and the "computational cost" reduction compared to "full-causal-attention" models.
+Multi-Hop Chain Reasoning,Explain the reasoning chain that leads from "human brain anatomy" inspiration to the definition of "eight cognitive functions" in the CogVision framework.
+Multi-Hop Chain Reasoning,How does "repurposing C. elegans NCPs" lead to the specific "ODE-based" formulation of attention logits in NAC?
+Multi-Hop Chain Reasoning,Connect the "vanishing gradient problem" in "DT-RNNs" to the motivation for developing "Continuous-time RNNs" and subsequently "NAC".
+Multi-Hop Chain Reasoning,How does the "training-inference mismatch" in SWA necessitate the specific combination of "fine-tuning" and "Interleaving Layers" in SWAA?
+Multi-Hop Chain Reasoning,Trace the impact of "positive intervention" on "functional heads" to the resulting improvement in "visual reasoning tasks" accuracy.
+System Level / Architectural Understanding,"How does the ""Neuronal Attention Circuit"" fundamentally redefine the calculation of attention logits compared to the standard ""Scaled Dot-Product Attention""?"
+System Level / Architectural Understanding,"Critique the architectural decision to remove ""recurrence"" and ""convolutions"" in favor of ""self-attention"" as proposed in ""Attention Is All You Need""."
+System Level / Architectural Understanding,Analyze the systemic trade-offs between "accuracy" and "peak memory usage" when deploying "NAC-PW" versus "NAC-2k".
+System Level / Architectural Understanding,"Evaluate the architectural implications of ""hybrid model structures"" that interleave ""linear attention"" with traditional attention, as discussed in the context of SWAA."
+System Level / Architectural Understanding,How does the "interpretable functional organization" of attention heads in VLMs challenge the view of these models as "black boxes"?
+System Level / Architectural Understanding,Discuss the role of "universal approximation" guarantees in validating the architectural design of NAC.
+System Level / Architectural Understanding,How does the "auto-regressive" property of the Transformer decoder influence the design of the "masked multi-head attention" mechanism?
+System Level / Architectural Understanding,Analyze the "performance-efficiency balance" of the SWAA toolkit and how it allows for flexible deployment strategies.
+System Level / Architectural Understanding,How does the "CogVision" framework's probing methodology reveal the "hierarchical organization" of cognitive processes in VLMs?
+System Level / Architectural Understanding,Evaluate the "biologically plausible" claims of NAC in relation to the actual mechanisms of "synaptic transmission" and "neuronal dynamics".
+Entity-Specific Attribute Retrieval,What specific "activation function" is used in the "Feed Forward Network" of the Transformer?
+Entity-Specific Attribute Retrieval,What is the "sampling rate" associated with the "PRONOSTIA dataset" in the NAC experiments?
+Entity-Specific Attribute Retrieval,Identify the "rank r" parameter value used for "LoRA" fine-tuning in the SWAA experiments.
+Entity-Specific Attribute Retrieval,"What ""model scales"" of the ""Qwen"" family were tested in the ""Investigating the Functional Roles..."" paper?"
+Entity-Specific Attribute Retrieval,"What is the ""dimension d_model"" used for the base model in ""Attention Is All You Need""?"
+Entity-Specific Attribute Retrieval,Which "baseline models" were used for comparison in the "Lane-Keeping of Autonomous Vehicles" experiment for NAC?
+Entity-Specific Attribute Retrieval,What "window size" was primarily used for the "aggressive" SWA settings in the SWAA experiments?
+Entity-Specific Attribute Retrieval,Who are the "correspondence authors" listed for the "Neuronal Attention Circuit" paper?
+Entity-Specific Attribute Retrieval,"What specific ""GPU hardware"" was used to train the ""base models"" in ""Attention Is All You Need""?"
+Entity-Specific Attribute Retrieval,What is the "Pearson correlation" value observed between "cognitive masking" and "random masking" effects in VLMs?
