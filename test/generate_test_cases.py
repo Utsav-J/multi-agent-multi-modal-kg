@@ -284,7 +284,7 @@ def interactive_mode():
     # Ask if user wants to save
     save = input("\nSave to CSV? (y/n): ").strip().lower()
     if save == "y":
-        output_path = project_root / "test" / "outputs" / "test_case_single.csv"
+        output_path = project_root / "test" / "test_cases" / "test_case_single.csv"
         save_results_to_csv([result], output_path)
         print(f"Saved to {output_path}")
 
@@ -372,7 +372,7 @@ def batch_mode(csv_path: str, output_path: Optional[str] = None):
         output_file = Path(output_path)
     else:
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        output_file = project_root / "test" / "outputs" / f"test_cases_{timestamp}.csv"
+        output_file = project_root / "test" / "test_cases" / f"test_cases_{timestamp}.csv"
 
     save_results_to_csv(all_results, output_file)
 
@@ -426,7 +426,7 @@ def main():
             output_path = (
                 Path(args.output)
                 if args.output
-                else project_root / "test" / "outputs" / "test_case_single.csv"
+                else project_root / "test" / "test_cases" / "test_case_single.csv"
             )
             save_results_to_csv([result], output_path)
             print(f"\nResults saved to {output_path}")

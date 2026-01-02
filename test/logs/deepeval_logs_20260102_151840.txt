@@ -1,0 +1,9 @@
+2026-01-02 15:18:40,180 - __main__ - INFO - Loading test cases from test\test_cases\test_cases_20260102_125613.csv
+2026-01-02 15:18:40,237 - __main__ - ERROR - Error loading CSV file: field larger than field limit (131072)
+Traceback (most recent call last):
+  File "E:\Python Stuff\MAS-for-multimodal-knowledge-graph\test\run_deepeval.py", line 67, in load_test_cases_from_csv
+    rows = list(reader)
+  File "C:\Users\UTSAV\AppData\Roaming\uv\python\cpython-3.13.7-windows-x86_64-none\Lib\csv.py", line 178, in __next__
+    row = next(self.reader)
+_csv.Error: field larger than field limit (131072)
+2026-01-02 15:18:40,250 - __main__ - ERROR - No test cases loaded. Exiting.

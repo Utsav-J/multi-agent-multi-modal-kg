@@ -1,0 +1,32 @@
+2026-01-02 14:48:37,175 - __main__ - INFO - Loading test cases from test\test_cases\test_case_single.csv
+2026-01-02 14:48:37,178 - __main__ - INFO - Successfully loaded 1 test cases
+2026-01-02 14:48:37,178 - __main__ - INFO - ================================================================================
+2026-01-02 14:48:37,179 - __main__ - INFO - Starting DeepEval Evaluation
+2026-01-02 14:48:37,179 - __main__ - INFO - ================================================================================
+2026-01-02 14:48:37,179 - __main__ - INFO - Number of test cases: 1
+2026-01-02 14:48:37,179 - __main__ - INFO - Number of metrics: 11
+2026-01-02 14:48:37,179 - __main__ - INFO - Metrics: ['HallucinationMetric', 'FaithfulnessMetric', 'AnswerRelevancyMetric', 'ToxicityMetric', 'BiasMetric', 'GEval', 'GEval', 'GEval', 'GEval', 'GEval', 'GEval']
+2026-01-02 14:48:37,180 - __main__ - INFO - 
+--------------------------------------------------------------------------------
+2026-01-02 14:48:37,180 - __main__ - INFO - Processing Test Case 1/1: What are the three attention logit computation modes supported by the Neuronal A...
+2026-01-02 14:48:37,180 - __main__ - INFO -   [1/11] Evaluating: HallucinationMetric...
+2026-01-02 14:48:37,180 - __main__ - ERROR -     Error evaluating HallucinationMetric: 'context' cannot be None for the 'Hallucination' metric
+Traceback (most recent call last):
+  File "E:\Python Stuff\MAS-for-multimodal-knowledge-graph\test\run_deepeval.py", line 245, in run_evaluation
+    metric_result = metric.measure(test_case)
+  File "E:\Python Stuff\MAS-for-multimodal-knowledge-graph\.venv\Lib\site-packages\deepeval\metrics\hallucination\hallucination.py", line 64, in measure
+    check_llm_test_case_params(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        test_case,
+        ^^^^^^^^^^
+    ...<5 lines>...
+        multimodal,
+        ^^^^^^^^^^^
+    )
+    ^
+  File "E:\Python Stuff\MAS-for-multimodal-knowledge-graph\.venv\Lib\site-packages\deepeval\metrics\utils.py", line 340, in check_llm_test_case_params
+    raise MissingTestCaseParamsError(error_str)
+deepeval.errors.MissingTestCaseParamsError: 'context' cannot be None for the 'Hallucination' metric
+2026-01-02 14:48:37,183 - __main__ - INFO -   [2/11] Evaluating: FaithfulnessMetric...
+2026-01-02 14:48:38,172 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-01-02 14:49:28,314 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"

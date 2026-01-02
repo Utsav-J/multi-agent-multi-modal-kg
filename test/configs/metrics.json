@@ -1,0 +1,11 @@
+{
+    "TONE": "The response should maintain a professional, respectful, and helpful tone. Avoid sarcasm, rudeness, or informal language unless specifically requested by the user.",
+    "COMPLETENESS": "The response should fully address all parts of the user's query, providing thorough and detailed information without omitting relevant details.",
+    "CLARITY": "The response should be clear, concise, and easy to understand. Avoid ambiguity, jargon, or overly complex language. The answer should be structured logically and be accessible to the intended audience.",
+    "CONTEXT_RELEVANCE": "Evaluate how relevant the retrieved context is to the input question. The context should directly support answering the question. Score 1.0 if highly relevant, 0.0 if irrelevant.",
+    "RETRIEVAL_QUALITY": "Evaluate the quality of the retrieval process. The retrieved context should be comprehensive, accurate, and well-sourced. Score 1.0 if excellent retrieval, 0.0 if poor retrieval.",
+    "GRAPH_CONTEXT_UTILIZATION": "Evaluate how well the graph context was utilized in the final answer. The answer should effectively use graph information when available. Score 1.0 if well-utilized, 0.0 if ignored or poorly used.",
+    "RAG_CONTEXT_UTILIZATION": "Evaluate how well the RAG context was utilized in the final answer. The answer should effectively use RAG information when available. Score 1.0 if well-utilized, 0.0 if ignored or poorly used.",
+    "TECHNICAL_ACCURACY": "Evaluate the technical accuracy of the response. The response should be factually correct and technically sound. Score 1.0 if highly accurate, 0.0 if contains errors or inaccuracies.",
+    "SOURCE_ATTRIBUTION": "Evaluate whether the response properly attributes information to sources when available. The response should reference sources when appropriate. Score 1.0 if well-attributed, 0.0 if no attribution."
+}

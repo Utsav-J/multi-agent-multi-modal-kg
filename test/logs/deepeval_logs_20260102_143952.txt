@@ -1,0 +1,232 @@
+2026-01-02 14:39:52,585 - __main__ - INFO - Loading test cases from test\outputs\test_case_single.csv
+2026-01-02 14:39:52,588 - __main__ - INFO - Successfully loaded 1 test cases
+2026-01-02 14:39:52,588 - __main__ - INFO - ================================================================================
+2026-01-02 14:39:52,588 - __main__ - INFO - Starting DeepEval Evaluation
+2026-01-02 14:39:52,589 - __main__ - INFO - ================================================================================
+2026-01-02 14:39:52,589 - __main__ - INFO - Number of test cases: 1
+2026-01-02 14:39:52,589 - __main__ - INFO - Number of metrics: 14
+2026-01-02 14:39:52,589 - __main__ - INFO - Metrics: ['HallucinationMetric', 'FaithfulnessMetric', 'AnswerRelevancyMetric', 'ToxicityMetric', 'BiasMetric', 'GEval', 'GEval', 'GEval', 'GEval', 'GEval', 'GEval', 'GEval', 'GEval', 'GEval']
+2026-01-02 14:39:52,590 - __main__ - INFO - 
+--------------------------------------------------------------------------------
+2026-01-02 14:39:52,590 - __main__ - INFO - Processing Test Case 1/1: What are the three attention logit computation modes supported by the Neuronal A...
+2026-01-02 14:39:52,590 - __main__ - INFO -   [1/14] Evaluating: HallucinationMetric...
+2026-01-02 14:39:52,590 - __main__ - ERROR -     Error evaluating HallucinationMetric: 'context' cannot be None for the 'Hallucination' metric
+Traceback (most recent call last):
+  File "E:\Python Stuff\MAS-for-multimodal-knowledge-graph\test\run_deepeval.py", line 224, in run_evaluation
+    metric_result = metric.measure(test_case)
+  File "E:\Python Stuff\MAS-for-multimodal-knowledge-graph\.venv\Lib\site-packages\deepeval\metrics\hallucination\hallucination.py", line 64, in measure
+    check_llm_test_case_params(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        test_case,
+        ^^^^^^^^^^
+    ...<5 lines>...
+        multimodal,
+        ^^^^^^^^^^^
+    )
+    ^
+  File "E:\Python Stuff\MAS-for-multimodal-knowledge-graph\.venv\Lib\site-packages\deepeval\metrics\utils.py", line 340, in check_llm_test_case_params
+    raise MissingTestCaseParamsError(error_str)
+deepeval.errors.MissingTestCaseParamsError: 'context' cannot be None for the 'Hallucination' metric
+2026-01-02 14:39:52,592 - __main__ - INFO -   [2/14] Evaluating: FaithfulnessMetric...
+2026-01-02 14:39:53,515 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-01-02 14:40:33,030 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2026-01-02 14:40:33,900 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-01-02 14:40:41,803 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2026-01-02 14:40:42,613 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-01-02 14:40:51,146 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2026-01-02 14:40:51,973 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-01-02 14:40:54,039 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2026-01-02 14:40:54,057 - __main__ - ERROR -     Error evaluating FaithfulnessMetric: Invalid format specifier '.3f if score else 'N/A'' for object of type 'float'
+Traceback (most recent call last):
+  File "E:\Python Stuff\MAS-for-multimodal-knowledge-graph\test\run_deepeval.py", line 263, in run_evaluation
+    f"    Result: score={score:.3f if score else 'N/A'}, "
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: Invalid format specifier '.3f if score else 'N/A'' for object of type 'float'
+2026-01-02 14:40:54,059 - __main__ - INFO -   [3/14] Evaluating: AnswerRelevancyMetric...
+2026-01-02 14:40:54,886 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-01-02 14:40:57,850 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2026-01-02 14:40:58,672 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-01-02 14:41:03,021 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2026-01-02 14:41:03,837 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-01-02 14:41:06,253 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2026-01-02 14:41:06,271 - __main__ - ERROR -     Error evaluating AnswerRelevancyMetric: Invalid format specifier '.3f if score else 'N/A'' for object of type 'float'
+Traceback (most recent call last):
+  File "E:\Python Stuff\MAS-for-multimodal-knowledge-graph\test\run_deepeval.py", line 263, in run_evaluation
+    f"    Result: score={score:.3f if score else 'N/A'}, "
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: Invalid format specifier '.3f if score else 'N/A'' for object of type 'float'
+2026-01-02 14:41:06,272 - __main__ - INFO -   [4/14] Evaluating: ToxicityMetric...
+2026-01-02 14:41:07,131 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-01-02 14:41:09,411 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2026-01-02 14:41:10,225 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-01-02 14:41:12,527 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2026-01-02 14:41:12,536 - __main__ - ERROR -     Error evaluating ToxicityMetric: Invalid format specifier '.3f if score else 'N/A'' for object of type 'int'
+Traceback (most recent call last):
+  File "E:\Python Stuff\MAS-for-multimodal-knowledge-graph\test\run_deepeval.py", line 263, in run_evaluation
+    f"    Result: score={score:.3f if score else 'N/A'}, "
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: Invalid format specifier '.3f if score else 'N/A'' for object of type 'int'
+2026-01-02 14:41:12,537 - __main__ - INFO -   [5/14] Evaluating: BiasMetric...
+2026-01-02 14:41:13,383 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-01-02 14:41:16,881 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-01-02 14:41:19,117 - __main__ - ERROR -     Error evaluating BiasMetric: Invalid format specifier '.3f if score else 'N/A'' for object of type 'int'
+Traceback (most recent call last):
+  File "E:\Python Stuff\MAS-for-multimodal-knowledge-graph\test\run_deepeval.py", line 263, in run_evaluation
+    f"    Result: score={score:.3f if score else 'N/A'}, "
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: Invalid format specifier '.3f if score else 'N/A'' for object of type 'int'
+2026-01-02 14:41:19,118 - __main__ - INFO -   [6/14] Evaluating: GEval...
+2026-01-02 14:41:19,956 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-01-02 14:41:22,046 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2026-01-02 14:41:22,858 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-01-02 14:41:26,428 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2026-01-02 14:41:26,442 - __main__ - ERROR -     Error evaluating GEval: Invalid format specifier '.3f if score else 'N/A'' for object of type 'float'
+Traceback (most recent call last):
+  File "E:\Python Stuff\MAS-for-multimodal-knowledge-graph\test\run_deepeval.py", line 263, in run_evaluation
+    f"    Result: score={score:.3f if score else 'N/A'}, "
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: Invalid format specifier '.3f if score else 'N/A'' for object of type 'float'
+2026-01-02 14:41:26,443 - __main__ - INFO -   [7/14] Evaluating: GEval...
+2026-01-02 14:41:27,361 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-01-02 14:41:30,773 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2026-01-02 14:41:31,585 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-01-02 14:41:38,478 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2026-01-02 14:41:38,490 - __main__ - ERROR -     Error evaluating GEval: Invalid format specifier '.3f if score else 'N/A'' for object of type 'float'
+Traceback (most recent call last):
+  File "E:\Python Stuff\MAS-for-multimodal-knowledge-graph\test\run_deepeval.py", line 263, in run_evaluation
+    f"    Result: score={score:.3f if score else 'N/A'}, "
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: Invalid format specifier '.3f if score else 'N/A'' for object of type 'float'
+2026-01-02 14:41:38,492 - __main__ - INFO -   [8/14] Evaluating: GEval...
+2026-01-02 14:41:39,336 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-01-02 14:41:42,864 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2026-01-02 14:41:43,673 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-01-02 14:41:49,129 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2026-01-02 14:41:49,134 - __main__ - ERROR -     Error evaluating GEval: Invalid format specifier '.3f if score else 'N/A'' for object of type 'float'
+Traceback (most recent call last):
+  File "E:\Python Stuff\MAS-for-multimodal-knowledge-graph\test\run_deepeval.py", line 263, in run_evaluation
+    f"    Result: score={score:.3f if score else 'N/A'}, "
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: Invalid format specifier '.3f if score else 'N/A'' for object of type 'float'
+2026-01-02 14:41:49,135 - __main__ - INFO -   [9/14] Evaluating: GEval...
+2026-01-02 14:41:49,995 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-01-02 14:41:52,497 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2026-01-02 14:41:53,316 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-01-02 14:41:57,901 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2026-01-02 14:41:57,906 - __main__ - ERROR -     Error evaluating GEval: Invalid format specifier '.3f if score else 'N/A'' for object of type 'float'
+Traceback (most recent call last):
+  File "E:\Python Stuff\MAS-for-multimodal-knowledge-graph\test\run_deepeval.py", line 263, in run_evaluation
+    f"    Result: score={score:.3f if score else 'N/A'}, "
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: Invalid format specifier '.3f if score else 'N/A'' for object of type 'float'
+2026-01-02 14:41:57,906 - __main__ - INFO -   [10/14] Evaluating: GEval...
+2026-01-02 14:41:58,746 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-01-02 14:42:06,117 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2026-01-02 14:42:06,932 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-01-02 14:42:13,533 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2026-01-02 14:42:13,538 - __main__ - ERROR -     Error evaluating GEval: Invalid format specifier '.3f if score else 'N/A'' for object of type 'float'
+Traceback (most recent call last):
+  File "E:\Python Stuff\MAS-for-multimodal-knowledge-graph\test\run_deepeval.py", line 263, in run_evaluation
+    f"    Result: score={score:.3f if score else 'N/A'}, "
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: Invalid format specifier '.3f if score else 'N/A'' for object of type 'float'
+2026-01-02 14:42:13,539 - __main__ - INFO -   [11/14] Evaluating: GEval...
+2026-01-02 14:42:14,404 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-01-02 14:42:18,099 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2026-01-02 14:42:18,998 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-01-02 14:42:31,916 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2026-01-02 14:42:31,921 - __main__ - ERROR -     Error evaluating GEval: Invalid format specifier '.3f if score else 'N/A'' for object of type 'float'
+Traceback (most recent call last):
+  File "E:\Python Stuff\MAS-for-multimodal-knowledge-graph\test\run_deepeval.py", line 263, in run_evaluation
+    f"    Result: score={score:.3f if score else 'N/A'}, "
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: Invalid format specifier '.3f if score else 'N/A'' for object of type 'float'
+2026-01-02 14:42:31,922 - __main__ - INFO -   [12/14] Evaluating: GEval...
+2026-01-02 14:42:32,783 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-01-02 14:42:35,969 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2026-01-02 14:42:37,016 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-01-02 14:42:41,748 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2026-01-02 14:42:41,758 - __main__ - ERROR -     Error evaluating GEval: Invalid format specifier '.3f if score else 'N/A'' for object of type 'float'
+Traceback (most recent call last):
+  File "E:\Python Stuff\MAS-for-multimodal-knowledge-graph\test\run_deepeval.py", line 263, in run_evaluation
+    score_str = f"{score:.3f}" if score is not None else "N/A"
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: Invalid format specifier '.3f if score else 'N/A'' for object of type 'float'
+2026-01-02 14:42:41,761 - __main__ - INFO -   [13/14] Evaluating: GEval...
+2026-01-02 14:42:42,618 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-01-02 14:42:44,963 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2026-01-02 14:42:45,810 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-01-02 14:42:51,044 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2026-01-02 14:42:51,049 - __main__ - ERROR -     Error evaluating GEval: Invalid format specifier '.3f if score else 'N/A'' for object of type 'float'
+Traceback (most recent call last):
+  File "E:\Python Stuff\MAS-for-multimodal-knowledge-graph\test\run_deepeval.py", line 263, in run_evaluation
+    "evaluation_time_seconds": eval_time,
+                        ^^^^^^^^^^^^^^^^^
+ValueError: Invalid format specifier '.3f if score else 'N/A'' for object of type 'float'
+2026-01-02 14:42:51,050 - __main__ - INFO -   [14/14] Evaluating: GEval...
+2026-01-02 14:42:51,923 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-01-02 14:42:56,281 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2026-01-02 14:42:57,143 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-01-02 14:43:08,279 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2026-01-02 14:43:08,284 - __main__ - ERROR -     Error evaluating GEval: Invalid format specifier '.3f if score else 'N/A'' for object of type 'float'
+Traceback (most recent call last):
+  File "E:\Python Stuff\MAS-for-multimodal-knowledge-graph\test\run_deepeval.py", line 263, in run_evaluation
+    "success": bool(success) if success is not None else None,
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: Invalid format specifier '.3f if score else 'N/A'' for object of type 'float'
+2026-01-02 14:43:08,285 - __main__ - INFO - 
+================================================================================
+2026-01-02 14:43:08,286 - __main__ - INFO - Evaluation Summary
+2026-01-02 14:43:08,286 - __main__ - INFO - ================================================================================
+2026-01-02 14:43:08,286 - __main__ - INFO - 
+HallucinationMetric:
+2026-01-02 14:43:08,286 - __main__ - INFO -   Passed: 0/0 (0.0%)
+2026-01-02 14:43:08,286 - __main__ - INFO -   Failed: 0/0
+2026-01-02 14:43:08,286 - __main__ - INFO -   Errors: 1
+2026-01-02 14:43:08,286 - __main__ - INFO - 
+FaithfulnessMetric:
+2026-01-02 14:43:08,287 - __main__ - INFO -   Passed: 1/1 (100.0%)
+2026-01-02 14:43:08,287 - __main__ - INFO -   Failed: 0/1
+2026-01-02 14:43:08,287 - __main__ - INFO -   Errors: 1
+2026-01-02 14:43:08,287 - __main__ - INFO -   Average Score: 1.000
+2026-01-02 14:43:08,287 - __main__ - INFO -   Score Range: 1.000 - 1.000
+2026-01-02 14:43:08,287 - __main__ - INFO - 
+AnswerRelevancyMetric:
+2026-01-02 14:43:08,287 - __main__ - INFO -   Passed: 1/1 (100.0%)
+2026-01-02 14:43:08,287 - __main__ - INFO -   Failed: 0/1
+2026-01-02 14:43:08,287 - __main__ - INFO -   Errors: 1
+2026-01-02 14:43:08,287 - __main__ - INFO -   Average Score: 1.000
+2026-01-02 14:43:08,288 - __main__ - INFO -   Score Range: 1.000 - 1.000
+2026-01-02 14:43:08,288 - __main__ - INFO - 
+ToxicityMetric:
+2026-01-02 14:43:08,288 - __main__ - INFO -   Passed: 0/1 (0.0%)
+2026-01-02 14:43:08,288 - __main__ - INFO -   Failed: 1/1
+2026-01-02 14:43:08,288 - __main__ - INFO -   Errors: 1
+2026-01-02 14:43:08,288 - __main__ - INFO -   Average Score: 0.000
+2026-01-02 14:43:08,288 - __main__ - INFO -   Score Range: 0.000 - 0.000
+2026-01-02 14:43:08,288 - __main__ - INFO - 
+BiasMetric:
+2026-01-02 14:43:08,288 - __main__ - INFO -   Passed: 0/1 (0.0%)
+2026-01-02 14:43:08,289 - __main__ - INFO -   Failed: 1/1
+2026-01-02 14:43:08,289 - __main__ - INFO -   Errors: 1
+2026-01-02 14:43:08,289 - __main__ - INFO -   Average Score: 0.000
+2026-01-02 14:43:08,289 - __main__ - INFO -   Score Range: 0.000 - 0.000
+2026-01-02 14:43:08,289 - __main__ - INFO - 
+GEval:
+2026-01-02 14:43:08,289 - __main__ - INFO -   Passed: 7/9 (77.8%)
+2026-01-02 14:43:08,289 - __main__ - INFO -   Failed: 2/9
+2026-01-02 14:43:08,289 - __main__ - INFO -   Errors: 9
+2026-01-02 14:43:08,290 - __main__ - INFO -   Average Score: 0.744
+2026-01-02 14:43:08,290 - __main__ - INFO -   Score Range: 0.000 - 1.000
+2026-01-02 14:43:08,290 - __main__ - INFO - 
+Overall Results:
+2026-01-02 14:43:08,290 - __main__ - INFO -   Total Test Cases: 1
+2026-01-02 14:43:08,290 - __main__ - INFO -   Fully Passed: 0 (0.0%)
+2026-01-02 14:43:08,290 - __main__ - INFO -   Partially Failed: 1
+2026-01-02 14:43:08,291 - __main__ - INFO - 
+Detailed results saved to: E:\Python Stuff\MAS-for-multimodal-knowledge-graph\test\outputs\deepeval_results_20260102_143952.json
+2026-01-02 14:43:08,291 - __main__ - INFO - 
+Evaluation logs saved to: E:\Python Stuff\MAS-for-multimodal-knowledge-graph\test\logs\deepeval_logs_20260102_143952.txt
+2026-01-02 14:43:08,292 - __main__ - INFO - ================================================================================
+2026-01-02 14:43:08,292 - __main__ - INFO - 
+✅ Evaluation completed successfully!

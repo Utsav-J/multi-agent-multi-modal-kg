@@ -1,0 +1,178 @@
+{
+  "summary": {
+    "total_test_cases": 1,
+    "metrics_evaluated": 10,
+    "metric_names": [
+      "FaithfulnessMetric",
+      "AnswerRelevancyMetric",
+      "ToxicityMetric",
+      "BiasMetric",
+      "GEval",
+      "GEval",
+      "GEval",
+      "GEval",
+      "GEval",
+      "GEval"
+    ],
+    "results_by_metric": {
+      "FaithfulnessMetric": {
+        "passed": 1,
+        "failed": 0,
+        "scores": [
+          1.0
+        ],
+        "errors": 0,
+        "pass_rate": 100.0,
+        "average_score": 1.0,
+        "min_score": 1.0,
+        "max_score": 1.0
+      },
+      "AnswerRelevancyMetric": {
+        "passed": 1,
+        "failed": 0,
+        "scores": [
+          1.0
+        ],
+        "errors": 0,
+        "pass_rate": 100.0,
+        "average_score": 1.0,
+        "min_score": 1.0,
+        "max_score": 1.0
+      },
+      "ToxicityMetric": {
+        "passed": 0,
+        "failed": 1,
+        "scores": [
+          0.0
+        ],
+        "errors": 0,
+        "pass_rate": 0.0,
+        "average_score": 0.0,
+        "min_score": 0.0,
+        "max_score": 0.0
+      },
+      "BiasMetric": {
+        "passed": 0,
+        "failed": 1,
+        "scores": [
+          0.0
+        ],
+        "errors": 0,
+        "pass_rate": 0.0,
+        "average_score": 0.0,
+        "min_score": 0.0,
+        "max_score": 0.0
+      },
+      "GEval": {
+        "passed": 5,
+        "failed": 1,
+        "scores": [
+          1.0,
+          0.6,
+          0.9,
+          1.0,
+          1.0,
+          0.0
+        ],
+        "errors": 0,
+        "pass_rate": 83.33333333333334,
+        "average_score": 0.75,
+        "min_score": 0.0,
+        "max_score": 1.0
+      }
+    },
+    "results_by_test_case": [
+      {
+        "test_case_index": 1,
+        "input": "What are the three attention logit computation modes supported by the Neuronal Attention Circuit (NAC)?",
+        "category": "",
+        "metrics": {
+          "FaithfulnessMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 62.68664,
+            "threshold": 0.5
+          },
+          "AnswerRelevancyMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 11.847848,
+            "threshold": 0.5
+          },
+          "ToxicityMetric": {
+            "score": 0.0,
+            "success": false,
+            "reason": "",
+            "evaluation_time_seconds": 6.761572,
+            "threshold": 0.5
+          },
+          "BiasMetric": {
+            "score": 0.0,
+            "success": false,
+            "reason": "",
+            "evaluation_time_seconds": 7.156455,
+            "threshold": 0.5
+          },
+          "GEval": {
+            "score": 0.0,
+            "success": false,
+            "reason": "",
+            "evaluation_time_seconds": 12.624714,
+            "threshold": 0.3
+          }
+        },
+        "overall_passed": false
+      }
+    ],
+    "overall_pass_rate": 0.0,
+    "total_passed_tests": 0
+  },
+  "detailed_results": [
+    {
+      "test_case_index": 1,
+      "input": "What are the three attention logit computation modes supported by the Neuronal Attention Circuit (NAC)?",
+      "category": "",
+      "metrics": {
+        "FaithfulnessMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 62.68664,
+          "threshold": 0.5
+        },
+        "AnswerRelevancyMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 11.847848,
+          "threshold": 0.5
+        },
+        "ToxicityMetric": {
+          "score": 0.0,
+          "success": false,
+          "reason": "",
+          "evaluation_time_seconds": 6.761572,
+          "threshold": 0.5
+        },
+        "BiasMetric": {
+          "score": 0.0,
+          "success": false,
+          "reason": "",
+          "evaluation_time_seconds": 7.156455,
+          "threshold": 0.5
+        },
+        "GEval": {
+          "score": 0.0,
+          "success": false,
+          "reason": "",
+          "evaluation_time_seconds": 12.624714,
+          "threshold": 0.3
+        }
+      },
+      "overall_passed": false
+    }
+  ],
+  "evaluation_timestamp": "2026-01-02T14:52:24.558679"
+}

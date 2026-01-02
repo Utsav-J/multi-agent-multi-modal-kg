@@ -1,0 +1,126 @@
+2026-01-02 14:49:49,692 - __main__ - INFO - Loading test cases from test\test_cases\test_case_single.csv
+2026-01-02 14:49:49,695 - __main__ - INFO - Successfully loaded 1 test cases
+2026-01-02 14:49:49,695 - __main__ - INFO - ================================================================================
+2026-01-02 14:49:49,695 - __main__ - INFO - Starting DeepEval Evaluation
+2026-01-02 14:49:49,695 - __main__ - INFO - ================================================================================
+2026-01-02 14:49:49,695 - __main__ - INFO - Number of test cases: 1
+2026-01-02 14:49:49,695 - __main__ - INFO - Number of metrics: 10
+2026-01-02 14:49:49,695 - __main__ - INFO - Metrics: ['FaithfulnessMetric', 'AnswerRelevancyMetric', 'ToxicityMetric', 'BiasMetric', 'GEval', 'GEval', 'GEval', 'GEval', 'GEval', 'GEval']
+2026-01-02 14:49:49,696 - __main__ - INFO - 
+--------------------------------------------------------------------------------
+2026-01-02 14:49:49,696 - __main__ - INFO - Processing Test Case 1/1: What are the three attention logit computation modes supported by the Neuronal A...
+2026-01-02 14:49:49,696 - __main__ - INFO -   [1/10] Evaluating: FaithfulnessMetric...
+2026-01-02 14:49:50,602 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-01-02 14:50:28,121 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2026-01-02 14:50:29,020 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-01-02 14:50:40,160 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2026-01-02 14:50:40,973 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-01-02 14:50:49,729 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2026-01-02 14:50:50,616 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-01-02 14:50:52,373 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2026-01-02 14:50:52,383 - __main__ - INFO -     Result: score=1.000, success=True, time=62.69s
+2026-01-02 14:50:52,383 - __main__ - INFO -   [2/10] Evaluating: AnswerRelevancyMetric...
+2026-01-02 14:50:53,221 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-01-02 14:50:55,777 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2026-01-02 14:50:56,602 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-01-02 14:51:01,010 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2026-01-02 14:51:01,818 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-01-02 14:51:04,226 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2026-01-02 14:51:04,231 - __main__ - INFO -     Result: score=1.000, success=True, time=11.85s
+2026-01-02 14:51:04,232 - __main__ - INFO -   [3/10] Evaluating: ToxicityMetric...
+2026-01-02 14:51:05,062 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-01-02 14:51:07,715 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2026-01-02 14:51:08,537 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-01-02 14:51:10,988 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2026-01-02 14:51:10,993 - __main__ - INFO -     Result: score=0.000, success=False, time=6.76s
+2026-01-02 14:51:10,994 - __main__ - INFO -   [4/10] Evaluating: BiasMetric...
+2026-01-02 14:51:11,834 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-01-02 14:51:15,246 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-01-02 14:51:18,150 - __main__ - INFO -     Result: score=0.000, success=False, time=7.16s
+2026-01-02 14:51:18,150 - __main__ - INFO -   [5/10] Evaluating: GEval...
+2026-01-02 14:51:18,977 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-01-02 14:51:20,966 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2026-01-02 14:51:21,770 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-01-02 14:51:25,399 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2026-01-02 14:51:25,403 - __main__ - INFO -     Result: score=1.000, success=True, time=7.25s
+2026-01-02 14:51:25,404 - __main__ - INFO -   [6/10] Evaluating: GEval...
+2026-01-02 14:51:26,238 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-01-02 14:51:29,470 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2026-01-02 14:51:30,293 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-01-02 14:51:37,167 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2026-01-02 14:51:37,172 - __main__ - INFO -     Result: score=0.600, success=True, time=11.77s
+2026-01-02 14:51:37,172 - __main__ - INFO -   [7/10] Evaluating: GEval...
+2026-01-02 14:51:38,000 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-01-02 14:51:41,327 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2026-01-02 14:51:42,149 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-01-02 14:51:47,612 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2026-01-02 14:51:47,617 - __main__ - INFO -     Result: score=0.900, success=True, time=10.44s
+2026-01-02 14:51:47,617 - __main__ - INFO -   [8/10] Evaluating: GEval...
+2026-01-02 14:51:48,498 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-01-02 14:51:51,000 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2026-01-02 14:51:51,820 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-01-02 14:51:55,821 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2026-01-02 14:51:55,830 - __main__ - INFO -     Result: score=1.000, success=True, time=8.21s
+2026-01-02 14:51:55,830 - __main__ - INFO -   [9/10] Evaluating: GEval...
+2026-01-02 14:51:56,666 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-01-02 14:52:04,580 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2026-01-02 14:52:05,412 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-01-02 14:52:11,910 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2026-01-02 14:52:11,924 - __main__ - INFO -     Result: score=1.000, success=True, time=16.09s
+2026-01-02 14:52:11,924 - __main__ - INFO -   [10/10] Evaluating: GEval...
+2026-01-02 14:52:12,748 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-01-02 14:52:17,377 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2026-01-02 14:52:18,206 - google_genai.models - INFO - AFC is enabled with max remote calls: 10.
+2026-01-02 14:52:24,539 - httpx - INFO - HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2026-01-02 14:52:24,549 - __main__ - INFO -     Result: score=0.000, success=False, time=12.62s
+2026-01-02 14:52:24,550 - __main__ - INFO - 
+================================================================================
+2026-01-02 14:52:24,550 - __main__ - INFO - Evaluation Summary
+2026-01-02 14:52:24,550 - __main__ - INFO - ================================================================================
+2026-01-02 14:52:24,551 - __main__ - INFO - 
+FaithfulnessMetric:
+2026-01-02 14:52:24,551 - __main__ - INFO -   Passed: 1/1 (100.0%)
+2026-01-02 14:52:24,551 - __main__ - INFO -   Failed: 0/1
+2026-01-02 14:52:24,551 - __main__ - INFO -   Errors: 0
+2026-01-02 14:52:24,552 - __main__ - INFO -   Average Score: 1.000
+2026-01-02 14:52:24,552 - __main__ - INFO -   Score Range: 1.000 - 1.000
+2026-01-02 14:52:24,552 - __main__ - INFO - 
+AnswerRelevancyMetric:
+2026-01-02 14:52:24,552 - __main__ - INFO -   Passed: 1/1 (100.0%)
+2026-01-02 14:52:24,553 - __main__ - INFO -   Failed: 0/1
+2026-01-02 14:52:24,553 - __main__ - INFO -   Errors: 0
+2026-01-02 14:52:24,553 - __main__ - INFO -   Average Score: 1.000
+2026-01-02 14:52:24,553 - __main__ - INFO -   Score Range: 1.000 - 1.000
+2026-01-02 14:52:24,553 - __main__ - INFO - 
+ToxicityMetric:
+2026-01-02 14:52:24,554 - __main__ - INFO -   Passed: 0/1 (0.0%)
+2026-01-02 14:52:24,554 - __main__ - INFO -   Failed: 1/1
+2026-01-02 14:52:24,554 - __main__ - INFO -   Errors: 0
+2026-01-02 14:52:24,554 - __main__ - INFO -   Average Score: 0.000
+2026-01-02 14:52:24,555 - __main__ - INFO -   Score Range: 0.000 - 0.000
+2026-01-02 14:52:24,555 - __main__ - INFO - 
+BiasMetric:
+2026-01-02 14:52:24,555 - __main__ - INFO -   Passed: 0/1 (0.0%)
+2026-01-02 14:52:24,555 - __main__ - INFO -   Failed: 1/1
+2026-01-02 14:52:24,555 - __main__ - INFO -   Errors: 0
+2026-01-02 14:52:24,556 - __main__ - INFO -   Average Score: 0.000
+2026-01-02 14:52:24,556 - __main__ - INFO -   Score Range: 0.000 - 0.000
+2026-01-02 14:52:24,556 - __main__ - INFO - 
+GEval:
+2026-01-02 14:52:24,556 - __main__ - INFO -   Passed: 5/6 (83.3%)
+2026-01-02 14:52:24,556 - __main__ - INFO -   Failed: 1/6
+2026-01-02 14:52:24,556 - __main__ - INFO -   Errors: 0
+2026-01-02 14:52:24,556 - __main__ - INFO -   Average Score: 0.750
+2026-01-02 14:52:24,557 - __main__ - INFO -   Score Range: 0.000 - 1.000
+2026-01-02 14:52:24,557 - __main__ - INFO - 
+Overall Results:
+2026-01-02 14:52:24,557 - __main__ - INFO -   Total Test Cases: 1
+2026-01-02 14:52:24,557 - __main__ - INFO -   Fully Passed: 0 (0.0%)
+2026-01-02 14:52:24,557 - __main__ - INFO -   Partially Failed: 1
+2026-01-02 14:52:24,559 - __main__ - INFO - 
+Detailed results saved to: E:\Python Stuff\MAS-for-multimodal-knowledge-graph\test\outputs\deepeval_results_20260102_144949.json
+2026-01-02 14:52:24,559 - __main__ - INFO - 
+Evaluation logs saved to: E:\Python Stuff\MAS-for-multimodal-knowledge-graph\test\logs\deepeval_logs_20260102_144949.txt
+2026-01-02 14:52:24,559 - __main__ - INFO - ================================================================================
+2026-01-02 14:52:24,559 - __main__ - INFO - 
+✅ Evaluation completed successfully!

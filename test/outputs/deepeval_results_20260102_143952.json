@@ -1,0 +1,209 @@
+{
+  "summary": {
+    "total_test_cases": 1,
+    "metrics_evaluated": 14,
+    "metric_names": [
+      "HallucinationMetric",
+      "FaithfulnessMetric",
+      "AnswerRelevancyMetric",
+      "ToxicityMetric",
+      "BiasMetric",
+      "GEval",
+      "GEval",
+      "GEval",
+      "GEval",
+      "GEval",
+      "GEval",
+      "GEval",
+      "GEval",
+      "GEval"
+    ],
+    "results_by_metric": {
+      "HallucinationMetric": {
+        "passed": 0,
+        "failed": 0,
+        "scores": [],
+        "errors": 1,
+        "pass_rate": 0,
+        "average_score": null,
+        "min_score": null,
+        "max_score": null
+      },
+      "FaithfulnessMetric": {
+        "passed": 1,
+        "failed": 0,
+        "scores": [
+          1.0
+        ],
+        "errors": 1,
+        "pass_rate": 100.0,
+        "average_score": 1.0,
+        "min_score": 1.0,
+        "max_score": 1.0
+      },
+      "AnswerRelevancyMetric": {
+        "passed": 1,
+        "failed": 0,
+        "scores": [
+          1.0
+        ],
+        "errors": 1,
+        "pass_rate": 100.0,
+        "average_score": 1.0,
+        "min_score": 1.0,
+        "max_score": 1.0
+      },
+      "ToxicityMetric": {
+        "passed": 0,
+        "failed": 1,
+        "scores": [
+          0.0
+        ],
+        "errors": 1,
+        "pass_rate": 0.0,
+        "average_score": 0.0,
+        "min_score": 0.0,
+        "max_score": 0.0
+      },
+      "BiasMetric": {
+        "passed": 0,
+        "failed": 1,
+        "scores": [
+          0.0
+        ],
+        "errors": 1,
+        "pass_rate": 0.0,
+        "average_score": 0.0,
+        "min_score": 0.0,
+        "max_score": 0.0
+      },
+      "GEval": {
+        "passed": 7,
+        "failed": 2,
+        "scores": [
+          1.0,
+          0.7,
+          1.0,
+          1.0,
+          1.0,
+          0.0,
+          1.0,
+          1.0,
+          0.0
+        ],
+        "errors": 9,
+        "pass_rate": 77.77777777777779,
+        "average_score": 0.7444444444444445,
+        "min_score": 0.0,
+        "max_score": 1.0
+      }
+    },
+    "results_by_test_case": [
+      {
+        "test_case_index": 1,
+        "input": "What are the three attention logit computation modes supported by the Neuronal Attention Circuit (NAC)?",
+        "category": "",
+        "metrics": {
+          "HallucinationMetric": {
+            "score": null,
+            "success": null,
+            "reason": "Error: 'context' cannot be None for the 'Hallucination' metric",
+            "evaluation_time_seconds": 0,
+            "error": true
+          },
+          "FaithfulnessMetric": {
+            "score": null,
+            "success": null,
+            "reason": "Error: Invalid format specifier '.3f if score else 'N/A'' for object of type 'float'",
+            "evaluation_time_seconds": 0,
+            "error": true
+          },
+          "AnswerRelevancyMetric": {
+            "score": null,
+            "success": null,
+            "reason": "Error: Invalid format specifier '.3f if score else 'N/A'' for object of type 'float'",
+            "evaluation_time_seconds": 0,
+            "error": true
+          },
+          "ToxicityMetric": {
+            "score": null,
+            "success": null,
+            "reason": "Error: Invalid format specifier '.3f if score else 'N/A'' for object of type 'int'",
+            "evaluation_time_seconds": 0,
+            "error": true
+          },
+          "BiasMetric": {
+            "score": null,
+            "success": null,
+            "reason": "Error: Invalid format specifier '.3f if score else 'N/A'' for object of type 'int'",
+            "evaluation_time_seconds": 0,
+            "error": true
+          },
+          "GEval": {
+            "score": null,
+            "success": null,
+            "reason": "Error: Invalid format specifier '.3f if score else 'N/A'' for object of type 'float'",
+            "evaluation_time_seconds": 0,
+            "error": true
+          }
+        },
+        "overall_passed": false
+      }
+    ],
+    "overall_pass_rate": 0.0,
+    "total_passed_tests": 0
+  },
+  "detailed_results": [
+    {
+      "test_case_index": 1,
+      "input": "What are the three attention logit computation modes supported by the Neuronal Attention Circuit (NAC)?",
+      "category": "",
+      "metrics": {
+        "HallucinationMetric": {
+          "score": null,
+          "success": null,
+          "reason": "Error: 'context' cannot be None for the 'Hallucination' metric",
+          "evaluation_time_seconds": 0,
+          "error": true
+        },
+        "FaithfulnessMetric": {
+          "score": null,
+          "success": null,
+          "reason": "Error: Invalid format specifier '.3f if score else 'N/A'' for object of type 'float'",
+          "evaluation_time_seconds": 0,
+          "error": true
+        },
+        "AnswerRelevancyMetric": {
+          "score": null,
+          "success": null,
+          "reason": "Error: Invalid format specifier '.3f if score else 'N/A'' for object of type 'float'",
+          "evaluation_time_seconds": 0,
+          "error": true
+        },
+        "ToxicityMetric": {
+          "score": null,
+          "success": null,
+          "reason": "Error: Invalid format specifier '.3f if score else 'N/A'' for object of type 'int'",
+          "evaluation_time_seconds": 0,
+          "error": true
+        },
+        "BiasMetric": {
+          "score": null,
+          "success": null,
+          "reason": "Error: Invalid format specifier '.3f if score else 'N/A'' for object of type 'int'",
+          "evaluation_time_seconds": 0,
+          "error": true
+        },
+        "GEval": {
+          "score": null,
+          "success": null,
+          "reason": "Error: Invalid format specifier '.3f if score else 'N/A'' for object of type 'float'",
+          "evaluation_time_seconds": 0,
+          "error": true
+        }
+      },
+      "overall_passed": false
+    }
+  ],
+  "evaluation_timestamp": "2026-01-02T14:43:08.291178"
+}
