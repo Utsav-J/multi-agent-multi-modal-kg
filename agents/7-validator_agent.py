@@ -282,7 +282,257 @@ class StructuralEvaluator:
             f"invalid rels: {invalid_rel_count}, rate: {type_violation_rate:.4f})"
         )
 
+        # Additional quantitative metrics
+        metrics.update(self._compute_additional_metrics(total_nodes, total_rels))
+
         return metrics
+
+    def _compute_additional_metrics(
+        self, total_nodes: int, total_rels: int
+    ) -> Dict[str, float]:
+        """Compute additional quantitative metrics for graph insights."""
+        additional_metrics = {}
+
+        # Metric 1: Average node degree
+        try:
+            degree_result = self.graph.query(
+                """
+                MATCH (n)
+                WHERE (n)--()
+                WITH n, size((n)--()) as degree
+                RETURN avg(degree) as avg_degree, max(degree) as max_degree, min(degree) as min_degree
+                """
+            )
+            if degree_result and degree_result[0].get("avg_degree") is not None:
+                additional_metrics["avg_node_degree"] = float(
+                    degree_result[0]["avg_degree"]
+                )
+                additional_metrics["max_node_degree"] = float(
+                    degree_result[0]["max_degree"]
+                )
+                additional_metrics["min_node_degree"] = float(
+                    degree_result[0]["min_degree"]
+                )
+                logger.info(
+                    f"Node degree: avg={additional_metrics['avg_node_degree']:.2f}, "
+                    f"max={additional_metrics['max_node_degree']}, min={additional_metrics['min_node_degree']}"
+                )
+        except Exception as e:
+            logger.warning(f"Could not compute node degree metrics: {e}")
+
+        # Metric 2: Relationship density (actual / possible)
+        try:
+            # For directed graph: possible edges = n * (n - 1)
+            possible_edges = total_nodes * (total_nodes - 1) if total_nodes > 1 else 0
+            density = total_rels / possible_edges if possible_edges > 0 else 0.0
+            additional_metrics["relationship_density"] = density
+            logger.info(f"Relationship density: {density:.6f}")
+        except Exception as e:
+            logger.warning(f"Could not compute relationship density: {e}")
+
+        # Metric 3: Unique entity types count
+        try:
+            entity_types_result = self.graph.query(
+                """
+                MATCH (n)
+                WHERE n.id IS NOT NULL
+                RETURN count(DISTINCT COALESCE(n.type, labels(n)[0], 'Unknown')) as unique_types
+                """
+            )
+            if entity_types_result:
+                additional_metrics["unique_entity_types"] = float(
+                    entity_types_result[0]["unique_types"]
+                )
+                logger.info(
+                    f"Unique entity types: {int(additional_metrics['unique_entity_types'])}"
+                )
+        except Exception as e:
+            logger.warning(f"Could not compute unique entity types: {e}")
+
+        # Metric 4: Unique relationship types count
+        try:
+            rel_types_result = self.graph.query(
+                """
+                MATCH ()-[r]->()
+                RETURN count(DISTINCT type(r)) as unique_rel_types
+                """
+            )
+            if rel_types_result:
+                additional_metrics["unique_relationship_types"] = float(
+                    rel_types_result[0]["unique_rel_types"]
+                )
+                logger.info(
+                    f"Unique relationship types: {int(additional_metrics['unique_relationship_types'])}"
+                )
+        except Exception as e:
+            logger.warning(f"Could not compute unique relationship types: {e}")
+
+        # Metric 5: Average relationships per node
+        try:
+            avg_rels_per_node = total_rels / total_nodes if total_nodes > 0 else 0.0
+            additional_metrics["avg_relationships_per_node"] = avg_rels_per_node
+            logger.info(f"Average relationships per node: {avg_rels_per_node:.2f}")
+        except Exception as e:
+            logger.warning(f"Could not compute avg relationships per node: {e}")
+
+        # Metric 6: Most common entity types (top 5)
+        try:
+            entity_type_dist_result = self.graph.query(
+                """
+                MATCH (n)
+                WHERE n.id IS NOT NULL
+                WITH COALESCE(n.type, labels(n)[0], 'Unknown') as entity_type, count(n) as count
+                ORDER BY count DESC
+                LIMIT 5
+                RETURN collect({type: entity_type, count: count}) as top_types
+                """
+            )
+            if entity_type_dist_result and entity_type_dist_result[0].get("top_types"):
+                top_types = entity_type_dist_result[0]["top_types"]
+                additional_metrics["top_entity_types"] = top_types
+                type_str = ", ".join([f"{t['type']}({t['count']})" for t in top_types])
+                logger.info(f"Top entity types: {type_str}")
+        except Exception as e:
+            logger.warning(f"Could not compute entity type distribution: {e}")
+
+        # Metric 7: Most common relationship types (top 5)
+        try:
+            rel_type_dist_result = self.graph.query(
+                """
+                MATCH ()-[r]->()
+                WITH type(r) as rel_type, count(r) as count
+                ORDER BY count DESC
+                LIMIT 5
+                RETURN collect({type: rel_type, count: count}) as top_types
+                """
+            )
+            if rel_type_dist_result and rel_type_dist_result[0].get("top_types"):
+                top_types = rel_type_dist_result[0]["top_types"]
+                additional_metrics["top_relationship_types"] = top_types
+                type_str = ", ".join([f"{t['type']}({t['count']})" for t in top_types])
+                logger.info(f"Top relationship types: {type_str}")
+        except Exception as e:
+            logger.warning(f"Could not compute relationship type distribution: {e}")
+
+        # Metric 8: Nodes with highest degree (top 5)
+        try:
+            high_degree_result = self.graph.query(
+                """
+                MATCH (n)
+                WHERE n.id IS NOT NULL AND (n)--()
+                WITH n, size((n)--()) as degree
+                ORDER BY degree DESC
+                LIMIT 5
+                RETURN collect({id: n.id, type: COALESCE(n.type, labels(n)[0], 'Unknown'), degree: degree}) as top_nodes
+                """
+            )
+            if high_degree_result and high_degree_result[0].get("top_nodes"):
+                top_nodes = high_degree_result[0]["top_nodes"]
+                additional_metrics["highest_degree_nodes"] = top_nodes
+                node_str = ", ".join([f"{n['id']}({n['degree']})" for n in top_nodes])
+                logger.info(f"Highest degree nodes: {node_str}")
+        except Exception as e:
+            logger.warning(f"Could not compute highest degree nodes: {e}")
+
+        # Metric 9: Graph connectivity ratio (nodes in largest component / total nodes)
+        try:
+            # Estimate largest component size by finding connected nodes
+            connected_result = self.graph.query(
+                """
+                MATCH (n)
+                WHERE (n)--()
+                WITH n
+                LIMIT 1000
+                MATCH path = shortestPath((n)-[*..10]-(m))
+                WHERE m.id IS NOT NULL
+                RETURN count(DISTINCT n) + count(DISTINCT m) as connected_estimate
+                LIMIT 1
+                """
+            )
+            # Simpler approach: count nodes that have at least one connection
+            simple_connected = self.graph.query(
+                """
+                MATCH (n)
+                WHERE (n)--()
+                RETURN count(DISTINCT n) as connected_count
+                """
+            )
+            if simple_connected:
+                connected_count = simple_connected[0]["connected_count"]
+                connectivity_ratio = (
+                    connected_count / total_nodes if total_nodes > 0 else 0.0
+                )
+                additional_metrics["connectivity_ratio"] = connectivity_ratio
+                logger.info(
+                    f"Connectivity ratio: {connectivity_ratio:.4f} ({connected_count}/{total_nodes} nodes connected)"
+                )
+        except Exception as e:
+            logger.warning(f"Could not compute connectivity ratio: {e}")
+
+        # Metric 10: Document node coverage (how many chunks have Document nodes)
+        try:
+            doc_count_result = self.graph.query(
+                """
+                MATCH (d:Document)
+                RETURN count(d) as doc_count
+                """
+            )
+            if doc_count_result:
+                doc_count = doc_count_result[0]["doc_count"]
+                additional_metrics["document_node_count"] = float(doc_count)
+                logger.info(f"Document nodes: {int(doc_count)}")
+        except Exception as e:
+            logger.warning(f"Could not compute document node count: {e}")
+
+        # Metric 11: Average entities per document
+        try:
+            entities_per_doc_result = self.graph.query(
+                """
+                MATCH (d:Document)-[:MENTIONS]->(n)
+                WITH d, count(n) as entity_count
+                RETURN avg(entity_count) as avg_entities_per_doc
+                """
+            )
+            if (
+                entities_per_doc_result
+                and entities_per_doc_result[0].get("avg_entities_per_doc") is not None
+            ):
+                additional_metrics["avg_entities_per_document"] = float(
+                    entities_per_doc_result[0]["avg_entities_per_doc"]
+                )
+                logger.info(
+                    f"Average entities per document: {additional_metrics['avg_entities_per_document']:.2f}"
+                )
+        except Exception as e:
+            logger.warning(f"Could not compute avg entities per document: {e}")
+
+        # Metric 12: Relationship directionality (bidirectional vs unidirectional)
+        try:
+            # Count relationships where reverse also exists
+            bidirectional_result = self.graph.query(
+                """
+                MATCH (a)-[r1]->(b)
+                MATCH (b)-[r2]->(a)
+                WHERE type(r1) = type(r2)
+                RETURN count(DISTINCT r1) as bidirectional_count
+                """
+            )
+            bidirectional_count = (
+                bidirectional_result[0]["bidirectional_count"]
+                if bidirectional_result
+                else 0
+            )
+            bidirectional_ratio = (
+                bidirectional_count / total_rels if total_rels > 0 else 0.0
+            )
+            additional_metrics["bidirectional_relationship_ratio"] = bidirectional_ratio
+            logger.info(
+                f"Bidirectional relationships: {bidirectional_ratio:.4f} ({bidirectional_count}/{total_rels})"
+            )
+        except Exception as e:
+            logger.warning(f"Could not compute bidirectional relationship ratio: {e}")
+
+        return additional_metrics
 
 
 class CoverageEvaluator:

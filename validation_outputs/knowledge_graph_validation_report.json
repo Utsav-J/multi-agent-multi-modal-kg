@@ -1,14 +1,60 @@
 {
   "document_id": "knowledge_graph",
   "metrics": {
-    "entity_coverage": 0.160413135383621,
-    "relation_coverage": 0.0,
-    "node_faithfulness": 0.2,
-    "relation_faithfulness": 0.058823529411764705,
     "orphan_ratio": 0.0,
     "component_ratio": 0.000544069640914037,
     "type_violation_rate": 0.0,
-    "semantic_plausibility": 1.0
+    "relationship_density": 0.0013795734280770736,
+    "unique_entity_types": 14.0,
+    "unique_relationship_types": 35.0,
+    "avg_relationships_per_node": 2.5342763873775844,
+    "top_entity_types": [
+      {
+        "count": 586,
+        "type": "Concept"
+      },
+      {
+        "count": 541,
+        "type": "Person"
+      },
+      {
+        "count": 242,
+        "type": "Publication"
+      },
+      {
+        "count": 163,
+        "type": "Model"
+      },
+      {
+        "count": 111,
+        "type": "Task"
+      }
+    ],
+    "top_relationship_types": [
+      {
+        "count": 2400,
+        "type": "MENTIONS"
+      },
+      {
+        "count": 617,
+        "type": "AUTHORED_BY"
+      },
+      {
+        "count": 526,
+        "type": "DEPICTS"
+      },
+      {
+        "count": 294,
+        "type": "APPLIED_TO"
+      },
+      {
+        "count": 157,
+        "type": "INTRODUCED_BY"
+      }
+    ],
+    "document_node_count": 30.0,
+    "avg_entities_per_document": 92.30769230769232,
+    "bidirectional_relationship_ratio": 0.0047230571060541005
   },
   "notes": []
 }
