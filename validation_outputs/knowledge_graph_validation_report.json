@@ -1,0 +1,14 @@
+{
+  "document_id": "knowledge_graph",
+  "metrics": {
+    "entity_coverage": 0.160413135383621,
+    "relation_coverage": 0.0,
+    "node_faithfulness": 0.2,
+    "relation_faithfulness": 0.058823529411764705,
+    "orphan_ratio": 0.0,
+    "component_ratio": 0.000544069640914037,
+    "type_violation_rate": 0.0,
+    "semantic_plausibility": 1.0
+  },
+  "notes": []
+}

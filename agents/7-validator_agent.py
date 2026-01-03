@@ -45,6 +45,10 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
+# Enable debug logging for faithfulness debugging
+# Uncomment the line below to see detailed debug logs
+# logger.setLevel(logging.DEBUG)
+
 # Define paths
 # Model that supports structured outputs (json_schema)
 MODEL = "gemini-2.5-flash"
@@ -376,22 +380,112 @@ class CoverageEvaluator:
     def _get_extracted_entities_for_chunk(self, chunk_id: str) -> Set[str]:
         """Get entities extracted from graph for a specific chunk."""
         try:
-            # Try multiple approaches to find nodes linked to this chunk
-            # Approach 1: Check if nodes have source_id property
-            result = self.graph.query(
-                """
-                MATCH (n)
-                WHERE n.source_id CONTAINS $chunk_id
-                RETURN DISTINCT n.id as entity_id
-                """,
-                params={"chunk_id": chunk_id},
-            )
+            # LangChain Neo4j creates Document nodes with source_id
+            # Format: "filename::chunk_id" (e.g., "attention_functional_roles_raw_with_image_ids_with_captions_chunks_5k.jsonl::attention_functional_roles_raw_with_image_ids_with_captions_chunks_5k_0")
+            # The chunk_id from chunks file might be: "attention_functional_roles_raw_chunks_2k_0"
+            # We need flexible matching to handle different file naming conventions
+
+            # Strategy 1: Try exact match or suffix match on source_id
+            # Extract numeric suffix from chunk_id (e.g., "_0" from "attention_functional_roles_raw_chunks_2k_0")
+            chunk_suffix = None
+            if "_" in chunk_id:
+                # Try to extract the numeric suffix
+                parts = chunk_id.split("_")
+                if parts and parts[-1].isdigit():
+                    chunk_suffix = f"_{parts[-1]}"
+
+            # Build query with conditional suffix matching
+            if chunk_suffix:
+                result = self.graph.query(
+                    """
+                    MATCH (d:Document)-[:MENTIONS]->(n)
+                    WHERE d.source_id IS NOT NULL
+                      AND (
+                        d.source_id ENDS WITH $chunk_id 
+                        OR d.source_id CONTAINS $chunk_id
+                        OR d.source_id ENDS WITH $chunk_suffix
+                        OR d.source_id CONTAINS $chunk_suffix
+                      )
+                    RETURN DISTINCT n.id as entity_id
+                    """,
+                    params={"chunk_id": chunk_id, "chunk_suffix": chunk_suffix},
+                )
+            else:
+                result = self.graph.query(
+                    """
+                    MATCH (d:Document)-[:MENTIONS]->(n)
+                    WHERE d.source_id IS NOT NULL
+                      AND (d.source_id ENDS WITH $chunk_id 
+                           OR d.source_id CONTAINS $chunk_id)
+                    RETURN DISTINCT n.id as entity_id
+                    """,
+                    params={"chunk_id": chunk_id},
+                )
             entities = set(
                 row.get("entity_id", "") for row in result if row.get("entity_id")
             )
 
-            # Note: LangChain Neo4j doesn't create :EXTRACTED relationships.
-            # We rely on node.source_id properties instead (Approach 1 above).
+            # Strategy 2: Try matching on the part after "::" in source_id
+            if not entities and "::" in chunk_id:
+                # If chunk_id already has "::", try matching the part after it
+                chunk_id_after_colon = chunk_id.split("::")[-1]
+                result = self.graph.query(
+                    """
+                    MATCH (d:Document)-[:MENTIONS]->(n)
+                    WHERE d.source_id IS NOT NULL
+                      AND (d.source_id ENDS WITH $chunk_id_after_colon 
+                           OR d.source_id CONTAINS $chunk_id_after_colon)
+                    RETURN DISTINCT n.id as entity_id
+                    """,
+                    params={"chunk_id_after_colon": chunk_id_after_colon},
+                )
+                entities = set(
+                    row.get("entity_id", "") for row in result if row.get("entity_id")
+                )
+
+            # Strategy 3: Try matching just the numeric part
+            if not entities and chunk_suffix:
+                result = self.graph.query(
+                    """
+                    MATCH (d:Document)-[:MENTIONS]->(n)
+                    WHERE d.source_id IS NOT NULL
+                      AND d.source_id ENDS WITH $chunk_suffix
+                    RETURN DISTINCT n.id as entity_id
+                    """,
+                    params={"chunk_suffix": chunk_suffix},
+                )
+                entities = set(
+                    row.get("entity_id", "") for row in result if row.get("entity_id")
+                )
+
+            # Fallback: Check if nodes have source_id property directly
+            if not entities:
+                if chunk_suffix:
+                    result = self.graph.query(
+                        """
+                        MATCH (n)
+                        WHERE n.source_id IS NOT NULL 
+                          AND (n.source_id ENDS WITH $chunk_id 
+                               OR n.source_id CONTAINS $chunk_id
+                               OR n.source_id ENDS WITH $chunk_suffix)
+                        RETURN DISTINCT n.id as entity_id
+                        """,
+                        params={"chunk_id": chunk_id, "chunk_suffix": chunk_suffix},
+                    )
+                else:
+                    result = self.graph.query(
+                        """
+                        MATCH (n)
+                        WHERE n.source_id IS NOT NULL 
+                          AND (n.source_id ENDS WITH $chunk_id 
+                               OR n.source_id CONTAINS $chunk_id)
+                        RETURN DISTINCT n.id as entity_id
+                        """,
+                        params={"chunk_id": chunk_id},
+                    )
+                entities = set(
+                    row.get("entity_id", "") for row in result if row.get("entity_id")
+                )
 
             return entities
         except Exception as e:
@@ -403,16 +497,44 @@ class CoverageEvaluator:
     ) -> Set[Tuple[str, str, str]]:
         """Get relationships extracted from graph for a specific chunk."""
         try:
-            # Find relations where both source and target nodes are linked to this chunk
-            # Approach 1: Via source_id on nodes
-            result = self.graph.query(
-                """
-                MATCH (source)-[r]->(target)
-                WHERE (source.source_id CONTAINS $chunk_id OR target.source_id CONTAINS $chunk_id)
-                RETURN DISTINCT source.id as source_id, type(r) as rel_type, target.id as target_id
-                """,
-                params={"chunk_id": chunk_id},
-            )
+            # Extract numeric suffix from chunk_id for flexible matching
+            chunk_suffix = None
+            if "_" in chunk_id:
+                parts = chunk_id.split("_")
+                if parts and parts[-1].isdigit():
+                    chunk_suffix = f"_{parts[-1]}"
+
+            # Strategy 1: Find relations where both source and target nodes are linked to the same Document
+            if chunk_suffix:
+                result = self.graph.query(
+                    """
+                    MATCH (d:Document)-[:MENTIONS]->(source)
+                    MATCH (d:Document)-[:MENTIONS]->(target)
+                    MATCH (source)-[r]->(target)
+                    WHERE d.source_id IS NOT NULL
+                      AND (
+                        d.source_id ENDS WITH $chunk_id 
+                        OR d.source_id CONTAINS $chunk_id
+                        OR d.source_id ENDS WITH $chunk_suffix
+                        OR d.source_id CONTAINS $chunk_suffix
+                      )
+                    RETURN DISTINCT source.id as source_id, type(r) as rel_type, target.id as target_id
+                    """,
+                    params={"chunk_id": chunk_id, "chunk_suffix": chunk_suffix},
+                )
+            else:
+                result = self.graph.query(
+                    """
+                    MATCH (d:Document)-[:MENTIONS]->(source)
+                    MATCH (d:Document)-[:MENTIONS]->(target)
+                    MATCH (source)-[r]->(target)
+                    WHERE d.source_id IS NOT NULL
+                      AND (d.source_id ENDS WITH $chunk_id 
+                           OR d.source_id CONTAINS $chunk_id)
+                    RETURN DISTINCT source.id as source_id, type(r) as rel_type, target.id as target_id
+                    """,
+                    params={"chunk_id": chunk_id},
+                )
             relations = set()
             for row in result:
                 s = row.get("source_id", "")
@@ -421,8 +543,86 @@ class CoverageEvaluator:
                 if s and t and r_type:
                     relations.add((s.strip(), r_type.strip(), t.strip()))
 
-            # Note: LangChain Neo4j doesn't create :EXTRACTED relationships.
-            # We rely on node.source_id properties instead (Approach 1 above).
+            # Strategy 2: Try matching on the part after "::" in source_id
+            if not relations and "::" in chunk_id:
+                chunk_id_after_colon = chunk_id.split("::")[-1]
+                result = self.graph.query(
+                    """
+                    MATCH (d:Document)-[:MENTIONS]->(source)
+                    MATCH (d:Document)-[:MENTIONS]->(target)
+                    MATCH (source)-[r]->(target)
+                    WHERE d.source_id IS NOT NULL
+                      AND (d.source_id ENDS WITH $chunk_id_after_colon 
+                           OR d.source_id CONTAINS $chunk_id_after_colon)
+                    RETURN DISTINCT source.id as source_id, type(r) as rel_type, target.id as target_id
+                    """,
+                    params={"chunk_id_after_colon": chunk_id_after_colon},
+                )
+                for row in result:
+                    s = row.get("source_id", "")
+                    t = row.get("target_id", "")
+                    r_type = row.get("rel_type", "")
+                    if s and t and r_type:
+                        relations.add((s.strip(), r_type.strip(), t.strip()))
+
+            # Strategy 3: Try matching just the numeric suffix
+            if not relations and chunk_suffix:
+                result = self.graph.query(
+                    """
+                    MATCH (d:Document)-[:MENTIONS]->(source)
+                    MATCH (d:Document)-[:MENTIONS]->(target)
+                    MATCH (source)-[r]->(target)
+                    WHERE d.source_id IS NOT NULL
+                      AND d.source_id ENDS WITH $chunk_suffix
+                    RETURN DISTINCT source.id as source_id, type(r) as rel_type, target.id as target_id
+                    """,
+                    params={"chunk_suffix": chunk_suffix},
+                )
+                for row in result:
+                    s = row.get("source_id", "")
+                    t = row.get("target_id", "")
+                    r_type = row.get("rel_type", "")
+                    if s and t and r_type:
+                        relations.add((s.strip(), r_type.strip(), t.strip()))
+
+            # Fallback: Check if nodes have source_id property directly
+            if not relations:
+                if chunk_suffix:
+                    result = self.graph.query(
+                        """
+                        MATCH (source)-[r]->(target)
+                        WHERE (source.source_id IS NOT NULL 
+                               AND (source.source_id ENDS WITH $chunk_id 
+                                    OR source.source_id CONTAINS $chunk_id
+                                    OR source.source_id ENDS WITH $chunk_suffix))
+                           OR (target.source_id IS NOT NULL 
+                               AND (target.source_id ENDS WITH $chunk_id 
+                                    OR target.source_id CONTAINS $chunk_id
+                                    OR target.source_id ENDS WITH $chunk_suffix))
+                        RETURN DISTINCT source.id as source_id, type(r) as rel_type, target.id as target_id
+                        """,
+                        params={"chunk_id": chunk_id, "chunk_suffix": chunk_suffix},
+                    )
+                else:
+                    result = self.graph.query(
+                        """
+                        MATCH (source)-[r]->(target)
+                        WHERE (source.source_id IS NOT NULL 
+                               AND (source.source_id ENDS WITH $chunk_id 
+                                    OR source.source_id CONTAINS $chunk_id))
+                           OR (target.source_id IS NOT NULL 
+                               AND (target.source_id ENDS WITH $chunk_id 
+                                    OR target.source_id CONTAINS $chunk_id))
+                        RETURN DISTINCT source.id as source_id, type(r) as rel_type, target.id as target_id
+                        """,
+                        params={"chunk_id": chunk_id},
+                    )
+                for row in result:
+                    s = row.get("source_id", "")
+                    t = row.get("target_id", "")
+                    r_type = row.get("rel_type", "")
+                    if s and t and r_type:
+                        relations.add((s.strip(), r_type.strip(), t.strip()))
 
             return relations
         except Exception as e:
@@ -575,12 +775,12 @@ class FaithfulnessEvaluator:
     def _get_source_chunk_for_node(self, node_id: str) -> Optional[str]:
         """Get the source chunk text for a node."""
         try:
-            # Try to find source_id from node property
+            # LangChain Neo4j creates Document nodes linked to entities via :MENTIONS
+            # Find the Document node connected to this entity
             result = self.graph.query(
                 """
-                MATCH (n {id: $node_id})
-                WHERE n.source_id IS NOT NULL
-                RETURN n.source_id as source_id
+                MATCH (d:Document)-[:MENTIONS]->(n {id: $node_id})
+                RETURN COALESCE(d.source_id, d.id) as source_id
                 LIMIT 1
                 """,
                 params={"node_id": node_id},
@@ -589,31 +789,44 @@ class FaithfulnessEvaluator:
             if result and result[0].get("source_id"):
                 source_id = result[0]["source_id"]
 
+            # Fallback: Check if node has source_id property directly
+            if not source_id:
+                result = self.graph.query(
+                    """
+                    MATCH (n {id: $node_id})
+                    WHERE n.source_id IS NOT NULL
+                    RETURN n.source_id as source_id
+                    LIMIT 1
+                    """,
+                    params={"node_id": node_id},
+                )
+                if result and result[0].get("source_id"):
+                    source_id = result[0]["source_id"]
+
             if not source_id:
                 return None
 
-            # Extract chunk_id from source_id format: "chunks_file::chunk_id" or "chunks_file_chunk_id"
+            # Extract chunk_id from source_id format: "filename::chunk_id"
+            # Example: "attention_functional_roles_raw_with_image_ids_with_captions_chunks_5k.jsonl::attention_functional_roles_raw_with_image_ids_with_captions_chunks_5k_0"
             chunk_id = None
             if "::" in source_id:
-                # Format: "chunks_file::chunk_id"
+                # Format: "filename::chunk_id"
                 chunk_id = source_id.split("::")[-1]
             else:
-                # Format might be: "chunks_file_chunk_id" or just the chunk_id
-                # Try to find matching chunks file and extract chunk_id
+                # Try to extract from filename pattern
                 for chunks_file in self.chunks_dir.glob("*.jsonl"):
                     file_stem = chunks_file.stem
                     if source_id.startswith(file_stem):
-                        # Extract chunk_id by removing file stem prefix
                         remaining = source_id[len(file_stem) :].lstrip("_")
                         if remaining:
                             chunk_id = remaining
                             break
 
-                # If no match found, assume source_id is the chunk_id itself
                 if not chunk_id:
                     chunk_id = source_id
 
             # Search for chunk in all chunks files
+            # Try multiple matching strategies
             if chunk_id:
                 for chunks_file in self.chunks_dir.glob("*.jsonl"):
                     with open(chunks_file, "r", encoding="utf-8") as f:
@@ -621,11 +834,28 @@ class FaithfulnessEvaluator:
                             if line.strip():
                                 chunk = json.loads(line)
                                 chunk_id_in_file = chunk.get("id", "")
-                                # Match exact or if chunk_id is a suffix of the chunk id in file
+                                # Strategy 1: Exact match
+                                if chunk_id_in_file == chunk_id:
+                                    return chunk.get("content", "")
+                                # Strategy 2: Chunk ID is a suffix
+                                if chunk_id_in_file.endswith(
+                                    f"_{chunk_id}"
+                                ) or chunk_id_in_file.endswith(f"::{chunk_id}"):
+                                    return chunk.get("content", "")
+                                # Strategy 3: Full source_id match
+                                if chunk_id_in_file == source_id:
+                                    return chunk.get("content", "")
+                                # Strategy 4: Source_id ends with chunk_id_in_file (for partial matches)
+                                if source_id and source_id.endswith(chunk_id_in_file):
+                                    return chunk.get("content", "")
+                                # Strategy 5: Chunk_id_in_file ends with chunk_id (for different naming conventions)
+                                if chunk_id_in_file.endswith(chunk_id):
+                                    return chunk.get("content", "")
+                                # Strategy 6: Handle cases where chunk_id might be embedded differently
+                                # e.g., "file_chunk_0" vs "chunk_0"
                                 if (
-                                    chunk_id_in_file == chunk_id
-                                    or chunk_id_in_file.endswith(f"_{chunk_id}")
-                                    or chunk_id_in_file.endswith(f"::{chunk_id}")
+                                    f"_{chunk_id}" in chunk_id_in_file
+                                    or f"::{chunk_id}" in chunk_id_in_file
                                 ):
                                     return chunk.get("content", "")
         except Exception as e:
@@ -637,12 +867,17 @@ class FaithfulnessEvaluator:
     ) -> Optional[str]:
         """Get the source chunk text for a relationship."""
         try:
-            # Try to get source_id from source or target node
+            logger.debug(
+                f"Looking up source chunk for relation: {source_id}-[{rel_type}]->{target_id}"
+            )
+            # Strategy 1: Find Document that mentions BOTH nodes (preferred - same chunk)
             result = self.graph.query(
                 """
-                MATCH (source {id: $source_id})-[r]->(target {id: $target_id})
+                MATCH (d:Document)-[:MENTIONS]->(source {id: $source_id})
+                MATCH (d:Document)-[:MENTIONS]->(target {id: $target_id})
+                MATCH (source)-[r]->(target)
                 WHERE type(r) = $rel_type
-                RETURN source.source_id as source_id, target.source_id as target_source_id
+                RETURN COALESCE(d.source_id, d.id) as source_id
                 LIMIT 1
                 """,
                 params={
@@ -652,36 +887,127 @@ class FaithfulnessEvaluator:
                 },
             )
             source_id_str = None
-            if result:
-                source_id_str = result[0].get("source_id") or result[0].get(
-                    "target_source_id"
+            if result and result[0].get("source_id"):
+                source_id_str = result[0]["source_id"]
+                logger.debug(
+                    f"Strategy 1 (both nodes): Found source_id={source_id_str}"
                 )
 
+            # Strategy 2: Find Document that mentions SOURCE node (relationships are directional)
+            # This handles cross-document relations where the relation originates from source's chunk
             if not source_id_str:
+                result = self.graph.query(
+                    """
+                    MATCH (d:Document)-[:MENTIONS]->(source {id: $source_id})
+                    MATCH (source)-[r]->(target {id: $target_id})
+                    WHERE type(r) = $rel_type
+                    RETURN COALESCE(d.source_id, d.id) as source_id
+                    LIMIT 1
+                    """,
+                    params={
+                        "source_id": source_id,
+                        "target_id": target_id,
+                        "rel_type": rel_type,
+                    },
+                )
+                if result and result[0].get("source_id"):
+                    source_id_str = result[0]["source_id"]
+                    logger.debug(
+                        f"Strategy 2 (source node): Found source_id={source_id_str}"
+                    )
+
+            # Strategy 3: Find Document that mentions TARGET node (fallback)
+            if not source_id_str:
+                result = self.graph.query(
+                    """
+                    MATCH (d:Document)-[:MENTIONS]->(target {id: $target_id})
+                    MATCH (source {id: $source_id})-[r]->(target)
+                    WHERE type(r) = $rel_type
+                    RETURN COALESCE(d.source_id, d.id) as source_id
+                    LIMIT 1
+                    """,
+                    params={
+                        "source_id": source_id,
+                        "target_id": target_id,
+                        "rel_type": rel_type,
+                    },
+                )
+                if result and result[0].get("source_id"):
+                    source_id_str = result[0]["source_id"]
+                    logger.debug(
+                        f"Strategy 3 (target node): Found source_id={source_id_str}"
+                    )
+
+            # Strategy 4: Try to get from node properties directly (last resort)
+            if not source_id_str:
+                result = self.graph.query(
+                    """
+                    MATCH (source {id: $source_id})-[r]->(target {id: $target_id})
+                    WHERE type(r) = $rel_type
+                    RETURN source.source_id as source_id, target.source_id as target_source_id
+                    LIMIT 1
+                    """,
+                    params={
+                        "source_id": source_id,
+                        "target_id": target_id,
+                        "rel_type": rel_type,
+                    },
+                )
+                if result:
+                    source_id_str = result[0].get("source_id") or result[0].get(
+                        "target_source_id"
+                    )
+                    if source_id_str:
+                        logger.debug(
+                            f"Strategy 4 (node properties): Found source_id={source_id_str}"
+                        )
+
+            if not source_id_str:
+                logger.debug(
+                    f"No source_id found for relation {source_id}-[{rel_type}]->{target_id}"
+                )
                 return None
 
-            # Extract chunk_id from source_id format: "chunks_file::chunk_id" or "chunks_file_chunk_id"
+            logger.debug(f"Using source_id={source_id_str} for relation lookup")
+
+            # Check if this is a markdown source (e.g., "filename.md::images")
+            # For image entities, try to find the target's chunk instead (since image relations
+            # describe what images depict, which is often mentioned in text about the target entity)
+            if source_id_str.endswith("::images") or ".md" in source_id_str:
+                logger.debug(
+                    f"Source is markdown image ({source_id_str}), trying target's chunk instead"
+                )
+                # Try to get target's chunk
+                target_chunk = self._get_source_chunk_for_node(target_id)
+                if target_chunk:
+                    logger.debug(f"Found target chunk for image relation")
+                    return target_chunk
+                # If target also doesn't have a chunk, skip
+                logger.debug(
+                    f"Target {target_id} also has no chunk, skipping image relation"
+                )
+                return None
+
+            # Extract chunk_id from source_id format: "filename::chunk_id"
             chunk_id = None
             if "::" in source_id_str:
-                # Format: "chunks_file::chunk_id"
+                # Format: "filename::chunk_id"
                 chunk_id = source_id_str.split("::")[-1]
             else:
-                # Format might be: "chunks_file_chunk_id" or just the chunk_id
-                # Try to find matching chunks file and extract chunk_id
+                # Try to extract from filename pattern
                 for chunks_file in self.chunks_dir.glob("*.jsonl"):
                     file_stem = chunks_file.stem
                     if source_id_str.startswith(file_stem):
-                        # Extract chunk_id by removing file stem prefix
                         remaining = source_id_str[len(file_stem) :].lstrip("_")
                         if remaining:
                             chunk_id = remaining
                             break
 
-                # If no match found, assume source_id_str is the chunk_id itself
                 if not chunk_id:
                     chunk_id = source_id_str
 
             # Search for chunk in all chunks files
+            # Try multiple matching strategies
             if chunk_id:
                 for chunks_file in self.chunks_dir.glob("*.jsonl"):
                     with open(chunks_file, "r", encoding="utf-8") as f:
@@ -689,13 +1015,39 @@ class FaithfulnessEvaluator:
                             if line.strip():
                                 chunk = json.loads(line)
                                 chunk_id_in_file = chunk.get("id", "")
-                                # Match exact or if chunk_id is a suffix of the chunk id in file
-                                if (
-                                    chunk_id_in_file == chunk_id
-                                    or chunk_id_in_file.endswith(f"_{chunk_id}")
-                                    or chunk_id_in_file.endswith(f"::{chunk_id}")
+                                # Strategy 1: Exact match
+                                if chunk_id_in_file == chunk_id:
+                                    return chunk.get("content", "")
+                                # Strategy 2: Chunk ID is a suffix
+                                if chunk_id_in_file.endswith(
+                                    f"_{chunk_id}"
+                                ) or chunk_id_in_file.endswith(f"::{chunk_id}"):
+                                    return chunk.get("content", "")
+                                # Strategy 3: Full source_id match
+                                if chunk_id_in_file == source_id_str:
+                                    return chunk.get("content", "")
+                                # Strategy 4: Source_id ends with chunk_id_in_file (for partial matches)
+                                if source_id_str and source_id_str.endswith(
+                                    chunk_id_in_file
                                 ):
                                     return chunk.get("content", "")
+                                # Strategy 5: Chunk_id_in_file ends with chunk_id (for different naming conventions)
+                                if chunk_id_in_file.endswith(chunk_id):
+                                    return chunk.get("content", "")
+                                # Strategy 6: Handle cases where chunk_id might be embedded differently
+                                # e.g., "file_chunk_0" vs "chunk_0"
+                                if (
+                                    f"_{chunk_id}" in chunk_id_in_file
+                                    or f"::{chunk_id}" in chunk_id_in_file
+                                ):
+                                    logger.debug(
+                                        f"Found chunk via Strategy 6: {chunk_id_in_file}"
+                                    )
+                                    return chunk.get("content", "")
+
+            logger.debug(
+                f"Could not find chunk for source_id={source_id_str}, chunk_id={chunk_id}"
+            )
         except Exception as e:
             logger.warning(
                 f"Failed to get source chunk for relation {source_id}-[{rel_type}]->{target_id}: {e}"
@@ -1296,6 +1648,23 @@ Examples:
             "Reports are saved as: <document_id>_validation_report.json"
         ),
     )
+    parser.add_argument(
+        "--faithfulness-only",
+        action="store_true",
+        help=(
+            "Run only faithfulness evaluation tests (for debugging). "
+            "Skips structural and coverage tests."
+        ),
+    )
+    parser.add_argument(
+        "--sample-size",
+        type=int,
+        default=None,
+        help=(
+            "Override default sample size for faithfulness evaluation. "
+            "Default: 25 for nodes and relations."
+        ),
+    )
 
     args = parser.parse_args()
 
@@ -1307,19 +1676,59 @@ Examples:
         # Create validator agent
         validator = ValidatorAgent(
             graph=graph,
-            enable_llm_tests=args.enable_llm_tests,
+            enable_llm_tests=args.enable_llm_tests or args.faithfulness_only,
         )
 
         output_dir = Path(args.output_dir)
 
-        # Validate the entire knowledge graph (single report)
-        report = validator.validate_all_documents()
+        if args.faithfulness_only:
+            # Run only faithfulness tests for debugging
+            logger.info("Running faithfulness-only evaluation...")
+            faithfulness_evaluator = FaithfulnessEvaluator(
+                graph=graph,
+                chunks_dir=CHUNKS_DIR,
+                markdown_dir=MARKDOWN_DIR,
+            )
 
-        # Save the single report
-        save_report(report, output_dir)
+            sample_size = args.sample_size if args.sample_size else 25
+            logger.info(f"Using sample size: {sample_size}")
 
-        print(f"\nValidation complete. Generated 1 report.")
-        print(f"Report saved to: {output_dir}")
+            faithfulness_metrics = faithfulness_evaluator.evaluate(
+                document_id="knowledge_graph",
+                sample_size=sample_size,
+            )
+
+            # Create a minimal report
+            report = {
+                "document_id": "knowledge_graph",
+                "timestamp": time.strftime("%Y-%m-%d %H:%M:%S"),
+                "faithfulness": faithfulness_metrics,
+            }
+
+            # Save report
+            output_file = output_dir / "faithfulness_only_report.json"
+            output_dir.mkdir(parents=True, exist_ok=True)
+            with open(output_file, "w", encoding="utf-8") as f:
+                json.dump(report, f, indent=2, ensure_ascii=False)
+
+            logger.info(f"Faithfulness report saved to: {output_file}")
+            print(f"\nFaithfulness evaluation complete.")
+            print(
+                f"Node Faithfulness: {faithfulness_metrics.get('node_faithfulness', 0.0):.3f}"
+            )
+            print(
+                f"Relation Faithfulness: {faithfulness_metrics.get('relation_faithfulness', 0.0):.3f}"
+            )
+            print(f"Report saved to: {output_file}")
+        else:
+            # Validate the entire knowledge graph (single report)
+            report = validator.validate_all_documents()
+
+            # Save the single report
+            save_report(report, output_dir)
+
+            print(f"\nValidation complete. Generated 1 report.")
+            print(f"Report saved to: {output_dir}")
 
     except Exception as e:
         logger.error(f"Validation failed: {e}", exc_info=True)

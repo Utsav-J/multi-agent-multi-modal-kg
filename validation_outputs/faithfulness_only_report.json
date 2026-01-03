@@ -1,0 +1,8 @@
+{
+  "document_id": "knowledge_graph",
+  "timestamp": "2026-01-03 19:56:31",
+  "faithfulness": {
+    "node_faithfulness": 0.375,
+    "relation_faithfulness": 0.05263157894736842
+  }
+}
