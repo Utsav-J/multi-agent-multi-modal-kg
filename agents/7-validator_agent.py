@@ -7,7 +7,7 @@ This agent validates knowledge graphs across four dimensions:
 3. Graph Structural Quality - Whether the KG is well-formed (deterministic)
 4. Semantic Plausibility - Whether relations make sense (LLM-based)
 
-Uses Groq API for LLM-based evaluations and Neo4j queries for structural analysis.
+Uses Google Gemini API for LLM-based evaluations and Neo4j queries for structural analysis.
 """
 
 import argparse
@@ -22,7 +22,7 @@ from collections import defaultdict
 from pathlib import Path
 from typing import Dict, List, Optional, Set, Tuple
 from dotenv import load_dotenv
-from groq import Groq
+from google import genai
 from pydantic import BaseModel, Field
 
 # Add project root to sys.path
@@ -47,10 +47,7 @@ logger = logging.getLogger(__name__)
 
 # Define paths
 # Model that supports structured outputs (json_schema)
-# Supported models: openai/gpt-oss-20b, openai/gpt-oss-120b, openai/gpt-oss-safeguard-20b,
-# moonshotai/kimi-k2-instruct-0905, meta-llama/llama-4-maverick-17b-128e-instruct,
-# meta-llama/llama-4-scout-17b-16e-instruct
-MODEL = "openai/gpt-oss-20b"
+MODEL = "gemini-2.5-flash"
 CHUNKS_DIR = project_root / "chunking_outputs"
 OUTPUT_DIR = project_root / "knowledge_graph_outputs"
 MARKDOWN_DIR = project_root / "markdown_outputs"
@@ -109,6 +106,60 @@ class EntityAndRelationList(BaseModel):
 LLM_REQUEST_DELAY = 0.2  # Seconds to wait between LLM requests to prevent throttling
 
 
+# Helper functions to convert Pydantic models to Gemini Schema format
+def get_entity_and_relation_list_schema():
+    """Convert EntityAndRelationList to Gemini Schema format."""
+    return genai.types.Schema(
+        type=genai.types.Type.OBJECT,
+        required=["entities", "relationships"],
+        properties={
+            "entities": genai.types.Schema(
+                type=genai.types.Type.ARRAY,
+                items=genai.types.Schema(type=genai.types.Type.STRING),
+            ),
+            "relationships": genai.types.Schema(
+                type=genai.types.Type.ARRAY,
+                items=genai.types.Schema(
+                    type=genai.types.Type.OBJECT,
+                    required=["source", "target", "type"],
+                    properties={
+                        "source": genai.types.Schema(type=genai.types.Type.STRING),
+                        "target": genai.types.Schema(type=genai.types.Type.STRING),
+                        "type": genai.types.Schema(type=genai.types.Type.STRING),
+                    },
+                ),
+            ),
+        },
+    )
+
+
+def get_grounding_check_schema():
+    """Convert GroundingCheck to Gemini Schema format."""
+    return genai.types.Schema(
+        type=genai.types.Type.OBJECT,
+        required=["grounded", "evidence"],
+        properties={
+            "grounded": genai.types.Schema(type=genai.types.Type.BOOLEAN),
+            "evidence": genai.types.Schema(type=genai.types.Type.STRING),
+        },
+    )
+
+
+def get_plausibility_check_schema():
+    """Convert PlausibilityCheck to Gemini Schema format."""
+    return genai.types.Schema(
+        type=genai.types.Type.OBJECT,
+        required=["plausible"],
+        properties={
+            "plausible": genai.types.Schema(
+                type=genai.types.Type.STRING,
+                enum=["yes", "no", "unclear"],
+            ),
+            "reasoning": genai.types.Schema(type=genai.types.Type.STRING),
+        },
+    )
+
+
 class StructuralEvaluator:
     """Evaluates graph structural quality using deterministic metrics (no LLM)."""
 
@@ -150,57 +201,28 @@ class StructuralEvaluator:
         logger.info(f"Orphan nodes: {orphan_count} ({orphan_ratio:.2%})")
 
         # Test C2: Component Fragmentation
-        # Use a simpler approach that works without GDS library
-        # Since GDS is not available, use a simpler estimation based on connected nodes
-        try:
-            # Try GDS first if available (for better accuracy)
-            component_result = self.graph.query(
-                """
-                CALL gds.graph.project.cypher(
-                    'temp_graph',
-                    'MATCH (n) RETURN id(n) as id',
-                    'MATCH (n)-[r]->(m) RETURN id(n) as source, id(m) as target'
-                ) YIELD nodeCount
-                CALL gds.wcc.stream('temp_graph')
-                YIELD nodeId, componentId
-                WITH collect(DISTINCT componentId) as components
-                RETURN size(components) as component_count
-                """
-            )
-            if (
-                component_result
-                and component_result[0].get("component_count") is not None
-            ):
-                component_count = component_result[0]["component_count"]
-            else:
-                raise Exception("GDS result was None")
-        except Exception as e:
-            logger.info(
-                f"GDS library not available or failed ({e}), using simple estimation method"
-            )
-            # Simple estimation: count isolated nodes + 1 for all connected nodes
-            # This is accurate if the graph has one main connected component
-            connected_nodes_result = self.graph.query(
-                """
-                MATCH (n)
-                WHERE (n)--()
-                RETURN count(DISTINCT n) as connected_count
-                """
-            )
-            connected_count = (
-                connected_nodes_result[0]["connected_count"]
-                if connected_nodes_result
-                else 0
-            )
-            isolated_count = total_nodes - connected_count
-            # If all nodes are connected, we have 1 component; otherwise isolated nodes are separate
-            if connected_count == total_nodes:
-                component_count = 1
-            else:
-                # Connected nodes form at least 1 component, isolated nodes are separate components
-                component_count = max(1, isolated_count) + (
-                    1 if connected_count > 0 else 0
-                )
+        # Use a simple estimation based on connected nodes (GDS library not required)
+        # Simple estimation: count isolated nodes + 1 for all connected nodes
+        # This is accurate if the graph has one main connected component
+        connected_nodes_result = self.graph.query(
+            """
+            MATCH (n)
+            WHERE (n)--()
+            RETURN count(DISTINCT n) as connected_count
+            """
+        )
+        connected_count = (
+            connected_nodes_result[0]["connected_count"]
+            if connected_nodes_result
+            else 0
+        )
+        isolated_count = total_nodes - connected_count
+        # If all nodes are connected, we have 1 component; otherwise isolated nodes are separate
+        if connected_count == total_nodes:
+            component_count = 1
+        else:
+            # Connected nodes form at least 1 component, isolated nodes are separate components
+            component_count = max(1, isolated_count) + (1 if connected_count > 0 else 0)
 
         component_ratio = component_count / total_nodes if total_nodes > 0 else 0.0
         metrics["component_ratio"] = component_ratio
@@ -266,7 +288,7 @@ class CoverageEvaluator:
         self.graph = graph
         self.chunks_dir = chunks_dir
         self.markdown_dir = markdown_dir
-        self.groq_client = Groq(api_key=os.getenv("GROQ_API_KEY"))
+        self.genai_client = genai.Client(api_key=os.getenv("GOOGLE_API_KEY"))
 
     def _extract_entities_and_relations_from_chunk(
         self, chunk_content: str
@@ -275,16 +297,8 @@ class CoverageEvaluator:
         Use LLM to extract both entities and relationships from a chunk in a single call.
         This reduces LLM requests by 50% compared to separate calls.
         """
-        prompt = (
+        system_instruction = (
             "You are analyzing a scientific document chunk. Extract entities and relationships.\n\n"
-            "REQUIRED OUTPUT FORMAT (JSON):\n"
-            "{\n"
-            '  "entities": ["Entity1", "Entity2", ...],\n'
-            '  "relationships": [\n'
-            '    {"source": "Entity1", "target": "Entity2", "type": "RELATION_TYPE"},\n'
-            "    ...\n"
-            "  ]\n"
-            "}\n\n"
             "RULES:\n"
             "1. Entities: List of key scientific entities explicitly mentioned (models, methods, concepts, tasks, algorithms, publications, persons, organizations).\n"
             "2. Relationships: List of dictionaries, each with exactly three keys: 'source', 'target', and 'type'.\n"
@@ -294,37 +308,33 @@ class CoverageEvaluator:
             "6. All relationship dictionaries MUST have 'source', 'target', and 'type' keys."
         )
 
-        try:
-            response = self.groq_client.chat.completions.create(
-                model=MODEL,
-                messages=[
-                    {"role": "system", "content": prompt},
-                    {
-                        "role": "user",
-                        "content": f"Extract entities and relationships from this text:\n\n{chunk_content[:4000]}",
-                    },
-                ],
-                response_format={
-                    "type": "json_schema",
-                    "json_schema": {
-                        "name": "entity_and_relation_list",
-                        "schema": EntityAndRelationList.model_json_schema(),
-                    },
-                },
-                temperature=0,
-            )
-            content = response.choices[0].message.content
+        user_content = f"Extract entities and relationships from this text:\n\n{chunk_content[:4000]}"
 
-            # Try to parse JSON, with better error handling
+        # Combine system instruction and user content into a single prompt
+        full_prompt = f"{system_instruction}\n\n{user_content}"
+
+        try:
+            response = self.genai_client.models.generate_content(
+                model=MODEL,
+                contents=full_prompt,
+                config=genai.types.GenerateContentConfig(
+                    response_mime_type="application/json",
+                    response_schema=get_entity_and_relation_list_schema(),
+                ),
+            )
+
+            # Parse JSON response from Gemini
             try:
+                content = response.text
                 parsed_json = json.loads(content)
-            except json.JSONDecodeError as e:
+                data = EntityAndRelationList.model_validate(parsed_json)
+            except (json.JSONDecodeError, AttributeError, ValueError) as e:
                 logger.warning(f"Invalid JSON response from LLM: {e}")
-                logger.debug(f"Response content: {content[:500]}")
+                logger.debug(
+                    f"Response content: {getattr(response, 'text', 'No text')[:500]}"
+                )
                 time.sleep(LLM_REQUEST_DELAY)
                 return set(), set()
-
-            data = EntityAndRelationList.model_validate(parsed_json)
 
             # Extract entities
             entities = set(e.strip() for e in data.entities if e.strip())
@@ -560,7 +570,7 @@ class FaithfulnessEvaluator:
         self.graph = graph
         self.chunks_dir = chunks_dir
         self.markdown_dir = markdown_dir
-        self.groq_client = Groq(api_key=os.getenv("GROQ_API_KEY"))
+        self.genai_client = genai.Client(api_key=os.getenv("GOOGLE_API_KEY"))
 
     def _get_source_chunk_for_node(self, node_id: str) -> Optional[str]:
         """Get the source chunk text for a node."""
@@ -578,37 +588,46 @@ class FaithfulnessEvaluator:
             source_id = None
             if result and result[0].get("source_id"):
                 source_id = result[0]["source_id"]
-            # Note: LangChain Neo4j doesn't create :EXTRACTED relationships.
-            # If source_id is not found on the node property, we can't determine the source.
 
-            if source_id:
-                # Extract chunk_id from source_id format: "chunks_file::chunk_id"
-                if "::" in source_id:
-                    chunk_id = source_id.split("::")[-1]
-                else:
-                    # If no :: separator, try to match by filename pattern
-                    chunk_id = None
-                    # Try to find chunk in chunks files
-                    for chunks_file in self.chunks_dir.glob("*.jsonl"):
-                        if source_id.startswith(chunks_file.stem):
-                            # Try to extract chunk_id from source_id
-                            remaining = source_id.replace(chunks_file.stem, "").lstrip(
-                                "_"
-                            )
+            if not source_id:
+                return None
+
+            # Extract chunk_id from source_id format: "chunks_file::chunk_id" or "chunks_file_chunk_id"
+            chunk_id = None
+            if "::" in source_id:
+                # Format: "chunks_file::chunk_id"
+                chunk_id = source_id.split("::")[-1]
+            else:
+                # Format might be: "chunks_file_chunk_id" or just the chunk_id
+                # Try to find matching chunks file and extract chunk_id
+                for chunks_file in self.chunks_dir.glob("*.jsonl"):
+                    file_stem = chunks_file.stem
+                    if source_id.startswith(file_stem):
+                        # Extract chunk_id by removing file stem prefix
+                        remaining = source_id[len(file_stem) :].lstrip("_")
+                        if remaining:
                             chunk_id = remaining
                             break
 
-                if chunk_id:
-                    # Try to find chunk in chunks files
-                    for chunks_file in self.chunks_dir.glob("*.jsonl"):
-                        with open(chunks_file, "r", encoding="utf-8") as f:
-                            for line in f:
-                                if line.strip():
-                                    chunk = json.loads(line)
-                                    if chunk.get("id") == chunk_id or chunk.get(
-                                        "id", ""
-                                    ).endswith(chunk_id):
-                                        return chunk.get("content", "")
+                # If no match found, assume source_id is the chunk_id itself
+                if not chunk_id:
+                    chunk_id = source_id
+
+            # Search for chunk in all chunks files
+            if chunk_id:
+                for chunks_file in self.chunks_dir.glob("*.jsonl"):
+                    with open(chunks_file, "r", encoding="utf-8") as f:
+                        for line in f:
+                            if line.strip():
+                                chunk = json.loads(line)
+                                chunk_id_in_file = chunk.get("id", "")
+                                # Match exact or if chunk_id is a suffix of the chunk id in file
+                                if (
+                                    chunk_id_in_file == chunk_id
+                                    or chunk_id_in_file.endswith(f"_{chunk_id}")
+                                    or chunk_id_in_file.endswith(f"::{chunk_id}")
+                                ):
+                                    return chunk.get("content", "")
         except Exception as e:
             logger.warning(f"Failed to get source chunk for node {node_id}: {e}")
         return None
@@ -638,33 +657,45 @@ class FaithfulnessEvaluator:
                     "target_source_id"
                 )
 
-            # Note: LangChain Neo4j doesn't create :EXTRACTED relationships.
-            # If source_id is not found on node properties, we can't determine the source.
+            if not source_id_str:
+                return None
 
-            if source_id_str:
-                # Extract chunk_id from source_id format: "chunks_file::chunk_id"
-                if "::" in source_id_str:
-                    chunk_id = source_id_str.split("::")[-1]
-                else:
-                    chunk_id = None
-                    for chunks_file in self.chunks_dir.glob("*.jsonl"):
-                        if source_id_str.startswith(chunks_file.stem):
-                            remaining = source_id_str.replace(
-                                chunks_file.stem, ""
-                            ).lstrip("_")
+            # Extract chunk_id from source_id format: "chunks_file::chunk_id" or "chunks_file_chunk_id"
+            chunk_id = None
+            if "::" in source_id_str:
+                # Format: "chunks_file::chunk_id"
+                chunk_id = source_id_str.split("::")[-1]
+            else:
+                # Format might be: "chunks_file_chunk_id" or just the chunk_id
+                # Try to find matching chunks file and extract chunk_id
+                for chunks_file in self.chunks_dir.glob("*.jsonl"):
+                    file_stem = chunks_file.stem
+                    if source_id_str.startswith(file_stem):
+                        # Extract chunk_id by removing file stem prefix
+                        remaining = source_id_str[len(file_stem) :].lstrip("_")
+                        if remaining:
                             chunk_id = remaining
                             break
 
-                if chunk_id:
-                    for chunks_file in self.chunks_dir.glob("*.jsonl"):
-                        with open(chunks_file, "r", encoding="utf-8") as f:
-                            for line in f:
-                                if line.strip():
-                                    chunk = json.loads(line)
-                                    if chunk.get("id") == chunk_id or chunk.get(
-                                        "id", ""
-                                    ).endswith(chunk_id):
-                                        return chunk.get("content", "")
+                # If no match found, assume source_id_str is the chunk_id itself
+                if not chunk_id:
+                    chunk_id = source_id_str
+
+            # Search for chunk in all chunks files
+            if chunk_id:
+                for chunks_file in self.chunks_dir.glob("*.jsonl"):
+                    with open(chunks_file, "r", encoding="utf-8") as f:
+                        for line in f:
+                            if line.strip():
+                                chunk = json.loads(line)
+                                chunk_id_in_file = chunk.get("id", "")
+                                # Match exact or if chunk_id is a suffix of the chunk id in file
+                                if (
+                                    chunk_id_in_file == chunk_id
+                                    or chunk_id_in_file.endswith(f"_{chunk_id}")
+                                    or chunk_id_in_file.endswith(f"::{chunk_id}")
+                                ):
+                                    return chunk.get("content", "")
         except Exception as e:
             logger.warning(
                 f"Failed to get source chunk for relation {source_id}-[{rel_type}]->{target_id}: {e}"
@@ -673,34 +704,38 @@ class FaithfulnessEvaluator:
 
     def _check_node_grounding(self, node_id: str, node_type: str, text: str) -> bool:
         """Use LLM to check if a node is grounded in the text."""
-        prompt = (
+        system_instruction = (
             "You are validating knowledge graph extractions. "
             "Is the entity explicitly stated or clearly implied in the provided text? "
             "Answer with 'yes' if the entity is mentioned or clearly implied, 'no' otherwise. "
             "Quote evidence if yes."
         )
 
+        user_content = f"Entity: {node_id} (type: {node_type})\n\nText:\n{text[:4000]}"
+
+        # Combine system instruction and user content into a single prompt
+        full_prompt = f"{system_instruction}\n\n{user_content}"
+
         try:
-            response = self.groq_client.chat.completions.create(
+            response = self.genai_client.models.generate_content(
                 model=MODEL,
-                messages=[
-                    {"role": "system", "content": prompt},
-                    {
-                        "role": "user",
-                        "content": f"Entity: {node_id} (type: {node_type})\n\nText:\n{text[:4000]}",
-                    },
-                ],
-                response_format={
-                    "type": "json_schema",
-                    "json_schema": {
-                        "name": "grounding_check",
-                        "schema": GroundingCheck.model_json_schema(),
-                    },
-                },
-                temperature=0,
+                contents=full_prompt,
+                config=genai.types.GenerateContentConfig(
+                    response_mime_type="application/json",
+                    response_schema=get_grounding_check_schema(),
+                ),
             )
-            content = response.choices[0].message.content
-            data = GroundingCheck.model_validate(json.loads(content))
+
+            # Parse JSON response from Gemini
+            try:
+                content = response.text
+                parsed_json = json.loads(content)
+                data = GroundingCheck.model_validate(parsed_json)
+            except (json.JSONDecodeError, AttributeError, ValueError) as e:
+                logger.warning(f"Failed to parse grounding check response: {e}")
+                time.sleep(LLM_REQUEST_DELAY)
+                return False
+
             # Rate limiting: add delay after LLM request
             time.sleep(LLM_REQUEST_DELAY)
             return data.grounded
@@ -713,34 +748,40 @@ class FaithfulnessEvaluator:
         self, source_id: str, target_id: str, rel_type: str, text: str
     ) -> bool:
         """Use LLM to check if a relationship is grounded in the text."""
-        prompt = (
+        system_instruction = (
             "You are validating knowledge graph extractions. "
             "Does the text explicitly support the relation (A —[R]→ B)? "
             "Answer with 'yes' if the relation is explicitly stated, 'no' otherwise. "
             "Quote the supporting sentence if yes, or say 'not supported' if no."
         )
 
+        user_content = (
+            f"Relation: {source_id} —[{rel_type}]→ {target_id}\n\nText:\n{text[:4000]}"
+        )
+
+        # Combine system instruction and user content into a single prompt
+        full_prompt = f"{system_instruction}\n\n{user_content}"
+
         try:
-            response = self.groq_client.chat.completions.create(
+            response = self.genai_client.models.generate_content(
                 model=MODEL,
-                messages=[
-                    {"role": "system", "content": prompt},
-                    {
-                        "role": "user",
-                        "content": f"Relation: {source_id} —[{rel_type}]→ {target_id}\n\nText:\n{text[:4000]}",
-                    },
-                ],
-                response_format={
-                    "type": "json_schema",
-                    "json_schema": {
-                        "name": "grounding_check",
-                        "schema": GroundingCheck.model_json_schema(),
-                    },
-                },
-                temperature=0,
+                contents=full_prompt,
+                config=genai.types.GenerateContentConfig(
+                    response_mime_type="application/json",
+                    response_schema=get_grounding_check_schema(),
+                ),
             )
-            content = response.choices[0].message.content
-            data = GroundingCheck.model_validate(json.loads(content))
+
+            # Parse JSON response from Gemini
+            try:
+                content = response.text
+                parsed_json = json.loads(content)
+                data = GroundingCheck.model_validate(parsed_json)
+            except (json.JSONDecodeError, AttributeError, ValueError) as e:
+                logger.warning(f"Failed to parse grounding check response: {e}")
+                time.sleep(LLM_REQUEST_DELAY)
+                return False
+
             # Rate limiting: add delay after LLM request
             time.sleep(LLM_REQUEST_DELAY)
             return data.grounded
@@ -812,6 +853,7 @@ class FaithfulnessEvaluator:
         # Check node grounding
         grounded_nodes = 0
         checked_nodes = 0
+        nodes_without_chunks = 0
         for node_id, node_type in nodes:
             text = self._get_source_chunk_for_node(node_id)
             if text:
@@ -821,12 +863,21 @@ class FaithfulnessEvaluator:
                 # Rate limiting handled in _check_node_grounding
                 if checked_nodes % 10 == 0:
                     logger.info(f"Checked {checked_nodes}/{len(nodes)} nodes...")
+            else:
+                nodes_without_chunks += 1
+                logger.debug(f"Node {node_id} has no source chunk available")
+
+        if nodes_without_chunks > 0:
+            logger.warning(
+                f"{nodes_without_chunks} nodes had no source chunks available for grounding check"
+            )
 
         node_faithfulness = grounded_nodes / checked_nodes if checked_nodes > 0 else 0.0
 
         # Check relation grounding
         grounded_rels = 0
         checked_rels = 0
+        rels_without_chunks = 0
         for source_id, rel_type, target_id in relations:
             text = self._get_source_chunk_for_relation(source_id, target_id, rel_type)
             if text:
@@ -836,6 +887,16 @@ class FaithfulnessEvaluator:
                 # Rate limiting handled in _check_relation_grounding
                 if checked_rels % 10 == 0:
                     logger.info(f"Checked {checked_rels}/{len(relations)} relations...")
+            else:
+                rels_without_chunks += 1
+                logger.debug(
+                    f"Relation {source_id}-[{rel_type}]->{target_id} has no source chunk available"
+                )
+
+        if rels_without_chunks > 0:
+            logger.warning(
+                f"{rels_without_chunks} relations had no source chunks available for grounding check"
+            )
 
         relation_faithfulness = (
             grounded_rels / checked_rels if checked_rels > 0 else 0.0
@@ -857,7 +918,7 @@ class SemanticEvaluator:
 
     def __init__(self, graph: Neo4jGraph):
         self.graph = graph
-        self.groq_client = Groq(api_key=os.getenv("GROQ_API_KEY"))
+        self.genai_client = genai.Client(api_key=os.getenv("GOOGLE_API_KEY"))
 
     def _check_relation_plausibility(
         self,
@@ -868,39 +929,43 @@ class SemanticEvaluator:
         rel_type: str,
     ) -> str:
         """Use LLM to check if a relation is semantically plausible."""
-        prompt = (
+        system_instruction = (
             "You are validating knowledge graph relations. "
             "Given the entity types, is this relation semantically plausible in scientific literature? "
             "Answer with 'yes' if plausible, 'no' if implausible, or 'unclear' if uncertain. "
             "You are NOT checking if it's true, only if it's reasonable given the entity types."
         )
 
+        user_content = (
+            f"Source: {source_id} (type: {source_type})\n"
+            f"Relation: {rel_type}\n"
+            f"Target: {target_id} (type: {target_type})\n\n"
+            "Is this relation semantically plausible?"
+        )
+
+        # Combine system instruction and user content into a single prompt
+        full_prompt = f"{system_instruction}\n\n{user_content}"
+
         try:
-            response = self.groq_client.chat.completions.create(
+            response = self.genai_client.models.generate_content(
                 model=MODEL,
-                messages=[
-                    {"role": "system", "content": prompt},
-                    {
-                        "role": "user",
-                        "content": (
-                            f"Source: {source_id} (type: {source_type})\n"
-                            f"Relation: {rel_type}\n"
-                            f"Target: {target_id} (type: {target_type})\n\n"
-                            "Is this relation semantically plausible?"
-                        ),
-                    },
-                ],
-                response_format={
-                    "type": "json_schema",
-                    "json_schema": {
-                        "name": "plausibility_check",
-                        "schema": PlausibilityCheck.model_json_schema(),
-                    },
-                },
-                temperature=0,
+                contents=full_prompt,
+                config=genai.types.GenerateContentConfig(
+                    response_mime_type="application/json",
+                    response_schema=get_plausibility_check_schema(),
+                ),
             )
-            content = response.choices[0].message.content
-            data = PlausibilityCheck.model_validate(json.loads(content))
+
+            # Parse JSON response from Gemini
+            try:
+                content = response.text
+                parsed_json = json.loads(content)
+                data = PlausibilityCheck.model_validate(parsed_json)
+            except (json.JSONDecodeError, AttributeError, ValueError) as e:
+                logger.warning(f"Failed to parse plausibility check response: {e}")
+                time.sleep(LLM_REQUEST_DELAY)
+                return "unclear"
+
             # Rate limiting: add delay after LLM request
             time.sleep(LLM_REQUEST_DELAY)
             return data.plausible.lower()
@@ -1044,28 +1109,15 @@ class ValidatorAgent:
         self.semantic_evaluator = SemanticEvaluator(graph)
         self.report_aggregator = ReportAggregator()
 
-    def validate_document(
+    def _validate_document(
         self, document_id: str, chunks_filename: Optional[str] = None
     ) -> Dict:
         """
-        Validate a single document's knowledge graph.
+        Internal method to validate a single document's knowledge graph.
 
         Args:
-            document_id: Identifier for the document. This should be the chunks filename
-                stem (without .jsonl extension) or the markdown filename stem (without .md).
-                Examples:
-                - For chunks file "attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k.jsonl":
-                  use "attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k"
-                - For markdown file "attention_is_all_you_need_raw_with_image_ids_with_captions.md":
-                  use "attention_is_all_you_need_raw_with_image_ids_with_captions"
-                Note: The chunks filename stem typically includes "_chunks_5k" suffix, while
-                the markdown filename stem does not. The document_id should match what's stored
-                in the graph's source_id metadata (typically the chunks filename without extension).
-            chunks_filename: Optional chunks filename (with .jsonl extension) for coverage
-                evaluation. This should be the full filename from chunking_outputs/, e.g.:
-                "attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k.jsonl"
-                If not provided and LLM tests are enabled, coverage evaluation will attempt
-                to infer the chunks filename from document_id.
+            document_id: Identifier for the document (chunks filename stem without .jsonl extension).
+            chunks_filename: Optional chunks filename (with .jsonl extension) for coverage evaluation.
 
         Returns:
             Structured validation report dictionary
@@ -1119,95 +1171,46 @@ class ValidatorAgent:
         logger.info(f"Validation complete for document: {document_id}")
         return report
 
-    def validate_all_documents(self) -> List[Dict]:
+    def validate_all_documents(self) -> Dict:
         """
-        Validate all documents in the knowledge graph.
+        Validate the entire knowledge graph in Neo4j.
 
-        Extracts document IDs from graph source metadata or JSONL files and validates each.
-        Document IDs are extracted from source_id metadata, which follows the format:
-        "<chunks_filename>::<chunk_id>", where chunks_filename is the chunks file stem
-        (without .jsonl extension).
+        Since all graph files are ingested into the same Neo4j database,
+        we validate the entire graph once rather than per file.
 
         Returns:
-            List of validation reports, one per document
+            Single validation report dictionary for the entire knowledge graph
         """
-        logger.info("Validating all documents in knowledge graph...")
+        logger.info("Validating entire knowledge graph...")
 
-        # Extract document IDs from graph
-        # Documents are stored with source metadata. source_id format: "<chunks_filename>::<chunk_id>"
-        # We extract the chunks filename part (before "::") as the document identifier
-        # Example: "attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k.jsonl::chunk_0"
-        #          -> document_id = "attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k.jsonl"
-        doc_result = self.graph.query(
-            """
-            MATCH (n)
-            WHERE n.source_id IS NOT NULL
-            WITH DISTINCT n.source_id as source_id
-            RETURN source_id
-            LIMIT 100
-            """
-        )
+        # Use a generic document_id for the entire graph
+        document_id = "knowledge_graph"
 
-        document_ids = []
-        if doc_result:
-            # Extract unique document identifiers from source_id
-            # Format: "chunks_filename::chunk_id" -> extract "chunks_filename" part
-            # This gives us the chunks filename (with .jsonl extension typically)
-            seen = set()
-            for row in doc_result:
-                source_id = row.get("source_id", "")
-                # Extract document identifier (chunks filename) from "filename::chunk_id" format
-                if "::" in source_id:
-                    doc_id = source_id.split("::")[0]
-                else:
-                    # If no "::" separator, use the whole source_id as document_id
-                    doc_id = source_id
-                if doc_id and doc_id not in seen:
-                    seen.add(doc_id)
-                    document_ids.append(doc_id)
+        # For coverage evaluation, we'll use the first available chunks file
+        # or sample from multiple files if needed
+        chunks_filename = None
 
-        # If no documents found in graph, try to infer from JSONL files in knowledge_graph_outputs/
-        # JSONL files are named like: "<chunks_filename_stem>_graph.jsonl"
-        # We extract the base name (chunks filename stem) as document_id
-        # Example: "attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k_graph.jsonl"
-        #          -> doc_id = "attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k"
-        if not document_ids:
-            logger.info("No documents found in graph metadata, checking JSONL files...")
-            jsonl_files = list(OUTPUT_DIR.glob("*_graph.jsonl"))
-            for jsonl_file in jsonl_files:
-                # Extract document ID from filename by removing "_graph" suffix
-                # "attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k_graph.jsonl"
-                # -> "attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k_graph"
-                # -> "attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k" (document_id)
-                doc_id = jsonl_file.stem.replace("_graph", "")
-                document_ids.append(doc_id)
+        # Try to find a chunks file for coverage evaluation (if LLM tests enabled)
+        if self.enable_llm_tests:
+            chunks_files = list(self.chunks_dir.glob("*.jsonl"))
+            if chunks_files:
+                # Use the first chunks file found (or could aggregate across all)
+                chunks_filename = chunks_files[0].name
+                logger.info(
+                    f"Using chunks file for coverage evaluation: {chunks_filename}"
+                )
 
-        if not document_ids:
-            logger.warning(
-                "No documents found to validate. Using 'unknown' as document_id."
-            )
-            document_ids = ["unknown"]
-
-        logger.info(
-            f"Found {len(document_ids)} document(s) to validate: {document_ids}"
-        )
-
-        reports = []
-        for doc_id in document_ids:
-            try:
-                report = self.validate_document(doc_id)
-                reports.append(report)
-            except Exception as e:
-                logger.error(f"Error validating document {doc_id}: {e}", exc_info=True)
-                # Create error report
-                error_report = {
-                    "document_id": doc_id,
-                    "metrics": {},
-                    "notes": [f"Validation failed with error: {str(e)}"],
-                }
-                reports.append(error_report)
-
-        return reports
+        try:
+            report = self._validate_document(document_id, chunks_filename)
+            return report
+        except Exception as e:
+            logger.error(f"Error validating knowledge graph: {e}", exc_info=True)
+            # Create error report
+            return {
+                "document_id": document_id,
+                "metrics": {},
+                "notes": [f"Validation failed with error: {str(e)}"],
+            }
 
 
 def connect_to_neo4j() -> Neo4jGraph:
@@ -1223,8 +1226,8 @@ def connect_to_neo4j() -> Neo4jGraph:
 def save_report(report: Dict, output_dir: Path):
     """Save validation report to JSON file."""
     output_dir.mkdir(parents=True, exist_ok=True)
-    doc_id = report.get("document_id", "unknown")
-    output_file = output_dir / f"{doc_id}_validation_report.json"
+    # Use a consistent filename for the knowledge graph validation report
+    output_file = output_dir / "knowledge_graph_validation_report.json"
 
     with open(output_file, "w", encoding="utf-8") as f:
         json.dump(report, f, indent=2, ensure_ascii=False)
@@ -1236,25 +1239,13 @@ def main():
     """
     Main entry point for validator agent.
 
+    Validates the entire knowledge graph in Neo4j database (single report).
+
     Command-line arguments:
-    --document-id: Optional. Specific document ID to validate. If not provided, validates all
-        documents found in the graph. Format: chunks filename stem (without .jsonl extension).
-        Example: "attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k"
-        Note: This should match the chunks filename stem that was used during graph extraction.
-
-    --chunks-filename: Optional. Full chunks filename (with .jsonl extension) for coverage
-        evaluation. Only used when LLM tests are enabled. Should be a filename from
-        chunking_outputs/ directory.
-        Example: "attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k.jsonl"
-        If not provided, coverage evaluation will attempt to infer from document_id by
-        appending "_chunks_5k.jsonl" suffix.
-
     --enable-llm-tests: Flag. When set, enables LLM-based evaluation tests:
         - Coverage evaluation (entity and relationship coverage)
         - Faithfulness evaluation (node and relationship grounding)
         - Semantic evaluation (semantic plausibility)
-        Note: Currently these return placeholder metrics. Full implementation requires
-        LLM integration in the respective evaluator classes.
 
     --output-dir: Optional. Directory path for saving validation reports. Default:
         "validation_outputs/" (relative to project root). Reports are saved as:
@@ -1264,63 +1255,36 @@ def main():
         NEO4J_URI: Neo4j connection URI (default: "bolt://localhost:7687")
         NEO4J_USERNAME: Neo4j username (default: "neo4j")
         NEO4J_PASSWORD: Neo4j password (default: "password")
+        GOOGLE_API_KEY: Google API key for Gemini (required if --enable-llm-tests is set)
 
     Examples:
         # Validate all documents (structural tests only)
         python agents/7-validator_agent.py
 
-        # Validate specific document
-        python agents/7-validator_agent.py --document-id "attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k"
-
-        # Validate with chunks file for coverage evaluation (requires --enable-llm-tests)
-        python agents/7-validator_agent.py --document-id "attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k" \\
-            --chunks-filename "attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k.jsonl" \\
-            --enable-llm-tests
+        # Validate all documents with LLM tests enabled
+        python agents/7-validator_agent.py --enable-llm-tests
 
         # Custom output directory
         python agents/7-validator_agent.py --output-dir "custom_reports"
     """
     parser = argparse.ArgumentParser(
-        description="Knowledge Graph Validator Agent",
+        description="Knowledge Graph Validator Agent - Validates all graphs in knowledge_graph_outputs/",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
   # Validate all documents (structural tests only)
   python agents/7-validator_agent.py
 
-  # Validate specific document
-  python agents/7-validator_agent.py --document-id "attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k"
-
-  # Validate with LLM tests enabled (currently placeholders)
-  python agents/7-validator_agent.py --document-id "attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k" --enable-llm-tests
+  # Validate all documents with LLM tests enabled
+  python agents/7-validator_agent.py --enable-llm-tests
         """,
-    )
-    parser.add_argument(
-        "--document-id",
-        type=str,
-        default=None,
-        help=(
-            "Specific document ID to validate (if not provided, validates all). "
-            "Format: chunks filename stem without .jsonl extension. "
-            "Example: 'attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k'"
-        ),
-    )
-    parser.add_argument(
-        "--chunks-filename",
-        type=str,
-        default=None,
-        help=(
-            "Full chunks filename (with .jsonl extension) for coverage evaluation. "
-            "Only used when --enable-llm-tests is set. Should be a filename from chunking_outputs/. "
-            "Example: 'attention_is_all_you_need_raw_with_image_ids_with_captions_chunks_5k.jsonl'"
-        ),
     )
     parser.add_argument(
         "--enable-llm-tests",
         action="store_true",
         help=(
             "Enable LLM-based evaluation tests (coverage, faithfulness, semantic). "
-            "Note: Currently returns placeholder metrics. Full implementation requires LLM integration."
+            "Requires GOOGLE_API_KEY environment variable."
         ),
     )
     parser.add_argument(
@@ -1348,18 +1312,14 @@ Examples:
 
         output_dir = Path(args.output_dir)
 
-        # Run validation
-        if args.document_id:
-            # Validate specific document
-            report = validator.validate_document(args.document_id, args.chunks_filename)
-            save_report(report, output_dir)
-            print(json.dumps(report, indent=2, ensure_ascii=False))
-        else:
-            # Validate all documents
-            reports = validator.validate_all_documents()
-            for report in reports:
-                save_report(report, output_dir)
-            print(f"Validation complete. Generated {len(reports)} report(s).")
+        # Validate the entire knowledge graph (single report)
+        report = validator.validate_all_documents()
+
+        # Save the single report
+        save_report(report, output_dir)
+
+        print(f"\nValidation complete. Generated 1 report.")
+        print(f"Report saved to: {output_dir}")
 
     except Exception as e:
         logger.error(f"Validation failed: {e}", exc_info=True)
