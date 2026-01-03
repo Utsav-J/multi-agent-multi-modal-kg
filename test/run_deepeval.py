@@ -388,11 +388,12 @@ def main():
         description="Run DeepEval evaluations on test case CSV files"
     )
     parser.add_argument(
-        "csv_path",
+        "--csv_path",
         type=str,
-        default=str(test_dir / "outputs" / "test_case_single.csv"),
+        default=str(test_dir / "test_cases" / "simple_rag_test_cases.csv"),
         help="Path to the CSV file containing test cases",
     )
+    # uv run test/run_deepeval.py --csv_path "test_cases/simple_rag_test_cases.csv"
     parser.add_argument(
         "--output",
         type=str,

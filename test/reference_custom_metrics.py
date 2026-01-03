@@ -41,7 +41,7 @@ ToneMetric = GEval(
     criteria=get_value(metrics_filepath, "TONE"),
     model=model,
     threshold=0.6,
-    async_mode=False,
+    # async_mode=False,
     evaluation_params=[LLMTestCaseParams.ACTUAL_OUTPUT],
 )
 
@@ -50,7 +50,7 @@ CompletenessMetric = GEval(
     criteria=get_value(metrics_filepath, "COMPLETENESS"),
     model=model,
     threshold=0.5,
-    async_mode=False,
+    # async_mode=False,
     evaluation_params=[LLMTestCaseParams.INPUT, LLMTestCaseParams.ACTUAL_OUTPUT],
 )
 
@@ -59,7 +59,7 @@ ClarityMetric = GEval(
     threshold=0.6,
     criteria=get_value(metrics_filepath, "CLARITY"),
     model=model,
-    async_mode=False,
+    # async_mode=False,
     evaluation_params=[LLMTestCaseParams.ACTUAL_OUTPUT],
 )
 
@@ -69,7 +69,7 @@ ContextRelevanceMetric = GEval(
     criteria=get_value(metrics_filepath, "CONTEXT_RELEVANCE"),
     model=model,
     threshold=0.5,
-    async_mode=False,
+    # async_mode=False,
     evaluation_params=[
         LLMTestCaseParams.INPUT,
         LLMTestCaseParams.RETRIEVAL_CONTEXT,
@@ -81,7 +81,7 @@ RetrievalQualityMetric = GEval(
     criteria=get_value(metrics_filepath, "RETRIEVAL_QUALITY"),
     model=model,
     threshold=0.5,
-    async_mode=False,
+    # async_mode=False,
     evaluation_params=[
         LLMTestCaseParams.INPUT,
         LLMTestCaseParams.RETRIEVAL_CONTEXT,
@@ -94,7 +94,7 @@ SourceAttributionMetric = GEval(
     criteria=get_value(metrics_filepath, "SOURCE_ATTRIBUTION"),
     model=model,
     threshold=0.3,
-    async_mode=False,
+    # # async_mode=False,
     evaluation_params=[
         LLMTestCaseParams.RETRIEVAL_CONTEXT,
         LLMTestCaseParams.ACTUAL_OUTPUT,
@@ -102,11 +102,11 @@ SourceAttributionMetric = GEval(
 )
 
 metrics = [
-    # HallucinationMetric(model=model, async_mode=False),  # ACCURACY
-    FaithfulnessMetric(model=model, threshold=0.5, async_mode=False),  # ACCURACY
-    AnswerRelevancyMetric(model=model, threshold=0.5, async_mode=False),  # RELEVANCE
-    ToxicityMetric(model=model, async_mode=False),  # SAFETY
-    BiasMetric(model=model),  # SAFETY
+    # HallucinationMetric(model=model, # async_mode=False),  # ACCURACY
+    FaithfulnessMetric(model=model, threshold=0.5),  # ACCURACY
+    AnswerRelevancyMetric(model=model, threshold=0.5),  # RELEVANCE
+    # ToxicityMetric(model=model, # async_mode=False),  # SAFETY
+    # BiasMetric(model=model),  # SAFETY
     ToneMetric,  # custom metric
     ClarityMetric,  # custom metric
     CompletenessMetric,  # custom metric

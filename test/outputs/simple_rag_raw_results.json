@@ -1,0 +1,4015 @@
+{
+  "summary": {
+    "total_test_cases": 60,
+    "metrics_evaluated": 8,
+    "metric_names": [
+      "FaithfulnessMetric",
+      "AnswerRelevancyMetric",
+      "GEval",
+      "GEval",
+      "GEval",
+      "GEval",
+      "GEval",
+      "GEval"
+    ],
+    "results_by_metric": {
+      "FaithfulnessMetric": {
+        "passed": 57,
+        "failed": 0,
+        "scores": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          0.6666666666666666,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          0.9473684210526315,
+          1.0,
+          1.0
+        ],
+        "errors": 3,
+        "pass_rate": 100.0,
+        "average_score": 0.9932286857494614,
+        "min_score": 0.6666666666666666,
+        "max_score": 1.0
+      },
+      "AnswerRelevancyMetric": {
+        "passed": 60,
+        "failed": 0,
+        "scores": [
+          0.875,
+          1.0,
+          1.0,
+          1.0,
+          0.75,
+          1.0,
+          1.0,
+          0.7142857142857143,
+          1.0,
+          1.0,
+          1.0,
+          0.75,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          0.8571428571428571,
+          0.972972972972973,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          0.9,
+          1.0,
+          1.0,
+          0.6666666666666666,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          0.6,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          0.9333333333333333,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "errors": 0,
+        "pass_rate": 100.0,
+        "average_score": 0.9669900257400258,
+        "min_score": 0.6,
+        "max_score": 1.0
+      },
+      "GEval": {
+        "passed": 296,
+        "failed": 64,
+        "scores": [
+          1.0,
+          0.5,
+          1.0,
+          1.0,
+          1.0,
+          0.0,
+          1.0,
+          0.9,
+          1.0,
+          1.0,
+          1.0,
+          0.0,
+          1.0,
+          0.7,
+          1.0,
+          1.0,
+          1.0,
+          0.0,
+          1.0,
+          0.9,
+          1.0,
+          1.0,
+          1.0,
+          0.0,
+          1.0,
+          0.9,
+          1.0,
+          0.2,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          0.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          0.0,
+          1.0,
+          0.9,
+          1.0,
+          1.0,
+          1.0,
+          0.0,
+          1.0,
+          0.9,
+          1.0,
+          0.0,
+          0.9,
+          1.0,
+          1.0,
+          0.9,
+          1.0,
+          1.0,
+          1.0,
+          0.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          0.0,
+          1.0,
+          1.0,
+          0.9,
+          1.0,
+          0.2,
+          1.0,
+          1.0,
+          0.8,
+          1.0,
+          1.0,
+          1.0,
+          0.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          0.9,
+          1.0,
+          1.0,
+          1.0,
+          0.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          0.4,
+          1.0,
+          1.0,
+          1.0,
+          0.0,
+          1.0,
+          1.0,
+          1.0,
+          0.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          0.0,
+          1.0,
+          0.9,
+          1.0,
+          0.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          0.0,
+          1.0,
+          1.0,
+          1.0,
+          0.2,
+          1.0,
+          1.0,
+          1.0,
+          0.9,
+          1.0,
+          0.5,
+          1.0,
+          0.0,
+          1.0,
+          1.0,
+          0.5,
+          0.2,
+          0.9,
+          0.0,
+          1.0,
+          0.7,
+          1.0,
+          0.2,
+          1.0,
+          1.0,
+          1.0,
+          0.9,
+          0.5,
+          0.4,
+          0.9,
+          1.0,
+          1.0,
+          0.9,
+          1.0,
+          0.5,
+          0.9,
+          1.0,
+          1.0,
+          0.9,
+          1.0,
+          0.3,
+          1.0,
+          0.0,
+          1.0,
+          0.9,
+          1.0,
+          0.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          0.7,
+          0.3,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          0.9,
+          0.9,
+          0.9,
+          0.7,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          0.0,
+          1.0,
+          0.8,
+          1.0,
+          1.0,
+          1.0,
+          0.0,
+          1.0,
+          0.9,
+          0.4,
+          0.3,
+          0.9,
+          0.0,
+          1.0,
+          0.9,
+          1.0,
+          1.0,
+          1.0,
+          0.0,
+          1.0,
+          0.9,
+          0.9,
+          0.5,
+          0.9,
+          1.0,
+          1.0,
+          0.4,
+          1.0,
+          0.5,
+          1.0,
+          0.0,
+          1.0,
+          1.0,
+          1.0,
+          0.3,
+          1.0,
+          1.0,
+          1.0,
+          0.9,
+          1.0,
+          0.9,
+          1.0,
+          0.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          0.0,
+          1.0,
+          0.9,
+          1.0,
+          1.0,
+          1.0,
+          0.0,
+          1.0,
+          0.9,
+          1.0,
+          1.0,
+          1.0,
+          0.0,
+          1.0,
+          0.9,
+          1.0,
+          0.8,
+          1.0,
+          0.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          0.0,
+          1.0,
+          0.9,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          0.9,
+          1.0,
+          1.0,
+          1.0,
+          0.0,
+          1.0,
+          0.9,
+          1.0,
+          0.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          0.0,
+          1.0,
+          0.9,
+          1.0,
+          1.0,
+          1.0,
+          0.0,
+          1.0,
+          0.9,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          0.3,
+          1.0,
+          1.0,
+          1.0,
+          0.0,
+          1.0,
+          1.0,
+          1.0,
+          0.9,
+          1.0,
+          0.0,
+          1.0,
+          0.9,
+          1.0,
+          1.0,
+          1.0,
+          0.0,
+          1.0,
+          0.7,
+          0.9,
+          0.4,
+          1.0,
+          0.0,
+          1.0,
+          0.9,
+          1.0,
+          1.0,
+          1.0,
+          0.0,
+          1.0,
+          0.5,
+          1.0,
+          0.9,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          0.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          0.0,
+          1.0,
+          0.4,
+          1.0,
+          0.7,
+          1.0,
+          0.0,
+          1.0,
+          0.9,
+          1.0,
+          0.3,
+          1.0,
+          0.0
+        ],
+        "errors": 0,
+        "pass_rate": 82.22222222222221,
+        "average_score": 0.8125,
+        "min_score": 0.0,
+        "max_score": 1.0
+      }
+    },
+    "results_by_test_case": [
+      {
+        "test_case_index": 1,
+        "input": "How is the entity \"DeepSeek-R1\" related to the concept of \"Chain-of-Thought\" in the context of SWA adaptation?",
+        "category": "Entity Relationship Reasoning",
+        "metrics": {
+          "FaithfulnessMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 45.40162,
+            "threshold": 0.5
+          },
+          "AnswerRelevancyMetric": {
+            "score": 0.875,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 20.016137,
+            "threshold": 0.5
+          },
+          "GEval": {
+            "score": 0.0,
+            "success": false,
+            "reason": "",
+            "evaluation_time_seconds": 11.983083,
+            "threshold": 0.3
+          }
+        },
+        "overall_passed": false
+      },
+      {
+        "test_case_index": 2,
+        "input": "What is the relationship between \"Flash-Attention-2\" and the \"Keep First k Tokens\" implementation in SWAA?",
+        "category": "Entity Relationship Reasoning",
+        "metrics": {
+          "FaithfulnessMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 44.95512,
+            "threshold": 0.5
+          },
+          "AnswerRelevancyMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 13.307778,
+            "threshold": 0.5
+          },
+          "GEval": {
+            "score": 0.0,
+            "success": false,
+            "reason": "",
+            "evaluation_time_seconds": 5.833949,
+            "threshold": 0.3
+          }
+        },
+        "overall_passed": false
+      },
+      {
+        "test_case_index": 3,
+        "input": "How does the \"sensory neuron\" entity in NAC interact with the \"backbone\" entity to compute attention logits?",
+        "category": "Entity Relationship Reasoning",
+        "metrics": {
+          "FaithfulnessMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 51.411009,
+            "threshold": 0.5
+          },
+          "AnswerRelevancyMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 20.935984,
+            "threshold": 0.5
+          },
+          "GEval": {
+            "score": 0.0,
+            "success": false,
+            "reason": "",
+            "evaluation_time_seconds": 9.323977,
+            "threshold": 0.3
+          }
+        },
+        "overall_passed": false
+      },
+      {
+        "test_case_index": 4,
+        "input": "What connects the \"occipital lobe\" entity to the \"High-Level Visual Reception\" function in the CogVision framework?",
+        "category": "Entity Relationship Reasoning",
+        "metrics": {
+          "FaithfulnessMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 70.696557,
+            "threshold": 0.5
+          },
+          "AnswerRelevancyMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 17.976828,
+            "threshold": 0.5
+          },
+          "GEval": {
+            "score": 0.0,
+            "success": false,
+            "reason": "",
+            "evaluation_time_seconds": 7.469399,
+            "threshold": 0.3
+          }
+        },
+        "overall_passed": false
+      },
+      {
+        "test_case_index": 5,
+        "input": "How does the \"Adam optimizer\" entity function differently in the training regimes of the Transformer and NAC models?",
+        "category": "Entity Relationship Reasoning",
+        "metrics": {
+          "FaithfulnessMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 51.535765,
+            "threshold": 0.5
+          },
+          "AnswerRelevancyMetric": {
+            "score": 0.75,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 20.73154,
+            "threshold": 0.5
+          },
+          "GEval": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 7.060119,
+            "threshold": 0.3
+          }
+        },
+        "overall_passed": false
+      },
+      {
+        "test_case_index": 6,
+        "input": "What is the relationship between \"LongBench-V2\" and \"LongMemEval\" in the evaluation of SWA adaptation strategies?",
+        "category": "Entity Relationship Reasoning",
+        "metrics": {
+          "FaithfulnessMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 83.289054,
+            "threshold": 0.5
+          },
+          "AnswerRelevancyMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 20.570987,
+            "threshold": 0.5
+          },
+          "GEval": {
+            "score": 0.0,
+            "success": false,
+            "reason": "",
+            "evaluation_time_seconds": 8.521168,
+            "threshold": 0.3
+          }
+        },
+        "overall_passed": false
+      },
+      {
+        "test_case_index": 7,
+        "input": "How does the \"Multi-Head Attention\" entity relate to the \"sub-layers\" entity in the Transformer architecture?",
+        "category": "Entity Relationship Reasoning",
+        "metrics": {
+          "FaithfulnessMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 53.735474,
+            "threshold": 0.5
+          },
+          "AnswerRelevancyMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 18.442053,
+            "threshold": 0.5
+          },
+          "GEval": {
+            "score": 0.0,
+            "success": false,
+            "reason": "",
+            "evaluation_time_seconds": 7.316176,
+            "threshold": 0.3
+          }
+        },
+        "overall_passed": false
+      },
+      {
+        "test_case_index": 8,
+        "input": "What is the connection between \"C. elegans\" and the \"Neuronal Circuit Policies (NCPs)\" entity in the NAC paper?",
+        "category": "Entity Relationship Reasoning",
+        "metrics": {
+          "FaithfulnessMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 42.151645,
+            "threshold": 0.5
+          },
+          "AnswerRelevancyMetric": {
+            "score": 0.7142857142857143,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 19.233215,
+            "threshold": 0.5
+          },
+          "GEval": {
+            "score": 0.0,
+            "success": false,
+            "reason": "",
+            "evaluation_time_seconds": 7.082727,
+            "threshold": 0.3
+          }
+        },
+        "overall_passed": false
+      },
+      {
+        "test_case_index": 9,
+        "input": "How does the \"KV cache\" entity relate to the \"FA Decode\" method's efficiency in SWAA?",
+        "category": "Entity Relationship Reasoning",
+        "metrics": {
+          "FaithfulnessMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 51.279821,
+            "threshold": 0.5
+          },
+          "AnswerRelevancyMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 20.825681,
+            "threshold": 0.5
+          },
+          "GEval": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 7.428251,
+            "threshold": 0.3
+          }
+        },
+        "overall_passed": false
+      },
+      {
+        "test_case_index": 10,
+        "input": "What relationship exists between \"GPT-4.1\" and the \"CogVision\" dataset construction process?",
+        "category": "Entity Relationship Reasoning",
+        "metrics": {
+          "FaithfulnessMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 63.994928,
+            "threshold": 0.5
+          },
+          "AnswerRelevancyMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 11.077235,
+            "threshold": 0.5
+          },
+          "GEval": {
+            "score": 0.0,
+            "success": false,
+            "reason": "",
+            "evaluation_time_seconds": 8.768146,
+            "threshold": 0.3
+          }
+        },
+        "overall_passed": false
+      },
+      {
+        "test_case_index": 11,
+        "input": "What specific \"activation function\" is used in the \"Feed Forward Network\" of the Transformer?",
+        "category": "Entity-Specific Attribute Retrieval",
+        "metrics": {
+          "FaithfulnessMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 38.095474,
+            "threshold": 0.5
+          },
+          "AnswerRelevancyMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 11.402244,
+            "threshold": 0.5
+          },
+          "GEval": {
+            "score": 0.0,
+            "success": false,
+            "reason": "",
+            "evaluation_time_seconds": 5.808286,
+            "threshold": 0.3
+          }
+        },
+        "overall_passed": false
+      },
+      {
+        "test_case_index": 12,
+        "input": "What is the \"sampling rate\" associated with the \"PRONOSTIA dataset\" in the NAC experiments?",
+        "category": "Entity-Specific Attribute Retrieval",
+        "metrics": {
+          "FaithfulnessMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 34.55952,
+            "threshold": 0.5
+          },
+          "AnswerRelevancyMetric": {
+            "score": 0.75,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 12.043027,
+            "threshold": 0.5
+          },
+          "GEval": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 5.154407,
+            "threshold": 0.3
+          }
+        },
+        "overall_passed": false
+      },
+      {
+        "test_case_index": 13,
+        "input": "Identify the \"rank r\" parameter value used for \"LoRA\" fine-tuning in the SWAA experiments.",
+        "category": "Entity-Specific Attribute Retrieval",
+        "metrics": {
+          "FaithfulnessMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 55.412021,
+            "threshold": 0.5
+          },
+          "AnswerRelevancyMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 9.870785,
+            "threshold": 0.5
+          },
+          "GEval": {
+            "score": 0.0,
+            "success": false,
+            "reason": "",
+            "evaluation_time_seconds": 4.621888,
+            "threshold": 0.3
+          }
+        },
+        "overall_passed": false
+      },
+      {
+        "test_case_index": 14,
+        "input": "What \"model scales\" of the \"Qwen\" family were tested in the \"Investigating the Functional Roles...\" paper?",
+        "category": "Entity-Specific Attribute Retrieval",
+        "metrics": {
+          "FaithfulnessMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 44.050295,
+            "threshold": 0.5
+          },
+          "AnswerRelevancyMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 12.359165,
+            "threshold": 0.5
+          },
+          "GEval": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 5.468216,
+            "threshold": 0.3
+          }
+        },
+        "overall_passed": true
+      },
+      {
+        "test_case_index": 15,
+        "input": "What is the \"dimension d_model\" used for the base model in \"Attention Is All You Need\"?",
+        "category": "Entity-Specific Attribute Retrieval",
+        "metrics": {
+          "FaithfulnessMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 51.97139,
+            "threshold": 0.5
+          },
+          "AnswerRelevancyMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 11.888186,
+            "threshold": 0.5
+          },
+          "GEval": {
+            "score": 0.0,
+            "success": false,
+            "reason": "",
+            "evaluation_time_seconds": 6.434581,
+            "threshold": 0.3
+          }
+        },
+        "overall_passed": false
+      },
+      {
+        "test_case_index": 16,
+        "input": "Which \"baseline models\" were used for comparison in the \"Lane-Keeping of Autonomous Vehicles\" experiment for NAC?",
+        "category": "Entity-Specific Attribute Retrieval",
+        "metrics": {
+          "FaithfulnessMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 70.247994,
+            "threshold": 0.5
+          },
+          "AnswerRelevancyMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 14.702931,
+            "threshold": 0.5
+          },
+          "GEval": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 7.209989,
+            "threshold": 0.3
+          }
+        },
+        "overall_passed": true
+      },
+      {
+        "test_case_index": 17,
+        "input": "What \"window size\" was primarily used for the \"aggressive\" SWA settings in the SWAA experiments?",
+        "category": "Entity-Specific Attribute Retrieval",
+        "metrics": {
+          "FaithfulnessMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 49.158791,
+            "threshold": 0.5
+          },
+          "AnswerRelevancyMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 9.3002,
+            "threshold": 0.5
+          },
+          "GEval": {
+            "score": 0.0,
+            "success": false,
+            "reason": "",
+            "evaluation_time_seconds": 4.7732,
+            "threshold": 0.3
+          }
+        },
+        "overall_passed": false
+      },
+      {
+        "test_case_index": 18,
+        "input": "Who are the \"correspondence authors\" listed for the \"Neuronal Attention Circuit\" paper?",
+        "category": "Entity-Specific Attribute Retrieval",
+        "metrics": {
+          "FaithfulnessMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 29.661276,
+            "threshold": 0.5
+          },
+          "AnswerRelevancyMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 9.046656,
+            "threshold": 0.5
+          },
+          "GEval": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 5.675114,
+            "threshold": 0.3
+          }
+        },
+        "overall_passed": false
+      },
+      {
+        "test_case_index": 19,
+        "input": "What specific \"GPU hardware\" was used to train the \"base models\" in \"Attention Is All You Need\"?",
+        "category": "Entity-Specific Attribute Retrieval",
+        "metrics": {
+          "FaithfulnessMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 31.241314,
+            "threshold": 0.5
+          },
+          "AnswerRelevancyMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 11.0207,
+            "threshold": 0.5
+          },
+          "GEval": {
+            "score": 0.0,
+            "success": false,
+            "reason": "",
+            "evaluation_time_seconds": 11.685358,
+            "threshold": 0.3
+          }
+        },
+        "overall_passed": false
+      },
+      {
+        "test_case_index": 20,
+        "input": "What is the \"Pearson correlation\" value observed between \"cognitive masking\" and \"random masking\" effects in VLMs?",
+        "category": "Entity-Specific Attribute Retrieval",
+        "metrics": {
+          "FaithfulnessMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 39.549286,
+            "threshold": 0.5
+          },
+          "AnswerRelevancyMetric": {
+            "score": 0.8571428571428571,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 17.585712,
+            "threshold": 0.5
+          },
+          "GEval": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 6.284185,
+            "threshold": 0.3
+          }
+        },
+        "overall_passed": false
+      },
+      {
+        "test_case_index": 21,
+        "input": "Compare the computational complexity of the Neuronal Attention Circuit (NAC) with the standard self-attention mechanism described in \"Attention Is All You Need\".",
+        "category": "Multi-Document Aggregation",
+        "metrics": {
+          "FaithfulnessMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 57.815684,
+            "threshold": 0.5
+          },
+          "AnswerRelevancyMetric": {
+            "score": 0.972972972972973,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 33.266661,
+            "threshold": 0.5
+          },
+          "GEval": {
+            "score": 0.0,
+            "success": false,
+            "reason": "",
+            "evaluation_time_seconds": 10.784293,
+            "threshold": 0.3
+          }
+        },
+        "overall_passed": false
+      },
+      {
+        "test_case_index": 22,
+        "input": "How does the \"Interleaving Layers\" strategy in SWAA compare to the hierarchical organization of functional heads discussed in the CogVision paper?",
+        "category": "Multi-Document Aggregation",
+        "metrics": {
+          "FaithfulnessMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 53.512366,
+            "threshold": 0.5
+          },
+          "AnswerRelevancyMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 30.360897,
+            "threshold": 0.5
+          },
+          "GEval": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 13.162391,
+            "threshold": 0.3
+          }
+        },
+        "overall_passed": false
+      },
+      {
+        "test_case_index": 23,
+        "input": "Discuss the differences in how \"Attention Is All You Need\" and \"Neuronal Attention Circuit\" handle positional information in sequence modeling.",
+        "category": "Multi-Document Aggregation",
+        "metrics": {
+          "FaithfulnessMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 75.782656,
+            "threshold": 0.5
+          },
+          "AnswerRelevancyMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 24.326078,
+            "threshold": 0.5
+          },
+          "GEval": {
+            "score": 0.0,
+            "success": false,
+            "reason": "",
+            "evaluation_time_seconds": 9.487425,
+            "threshold": 0.3
+          }
+        },
+        "overall_passed": false
+      },
+      {
+        "test_case_index": 24,
+        "input": "Contrast the approach to long-context processing in \"Sliding Window Attention Adaptation\" with the \"sparse Top-K pairwise concatenation\" used in NAC.",
+        "category": "Multi-Document Aggregation",
+        "metrics": {
+          "FaithfulnessMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 52.833809,
+            "threshold": 0.5
+          },
+          "AnswerRelevancyMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 20.237293,
+            "threshold": 0.5
+          },
+          "GEval": {
+            "score": 0.0,
+            "success": false,
+            "reason": "",
+            "evaluation_time_seconds": 8.901537,
+            "threshold": 0.3
+          }
+        },
+        "overall_passed": false
+      },
+      {
+        "test_case_index": 25,
+        "input": "How do the findings regarding \"sparse functional organization\" in VLMs (CogVision paper) align with the sparsity principles used in the NAC architecture?",
+        "category": "Multi-Document Aggregation",
+        "metrics": {
+          "FaithfulnessMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 66.344862,
+            "threshold": 0.5
+          },
+          "AnswerRelevancyMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 24.689597,
+            "threshold": 0.5
+          },
+          "GEval": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 9.672779,
+            "threshold": 0.3
+          }
+        },
+        "overall_passed": false
+      },
+      {
+        "test_case_index": 26,
+        "input": "Compare the \"Keep First k Tokens\" method in SWAA with the \"positional encoding\" mechanism in the original Transformer paper in terms of preserving global context.",
+        "category": "Multi-Document Aggregation",
+        "metrics": {
+          "FaithfulnessMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 56.756285,
+            "threshold": 0.5
+          },
+          "AnswerRelevancyMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 17.877607,
+            "threshold": 0.5
+          },
+          "GEval": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 11.34674,
+            "threshold": 0.3
+          }
+        },
+        "overall_passed": false
+      },
+      {
+        "test_case_index": 27,
+        "input": "How does the \"Full Attention Decode\" method in SWAA relate to the \"decoder\" structure described in \"Attention Is All You Need\"?",
+        "category": "Multi-Document Aggregation",
+        "metrics": {
+          "FaithfulnessMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 57.662168,
+            "threshold": 0.5
+          },
+          "AnswerRelevancyMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 15.179073,
+            "threshold": 0.5
+          },
+          "GEval": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 8.873204,
+            "threshold": 0.3
+          }
+        },
+        "overall_passed": true
+      },
+      {
+        "test_case_index": 28,
+        "input": "Evaluate the \"Chain-of-Thought\" (CoT) usage in SWAA against the CoT-based subquestion decomposition in the CogVision dataset.",
+        "category": "Multi-Document Aggregation",
+        "metrics": {
+          "FaithfulnessMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 53.940161,
+            "threshold": 0.5
+          },
+          "AnswerRelevancyMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 20.430022,
+            "threshold": 0.5
+          },
+          "GEval": {
+            "score": 0.0,
+            "success": false,
+            "reason": "",
+            "evaluation_time_seconds": 9.20012,
+            "threshold": 0.3
+          }
+        },
+        "overall_passed": false
+      },
+      {
+        "test_case_index": 29,
+        "input": "Compare the \"learning rate\" schedules used for training the Transformer in \"Attention Is All You Need\" and the NAC models in their respective experiments.",
+        "category": "Multi-Document Aggregation",
+        "metrics": {
+          "FaithfulnessMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 61.880931,
+            "threshold": 0.5
+          },
+          "AnswerRelevancyMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 13.774713,
+            "threshold": 0.5
+          },
+          "GEval": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 7.203278,
+            "threshold": 0.3
+          }
+        },
+        "overall_passed": false
+      },
+      {
+        "test_case_index": 30,
+        "input": "How does the \"Universal Approximation Theorem\" proof for NAC compare to the theoretical justifications for self-attention provided in \"Attention Is All You Need\"?",
+        "category": "Multi-Document Aggregation",
+        "metrics": {
+          "FaithfulnessMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 63.353071,
+            "threshold": 0.5
+          },
+          "AnswerRelevancyMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 17.478643,
+            "threshold": 0.5
+          },
+          "GEval": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 9.715742,
+            "threshold": 0.3
+          }
+        },
+        "overall_passed": false
+      },
+      {
+        "test_case_index": 31,
+        "input": "If \"Full Attention Decode\" is applied to a \"Qwen3-4B-Thinking\" model, how does this specifically impact the \"performance-efficiency trade-off\" compared to naive SWA?",
+        "category": "Multi-Hop Chain Reasoning",
+        "metrics": {
+          "FaithfulnessMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 77.827896,
+            "threshold": 0.5
+          },
+          "AnswerRelevancyMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 23.003412,
+            "threshold": 0.5
+          },
+          "GEval": {
+            "score": 0.7,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 37.124937,
+            "threshold": 0.3
+          }
+        },
+        "overall_passed": true
+      },
+      {
+        "test_case_index": 32,
+        "input": "Trace the flow of information from \"input embeddings\" to \"output probabilities\" in the Transformer architecture, explicitly mentioning the role of \"Add & Norm\" layers.",
+        "category": "Multi-Hop Chain Reasoning",
+        "metrics": {
+          "FaithfulnessMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 47.247623,
+            "threshold": 0.5
+          },
+          "AnswerRelevancyMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 31.072395,
+            "threshold": 0.5
+          },
+          "GEval": {
+            "score": 0.0,
+            "success": false,
+            "reason": "",
+            "evaluation_time_seconds": 12.837797,
+            "threshold": 0.3
+          }
+        },
+        "overall_passed": false
+      },
+      {
+        "test_case_index": 33,
+        "input": "Explain how \"masking cognitive heads\" in VLMs leads to performance degradation on \"downstream tasks\" like \"OK-VQA\".",
+        "category": "Multi-Hop Chain Reasoning",
+        "metrics": {
+          "FaithfulnessMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 50.715045,
+            "threshold": 0.5
+          },
+          "AnswerRelevancyMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 14.59671,
+            "threshold": 0.5
+          },
+          "GEval": {
+            "score": 0.0,
+            "success": false,
+            "reason": "",
+            "evaluation_time_seconds": 7.112941,
+            "threshold": 0.3
+          }
+        },
+        "overall_passed": false
+      },
+      {
+        "test_case_index": 34,
+        "input": "How does the \"explicit Euler solver\" in NAC facilitate the \"adaptive temporal dynamics\" required for \"irregular time-series classification\"?",
+        "category": "Multi-Hop Chain Reasoning",
+        "metrics": {
+          "FaithfulnessMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 40.261542,
+            "threshold": 0.5
+          },
+          "AnswerRelevancyMetric": {
+            "score": 0.9,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 24.098871,
+            "threshold": 0.5
+          },
+          "GEval": {
+            "score": 0.0,
+            "success": false,
+            "reason": "",
+            "evaluation_time_seconds": 19.619376,
+            "threshold": 0.3
+          }
+        },
+        "overall_passed": false
+      },
+      {
+        "test_case_index": 35,
+        "input": "Derive the connection between \"sparse attention patterns\" in SWAA and the \"computational cost\" reduction compared to \"full-causal-attention\" models.",
+        "category": "Multi-Hop Chain Reasoning",
+        "metrics": {
+          "FaithfulnessMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 67.262338,
+            "threshold": 0.5
+          },
+          "AnswerRelevancyMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 17.050949,
+            "threshold": 0.5
+          },
+          "GEval": {
+            "score": 0.0,
+            "success": false,
+            "reason": "",
+            "evaluation_time_seconds": 5.262896,
+            "threshold": 0.3
+          }
+        },
+        "overall_passed": false
+      },
+      {
+        "test_case_index": 36,
+        "input": "Explain the reasoning chain that leads from \"human brain anatomy\" inspiration to the definition of \"eight cognitive functions\" in the CogVision framework.",
+        "category": "Multi-Hop Chain Reasoning",
+        "metrics": {
+          "FaithfulnessMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 54.033806,
+            "threshold": 0.5
+          },
+          "AnswerRelevancyMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 22.867523,
+            "threshold": 0.5
+          },
+          "GEval": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 9.681452,
+            "threshold": 0.3
+          }
+        },
+        "overall_passed": true
+      },
+      {
+        "test_case_index": 37,
+        "input": "How does \"repurposing C. elegans NCPs\" lead to the specific \"ODE-based\" formulation of attention logits in NAC?",
+        "category": "Multi-Hop Chain Reasoning",
+        "metrics": {
+          "FaithfulnessMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 67.215157,
+            "threshold": 0.5
+          },
+          "AnswerRelevancyMetric": {
+            "score": 0.6666666666666666,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 18.444081,
+            "threshold": 0.5
+          },
+          "GEval": {
+            "score": 0.0,
+            "success": false,
+            "reason": "",
+            "evaluation_time_seconds": 8.191903,
+            "threshold": 0.3
+          }
+        },
+        "overall_passed": false
+      },
+      {
+        "test_case_index": 38,
+        "input": "Connect the \"vanishing gradient problem\" in \"DT-RNNs\" to the motivation for developing \"Continuous-time RNNs\" and subsequently \"NAC\".",
+        "category": "Multi-Hop Chain Reasoning",
+        "metrics": {
+          "FaithfulnessMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 46.995538,
+            "threshold": 0.5
+          },
+          "AnswerRelevancyMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 26.093341,
+            "threshold": 0.5
+          },
+          "GEval": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 9.870979,
+            "threshold": 0.3
+          }
+        },
+        "overall_passed": false
+      },
+      {
+        "test_case_index": 39,
+        "input": "How does the \"training-inference mismatch\" in SWA necessitate the specific combination of \"fine-tuning\" and \"Interleaving Layers\" in SWAA?",
+        "category": "Multi-Hop Chain Reasoning",
+        "metrics": {
+          "FaithfulnessMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 65.932911,
+            "threshold": 0.5
+          },
+          "AnswerRelevancyMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 21.819828,
+            "threshold": 0.5
+          },
+          "GEval": {
+            "score": 0.0,
+            "success": false,
+            "reason": "",
+            "evaluation_time_seconds": 9.042567,
+            "threshold": 0.3
+          }
+        },
+        "overall_passed": false
+      },
+      {
+        "test_case_index": 40,
+        "input": "Trace the impact of \"positive intervention\" on \"functional heads\" to the resulting improvement in \"visual reasoning tasks\" accuracy.",
+        "category": "Multi-Hop Chain Reasoning",
+        "metrics": {
+          "FaithfulnessMetric": {
+            "score": null,
+            "success": null,
+            "reason": "Error: call timed out after 88.5s (per attempt). Increase DEEPEVAL_PER_ATTEMPT_TIMEOUT_SECONDS_OVERRIDE (None disables) or reduce work per attempt.",
+            "evaluation_time_seconds": 0,
+            "error": true
+          },
+          "AnswerRelevancyMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 35.122136,
+            "threshold": 0.5
+          },
+          "GEval": {
+            "score": 0.0,
+            "success": false,
+            "reason": "",
+            "evaluation_time_seconds": 19.890077,
+            "threshold": 0.3
+          }
+        },
+        "overall_passed": false
+      },
+      {
+        "test_case_index": 41,
+        "input": "What are the three attention logit computation modes supported by the Neuronal Attention Circuit (NAC)?",
+        "category": "Single-Document Fact Lookup",
+        "metrics": {
+          "FaithfulnessMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 64.074339,
+            "threshold": 0.5
+          },
+          "AnswerRelevancyMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 14.792328,
+            "threshold": 0.5
+          },
+          "GEval": {
+            "score": 0.0,
+            "success": false,
+            "reason": "",
+            "evaluation_time_seconds": 6.783943,
+            "threshold": 0.3
+          }
+        },
+        "overall_passed": false
+      },
+      {
+        "test_case_index": 42,
+        "input": "What is the specific BLEU score achieved by the Transformer model on the WMT 2014 English-to-German translation task?",
+        "category": "Single-Document Fact Lookup",
+        "metrics": {
+          "FaithfulnessMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 58.714511,
+            "threshold": 0.5
+          },
+          "AnswerRelevancyMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 10.805667,
+            "threshold": 0.5
+          },
+          "GEval": {
+            "score": 0.0,
+            "success": false,
+            "reason": "",
+            "evaluation_time_seconds": 6.060796,
+            "threshold": 0.3
+          }
+        },
+        "overall_passed": false
+      },
+      {
+        "test_case_index": 43,
+        "input": "How does the \"Full Attention Decode\" method in Sliding Window Attention Adaptation (SWAA) differ from standard SWA during the prefilling stage?",
+        "category": "Single-Document Fact Lookup",
+        "metrics": {
+          "FaithfulnessMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 41.120543,
+            "threshold": 0.5
+          },
+          "AnswerRelevancyMetric": {
+            "score": 0.6,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 16.823772,
+            "threshold": 0.5
+          },
+          "GEval": {
+            "score": 0.0,
+            "success": false,
+            "reason": "",
+            "evaluation_time_seconds": 6.314302,
+            "threshold": 0.3
+          }
+        },
+        "overall_passed": false
+      },
+      {
+        "test_case_index": 44,
+        "input": "What are the eight cognitive functions defined in the CogVision dataset for classifying attention heads?",
+        "category": "Single-Document Fact Lookup",
+        "metrics": {
+          "FaithfulnessMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 81.690325,
+            "threshold": 0.5
+          },
+          "AnswerRelevancyMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 14.358767,
+            "threshold": 0.5
+          },
+          "GEval": {
+            "score": 0.0,
+            "success": false,
+            "reason": "",
+            "evaluation_time_seconds": 7.93364,
+            "threshold": 0.3
+          }
+        },
+        "overall_passed": false
+      },
+      {
+        "test_case_index": 45,
+        "input": "What is the computational complexity of a self-attention layer compared to a recurrent layer as described in \"Attention Is All You Need\"?",
+        "category": "Single-Document Fact Lookup",
+        "metrics": {
+          "FaithfulnessMetric": {
+            "score": null,
+            "success": null,
+            "reason": "Error: call timed out after 88.5s (per attempt). Increase DEEPEVAL_PER_ATTEMPT_TIMEOUT_SECONDS_OVERRIDE (None disables) or reduce work per attempt.",
+            "evaluation_time_seconds": 0,
+            "error": true
+          },
+          "AnswerRelevancyMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 12.195673,
+            "threshold": 0.5
+          },
+          "GEval": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 6.745463,
+            "threshold": 0.3
+          }
+        },
+        "overall_passed": false
+      },
+      {
+        "test_case_index": 46,
+        "input": "Which specific biological organism's nervous system inspired the wiring mechanism of the Neuronal Attention Circuit?",
+        "category": "Single-Document Fact Lookup",
+        "metrics": {
+          "FaithfulnessMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 57.270452,
+            "threshold": 0.5
+          },
+          "AnswerRelevancyMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 13.110148,
+            "threshold": 0.5
+          },
+          "GEval": {
+            "score": 0.0,
+            "success": false,
+            "reason": "",
+            "evaluation_time_seconds": 6.177654,
+            "threshold": 0.3
+          }
+        },
+        "overall_passed": false
+      },
+      {
+        "test_case_index": 47,
+        "input": "What is the \"attention sink\" phenomenon described in the context of the \"Keep First k Tokens\" method?",
+        "category": "Single-Document Fact Lookup",
+        "metrics": {
+          "FaithfulnessMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 41.94694,
+            "threshold": 0.5
+          },
+          "AnswerRelevancyMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 16.820715,
+            "threshold": 0.5
+          },
+          "GEval": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 6.420234,
+            "threshold": 0.3
+          }
+        },
+        "overall_passed": false
+      },
+      {
+        "test_case_index": 48,
+        "input": "How many main questions and subquestions are contained within the final CogVision dataset after filtering?",
+        "category": "Single-Document Fact Lookup",
+        "metrics": {
+          "FaithfulnessMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 53.615297,
+            "threshold": 0.5
+          },
+          "AnswerRelevancyMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 12.117462,
+            "threshold": 0.5
+          },
+          "GEval": {
+            "score": 0.0,
+            "success": false,
+            "reason": "",
+            "evaluation_time_seconds": 6.906584,
+            "threshold": 0.3
+          }
+        },
+        "overall_passed": false
+      },
+      {
+        "test_case_index": 49,
+        "input": "What are the two sub-layers present in each layer of the Transformer's encoder stack?",
+        "category": "Single-Document Fact Lookup",
+        "metrics": {
+          "FaithfulnessMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 73.473668,
+            "threshold": 0.5
+          },
+          "AnswerRelevancyMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 12.344177,
+            "threshold": 0.5
+          },
+          "GEval": {
+            "score": 0.0,
+            "success": false,
+            "reason": "",
+            "evaluation_time_seconds": 7.185821,
+            "threshold": 0.3
+          }
+        },
+        "overall_passed": false
+      },
+      {
+        "test_case_index": 50,
+        "input": "Which specific metric was used to evaluate the Remaining Useful Life (RUL) estimation in the NAC experiments?",
+        "category": "Single-Document Fact Lookup",
+        "metrics": {
+          "FaithfulnessMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 46.583891,
+            "threshold": 0.5
+          },
+          "AnswerRelevancyMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 16.52487,
+            "threshold": 0.5
+          },
+          "GEval": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 4.602163,
+            "threshold": 0.3
+          }
+        },
+        "overall_passed": true
+      },
+      {
+        "test_case_index": 51,
+        "input": "How does the \"Neuronal Attention Circuit\" fundamentally redefine the calculation of attention logits compared to the standard \"Scaled Dot-Product Attention\"?",
+        "category": "System Level / Architectural Understanding",
+        "metrics": {
+          "FaithfulnessMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 50.030515,
+            "threshold": 0.5
+          },
+          "AnswerRelevancyMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 17.184992,
+            "threshold": 0.5
+          },
+          "GEval": {
+            "score": 0.0,
+            "success": false,
+            "reason": "",
+            "evaluation_time_seconds": 7.05091,
+            "threshold": 0.3
+          }
+        },
+        "overall_passed": false
+      },
+      {
+        "test_case_index": 52,
+        "input": "Critique the architectural decision to remove \"recurrence\" and \"convolutions\" in favor of \"self-attention\" as proposed in \"Attention Is All You Need\".",
+        "category": "System Level / Architectural Understanding",
+        "metrics": {
+          "FaithfulnessMetric": {
+            "score": null,
+            "success": null,
+            "reason": "Error: call timed out after 88.5s (per attempt). Increase DEEPEVAL_PER_ATTEMPT_TIMEOUT_SECONDS_OVERRIDE (None disables) or reduce work per attempt.",
+            "evaluation_time_seconds": 0,
+            "error": true
+          },
+          "AnswerRelevancyMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 25.99908,
+            "threshold": 0.5
+          },
+          "GEval": {
+            "score": 0.0,
+            "success": false,
+            "reason": "",
+            "evaluation_time_seconds": 12.715812,
+            "threshold": 0.3
+          }
+        },
+        "overall_passed": false
+      },
+      {
+        "test_case_index": 53,
+        "input": "Analyze the systemic trade-offs between \"accuracy\" and \"peak memory usage\" when deploying \"NAC-PW\" versus \"NAC-2k\".",
+        "category": "System Level / Architectural Understanding",
+        "metrics": {
+          "FaithfulnessMetric": {
+            "score": 0.6666666666666666,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 85.827339,
+            "threshold": 0.5
+          },
+          "AnswerRelevancyMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 26.038597,
+            "threshold": 0.5
+          },
+          "GEval": {
+            "score": 0.0,
+            "success": false,
+            "reason": "",
+            "evaluation_time_seconds": 8.751249,
+            "threshold": 0.3
+          }
+        },
+        "overall_passed": false
+      },
+      {
+        "test_case_index": 54,
+        "input": "Evaluate the architectural implications of \"hybrid model structures\" that interleave \"linear attention\" with traditional attention, as discussed in the context of SWAA.",
+        "category": "System Level / Architectural Understanding",
+        "metrics": {
+          "FaithfulnessMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 40.25317,
+            "threshold": 0.5
+          },
+          "AnswerRelevancyMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 16.514269,
+            "threshold": 0.5
+          },
+          "GEval": {
+            "score": 0.0,
+            "success": false,
+            "reason": "",
+            "evaluation_time_seconds": 19.331369,
+            "threshold": 0.3
+          }
+        },
+        "overall_passed": false
+      },
+      {
+        "test_case_index": 55,
+        "input": "How does the \"interpretable functional organization\" of attention heads in VLMs challenge the view of these models as \"black boxes\"?",
+        "category": "System Level / Architectural Understanding",
+        "metrics": {
+          "FaithfulnessMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 49.074855,
+            "threshold": 0.5
+          },
+          "AnswerRelevancyMetric": {
+            "score": 0.9333333333333333,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 23.813443,
+            "threshold": 0.5
+          },
+          "GEval": {
+            "score": 0.0,
+            "success": false,
+            "reason": "",
+            "evaluation_time_seconds": 7.904868,
+            "threshold": 0.3
+          }
+        },
+        "overall_passed": false
+      },
+      {
+        "test_case_index": 56,
+        "input": "Discuss the role of \"universal approximation\" guarantees in validating the architectural design of NAC.",
+        "category": "System Level / Architectural Understanding",
+        "metrics": {
+          "FaithfulnessMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 49.936468,
+            "threshold": 0.5
+          },
+          "AnswerRelevancyMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 16.184891,
+            "threshold": 0.5
+          },
+          "GEval": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 6.482599,
+            "threshold": 0.3
+          }
+        },
+        "overall_passed": false
+      },
+      {
+        "test_case_index": 57,
+        "input": "How does the \"auto-regressive\" property of the Transformer decoder influence the design of the \"masked multi-head attention\" mechanism?",
+        "category": "System Level / Architectural Understanding",
+        "metrics": {
+          "FaithfulnessMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 55.583152,
+            "threshold": 0.5
+          },
+          "AnswerRelevancyMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 15.525703,
+            "threshold": 0.5
+          },
+          "GEval": {
+            "score": 0.0,
+            "success": false,
+            "reason": "",
+            "evaluation_time_seconds": 7.41424,
+            "threshold": 0.3
+          }
+        },
+        "overall_passed": false
+      },
+      {
+        "test_case_index": 58,
+        "input": "Analyze the \"performance-efficiency balance\" of the SWAA toolkit and how it allows for flexible deployment strategies.",
+        "category": "System Level / Architectural Understanding",
+        "metrics": {
+          "FaithfulnessMetric": {
+            "score": 0.9473684210526315,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 63.73612,
+            "threshold": 0.5
+          },
+          "AnswerRelevancyMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 24.543583,
+            "threshold": 0.5
+          },
+          "GEval": {
+            "score": 0.0,
+            "success": false,
+            "reason": "",
+            "evaluation_time_seconds": 16.035813,
+            "threshold": 0.3
+          }
+        },
+        "overall_passed": false
+      },
+      {
+        "test_case_index": 59,
+        "input": "How does the \"CogVision\" framework's probing methodology reveal the \"hierarchical organization\" of cognitive processes in VLMs?",
+        "category": "System Level / Architectural Understanding",
+        "metrics": {
+          "FaithfulnessMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 64.783729,
+            "threshold": 0.5
+          },
+          "AnswerRelevancyMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 14.490186,
+            "threshold": 0.5
+          },
+          "GEval": {
+            "score": 0.0,
+            "success": false,
+            "reason": "",
+            "evaluation_time_seconds": 7.272896,
+            "threshold": 0.3
+          }
+        },
+        "overall_passed": false
+      },
+      {
+        "test_case_index": 60,
+        "input": "Evaluate the \"biologically plausible\" claims of NAC in relation to the actual mechanisms of \"synaptic transmission\" and \"neuronal dynamics\".",
+        "category": "System Level / Architectural Understanding",
+        "metrics": {
+          "FaithfulnessMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 54.819783,
+            "threshold": 0.5
+          },
+          "AnswerRelevancyMetric": {
+            "score": 1.0,
+            "success": true,
+            "reason": "",
+            "evaluation_time_seconds": 25.555578,
+            "threshold": 0.5
+          },
+          "GEval": {
+            "score": 0.0,
+            "success": false,
+            "reason": "",
+            "evaluation_time_seconds": 12.369103,
+            "threshold": 0.3
+          }
+        },
+        "overall_passed": false
+      }
+    ],
+    "overall_pass_rate": 10.0,
+    "total_passed_tests": 6
+  },
+  "detailed_results": [
+    {
+      "test_case_index": 1,
+      "input": "How is the entity \"DeepSeek-R1\" related to the concept of \"Chain-of-Thought\" in the context of SWA adaptation?",
+      "category": "Entity Relationship Reasoning",
+      "metrics": {
+        "FaithfulnessMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 45.40162,
+          "threshold": 0.5
+        },
+        "AnswerRelevancyMetric": {
+          "score": 0.875,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 20.016137,
+          "threshold": 0.5
+        },
+        "GEval": {
+          "score": 0.0,
+          "success": false,
+          "reason": "",
+          "evaluation_time_seconds": 11.983083,
+          "threshold": 0.3
+        }
+      },
+      "overall_passed": false
+    },
+    {
+      "test_case_index": 2,
+      "input": "What is the relationship between \"Flash-Attention-2\" and the \"Keep First k Tokens\" implementation in SWAA?",
+      "category": "Entity Relationship Reasoning",
+      "metrics": {
+        "FaithfulnessMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 44.95512,
+          "threshold": 0.5
+        },
+        "AnswerRelevancyMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 13.307778,
+          "threshold": 0.5
+        },
+        "GEval": {
+          "score": 0.0,
+          "success": false,
+          "reason": "",
+          "evaluation_time_seconds": 5.833949,
+          "threshold": 0.3
+        }
+      },
+      "overall_passed": false
+    },
+    {
+      "test_case_index": 3,
+      "input": "How does the \"sensory neuron\" entity in NAC interact with the \"backbone\" entity to compute attention logits?",
+      "category": "Entity Relationship Reasoning",
+      "metrics": {
+        "FaithfulnessMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 51.411009,
+          "threshold": 0.5
+        },
+        "AnswerRelevancyMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 20.935984,
+          "threshold": 0.5
+        },
+        "GEval": {
+          "score": 0.0,
+          "success": false,
+          "reason": "",
+          "evaluation_time_seconds": 9.323977,
+          "threshold": 0.3
+        }
+      },
+      "overall_passed": false
+    },
+    {
+      "test_case_index": 4,
+      "input": "What connects the \"occipital lobe\" entity to the \"High-Level Visual Reception\" function in the CogVision framework?",
+      "category": "Entity Relationship Reasoning",
+      "metrics": {
+        "FaithfulnessMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 70.696557,
+          "threshold": 0.5
+        },
+        "AnswerRelevancyMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 17.976828,
+          "threshold": 0.5
+        },
+        "GEval": {
+          "score": 0.0,
+          "success": false,
+          "reason": "",
+          "evaluation_time_seconds": 7.469399,
+          "threshold": 0.3
+        }
+      },
+      "overall_passed": false
+    },
+    {
+      "test_case_index": 5,
+      "input": "How does the \"Adam optimizer\" entity function differently in the training regimes of the Transformer and NAC models?",
+      "category": "Entity Relationship Reasoning",
+      "metrics": {
+        "FaithfulnessMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 51.535765,
+          "threshold": 0.5
+        },
+        "AnswerRelevancyMetric": {
+          "score": 0.75,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 20.73154,
+          "threshold": 0.5
+        },
+        "GEval": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 7.060119,
+          "threshold": 0.3
+        }
+      },
+      "overall_passed": false
+    },
+    {
+      "test_case_index": 6,
+      "input": "What is the relationship between \"LongBench-V2\" and \"LongMemEval\" in the evaluation of SWA adaptation strategies?",
+      "category": "Entity Relationship Reasoning",
+      "metrics": {
+        "FaithfulnessMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 83.289054,
+          "threshold": 0.5
+        },
+        "AnswerRelevancyMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 20.570987,
+          "threshold": 0.5
+        },
+        "GEval": {
+          "score": 0.0,
+          "success": false,
+          "reason": "",
+          "evaluation_time_seconds": 8.521168,
+          "threshold": 0.3
+        }
+      },
+      "overall_passed": false
+    },
+    {
+      "test_case_index": 7,
+      "input": "How does the \"Multi-Head Attention\" entity relate to the \"sub-layers\" entity in the Transformer architecture?",
+      "category": "Entity Relationship Reasoning",
+      "metrics": {
+        "FaithfulnessMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 53.735474,
+          "threshold": 0.5
+        },
+        "AnswerRelevancyMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 18.442053,
+          "threshold": 0.5
+        },
+        "GEval": {
+          "score": 0.0,
+          "success": false,
+          "reason": "",
+          "evaluation_time_seconds": 7.316176,
+          "threshold": 0.3
+        }
+      },
+      "overall_passed": false
+    },
+    {
+      "test_case_index": 8,
+      "input": "What is the connection between \"C. elegans\" and the \"Neuronal Circuit Policies (NCPs)\" entity in the NAC paper?",
+      "category": "Entity Relationship Reasoning",
+      "metrics": {
+        "FaithfulnessMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 42.151645,
+          "threshold": 0.5
+        },
+        "AnswerRelevancyMetric": {
+          "score": 0.7142857142857143,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 19.233215,
+          "threshold": 0.5
+        },
+        "GEval": {
+          "score": 0.0,
+          "success": false,
+          "reason": "",
+          "evaluation_time_seconds": 7.082727,
+          "threshold": 0.3
+        }
+      },
+      "overall_passed": false
+    },
+    {
+      "test_case_index": 9,
+      "input": "How does the \"KV cache\" entity relate to the \"FA Decode\" method's efficiency in SWAA?",
+      "category": "Entity Relationship Reasoning",
+      "metrics": {
+        "FaithfulnessMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 51.279821,
+          "threshold": 0.5
+        },
+        "AnswerRelevancyMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 20.825681,
+          "threshold": 0.5
+        },
+        "GEval": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 7.428251,
+          "threshold": 0.3
+        }
+      },
+      "overall_passed": false
+    },
+    {
+      "test_case_index": 10,
+      "input": "What relationship exists between \"GPT-4.1\" and the \"CogVision\" dataset construction process?",
+      "category": "Entity Relationship Reasoning",
+      "metrics": {
+        "FaithfulnessMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 63.994928,
+          "threshold": 0.5
+        },
+        "AnswerRelevancyMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 11.077235,
+          "threshold": 0.5
+        },
+        "GEval": {
+          "score": 0.0,
+          "success": false,
+          "reason": "",
+          "evaluation_time_seconds": 8.768146,
+          "threshold": 0.3
+        }
+      },
+      "overall_passed": false
+    },
+    {
+      "test_case_index": 11,
+      "input": "What specific \"activation function\" is used in the \"Feed Forward Network\" of the Transformer?",
+      "category": "Entity-Specific Attribute Retrieval",
+      "metrics": {
+        "FaithfulnessMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 38.095474,
+          "threshold": 0.5
+        },
+        "AnswerRelevancyMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 11.402244,
+          "threshold": 0.5
+        },
+        "GEval": {
+          "score": 0.0,
+          "success": false,
+          "reason": "",
+          "evaluation_time_seconds": 5.808286,
+          "threshold": 0.3
+        }
+      },
+      "overall_passed": false
+    },
+    {
+      "test_case_index": 12,
+      "input": "What is the \"sampling rate\" associated with the \"PRONOSTIA dataset\" in the NAC experiments?",
+      "category": "Entity-Specific Attribute Retrieval",
+      "metrics": {
+        "FaithfulnessMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 34.55952,
+          "threshold": 0.5
+        },
+        "AnswerRelevancyMetric": {
+          "score": 0.75,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 12.043027,
+          "threshold": 0.5
+        },
+        "GEval": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 5.154407,
+          "threshold": 0.3
+        }
+      },
+      "overall_passed": false
+    },
+    {
+      "test_case_index": 13,
+      "input": "Identify the \"rank r\" parameter value used for \"LoRA\" fine-tuning in the SWAA experiments.",
+      "category": "Entity-Specific Attribute Retrieval",
+      "metrics": {
+        "FaithfulnessMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 55.412021,
+          "threshold": 0.5
+        },
+        "AnswerRelevancyMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 9.870785,
+          "threshold": 0.5
+        },
+        "GEval": {
+          "score": 0.0,
+          "success": false,
+          "reason": "",
+          "evaluation_time_seconds": 4.621888,
+          "threshold": 0.3
+        }
+      },
+      "overall_passed": false
+    },
+    {
+      "test_case_index": 14,
+      "input": "What \"model scales\" of the \"Qwen\" family were tested in the \"Investigating the Functional Roles...\" paper?",
+      "category": "Entity-Specific Attribute Retrieval",
+      "metrics": {
+        "FaithfulnessMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 44.050295,
+          "threshold": 0.5
+        },
+        "AnswerRelevancyMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 12.359165,
+          "threshold": 0.5
+        },
+        "GEval": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 5.468216,
+          "threshold": 0.3
+        }
+      },
+      "overall_passed": true
+    },
+    {
+      "test_case_index": 15,
+      "input": "What is the \"dimension d_model\" used for the base model in \"Attention Is All You Need\"?",
+      "category": "Entity-Specific Attribute Retrieval",
+      "metrics": {
+        "FaithfulnessMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 51.97139,
+          "threshold": 0.5
+        },
+        "AnswerRelevancyMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 11.888186,
+          "threshold": 0.5
+        },
+        "GEval": {
+          "score": 0.0,
+          "success": false,
+          "reason": "",
+          "evaluation_time_seconds": 6.434581,
+          "threshold": 0.3
+        }
+      },
+      "overall_passed": false
+    },
+    {
+      "test_case_index": 16,
+      "input": "Which \"baseline models\" were used for comparison in the \"Lane-Keeping of Autonomous Vehicles\" experiment for NAC?",
+      "category": "Entity-Specific Attribute Retrieval",
+      "metrics": {
+        "FaithfulnessMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 70.247994,
+          "threshold": 0.5
+        },
+        "AnswerRelevancyMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 14.702931,
+          "threshold": 0.5
+        },
+        "GEval": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 7.209989,
+          "threshold": 0.3
+        }
+      },
+      "overall_passed": true
+    },
+    {
+      "test_case_index": 17,
+      "input": "What \"window size\" was primarily used for the \"aggressive\" SWA settings in the SWAA experiments?",
+      "category": "Entity-Specific Attribute Retrieval",
+      "metrics": {
+        "FaithfulnessMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 49.158791,
+          "threshold": 0.5
+        },
+        "AnswerRelevancyMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 9.3002,
+          "threshold": 0.5
+        },
+        "GEval": {
+          "score": 0.0,
+          "success": false,
+          "reason": "",
+          "evaluation_time_seconds": 4.7732,
+          "threshold": 0.3
+        }
+      },
+      "overall_passed": false
+    },
+    {
+      "test_case_index": 18,
+      "input": "Who are the \"correspondence authors\" listed for the \"Neuronal Attention Circuit\" paper?",
+      "category": "Entity-Specific Attribute Retrieval",
+      "metrics": {
+        "FaithfulnessMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 29.661276,
+          "threshold": 0.5
+        },
+        "AnswerRelevancyMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 9.046656,
+          "threshold": 0.5
+        },
+        "GEval": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 5.675114,
+          "threshold": 0.3
+        }
+      },
+      "overall_passed": false
+    },
+    {
+      "test_case_index": 19,
+      "input": "What specific \"GPU hardware\" was used to train the \"base models\" in \"Attention Is All You Need\"?",
+      "category": "Entity-Specific Attribute Retrieval",
+      "metrics": {
+        "FaithfulnessMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 31.241314,
+          "threshold": 0.5
+        },
+        "AnswerRelevancyMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 11.0207,
+          "threshold": 0.5
+        },
+        "GEval": {
+          "score": 0.0,
+          "success": false,
+          "reason": "",
+          "evaluation_time_seconds": 11.685358,
+          "threshold": 0.3
+        }
+      },
+      "overall_passed": false
+    },
+    {
+      "test_case_index": 20,
+      "input": "What is the \"Pearson correlation\" value observed between \"cognitive masking\" and \"random masking\" effects in VLMs?",
+      "category": "Entity-Specific Attribute Retrieval",
+      "metrics": {
+        "FaithfulnessMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 39.549286,
+          "threshold": 0.5
+        },
+        "AnswerRelevancyMetric": {
+          "score": 0.8571428571428571,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 17.585712,
+          "threshold": 0.5
+        },
+        "GEval": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 6.284185,
+          "threshold": 0.3
+        }
+      },
+      "overall_passed": false
+    },
+    {
+      "test_case_index": 21,
+      "input": "Compare the computational complexity of the Neuronal Attention Circuit (NAC) with the standard self-attention mechanism described in \"Attention Is All You Need\".",
+      "category": "Multi-Document Aggregation",
+      "metrics": {
+        "FaithfulnessMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 57.815684,
+          "threshold": 0.5
+        },
+        "AnswerRelevancyMetric": {
+          "score": 0.972972972972973,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 33.266661,
+          "threshold": 0.5
+        },
+        "GEval": {
+          "score": 0.0,
+          "success": false,
+          "reason": "",
+          "evaluation_time_seconds": 10.784293,
+          "threshold": 0.3
+        }
+      },
+      "overall_passed": false
+    },
+    {
+      "test_case_index": 22,
+      "input": "How does the \"Interleaving Layers\" strategy in SWAA compare to the hierarchical organization of functional heads discussed in the CogVision paper?",
+      "category": "Multi-Document Aggregation",
+      "metrics": {
+        "FaithfulnessMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 53.512366,
+          "threshold": 0.5
+        },
+        "AnswerRelevancyMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 30.360897,
+          "threshold": 0.5
+        },
+        "GEval": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 13.162391,
+          "threshold": 0.3
+        }
+      },
+      "overall_passed": false
+    },
+    {
+      "test_case_index": 23,
+      "input": "Discuss the differences in how \"Attention Is All You Need\" and \"Neuronal Attention Circuit\" handle positional information in sequence modeling.",
+      "category": "Multi-Document Aggregation",
+      "metrics": {
+        "FaithfulnessMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 75.782656,
+          "threshold": 0.5
+        },
+        "AnswerRelevancyMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 24.326078,
+          "threshold": 0.5
+        },
+        "GEval": {
+          "score": 0.0,
+          "success": false,
+          "reason": "",
+          "evaluation_time_seconds": 9.487425,
+          "threshold": 0.3
+        }
+      },
+      "overall_passed": false
+    },
+    {
+      "test_case_index": 24,
+      "input": "Contrast the approach to long-context processing in \"Sliding Window Attention Adaptation\" with the \"sparse Top-K pairwise concatenation\" used in NAC.",
+      "category": "Multi-Document Aggregation",
+      "metrics": {
+        "FaithfulnessMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 52.833809,
+          "threshold": 0.5
+        },
+        "AnswerRelevancyMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 20.237293,
+          "threshold": 0.5
+        },
+        "GEval": {
+          "score": 0.0,
+          "success": false,
+          "reason": "",
+          "evaluation_time_seconds": 8.901537,
+          "threshold": 0.3
+        }
+      },
+      "overall_passed": false
+    },
+    {
+      "test_case_index": 25,
+      "input": "How do the findings regarding \"sparse functional organization\" in VLMs (CogVision paper) align with the sparsity principles used in the NAC architecture?",
+      "category": "Multi-Document Aggregation",
+      "metrics": {
+        "FaithfulnessMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 66.344862,
+          "threshold": 0.5
+        },
+        "AnswerRelevancyMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 24.689597,
+          "threshold": 0.5
+        },
+        "GEval": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 9.672779,
+          "threshold": 0.3
+        }
+      },
+      "overall_passed": false
+    },
+    {
+      "test_case_index": 26,
+      "input": "Compare the \"Keep First k Tokens\" method in SWAA with the \"positional encoding\" mechanism in the original Transformer paper in terms of preserving global context.",
+      "category": "Multi-Document Aggregation",
+      "metrics": {
+        "FaithfulnessMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 56.756285,
+          "threshold": 0.5
+        },
+        "AnswerRelevancyMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 17.877607,
+          "threshold": 0.5
+        },
+        "GEval": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 11.34674,
+          "threshold": 0.3
+        }
+      },
+      "overall_passed": false
+    },
+    {
+      "test_case_index": 27,
+      "input": "How does the \"Full Attention Decode\" method in SWAA relate to the \"decoder\" structure described in \"Attention Is All You Need\"?",
+      "category": "Multi-Document Aggregation",
+      "metrics": {
+        "FaithfulnessMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 57.662168,
+          "threshold": 0.5
+        },
+        "AnswerRelevancyMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 15.179073,
+          "threshold": 0.5
+        },
+        "GEval": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 8.873204,
+          "threshold": 0.3
+        }
+      },
+      "overall_passed": true
+    },
+    {
+      "test_case_index": 28,
+      "input": "Evaluate the \"Chain-of-Thought\" (CoT) usage in SWAA against the CoT-based subquestion decomposition in the CogVision dataset.",
+      "category": "Multi-Document Aggregation",
+      "metrics": {
+        "FaithfulnessMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 53.940161,
+          "threshold": 0.5
+        },
+        "AnswerRelevancyMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 20.430022,
+          "threshold": 0.5
+        },
+        "GEval": {
+          "score": 0.0,
+          "success": false,
+          "reason": "",
+          "evaluation_time_seconds": 9.20012,
+          "threshold": 0.3
+        }
+      },
+      "overall_passed": false
+    },
+    {
+      "test_case_index": 29,
+      "input": "Compare the \"learning rate\" schedules used for training the Transformer in \"Attention Is All You Need\" and the NAC models in their respective experiments.",
+      "category": "Multi-Document Aggregation",
+      "metrics": {
+        "FaithfulnessMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 61.880931,
+          "threshold": 0.5
+        },
+        "AnswerRelevancyMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 13.774713,
+          "threshold": 0.5
+        },
+        "GEval": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 7.203278,
+          "threshold": 0.3
+        }
+      },
+      "overall_passed": false
+    },
+    {
+      "test_case_index": 30,
+      "input": "How does the \"Universal Approximation Theorem\" proof for NAC compare to the theoretical justifications for self-attention provided in \"Attention Is All You Need\"?",
+      "category": "Multi-Document Aggregation",
+      "metrics": {
+        "FaithfulnessMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 63.353071,
+          "threshold": 0.5
+        },
+        "AnswerRelevancyMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 17.478643,
+          "threshold": 0.5
+        },
+        "GEval": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 9.715742,
+          "threshold": 0.3
+        }
+      },
+      "overall_passed": false
+    },
+    {
+      "test_case_index": 31,
+      "input": "If \"Full Attention Decode\" is applied to a \"Qwen3-4B-Thinking\" model, how does this specifically impact the \"performance-efficiency trade-off\" compared to naive SWA?",
+      "category": "Multi-Hop Chain Reasoning",
+      "metrics": {
+        "FaithfulnessMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 77.827896,
+          "threshold": 0.5
+        },
+        "AnswerRelevancyMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 23.003412,
+          "threshold": 0.5
+        },
+        "GEval": {
+          "score": 0.7,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 37.124937,
+          "threshold": 0.3
+        }
+      },
+      "overall_passed": true
+    },
+    {
+      "test_case_index": 32,
+      "input": "Trace the flow of information from \"input embeddings\" to \"output probabilities\" in the Transformer architecture, explicitly mentioning the role of \"Add & Norm\" layers.",
+      "category": "Multi-Hop Chain Reasoning",
+      "metrics": {
+        "FaithfulnessMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 47.247623,
+          "threshold": 0.5
+        },
+        "AnswerRelevancyMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 31.072395,
+          "threshold": 0.5
+        },
+        "GEval": {
+          "score": 0.0,
+          "success": false,
+          "reason": "",
+          "evaluation_time_seconds": 12.837797,
+          "threshold": 0.3
+        }
+      },
+      "overall_passed": false
+    },
+    {
+      "test_case_index": 33,
+      "input": "Explain how \"masking cognitive heads\" in VLMs leads to performance degradation on \"downstream tasks\" like \"OK-VQA\".",
+      "category": "Multi-Hop Chain Reasoning",
+      "metrics": {
+        "FaithfulnessMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 50.715045,
+          "threshold": 0.5
+        },
+        "AnswerRelevancyMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 14.59671,
+          "threshold": 0.5
+        },
+        "GEval": {
+          "score": 0.0,
+          "success": false,
+          "reason": "",
+          "evaluation_time_seconds": 7.112941,
+          "threshold": 0.3
+        }
+      },
+      "overall_passed": false
+    },
+    {
+      "test_case_index": 34,
+      "input": "How does the \"explicit Euler solver\" in NAC facilitate the \"adaptive temporal dynamics\" required for \"irregular time-series classification\"?",
+      "category": "Multi-Hop Chain Reasoning",
+      "metrics": {
+        "FaithfulnessMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 40.261542,
+          "threshold": 0.5
+        },
+        "AnswerRelevancyMetric": {
+          "score": 0.9,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 24.098871,
+          "threshold": 0.5
+        },
+        "GEval": {
+          "score": 0.0,
+          "success": false,
+          "reason": "",
+          "evaluation_time_seconds": 19.619376,
+          "threshold": 0.3
+        }
+      },
+      "overall_passed": false
+    },
+    {
+      "test_case_index": 35,
+      "input": "Derive the connection between \"sparse attention patterns\" in SWAA and the \"computational cost\" reduction compared to \"full-causal-attention\" models.",
+      "category": "Multi-Hop Chain Reasoning",
+      "metrics": {
+        "FaithfulnessMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 67.262338,
+          "threshold": 0.5
+        },
+        "AnswerRelevancyMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 17.050949,
+          "threshold": 0.5
+        },
+        "GEval": {
+          "score": 0.0,
+          "success": false,
+          "reason": "",
+          "evaluation_time_seconds": 5.262896,
+          "threshold": 0.3
+        }
+      },
+      "overall_passed": false
+    },
+    {
+      "test_case_index": 36,
+      "input": "Explain the reasoning chain that leads from \"human brain anatomy\" inspiration to the definition of \"eight cognitive functions\" in the CogVision framework.",
+      "category": "Multi-Hop Chain Reasoning",
+      "metrics": {
+        "FaithfulnessMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 54.033806,
+          "threshold": 0.5
+        },
+        "AnswerRelevancyMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 22.867523,
+          "threshold": 0.5
+        },
+        "GEval": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 9.681452,
+          "threshold": 0.3
+        }
+      },
+      "overall_passed": true
+    },
+    {
+      "test_case_index": 37,
+      "input": "How does \"repurposing C. elegans NCPs\" lead to the specific \"ODE-based\" formulation of attention logits in NAC?",
+      "category": "Multi-Hop Chain Reasoning",
+      "metrics": {
+        "FaithfulnessMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 67.215157,
+          "threshold": 0.5
+        },
+        "AnswerRelevancyMetric": {
+          "score": 0.6666666666666666,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 18.444081,
+          "threshold": 0.5
+        },
+        "GEval": {
+          "score": 0.0,
+          "success": false,
+          "reason": "",
+          "evaluation_time_seconds": 8.191903,
+          "threshold": 0.3
+        }
+      },
+      "overall_passed": false
+    },
+    {
+      "test_case_index": 38,
+      "input": "Connect the \"vanishing gradient problem\" in \"DT-RNNs\" to the motivation for developing \"Continuous-time RNNs\" and subsequently \"NAC\".",
+      "category": "Multi-Hop Chain Reasoning",
+      "metrics": {
+        "FaithfulnessMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 46.995538,
+          "threshold": 0.5
+        },
+        "AnswerRelevancyMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 26.093341,
+          "threshold": 0.5
+        },
+        "GEval": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 9.870979,
+          "threshold": 0.3
+        }
+      },
+      "overall_passed": false
+    },
+    {
+      "test_case_index": 39,
+      "input": "How does the \"training-inference mismatch\" in SWA necessitate the specific combination of \"fine-tuning\" and \"Interleaving Layers\" in SWAA?",
+      "category": "Multi-Hop Chain Reasoning",
+      "metrics": {
+        "FaithfulnessMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 65.932911,
+          "threshold": 0.5
+        },
+        "AnswerRelevancyMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 21.819828,
+          "threshold": 0.5
+        },
+        "GEval": {
+          "score": 0.0,
+          "success": false,
+          "reason": "",
+          "evaluation_time_seconds": 9.042567,
+          "threshold": 0.3
+        }
+      },
+      "overall_passed": false
+    },
+    {
+      "test_case_index": 40,
+      "input": "Trace the impact of \"positive intervention\" on \"functional heads\" to the resulting improvement in \"visual reasoning tasks\" accuracy.",
+      "category": "Multi-Hop Chain Reasoning",
+      "metrics": {
+        "FaithfulnessMetric": {
+          "score": null,
+          "success": null,
+          "reason": "Error: call timed out after 88.5s (per attempt). Increase DEEPEVAL_PER_ATTEMPT_TIMEOUT_SECONDS_OVERRIDE (None disables) or reduce work per attempt.",
+          "evaluation_time_seconds": 0,
+          "error": true
+        },
+        "AnswerRelevancyMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 35.122136,
+          "threshold": 0.5
+        },
+        "GEval": {
+          "score": 0.0,
+          "success": false,
+          "reason": "",
+          "evaluation_time_seconds": 19.890077,
+          "threshold": 0.3
+        }
+      },
+      "overall_passed": false
+    },
+    {
+      "test_case_index": 41,
+      "input": "What are the three attention logit computation modes supported by the Neuronal Attention Circuit (NAC)?",
+      "category": "Single-Document Fact Lookup",
+      "metrics": {
+        "FaithfulnessMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 64.074339,
+          "threshold": 0.5
+        },
+        "AnswerRelevancyMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 14.792328,
+          "threshold": 0.5
+        },
+        "GEval": {
+          "score": 0.0,
+          "success": false,
+          "reason": "",
+          "evaluation_time_seconds": 6.783943,
+          "threshold": 0.3
+        }
+      },
+      "overall_passed": false
+    },
+    {
+      "test_case_index": 42,
+      "input": "What is the specific BLEU score achieved by the Transformer model on the WMT 2014 English-to-German translation task?",
+      "category": "Single-Document Fact Lookup",
+      "metrics": {
+        "FaithfulnessMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 58.714511,
+          "threshold": 0.5
+        },
+        "AnswerRelevancyMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 10.805667,
+          "threshold": 0.5
+        },
+        "GEval": {
+          "score": 0.0,
+          "success": false,
+          "reason": "",
+          "evaluation_time_seconds": 6.060796,
+          "threshold": 0.3
+        }
+      },
+      "overall_passed": false
+    },
+    {
+      "test_case_index": 43,
+      "input": "How does the \"Full Attention Decode\" method in Sliding Window Attention Adaptation (SWAA) differ from standard SWA during the prefilling stage?",
+      "category": "Single-Document Fact Lookup",
+      "metrics": {
+        "FaithfulnessMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 41.120543,
+          "threshold": 0.5
+        },
+        "AnswerRelevancyMetric": {
+          "score": 0.6,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 16.823772,
+          "threshold": 0.5
+        },
+        "GEval": {
+          "score": 0.0,
+          "success": false,
+          "reason": "",
+          "evaluation_time_seconds": 6.314302,
+          "threshold": 0.3
+        }
+      },
+      "overall_passed": false
+    },
+    {
+      "test_case_index": 44,
+      "input": "What are the eight cognitive functions defined in the CogVision dataset for classifying attention heads?",
+      "category": "Single-Document Fact Lookup",
+      "metrics": {
+        "FaithfulnessMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 81.690325,
+          "threshold": 0.5
+        },
+        "AnswerRelevancyMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 14.358767,
+          "threshold": 0.5
+        },
+        "GEval": {
+          "score": 0.0,
+          "success": false,
+          "reason": "",
+          "evaluation_time_seconds": 7.93364,
+          "threshold": 0.3
+        }
+      },
+      "overall_passed": false
+    },
+    {
+      "test_case_index": 45,
+      "input": "What is the computational complexity of a self-attention layer compared to a recurrent layer as described in \"Attention Is All You Need\"?",
+      "category": "Single-Document Fact Lookup",
+      "metrics": {
+        "FaithfulnessMetric": {
+          "score": null,
+          "success": null,
+          "reason": "Error: call timed out after 88.5s (per attempt). Increase DEEPEVAL_PER_ATTEMPT_TIMEOUT_SECONDS_OVERRIDE (None disables) or reduce work per attempt.",
+          "evaluation_time_seconds": 0,
+          "error": true
+        },
+        "AnswerRelevancyMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 12.195673,
+          "threshold": 0.5
+        },
+        "GEval": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 6.745463,
+          "threshold": 0.3
+        }
+      },
+      "overall_passed": false
+    },
+    {
+      "test_case_index": 46,
+      "input": "Which specific biological organism's nervous system inspired the wiring mechanism of the Neuronal Attention Circuit?",
+      "category": "Single-Document Fact Lookup",
+      "metrics": {
+        "FaithfulnessMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 57.270452,
+          "threshold": 0.5
+        },
+        "AnswerRelevancyMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 13.110148,
+          "threshold": 0.5
+        },
+        "GEval": {
+          "score": 0.0,
+          "success": false,
+          "reason": "",
+          "evaluation_time_seconds": 6.177654,
+          "threshold": 0.3
+        }
+      },
+      "overall_passed": false
+    },
+    {
+      "test_case_index": 47,
+      "input": "What is the \"attention sink\" phenomenon described in the context of the \"Keep First k Tokens\" method?",
+      "category": "Single-Document Fact Lookup",
+      "metrics": {
+        "FaithfulnessMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 41.94694,
+          "threshold": 0.5
+        },
+        "AnswerRelevancyMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 16.820715,
+          "threshold": 0.5
+        },
+        "GEval": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 6.420234,
+          "threshold": 0.3
+        }
+      },
+      "overall_passed": false
+    },
+    {
+      "test_case_index": 48,
+      "input": "How many main questions and subquestions are contained within the final CogVision dataset after filtering?",
+      "category": "Single-Document Fact Lookup",
+      "metrics": {
+        "FaithfulnessMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 53.615297,
+          "threshold": 0.5
+        },
+        "AnswerRelevancyMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 12.117462,
+          "threshold": 0.5
+        },
+        "GEval": {
+          "score": 0.0,
+          "success": false,
+          "reason": "",
+          "evaluation_time_seconds": 6.906584,
+          "threshold": 0.3
+        }
+      },
+      "overall_passed": false
+    },
+    {
+      "test_case_index": 49,
+      "input": "What are the two sub-layers present in each layer of the Transformer's encoder stack?",
+      "category": "Single-Document Fact Lookup",
+      "metrics": {
+        "FaithfulnessMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 73.473668,
+          "threshold": 0.5
+        },
+        "AnswerRelevancyMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 12.344177,
+          "threshold": 0.5
+        },
+        "GEval": {
+          "score": 0.0,
+          "success": false,
+          "reason": "",
+          "evaluation_time_seconds": 7.185821,
+          "threshold": 0.3
+        }
+      },
+      "overall_passed": false
+    },
+    {
+      "test_case_index": 50,
+      "input": "Which specific metric was used to evaluate the Remaining Useful Life (RUL) estimation in the NAC experiments?",
+      "category": "Single-Document Fact Lookup",
+      "metrics": {
+        "FaithfulnessMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 46.583891,
+          "threshold": 0.5
+        },
+        "AnswerRelevancyMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 16.52487,
+          "threshold": 0.5
+        },
+        "GEval": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 4.602163,
+          "threshold": 0.3
+        }
+      },
+      "overall_passed": true
+    },
+    {
+      "test_case_index": 51,
+      "input": "How does the \"Neuronal Attention Circuit\" fundamentally redefine the calculation of attention logits compared to the standard \"Scaled Dot-Product Attention\"?",
+      "category": "System Level / Architectural Understanding",
+      "metrics": {
+        "FaithfulnessMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 50.030515,
+          "threshold": 0.5
+        },
+        "AnswerRelevancyMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 17.184992,
+          "threshold": 0.5
+        },
+        "GEval": {
+          "score": 0.0,
+          "success": false,
+          "reason": "",
+          "evaluation_time_seconds": 7.05091,
+          "threshold": 0.3
+        }
+      },
+      "overall_passed": false
+    },
+    {
+      "test_case_index": 52,
+      "input": "Critique the architectural decision to remove \"recurrence\" and \"convolutions\" in favor of \"self-attention\" as proposed in \"Attention Is All You Need\".",
+      "category": "System Level / Architectural Understanding",
+      "metrics": {
+        "FaithfulnessMetric": {
+          "score": null,
+          "success": null,
+          "reason": "Error: call timed out after 88.5s (per attempt). Increase DEEPEVAL_PER_ATTEMPT_TIMEOUT_SECONDS_OVERRIDE (None disables) or reduce work per attempt.",
+          "evaluation_time_seconds": 0,
+          "error": true
+        },
+        "AnswerRelevancyMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 25.99908,
+          "threshold": 0.5
+        },
+        "GEval": {
+          "score": 0.0,
+          "success": false,
+          "reason": "",
+          "evaluation_time_seconds": 12.715812,
+          "threshold": 0.3
+        }
+      },
+      "overall_passed": false
+    },
+    {
+      "test_case_index": 53,
+      "input": "Analyze the systemic trade-offs between \"accuracy\" and \"peak memory usage\" when deploying \"NAC-PW\" versus \"NAC-2k\".",
+      "category": "System Level / Architectural Understanding",
+      "metrics": {
+        "FaithfulnessMetric": {
+          "score": 0.6666666666666666,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 85.827339,
+          "threshold": 0.5
+        },
+        "AnswerRelevancyMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 26.038597,
+          "threshold": 0.5
+        },
+        "GEval": {
+          "score": 0.0,
+          "success": false,
+          "reason": "",
+          "evaluation_time_seconds": 8.751249,
+          "threshold": 0.3
+        }
+      },
+      "overall_passed": false
+    },
+    {
+      "test_case_index": 54,
+      "input": "Evaluate the architectural implications of \"hybrid model structures\" that interleave \"linear attention\" with traditional attention, as discussed in the context of SWAA.",
+      "category": "System Level / Architectural Understanding",
+      "metrics": {
+        "FaithfulnessMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 40.25317,
+          "threshold": 0.5
+        },
+        "AnswerRelevancyMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 16.514269,
+          "threshold": 0.5
+        },
+        "GEval": {
+          "score": 0.0,
+          "success": false,
+          "reason": "",
+          "evaluation_time_seconds": 19.331369,
+          "threshold": 0.3
+        }
+      },
+      "overall_passed": false
+    },
+    {
+      "test_case_index": 55,
+      "input": "How does the \"interpretable functional organization\" of attention heads in VLMs challenge the view of these models as \"black boxes\"?",
+      "category": "System Level / Architectural Understanding",
+      "metrics": {
+        "FaithfulnessMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 49.074855,
+          "threshold": 0.5
+        },
+        "AnswerRelevancyMetric": {
+          "score": 0.9333333333333333,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 23.813443,
+          "threshold": 0.5
+        },
+        "GEval": {
+          "score": 0.0,
+          "success": false,
+          "reason": "",
+          "evaluation_time_seconds": 7.904868,
+          "threshold": 0.3
+        }
+      },
+      "overall_passed": false
+    },
+    {
+      "test_case_index": 56,
+      "input": "Discuss the role of \"universal approximation\" guarantees in validating the architectural design of NAC.",
+      "category": "System Level / Architectural Understanding",
+      "metrics": {
+        "FaithfulnessMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 49.936468,
+          "threshold": 0.5
+        },
+        "AnswerRelevancyMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 16.184891,
+          "threshold": 0.5
+        },
+        "GEval": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 6.482599,
+          "threshold": 0.3
+        }
+      },
+      "overall_passed": false
+    },
+    {
+      "test_case_index": 57,
+      "input": "How does the \"auto-regressive\" property of the Transformer decoder influence the design of the \"masked multi-head attention\" mechanism?",
+      "category": "System Level / Architectural Understanding",
+      "metrics": {
+        "FaithfulnessMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 55.583152,
+          "threshold": 0.5
+        },
+        "AnswerRelevancyMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 15.525703,
+          "threshold": 0.5
+        },
+        "GEval": {
+          "score": 0.0,
+          "success": false,
+          "reason": "",
+          "evaluation_time_seconds": 7.41424,
+          "threshold": 0.3
+        }
+      },
+      "overall_passed": false
+    },
+    {
+      "test_case_index": 58,
+      "input": "Analyze the \"performance-efficiency balance\" of the SWAA toolkit and how it allows for flexible deployment strategies.",
+      "category": "System Level / Architectural Understanding",
+      "metrics": {
+        "FaithfulnessMetric": {
+          "score": 0.9473684210526315,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 63.73612,
+          "threshold": 0.5
+        },
+        "AnswerRelevancyMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 24.543583,
+          "threshold": 0.5
+        },
+        "GEval": {
+          "score": 0.0,
+          "success": false,
+          "reason": "",
+          "evaluation_time_seconds": 16.035813,
+          "threshold": 0.3
+        }
+      },
+      "overall_passed": false
+    },
+    {
+      "test_case_index": 59,
+      "input": "How does the \"CogVision\" framework's probing methodology reveal the \"hierarchical organization\" of cognitive processes in VLMs?",
+      "category": "System Level / Architectural Understanding",
+      "metrics": {
+        "FaithfulnessMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 64.783729,
+          "threshold": 0.5
+        },
+        "AnswerRelevancyMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 14.490186,
+          "threshold": 0.5
+        },
+        "GEval": {
+          "score": 0.0,
+          "success": false,
+          "reason": "",
+          "evaluation_time_seconds": 7.272896,
+          "threshold": 0.3
+        }
+      },
+      "overall_passed": false
+    },
+    {
+      "test_case_index": 60,
+      "input": "Evaluate the \"biologically plausible\" claims of NAC in relation to the actual mechanisms of \"synaptic transmission\" and \"neuronal dynamics\".",
+      "category": "System Level / Architectural Understanding",
+      "metrics": {
+        "FaithfulnessMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 54.819783,
+          "threshold": 0.5
+        },
+        "AnswerRelevancyMetric": {
+          "score": 1.0,
+          "success": true,
+          "reason": "",
+          "evaluation_time_seconds": 25.555578,
+          "threshold": 0.5
+        },
+        "GEval": {
+          "score": 0.0,
+          "success": false,
+          "reason": "",
+          "evaluation_time_seconds": 12.369103,
+          "threshold": 0.3
+        }
+      },
+      "overall_passed": false
+    }
+  ],
+  "evaluation_timestamp": "2026-01-02T23:11:51.849130"
+}
