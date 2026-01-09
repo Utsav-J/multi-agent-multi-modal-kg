@@ -1,0 +1,990 @@
+query,category,retrieval_context,final_answer,retrieval_latency_ms,generation_latency_ms,total_latency_ms,token_usage,rag_chunks_count,rag_error,timestamp
+"How is the entity ""DeepSeek-R1"" related to the concept of ""Chain-of-Thought"" in the context of SWA adaptation?",Entity Relationship Reasoning,"[Document 1]
+Source: sliding_window_attention_annotated_chunks_2k.jsonl
+Chunk ID: sliding_window_attention_annotated_chunks_2k_1
+Content: LightTransfer (Zhang et al., 2024) is a promising
+attempt at adapting existing models to SWA without pretraining, which has the same motivation as
+ours. But it may generalize poorly across model
+families (see Appendix G).
+
+
+**2.2** **Linear Attention**
+
+
+An alternative approach involves reformulating
+the attention mechanism entirely to achieve linear, _O_ ( _N_ ), complexity. This includes methods
+such as RNN-like linear attention transformers
+
+(Katharopoulos et al., 2020; Peng et al., 2023;
+Sun...
+","The provided context does not contain any information about ""DeepSeek-R1"" or ""Chain-of-Thought,"" so it's not possible to determine their relationship in the context of SWA adaptation.",2618,2710,5329,,1,,2026-01-03T21:15:34.272439
+"What is the relationship between ""Flash-Attention-2"" and the ""Keep First k Tokens"" implementation in SWAA?",Entity Relationship Reasoning,"[Document 1]
+Source: sliding_window_attention_annotated_chunks_2k.jsonl
+Chunk ID: sliding_window_attention_annotated_chunks_2k_1
+Content: LightTransfer (Zhang et al., 2024) is a promising
+attempt at adapting existing models to SWA without pretraining, which has the same motivation as
+ours. But it may generalize poorly across model
+families (see Appendix G).
+
+
+**2.2** **Linear Attention**
+
+
+An alternative approach involves reformulating
+the attention mechanism entirely to achieve linear, _O_ ( _N_ ), complexity. This includes methods
+such as RNN-like linear attention transformers
+
+(Katharopoulos et al., 2020; Peng et al., 2023;
+Sun...
+","The provided context does not contain information about ""Flash-Attention-2"" or the ""Keep First k Tokens"" implementation in SWAA. Therefore, the relationship between them cannot be determined from the given text.",118,2452,2571,,1,,2026-01-03T21:15:36.845714
+"How does the ""sensory neuron"" entity in NAC interact with the ""backbone"" entity to compute attention logits?",Entity Relationship Reasoning,"[Document 1]
+Source: neuronal_attention_circuits_raw_chunks_2k.jsonl
+Chunk ID: neuronal_attention_circuits_raw_chunks_2k_3
+Content: Scores: _S ←_ _Q · K_ _[⊤]_
+
+Effective Top- _K_ : _K_ eff _←_ min( _K, Tk_ )
+Indices: _I_ topk _←_ top ~~k~~ ( _S, K_ eff)
+Gather: _K_ selected _←_ gather( _K, I_ topk) _∈_ R _[B][×][H][×][T][q]_ _[×][K]_ [eff] _[×][D]_
+
+Tiled: _Q_ tiled _←_ tile( _Q, K_ eff) _∈_ R _[B][×][H][×][T][q]_ _[×][K]_ [eff] _[×][D]_
+
+Concatenate: _U_ topk _←_ [ _Q_ tiled; _K_ selected ] _∈_ R _[B][×][H][×][T][q]_ _[×][K]_ [eff] _[×]_ [2] _[D]_
+
+**return** _U_ topk
+
+
+**2.2. Designing the Neural Network**
+
+
+We now outlin...
+","The provided context does not contain information about how the ""sensory neuron"" entity interacts with the ""backbone"" entity in NAC to compute attention logits. The document describes a general attention mechanism involving scores, top-k selection, and concatenation, but does not mention these specific entities.",105,2168,2274,,1,,2026-01-03T21:15:39.122418
+"What connects the ""occipital lobe"" entity to the ""High-Level Visual Reception"" function in the CogVision framework?",Entity Relationship Reasoning,"[Document 1]
+Source: attention_functional_roles_raw_chunks_2k.jsonl
+Chunk ID: attention_functional_roles_raw_chunks_2k_1
+Content: Furthermore, we validate the functional importance of these heads by showing that their removal
+degrades performance on complex tasks and leads to specific error patterns, while their enhancement improves reasoning capabilities. Our findings provide compelling evidence that these attention
+heads play a critical role in multimodal reasoning. This insight not only deepens our understanding of the internal organization of VLMs but also suggests potential avenues for designing more
+interpretable and...
+","The provided context does not contain information about the ""occipital lobe,"" ""High-Level Visual Reception,"" or the ""CogVision framework,"" and therefore does not explain what connects these entities.",100,2535,2636,,1,,2026-01-03T21:15:41.760821
+"How does the ""Adam optimizer"" entity function differently in the training regimes of the Transformer and NAC models?",Entity Relationship Reasoning,"[Document 1]
+Source: neuronal_attention_circuits_raw_chunks_2k.jsonl
+Chunk ID: neuronal_attention_circuits_raw_chunks_2k_13
+Content: which depends on ( _ϕ, ωτ_ ) both through the equilibrium _a_ _[∗]_
+
+and the exponential term.
+**Derivative with respect to** _ϕ_ **:** We obtain
+
+
+
+_Interpretation_ : The gradient with respect to _ωτ_ contains
+a transient term proportional to _te_ _[−][ω][τ][ t]_, which dominates
+at intermediate times, and a steady-state contribution proportional to _−ϕ/ωτ_ [2][, which persists asymptotically. Thus,]
+sensitivity to _ωτ_ is time-dependent, peaking before vanishing exponentially in the transient ...
+","The provided context does not contain information about the ""Adam optimizer"" or how it functions differently in the training regimes of Transformer and NAC models.",98,2873,2971,,1,,2026-01-03T21:15:44.734287
+"What is the relationship between ""LongBench-V2"" and ""LongMemEval"" in the evaluation of SWA adaptation strategies?",Entity Relationship Reasoning,"[Document 1]
+Source: sliding_window_attention_annotated_chunks_2k.jsonl
+Chunk ID: sliding_window_attention_annotated_chunks_2k_8
+Content: **C** **Results of Other Models**
+
+
+We show the results of Qwen3-30B-A3BThinking and Qwen3-30B-A3B-Instruct on LongMemEval_24k in Table 4, and the results of
+
+Llama3.1-8B-Instruct in Table 5. The scores of
+
+Qwen3-30B-A3B are generally higher and those
+of Llama3.1 are generally lower, but all results are
+consistent with our previous conclusions, demonstrating their generalizability.
+Due to the time-intensive nature of training, we
+only test a small set of configurations with finetuning.
+
+
+**D** *...
+","The provided context mentions ""LongMemEval_24k"" as a benchmark used to show results for models like Qwen3-30B-A3BThinking, Qwen3-30B-A3B-Instruct, and Llama3.1-8B-Instruct. However, ""LongBench-V2"" is not mentioned in the provided context, nor is there information about the relationship between ""LongBench-V2"" and ""LongMemEval"" in the evaluation of SWA adaptation strategies.",108,3175,3284,,1,,2026-01-03T21:15:48.020153
+"How does the ""Multi-Head Attention"" entity relate to the ""sub-layers"" entity in the Transformer architecture?",Entity Relationship Reasoning,"[Document 1]
+Source: attention_is_all_you_need_raw_chunks_2k.jsonl
+Chunk ID: attention_is_all_you_need_raw_chunks_2k_1
+Content: [10], consuming the previously generated symbols as additional input when generating the next.
+
+
+2
+
+
+![](E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-2-0.png)
+
+Figure 1: The Transformer - model architecture.
+
+
+The Transformer follows this overall architecture using stacked self-attention and point-wise, fully
+connected layers for both the encoder and decoder, shown in the left and right halves of Figure 1,
+respectively.
+
+
+**3.1** **Enco...
+","The provided context mentions the overall architecture of the Transformer, including ""stacked self-attention and point-wise, fully connected layers,"" but it does not contain enough information to describe how ""Multi-Head Attention"" specifically relates to ""sub-layers"" within this architecture.",108,3213,3321,,1,,2026-01-03T21:15:51.342720
+"What is the connection between ""C. elegans"" and the ""Neuronal Circuit Policies (NCPs)"" entity in the NAC paper?",Entity Relationship Reasoning,"[Document 1]
+Source: neuronal_attention_circuits_raw_chunks_2k.jsonl
+Chunk ID: neuronal_attention_circuits_raw_chunks_2k_10
+Content: Zhuang, J., Jia, M., Ding, Y., and Ding, P. Temporal
+convolution-based transferable cross-domain adaptation
+approach for remaining useful life estimation under variable failure behaviors. _Reliability Engineering & System_
+_Safety_, 216:107946, 2021.
+
+
+
+10
+
+
+**Neuronal Attention Circuit (NAC) for Representation Learning**
+
+
+
+**Appendix**
+
+
+**A. Preliminaries**
+
+
+**A.1. Attention Mechanism**
+
+
+Attention mechanisms have become a cornerstone in
+
+modern neural architectures, enabling models to dynam...
+","The provided context does not contain information about ""C. elegans"" or ""Neuronal Circuit Policies (NCPs)"", nor does it establish any connection between them and the ""NAC paper"". Therefore, I cannot answer your question based on the given context.",113,1686,1800,,1,,2026-01-03T21:15:53.144553
+"How does the ""KV cache"" entity relate to the ""FA Decode"" method's efficiency in SWAA?",Entity Relationship Reasoning,"[Document 1]
+Source: sliding_window_attention_annotated_chunks_2k.jsonl
+Chunk ID: sliding_window_attention_annotated_chunks_2k_3
+Content: **Combinations exhibit strong synergy.** Recipes
+that combine multiple methods deliver large gains:
+
+
+  - **FA Decode + Keep First** _k_ substantially improves over naive SWA (rows 7–9), recovering roughly half to two-thirds of the gap on
+the thinking model as _k_ increases. However,
+increasing _k_ from 100 to 1000 yields almost
+no improvement, indicating that _k_ does not
+need to be exceedingly large.
+
+
+  - **Interleaving Layers + FA Decode** is
+markedly stronger (row 13), recovering most
+of th...
+","The provided context does not mention ""KV cache,"" so it's not possible to determine its relationship to the ""FA Decode"" method's efficiency in SWAA based on this information.",106,1947,2055,,1,,2026-01-03T21:15:55.201376
+"What relationship exists between ""GPT-4.1"" and the ""CogVision"" dataset construction process?",Entity Relationship Reasoning,"[Document 1]
+Source: attention_functional_roles_raw_chunks_2k.jsonl
+Chunk ID: attention_functional_roles_raw_chunks_2k_1
+Content: Furthermore, we validate the functional importance of these heads by showing that their removal
+degrades performance on complex tasks and leads to specific error patterns, while their enhancement improves reasoning capabilities. Our findings provide compelling evidence that these attention
+heads play a critical role in multimodal reasoning. This insight not only deepens our understanding of the internal organization of VLMs but also suggests potential avenues for designing more
+interpretable and...
+","The provided context does not contain information about ""GPT-4.1"" or the ""CogVision"" dataset construction process, so it's not possible to determine their relationship from the given text.",113,1516,1630,,1,,2026-01-03T21:15:56.833564
+"What specific ""activation function"" is used in the ""Feed Forward Network"" of the Transformer?",Entity-Specific Attribute Retrieval,"[Document 1]
+Source: attention_is_all_you_need_raw_chunks_2k.jsonl
+Chunk ID: attention_is_all_you_need_raw_chunks_2k_1
+Content: [10], consuming the previously generated symbols as additional input when generating the next.
+
+
+2
+
+
+![](E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-2-0.png)
+
+Figure 1: The Transformer - model architecture.
+
+
+The Transformer follows this overall architecture using stacked self-attention and point-wise, fully
+connected layers for both the encoder and decoder, shown in the left and right halves of Figure 1,
+respectively.
+
+
+**3.1** **Enco...
+","The provided context describes the overall architecture of the Transformer, mentioning ""point-wise, fully connected layers,"" but it does not specify the activation function used within the Feed Forward Network.",97,2450,2548,,1,,2026-01-03T21:15:59.385251
+"What is the ""sampling rate"" associated with the ""PRONOSTIA dataset"" in the NAC experiments?",Entity-Specific Attribute Retrieval,"[Document 1]
+Source: neuronal_attention_circuits_raw_chunks_2k.jsonl
+Chunk ID: neuronal_attention_circuits_raw_chunks_2k_7
+Content: compact architecture suitable for resource-constrained devices, thereby supporting localized safety.
+We utilized three benchmark datasets: (i) PRONOSTIA
+(Nectoux et al., 2012), (ii) XJTU-SY (Wang et al., 2018),
+and (iii) HUST (Thuan & Hong, 2023). Training is performed on PRONOSTIA, while XJTU-SY and HUST are
+
+used to assess cross-validation. We used the Score met
+ric (Nectoux et al., 2012) to assess the performance. We
+evaluate generalization using _Bearing 1_ from the first operating condition...
+","The provided context does not contain information about the ""sampling rate"" associated with the ""PRONOSTIA dataset.""",107,1857,1965,,1,,2026-01-03T21:16:01.352143
+"Identify the ""rank r"" parameter value used for ""LoRA"" fine-tuning in the SWAA experiments.",Entity-Specific Attribute Retrieval,"[Document 1]
+Source: sliding_window_attention_annotated_chunks_2k.jsonl
+Chunk ID: sliding_window_attention_annotated_chunks_2k_2
+Content: **3.4** **Fine-tuning**
+
+
+This is the most natural way to mitigate traininginference mismatch. Apparently, the model should
+be fine-tuned while SWA is applied, so that the
+model’s parameters can be trained to better adapt
+to SWA. Meanwhile, the training data must be longcontext tasks, where SWA actually works.
+However, most available long-context datasets
+only contain brief ground-truth answers, lacking the reasoning steps required for fine-tuning
+a ""thinking"" model. Since our goal is to _restor...
+","The provided context does not contain information about the ""rank r"" parameter value used for LoRA fine-tuning in the SWAA experiments.",105,1655,1761,,1,,2026-01-03T21:16:03.115526
+"What ""model scales"" of the ""Qwen"" family were tested in the ""Investigating the Functional Roles..."" paper?",Entity-Specific Attribute Retrieval,"[Document 1]
+Source: attention_functional_roles_raw_chunks_2k.jsonl
+Chunk ID: attention_functional_roles_raw_chunks_2k_3
+Content: 5
+
+
+![](E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_functional_roles.pdf-5-0.png)
+
+Figure 2: The existence of cognitive heads in Qwen2.5-VL-7B responsible for eight distinct functions in complex reasoning tasks. The x-axis represents the head index, while the y-axis indicates
+the layer index. The values denote head importance scores, capped at a cutoff of 0.60.
+
+
+Figure 3: Pearson Correlation between different functions across two models.
+
+
+the ROUGE scor...
+","The provided context mentions ""Qwen2.5-VL-7B"" as a model from the ""Qwen"" family that was tested. It does not provide information about other ""model scales"" of the ""Qwen"" family that were tested.",107,2035,2143,,1,,2026-01-03T21:16:05.260904
+"What is the ""dimension d_model"" used for the base model in ""Attention Is All You Need""?",Entity-Specific Attribute Retrieval,"[Document 1]
+Source: attention_is_all_you_need_raw_chunks_2k.jsonl
+Chunk ID: attention_is_all_you_need_raw_chunks_2k_1
+Content: [10], consuming the previously generated symbols as additional input when generating the next.
+
+
+2
+
+
+![](E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-2-0.png)
+
+Figure 1: The Transformer - model architecture.
+
+
+The Transformer follows this overall architecture using stacked self-attention and point-wise, fully
+connected layers for both the encoder and decoder, shown in the left and right halves of Figure 1,
+respectively.
+
+
+**3.1** **Enco...
+","The provided context does not contain information about the ""dimension d_model"" used for the base model.",114,1811,1926,,1,,2026-01-03T21:16:07.189384
+"Which ""baseline models"" were used for comparison in the ""Lane-Keeping of Autonomous Vehicles"" experiment for NAC?",Entity-Specific Attribute Retrieval,"[Document 1]
+Source: neuronal_attention_circuits_raw_chunks_2k.jsonl
+Chunk ID: neuronal_attention_circuits_raw_chunks_2k_5
+Content: **3.2. Lane-Keeping of Autonomous Vehicles**
+
+
+Lane keeping in autonomous vehicles (AVs) is a fundamental problem in robotics and AI. Early works (Tiang et al.,
+2018; Park et al., 2021) primarily emphasized accuracy,
+often relying on large models. More recent research (Lechner et al., 2020; Razzaq & Hongwei, 2023) has shifted toward designing compact architectures suitable for resourceconstrained devices. The goal of this experiment is to create
+a long causal structure between the road’s horizon...
+","The provided context does not specify which ""baseline models"" were used for comparison in the ""Lane-Keeping of Autonomous Vehicles"" experiment for NAC. It mentions early works and more recent research in the field but does not detail the specific models used as baselines for comparison within this particular experiment.",109,2746,2856,,1,,2026-01-03T21:16:10.047964
+"What ""window size"" was primarily used for the ""aggressive"" SWA settings in the SWAA experiments?",Entity-Specific Attribute Retrieval,"[Document 1]
+Source: sliding_window_attention_annotated_chunks_2k.jsonl
+Chunk ID: sliding_window_attention_annotated_chunks_2k_0
+Content: ## **Sliding Window Attention Adaptation**
+
+Yijiong Yu [a], Jiale Liu [b], Qingyun Wu [b], Huazheng Wang [a], and Ji Pei [c]
+
+
+aOregon State University, {yuyiji, huazheng.wang}@oregonstate.edu
+bPenn State University, {jiale.liu, qingyun.wu}@psu.edu
+cDeepSolution, research@deepsolution.chat
+
+
+
+**Abstract**
+
+
+The self-attention mechanism in Transformer
+based Large Language Models (LLMs) scales
+quadratically with input length, making longcontext inference expensive. Sliding window attention (SWA) r...
+","The provided context does not contain information about the specific ""window size"" primarily used for ""aggressive"" SWA settings in the SWAA experiments.",104,1940,2045,,1,,2026-01-03T21:16:12.093928
+"Who are the ""correspondence authors"" listed for the ""Neuronal Attention Circuit"" paper?",Entity-Specific Attribute Retrieval,"[Document 1]
+Source: neuronal_attention_circuits_raw_chunks_2k.jsonl
+Chunk ID: neuronal_attention_circuits_raw_chunks_2k_8
+Content: the ceiling and floor functions, respectively. This results
+in a larger overall architectural size and increased runtime.
+
+
+
+Future work will support user-defined NCPs configurations
+or randomized wiring to enable more efficient architectures.
+**Learnable sparse Top-** _**K**_ **selection:** Sparse Top- _K_ attention can miss important context, is sensitive to _k_, and may
+be harder to optimize. A further limitation is that it still
+computes the full _QK_ _[⊤]_ matrix, which can dominate the
+cos...
+","The provided context does not contain information about the correspondence authors for the ""Neuronal Attention Circuit"" paper.",97,2095,2194,,1,,2026-01-03T21:16:14.289772
+"What specific ""GPU hardware"" was used to train the ""base models"" in ""Attention Is All You Need""?",Entity-Specific Attribute Retrieval,"[Document 1]
+Source: attention_is_all_you_need_raw_chunks_2k.jsonl
+Chunk ID: attention_is_all_you_need_raw_chunks_2k_3
+Content: As side benefit, self-attention could yield more interpretable models. We inspect attention distributions
+from our models and present and discuss examples in the appendix. Not only do individual attention
+heads clearly learn to perform different tasks, many appear to exhibit behavior related to the syntactic
+and semantic structure of the sentences.
+
+
+**5** **Training**
+
+
+This section describes the training regime for our models.
+
+
+**5.1** **Training Data and Batching**
+
+
+We trained on the standa...
+","The provided context does not contain information about the specific ""GPU hardware"" used to train the ""base models"" in ""Attention Is All You Need"".",105,2271,2377,,1,,2026-01-03T21:16:16.669239
+"What is the ""Pearson correlation"" value observed between ""cognitive masking"" and ""random masking"" effects in VLMs?",Entity-Specific Attribute Retrieval,"[Document 1]
+Source: attention_functional_roles_raw_chunks_2k.jsonl
+Chunk ID: attention_functional_roles_raw_chunks_2k_3
+Content: 5
+
+
+![](E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_functional_roles.pdf-5-0.png)
+
+Figure 2: The existence of cognitive heads in Qwen2.5-VL-7B responsible for eight distinct functions in complex reasoning tasks. The x-axis represents the head index, while the y-axis indicates
+the layer index. The values denote head importance scores, capped at a cutoff of 0.60.
+
+
+Figure 3: Pearson Correlation between different functions across two models.
+
+
+the ROUGE scor...
+","The provided context mentions ""Figure 3: Pearson Correlation between different functions across two models"" but does not provide the specific ""Pearson correlation"" value observed between ""cognitive masking"" and ""random masking"" effects in VLMs.",103,2045,2148,,1,,2026-01-03T21:16:18.819641
+"Compare the computational complexity of the Neuronal Attention Circuit (NAC) with the standard self-attention mechanism described in ""Attention Is All You Need"".",Multi-Document Aggregation,"[Document 1]
+Source: neuronal_attention_circuits_raw_chunks_2k.jsonl
+Chunk ID: neuronal_attention_circuits_raw_chunks_2k_7
+Content: compact architecture suitable for resource-constrained devices, thereby supporting localized safety.
+We utilized three benchmark datasets: (i) PRONOSTIA
+(Nectoux et al., 2012), (ii) XJTU-SY (Wang et al., 2018),
+and (iii) HUST (Thuan & Hong, 2023). Training is performed on PRONOSTIA, while XJTU-SY and HUST are
+
+used to assess cross-validation. We used the Score met
+ric (Nectoux et al., 2012) to assess the performance. We
+evaluate generalization using _Bearing 1_ from the first operating condition...
+","The provided context states that the Neuronal Attention Circuit (NAC) has a ""compact architecture suitable for resource-constrained devices."" However, the context does not provide specific details on the computational complexity of NAC, nor does it describe the computational complexity of the standard self-attention mechanism from ""Attention Is All You Need."" Therefore, a comparison of their computational complexity cannot be made based solely on the given information.",112,2474,2587,,1,,2026-01-03T21:16:21.410098
+"How does the ""Interleaving Layers"" strategy in SWAA compare to the hierarchical organization of functional heads discussed in the CogVision paper?",Multi-Document Aggregation,"[Document 1]
+Source: sliding_window_attention_annotated_chunks_2k.jsonl
+Chunk ID: sliding_window_attention_annotated_chunks_2k_3
+Content: **Combinations exhibit strong synergy.** Recipes
+that combine multiple methods deliver large gains:
+
+
+  - **FA Decode + Keep First** _k_ substantially improves over naive SWA (rows 7–9), recovering roughly half to two-thirds of the gap on
+the thinking model as _k_ increases. However,
+increasing _k_ from 100 to 1000 yields almost
+no improvement, indicating that _k_ does not
+need to be exceedingly large.
+
+
+  - **Interleaving Layers + FA Decode** is
+markedly stronger (row 13), recovering most
+of th...
+","The provided context describes ""Interleaving Layers"" as a strategy that, when combined with ""FA Decode,"" is ""markedly stronger"" in the context of SWA/SWAA. However, the context does not contain any information about the ""hierarchical organization of functional heads"" discussed in the CogVision paper, nor does it provide a basis for comparison between the two.",199,2514,2714,,1,,2026-01-03T21:16:24.125346
+"Discuss the differences in how ""Attention Is All You Need"" and ""Neuronal Attention Circuit"" handle positional information in sequence modeling.",Multi-Document Aggregation,"[Document 1]
+Source: neuronal_attention_circuits_raw_chunks_2k.jsonl
+Chunk ID: neuronal_attention_circuits_raw_chunks_2k_0
+Content: ## **Neuronal Attention Circuit (NAC) for Representation Learning**
+
+**Waleed Razzaq** [1] **Izis Kankaraway** [1] **Yun-Bo Zhao** [1 2]
+
+
+
+**Abstract**
+
+Attention improves representation learning over
+RNNs, but its discrete nature limits continuoustime (CT) modeling. We introduce Neuronal Attention Circuit (NAC), a novel, biologically plausible CT-Attention mechanism that reformulates
+
+attention logits computation as the solution to a
+linear first-order ODE with nonlinear interlinked
+gates deri...
+","The provided context introduces the Neuronal Attention Circuit (NAC) as a continuous-time attention mechanism that reformulates attention logits computation using ODEs. However, the context does not contain any information about how NAC handles positional information in sequence modeling, nor does it mention ""Attention Is All You Need"" or its approach to positional information. Therefore, it is not possible to discuss the differences based on the given document.",231,3081,3312,,1,,2026-01-03T21:16:27.438663
+"Contrast the approach to long-context processing in ""Sliding Window Attention Adaptation"" with the ""sparse Top-K pairwise concatenation"" used in NAC.",Multi-Document Aggregation,"[Document 1]
+Source: neuronal_attention_circuits_raw_chunks_2k.jsonl
+Chunk ID: neuronal_attention_circuits_raw_chunks_2k_7
+Content: compact architecture suitable for resource-constrained devices, thereby supporting localized safety.
+We utilized three benchmark datasets: (i) PRONOSTIA
+(Nectoux et al., 2012), (ii) XJTU-SY (Wang et al., 2018),
+and (iii) HUST (Thuan & Hong, 2023). Training is performed on PRONOSTIA, while XJTU-SY and HUST are
+
+used to assess cross-validation. We used the Score met
+ric (Nectoux et al., 2012) to assess the performance. We
+evaluate generalization using _Bearing 1_ from the first operating condition...
+","The provided context does not contain information about ""Sliding Window Attention Adaptation"" or ""sparse Top-K pairwise concatenation"" for long-context processing, nor does it describe the approach used in NAC for this purpose. The document discusses benchmark datasets, training, cross-validation, and performance metrics.",115,2883,2999,,1,,2026-01-03T21:16:30.439657
+"How do the findings regarding ""sparse functional organization"" in VLMs (CogVision paper) align with the sparsity principles used in the NAC architecture?",Multi-Document Aggregation,"[Document 1]
+Source: attention_functional_roles_raw_chunks_2k.jsonl
+Chunk ID: attention_functional_roles_raw_chunks_2k_1
+Content: Furthermore, we validate the functional importance of these heads by showing that their removal
+degrades performance on complex tasks and leads to specific error patterns, while their enhancement improves reasoning capabilities. Our findings provide compelling evidence that these attention
+heads play a critical role in multimodal reasoning. This insight not only deepens our understanding of the internal organization of VLMs but also suggests potential avenues for designing more
+interpretable and...
+","The provided context does not contain information about ""sparse functional organization"" in VLMs as described in the CogVision paper, nor does it discuss the ""NAC architecture"" or its ""sparsity principles."" Therefore, it is not possible to align these concepts based on the given document.",109,2100,2210,,1,,2026-01-03T21:16:32.651620
+"Compare the ""Keep First k Tokens"" method in SWAA with the ""positional encoding"" mechanism in the original Transformer paper in terms of preserving global context.",Multi-Document Aggregation,"[Document 1]
+Source: sliding_window_attention_annotated_chunks_2k.jsonl
+Chunk ID: sliding_window_attention_annotated_chunks_2k_1
+Content: LightTransfer (Zhang et al., 2024) is a promising
+attempt at adapting existing models to SWA without pretraining, which has the same motivation as
+ours. But it may generalize poorly across model
+families (see Appendix G).
+
+
+**2.2** **Linear Attention**
+
+
+An alternative approach involves reformulating
+the attention mechanism entirely to achieve linear, _O_ ( _N_ ), complexity. This includes methods
+such as RNN-like linear attention transformers
+
+(Katharopoulos et al., 2020; Peng et al., 2023;
+Sun...
+","The provided context does not contain information about the ""Keep First k Tokens"" method in SWAA, the ""positional encoding"" mechanism in the original Transformer paper, or their respective abilities to preserve global context. Therefore, a comparison cannot be made based on the given text.",145,2464,2610,,1,,2026-01-03T21:16:35.262714
+"How does the ""Full Attention Decode"" method in SWAA relate to the ""decoder"" structure described in ""Attention Is All You Need""?",Multi-Document Aggregation,"[Document 1]
+Source: sliding_window_attention_annotated_chunks_2k.jsonl
+Chunk ID: sliding_window_attention_annotated_chunks_2k_1
+Content: LightTransfer (Zhang et al., 2024) is a promising
+attempt at adapting existing models to SWA without pretraining, which has the same motivation as
+ours. But it may generalize poorly across model
+families (see Appendix G).
+
+
+**2.2** **Linear Attention**
+
+
+An alternative approach involves reformulating
+the attention mechanism entirely to achieve linear, _O_ ( _N_ ), complexity. This includes methods
+such as RNN-like linear attention transformers
+
+(Katharopoulos et al., 2020; Peng et al., 2023;
+Sun...
+","The provided context does not contain information about the ""Full Attention Decode"" method in SWAA or its relation to the ""decoder"" structure described in ""Attention Is All You Need.""",117,2194,2312,,1,,2026-01-03T21:16:37.575993
+"Evaluate the ""Chain-of-Thought"" (CoT) usage in SWAA against the CoT-based subquestion decomposition in the CogVision dataset.",Multi-Document Aggregation,"[Document 1]
+Source: sliding_window_attention_annotated_chunks_2k.jsonl
+Chunk ID: sliding_window_attention_annotated_chunks_2k_1
+Content: LightTransfer (Zhang et al., 2024) is a promising
+attempt at adapting existing models to SWA without pretraining, which has the same motivation as
+ours. But it may generalize poorly across model
+families (see Appendix G).
+
+
+**2.2** **Linear Attention**
+
+
+An alternative approach involves reformulating
+the attention mechanism entirely to achieve linear, _O_ ( _N_ ), complexity. This includes methods
+such as RNN-like linear attention transformers
+
+(Katharopoulos et al., 2020; Peng et al., 2023;
+Sun...
+","The provided context does not contain information about ""Chain-of-Thought"" (CoT) usage in SWAA or its comparison to CoT-based subquestion decomposition in the CogVision dataset. Therefore, I cannot evaluate them.",101,2457,2558,,1,,2026-01-03T21:16:40.135217
+"Compare the ""learning rate"" schedules used for training the Transformer in ""Attention Is All You Need"" and the NAC models in their respective experiments.",Multi-Document Aggregation,"[Document 1]
+Source: neuronal_attention_circuits_raw_chunks_2k.jsonl
+Chunk ID: neuronal_attention_circuits_raw_chunks_2k_7
+Content: compact architecture suitable for resource-constrained devices, thereby supporting localized safety.
+We utilized three benchmark datasets: (i) PRONOSTIA
+(Nectoux et al., 2012), (ii) XJTU-SY (Wang et al., 2018),
+and (iii) HUST (Thuan & Hong, 2023). Training is performed on PRONOSTIA, while XJTU-SY and HUST are
+
+used to assess cross-validation. We used the Score met
+ric (Nectoux et al., 2012) to assess the performance. We
+evaluate generalization using _Bearing 1_ from the first operating condition...
+","The provided context does not contain information about the ""learning rate"" schedules used for training the Transformer in ""Attention Is All You Need"" or the NAC models. Therefore, a comparison cannot be made based on the given text.",180,1534,1715,,1,,2026-01-03T21:16:41.852866
+"How does the ""Universal Approximation Theorem"" proof for NAC compare to the theoretical justifications for self-attention provided in ""Attention Is All You Need""?",Multi-Document Aggregation,"[Document 1]
+Source: neuronal_attention_circuits_raw_chunks_2k.jsonl
+Chunk ID: neuronal_attention_circuits_raw_chunks_2k_4
+Content: **2.3. NAC as Universal Approximator**
+
+
+We now establish the universal approximation capability of
+NAC by extending the classical Universal Approximation
+Theorem (UAT) (Nishijima, 2021) to the proposed mechanism. For brevity, we consider a network with a single
+NAC layer processing fixed-dimensional inputs, though the
+argument generalizes to sequences.
+
+
+**Theorem 2** (Universal Approximation by NAC) **.** _Let K ⊂_
+R _[n]_ _be a compact set and f_ : _K →_ R _[m]_ _be a continuous_
+_function. F...
+","The provided context establishes the universal approximation capability of NAC (Neuronal Attention Circuits) by extending the classical Universal Approximation Theorem (UAT) to NAC, as described in ""Theorem 2.""
+
+However, the context does not contain any information regarding ""Attention Is All You Need"" or the theoretical justifications for self-attention provided in that paper. Therefore, a comparison between the NAC UAT proof and the theoretical justifications for self-attention from ""Attention Is All You Need"" cannot be made based on the provided context.",128,2825,2954,,1,,2026-01-03T21:16:44.809339
+"If ""Full Attention Decode"" is applied to a ""Qwen3-4B-Thinking"" model, how does this specifically impact the ""performance-efficiency trade-off"" compared to naive SWA?",Multi-Hop Chain Reasoning,"[Document 1]
+Source: sliding_window_attention_annotated_chunks_2k.jsonl
+Chunk ID: sliding_window_attention_annotated_chunks_2k_4
+Content: **Keep First becomes optional rather than essen-**
+**tial.** Before fine-tuning, Keep First is crucial for
+stability under SWA. But after SFT, it only provides
+minor additional improvement. With FA Decode,
+adding _k_ = 100 (row 7) improves over _k_ = 0
+(row 3) only 4.5%, and if further combining FA
+layers, it almost offers no improvements (row 11
+and row 8).
+
+
+**Effect of sliding window size.** Row 3 and 5
+shows that increasing the window from 2k to 4k
+with FA Decode improves thinking-model accu...
+","The provided context does not contain enough information to specifically detail how applying ""Full Attention Decode"" to a ""Qwen3-4B-Thinking"" model impacts the ""performance-efficiency trade-off"" compared to naive SWA.
+
+The document mentions that FA Decode improves ""thinking-model accu..."" when increasing the window size and that ""Keep First"" becomes optional with FA Decode, but it does not discuss efficiency or the specific trade-off in comparison to naive SWA.",144,21000,21144,,1,,2026-01-03T21:17:05.954617
+"Trace the flow of information from ""input embeddings"" to ""output probabilities"" in the Transformer architecture, explicitly mentioning the role of ""Add & Norm"" layers.",Multi-Hop Chain Reasoning,"[Document 1]
+Source: attention_is_all_you_need_raw_chunks_2k.jsonl
+Chunk ID: attention_is_all_you_need_raw_chunks_2k_1
+Content: [10], consuming the previously generated symbols as additional input when generating the next.
+
+
+2
+
+
+![](E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-2-0.png)
+
+Figure 1: The Transformer - model architecture.
+
+
+The Transformer follows this overall architecture using stacked self-attention and point-wise, fully
+connected layers for both the encoder and decoder, shown in the left and right halves of Figure 1,
+respectively.
+
+
+**3.1** **Enco...
+","The provided context describes the overall architecture of the Transformer, mentioning stacked self-attention and point-wise, fully connected layers for both the encoder and decoder. However, it does not explicitly trace the flow of information from ""input embeddings"" to ""output probabilities"" or mention the role of ""Add & Norm"" layers. Therefore, the context does not contain enough information to answer the question.",107,2554,2662,,1,,2026-01-03T21:17:08.618673
+"Explain how ""masking cognitive heads"" in VLMs leads to performance degradation on ""downstream tasks"" like ""OK-VQA"".",Multi-Hop Chain Reasoning,"[Document 1]
+Source: attention_functional_roles_raw_chunks_2k.jsonl
+Chunk ID: attention_functional_roles_raw_chunks_2k_4
+Content: dom activation and mean activation. In the random activation setting, activations are substituted
+with those from a randomly selected subquestion belonging to a different function. In the mean
+activation setting, activations are replaced with the average activation computed over all subquestions associated with another function (details in Appendix A.10). As shown in Table 2, both types
+of activation patching result in substantial performance degradation for cognitive heads, consistent
+with the ...
+","Based on the provided context, ""activation patching"" for ""cognitive heads"" leads to substantial performance degradation. This is shown in two settings: ""random activation"" (where activations are substituted with those from a randomly selected subquestion of a different function) and ""mean activation"" (where activations are replaced with the average activation computed over all subquestions associated with another function).
+
+However, the context does not explicitly use the term ""masking cognitive heads,"" nor does it specify that this degradation occurs on ""downstream tasks"" like ""OK-VQA."" It only states ""substantial performance degradation for cognitive heads.""",111,3061,3173,,1,,2026-01-03T21:17:11.793964
+"How does the ""explicit Euler solver"" in NAC facilitate the ""adaptive temporal dynamics"" required for ""irregular time-series classification""?",Multi-Hop Chain Reasoning,"[Document 1]
+Source: neuronal_attention_circuits_raw_chunks_2k.jsonl
+Chunk ID: neuronal_attention_circuits_raw_chunks_2k_13
+Content: which depends on ( _ϕ, ωτ_ ) both through the equilibrium _a_ _[∗]_
+
+and the exponential term.
+**Derivative with respect to** _ϕ_ **:** We obtain
+
+
+
+_Interpretation_ : The gradient with respect to _ωτ_ contains
+a transient term proportional to _te_ _[−][ω][τ][ t]_, which dominates
+at intermediate times, and a steady-state contribution proportional to _−ϕ/ωτ_ [2][, which persists asymptotically. Thus,]
+sensitivity to _ωτ_ is time-dependent, peaking before vanishing exponentially in the transient ...
+","The provided context does not contain information about how an ""explicit Euler solver"" in NAC facilitates ""adaptive temporal dynamics"" for ""irregular time-series classification."" The document discusses derivatives, gradients, transient and steady-state terms, and time-dependent sensitivity related to `ωτ`, but it does not mention the specific solver or its role in these applications.",101,2862,2964,,1,,2026-01-03T21:17:14.760573
+"Derive the connection between ""sparse attention patterns"" in SWAA and the ""computational cost"" reduction compared to ""full-causal-attention"" models.",Multi-Hop Chain Reasoning,"[Document 1]
+Source: sliding_window_attention_annotated_chunks_2k.jsonl
+Chunk ID: sliding_window_attention_annotated_chunks_2k_0
+Content: ## **Sliding Window Attention Adaptation**
+
+Yijiong Yu [a], Jiale Liu [b], Qingyun Wu [b], Huazheng Wang [a], and Ji Pei [c]
+
+
+aOregon State University, {yuyiji, huazheng.wang}@oregonstate.edu
+bPenn State University, {jiale.liu, qingyun.wu}@psu.edu
+cDeepSolution, research@deepsolution.chat
+
+
+
+**Abstract**
+
+
+The self-attention mechanism in Transformer
+based Large Language Models (LLMs) scales
+quadratically with input length, making longcontext inference expensive. Sliding window attention (SWA) r...
+","The provided context states that the self-attention mechanism in Transformer-based Large Language Models (LLMs) scales quadratically with input length, which makes long-context inference expensive. It then introduces Sliding Window Attention (SWA) as a method.
+
+However, the context does not contain enough information to derive the connection between ""sparse attention patterns"" in SWAA and the ""computational cost"" reduction compared to ""full-causal-attention"" models. It mentions the quadratic scaling and expense of standard self-attention, and introduces SWA, but does not detail SWA's attention patterns or explicitly link them to cost reduction.",103,3291,3395,,1,,2026-01-03T21:17:18.157739
+"Explain the reasoning chain that leads from ""human brain anatomy"" inspiration to the definition of ""eight cognitive functions"" in the CogVision framework.",Multi-Hop Chain Reasoning,"[Document 1]
+Source: attention_functional_roles_raw_chunks_2k.jsonl
+Chunk ID: attention_functional_roles_raw_chunks_2k_1
+Content: Furthermore, we validate the functional importance of these heads by showing that their removal
+degrades performance on complex tasks and leads to specific error patterns, while their enhancement improves reasoning capabilities. Our findings provide compelling evidence that these attention
+heads play a critical role in multimodal reasoning. This insight not only deepens our understanding of the internal organization of VLMs but also suggests potential avenues for designing more
+interpretable and...
+","The provided context does not contain information about the reasoning chain leading from ""human brain anatomy"" inspiration to the definition of ""eight cognitive functions"" in the CogVision framework. The document discusses attention heads in VLMs and their role in multimodal reasoning.",99,1765,1865,,1,,2026-01-03T21:17:20.024912
+"How does ""repurposing C. elegans NCPs"" lead to the specific ""ODE-based"" formulation of attention logits in NAC?",Multi-Hop Chain Reasoning,"[Document 1]
+Source: neuronal_attention_circuits_raw_chunks_2k.jsonl
+Chunk ID: neuronal_attention_circuits_raw_chunks_2k_0
+Content: ## **Neuronal Attention Circuit (NAC) for Representation Learning**
+
+**Waleed Razzaq** [1] **Izis Kankaraway** [1] **Yun-Bo Zhao** [1 2]
+
+
+
+**Abstract**
+
+Attention improves representation learning over
+RNNs, but its discrete nature limits continuoustime (CT) modeling. We introduce Neuronal Attention Circuit (NAC), a novel, biologically plausible CT-Attention mechanism that reformulates
+
+attention logits computation as the solution to a
+linear first-order ODE with nonlinear interlinked
+gates deri...
+","The provided context does not contain information about ""repurposing C. elegans NCPs"" or how it leads to the specific ODE-based formulation of attention logits in NAC. The context only states that NAC reformulates attention logits computation as the solution to a linear first-order ODE.",98,2723,2822,,1,,2026-01-03T21:17:22.847891
+"Connect the ""vanishing gradient problem"" in ""DT-RNNs"" to the motivation for developing ""Continuous-time RNNs"" and subsequently ""NAC"".",Multi-Hop Chain Reasoning,"[Document 1]
+Source: neuronal_attention_circuits_raw_chunks_2k.jsonl
+Chunk ID: neuronal_attention_circuits_raw_chunks_2k_13
+Content: which depends on ( _ϕ, ωτ_ ) both through the equilibrium _a_ _[∗]_
+
+and the exponential term.
+**Derivative with respect to** _ϕ_ **:** We obtain
+
+
+
+_Interpretation_ : The gradient with respect to _ωτ_ contains
+a transient term proportional to _te_ _[−][ω][τ][ t]_, which dominates
+at intermediate times, and a steady-state contribution proportional to _−ϕ/ωτ_ [2][, which persists asymptotically. Thus,]
+sensitivity to _ωτ_ is time-dependent, peaking before vanishing exponentially in the transient ...
+","The provided context describes a ""gradient with respect to ωτ"" that contains a transient term which dominates at intermediate times and a steady-state contribution. It states that ""sensitivity to ωτ is time-dependent, peaking before vanishing exponentially in the transient.""
+
+However, the context does not explicitly mention the ""vanishing gradient problem"" in ""DT-RNNs,"" nor does it connect this phenomenon to the motivation for developing ""Continuous-time RNNs"" or ""NAC."" Therefore, there is not enough information in the provided context to answer the question.",106,3560,3667,,1,,2026-01-03T21:17:26.517040
+"How does the ""training-inference mismatch"" in SWA necessitate the specific combination of ""fine-tuning"" and ""Interleaving Layers"" in SWAA?",Multi-Hop Chain Reasoning,"[Document 1]
+Source: sliding_window_attention_annotated_chunks_2k.jsonl
+Chunk ID: sliding_window_attention_annotated_chunks_2k_2
+Content: **3.4** **Fine-tuning**
+
+
+This is the most natural way to mitigate traininginference mismatch. Apparently, the model should
+be fine-tuned while SWA is applied, so that the
+model’s parameters can be trained to better adapt
+to SWA. Meanwhile, the training data must be longcontext tasks, where SWA actually works.
+However, most available long-context datasets
+only contain brief ground-truth answers, lacking the reasoning steps required for fine-tuning
+a ""thinking"" model. Since our goal is to _restor...
+","The provided context explains that fine-tuning is a natural way to mitigate the training-inference mismatch in SWA by training the model's parameters to better adapt to SWA. However, the context does not contain information about ""Interleaving Layers"" or explain how the specific combination of ""fine-tuning"" and ""Interleaving Layers"" in SWAA is necessitated by this mismatch.",102,3301,3405,,1,,2026-01-03T21:17:29.923808
+"Trace the impact of ""positive intervention"" on ""functional heads"" to the resulting improvement in ""visual reasoning tasks"" accuracy.",Multi-Hop Chain Reasoning,"[Document 1]
+Source: attention_functional_roles_raw_chunks_2k.jsonl
+Chunk ID: attention_functional_roles_raw_chunks_2k_5
+Content: pendix A.11 shows that masking the **math reasoning** heads leads to errors in arithmetic tasks, while
+visual receptive functions remain largely unaffected. This confirms that these cognitive heads are
+crucial for specific functions and highlights the robustness and generalizability of our method.
+
+
+**Positive Intervention:** We calculate the activation directions of different functions using the CogVision dataset. For each function, the activation direction of a head at layer _l_ and index _h_ ...
+","The provided context defines ""Positive Intervention"" as calculating the activation directions of different functions. It also mentions that masking ""math reasoning heads"" leads to errors in arithmetic tasks, while visual receptive functions remain largely unaffected. However, the context does not trace the impact of ""positive intervention"" on ""functional heads"" to a resulting improvement in ""visual reasoning tasks"" accuracy.",110,4205,4316,,1,,2026-01-03T21:17:34.242039
+What are the three attention logit computation modes supported by the Neuronal Attention Circuit (NAC)?,Single-Document Fact Lookup,"[Document 1]
+Source: neuronal_attention_circuits_raw_chunks_2k.jsonl
+Chunk ID: neuronal_attention_circuits_raw_chunks_2k_14
+Content: **D.2. Ablations Details**
+
+
+The brief descriptions of variants and ablation are also divided into four subcategories:
+**Top-** _**K**_ **Ablations:** _NAC-2k_ uses Top- _K_ =2 to compute the
+logits and _NAC-32k_ uses Top- _K_ =32. All variants use the
+exact computation mode with 50% sparsity.
+**Sparsity Ablations:** _NAC-02s_ uses 20% sparsity to compute the logits and _NAC-09s_ uses 90%. _NAC-PW_ employs
+full pairwise (non-sparse) concatenation for input curation.
+_NAC-FC_ replaces the sparse ...
+","The provided context only mentions one attention logit computation mode: ""exact computation mode."" It does not specify three distinct modes.",92,4241,4334,,1,,2026-01-03T21:17:38.579988
+What is the specific BLEU score achieved by the Transformer model on the WMT 2014 English-to-German translation task?,Single-Document Fact Lookup,"[Document 1]
+Source: attention_is_all_you_need_raw_chunks_2k.jsonl
+Chunk ID: attention_is_all_you_need_raw_chunks_2k_4
+Content: **6.2** **Model Variations**
+
+
+To evaluate the importance of different components of the Transformer, we varied our base model
+in different ways, measuring the change in performance on English-to-German translation on the
+
+
+5We used values of 2.8, 3.7, 6.0 and 9.5 TFLOPS for K80, K40, M40 and P100, respectively.
+
+
+8
+
+
+Table 3: Variations on the Transformer architecture. Unlisted values are identical to those of the base
+model. All metrics are on the English-to-German translation development set,...
+",The provided context does not contain the specific BLEU score achieved by the Transformer model on the WMT 2014 English-to-German translation task. It mentions evaluating model variations on an English-to-German translation development set but does not provide the score itself or reference the WMT 2014 task.,101,1883,1985,,1,,2026-01-03T21:17:40.565756
+"How does the ""Full Attention Decode"" method in Sliding Window Attention Adaptation (SWAA) differ from standard SWA during the prefilling stage?",Single-Document Fact Lookup,"[Document 1]
+Source: sliding_window_attention_annotated_chunks_2k.jsonl
+Chunk ID: sliding_window_attention_annotated_chunks_2k_0
+Content: ## **Sliding Window Attention Adaptation**
+
+Yijiong Yu [a], Jiale Liu [b], Qingyun Wu [b], Huazheng Wang [a], and Ji Pei [c]
+
+
+aOregon State University, {yuyiji, huazheng.wang}@oregonstate.edu
+bPenn State University, {jiale.liu, qingyun.wu}@psu.edu
+cDeepSolution, research@deepsolution.chat
+
+
+
+**Abstract**
+
+
+The self-attention mechanism in Transformer
+based Large Language Models (LLMs) scales
+quadratically with input length, making longcontext inference expensive. Sliding window attention (SWA) r...
+","The provided context does not contain enough information to explain how the ""Full Attention Decode"" method in Sliding Window Attention Adaptation (SWAA) differs from standard SWA during the prefilling stage. The context only provides an abstract introducing SWAA and its purpose.",99,1832,1932,,1,,2026-01-03T21:17:42.499104
+What are the eight cognitive functions defined in the CogVision dataset for classifying attention heads?,Single-Document Fact Lookup,"[Document 1]
+Source: attention_functional_roles_raw_chunks_2k.jsonl
+Chunk ID: attention_functional_roles_raw_chunks_2k_1
+Content: Furthermore, we validate the functional importance of these heads by showing that their removal
+degrades performance on complex tasks and leads to specific error patterns, while their enhancement improves reasoning capabilities. Our findings provide compelling evidence that these attention
+heads play a critical role in multimodal reasoning. This insight not only deepens our understanding of the internal organization of VLMs but also suggests potential avenues for designing more
+interpretable and...
+",The provided context does not contain information about the eight cognitive functions defined in the CogVision dataset for classifying attention heads.,91,1836,1929,,1,,2026-01-03T21:17:44.429934
+"What is the computational complexity of a self-attention layer compared to a recurrent layer as described in ""Attention Is All You Need""?",Single-Document Fact Lookup,"[Document 1]
+Source: attention_is_all_you_need_raw_chunks_2k.jsonl
+Chunk ID: attention_is_all_you_need_raw_chunks_2k_2
+Content: [38, 2, 9].
+
+
+    - The encoder contains self-attention layers. In a self-attention layer all of the keys, values
+and queries come from the same place, in this case, the output of the previous layer in the
+encoder. Each position in the encoder can attend to all positions in the previous layer of the
+encoder.
+
+
+    - Similarly, self-attention layers in the decoder allow each position in the decoder to attend to
+all positions in the decoder up to and including that position. We need to prevent lef...
+","The provided context describes what self-attention layers are and how they function within an encoder and decoder, but it does not contain information about their computational complexity or compare it to that of recurrent layers.",102,2480,2583,,1,,2026-01-03T21:17:47.015158
+Which specific biological organism's nervous system inspired the wiring mechanism of the Neuronal Attention Circuit?,Single-Document Fact Lookup,"[Document 1]
+Source: neuronal_attention_circuits_raw_chunks_2k.jsonl
+Chunk ID: neuronal_attention_circuits_raw_chunks_2k_10
+Content: Zhuang, J., Jia, M., Ding, Y., and Ding, P. Temporal
+convolution-based transferable cross-domain adaptation
+approach for remaining useful life estimation under variable failure behaviors. _Reliability Engineering & System_
+_Safety_, 216:107946, 2021.
+
+
+
+10
+
+
+**Neuronal Attention Circuit (NAC) for Representation Learning**
+
+
+
+**Appendix**
+
+
+**A. Preliminaries**
+
+
+**A.1. Attention Mechanism**
+
+
+Attention mechanisms have become a cornerstone in
+
+modern neural architectures, enabling models to dynam...
+",The provided context does not contain information about which specific biological organism's nervous system inspired the wiring mechanism of the Neuronal Attention Circuit.,167,2836,3004,,1,,2026-01-03T21:17:50.019910
+"What is the ""attention sink"" phenomenon described in the context of the ""Keep First k Tokens"" method?",Single-Document Fact Lookup,"[Document 1]
+Source: sliding_window_attention_annotated_chunks_2k.jsonl
+Chunk ID: sliding_window_attention_annotated_chunks_2k_4
+Content: **Keep First becomes optional rather than essen-**
+**tial.** Before fine-tuning, Keep First is crucial for
+stability under SWA. But after SFT, it only provides
+minor additional improvement. With FA Decode,
+adding _k_ = 100 (row 7) improves over _k_ = 0
+(row 3) only 4.5%, and if further combining FA
+layers, it almost offers no improvements (row 11
+and row 8).
+
+
+**Effect of sliding window size.** Row 3 and 5
+shows that increasing the window from 2k to 4k
+with FA Decode improves thinking-model accu...
+","The provided context discusses the ""Keep First"" method and its importance for stability before fine-tuning, but it does not describe or mention an ""attention sink"" phenomenon.",93,2438,2532,,1,,2026-01-03T21:17:52.552677
+How many main questions and subquestions are contained within the final CogVision dataset after filtering?,Single-Document Fact Lookup,"[Document 1]
+Source: attention_functional_roles_raw_chunks_2k.jsonl
+Chunk ID: attention_functional_roles_raw_chunks_2k_1
+Content: Furthermore, we validate the functional importance of these heads by showing that their removal
+degrades performance on complex tasks and leads to specific error patterns, while their enhancement improves reasoning capabilities. Our findings provide compelling evidence that these attention
+heads play a critical role in multimodal reasoning. This insight not only deepens our understanding of the internal organization of VLMs but also suggests potential avenues for designing more
+interpretable and...
+",The provided context does not contain information about the number of main questions and subquestions in the final CogVision dataset after filtering.,92,2189,2282,,1,,2026-01-03T21:17:54.837034
+What are the two sub-layers present in each layer of the Transformer's encoder stack?,Single-Document Fact Lookup,"[Document 1]
+Source: attention_is_all_you_need_raw_chunks_2k.jsonl
+Chunk ID: attention_is_all_you_need_raw_chunks_2k_2
+Content: [38, 2, 9].
+
+
+    - The encoder contains self-attention layers. In a self-attention layer all of the keys, values
+and queries come from the same place, in this case, the output of the previous layer in the
+encoder. Each position in the encoder can attend to all positions in the previous layer of the
+encoder.
+
+
+    - Similarly, self-attention layers in the decoder allow each position in the decoder to attend to
+all positions in the decoder up to and including that position. We need to prevent lef...
+","The provided context states that ""The encoder contains self-attention layers"" but does not specify two sub-layers present in each layer of the Transformer's encoder stack. Therefore, the context does not contain enough information to answer the question.",93,2576,2671,,1,,2026-01-03T21:17:57.510040
+Which specific metric was used to evaluate the Remaining Useful Life (RUL) estimation in the NAC experiments?,Single-Document Fact Lookup,"[Document 1]
+Source: neuronal_attention_circuits_raw_chunks_2k.jsonl
+Chunk ID: neuronal_attention_circuits_raw_chunks_2k_6
+Content: MHA 95.94 _[±]_ [0.15] 88.36 _[±]_ [1.06] 79.99 _[±]_ [0.49] 0.0185 _[±]_ [0.0017] 45.36 _[±]_ [5.16] 37.31 _[±]_ [12.20] 41.40 _[±]_ [7.72]
+
+mTAN 95.97 _[±]_ [0.25] 88.08 _[±]_ [0.94] 80.86 _[±]_ [0.22] 0.0178 _[±]_ [0.0005] 44.41 _[±]_ [7.15] 41.34 _[±]_ [3.72] 66.29 _[±]_ [4.25]
+
+CTA 95.86 _[±]_ [0.14] 88.10 _[±]_ [1.10] 80.54 _[±]_ [0.40] 0.0197 _[±]_ [0.0016] 39.16 _[±]_ [3.54] **25.86** _[±]_ [1.47] 38.41 _[±]_ [4.51]
+
+ODEFormer 95.62 _[±]_ [0.20] 88.25 _[±]_ [0.66] 80.54 _[±]_ [0.40] 0.01...
+",The provided context does not contain enough information to answer which specific metric was used to evaluate the Remaining Useful Life (RUL) estimation in the NAC experiments.,95,1861,1958,,1,,2026-01-03T21:17:59.470011
+"How does the ""Neuronal Attention Circuit"" fundamentally redefine the calculation of attention logits compared to the standard ""Scaled Dot-Product Attention""?",System Level / Architectural Understanding,"[Document 1]
+Source: neuronal_attention_circuits_raw_chunks_2k.jsonl
+Chunk ID: neuronal_attention_circuits_raw_chunks_2k_0
+Content: ## **Neuronal Attention Circuit (NAC) for Representation Learning**
+
+**Waleed Razzaq** [1] **Izis Kankaraway** [1] **Yun-Bo Zhao** [1 2]
+
+
+
+**Abstract**
+
+Attention improves representation learning over
+RNNs, but its discrete nature limits continuoustime (CT) modeling. We introduce Neuronal Attention Circuit (NAC), a novel, biologically plausible CT-Attention mechanism that reformulates
+
+attention logits computation as the solution to a
+linear first-order ODE with nonlinear interlinked
+gates deri...
+","The ""Neuronal Attention Circuit"" (NAC) redefines attention logits computation as the solution to a linear first-order Ordinary Differential Equation (ODE) with nonlinear interlinked gates. The provided context does not describe how the standard ""Scaled Dot-Product Attention"" calculates attention logits or explicitly compare the two methods.",106,2855,2962,,1,,2026-01-03T21:18:02.435307
+"Critique the architectural decision to remove ""recurrence"" and ""convolutions"" in favor of ""self-attention"" as proposed in ""Attention Is All You Need"".",System Level / Architectural Understanding,"[Document 1]
+Source: attention_is_all_you_need_raw_chunks_2k.jsonl
+Chunk ID: attention_is_all_you_need_raw_chunks_2k_2
+Content: [38, 2, 9].
+
+
+    - The encoder contains self-attention layers. In a self-attention layer all of the keys, values
+and queries come from the same place, in this case, the output of the previous layer in the
+encoder. Each position in the encoder can attend to all positions in the previous layer of the
+encoder.
+
+
+    - Similarly, self-attention layers in the decoder allow each position in the decoder to attend to
+all positions in the decoder up to and including that position. We need to prevent lef...
+","The provided context describes the function of self-attention layers within the encoder and decoder of the architecture proposed in ""Attention Is All You Need."" However, it does not contain information regarding the architectural decision to remove ""recurrence"" and ""convolutions"" or any critique of this decision.",102,2520,2624,,1,,2026-01-03T21:18:05.061569
+"Analyze the systemic trade-offs between ""accuracy"" and ""peak memory usage"" when deploying ""NAC-PW"" versus ""NAC-2k"".",System Level / Architectural Understanding,"[Document 1]
+Source: neuronal_attention_circuits_raw_chunks_2k.jsonl
+Chunk ID: neuronal_attention_circuits_raw_chunks_2k_7
+Content: compact architecture suitable for resource-constrained devices, thereby supporting localized safety.
+We utilized three benchmark datasets: (i) PRONOSTIA
+(Nectoux et al., 2012), (ii) XJTU-SY (Wang et al., 2018),
+and (iii) HUST (Thuan & Hong, 2023). Training is performed on PRONOSTIA, while XJTU-SY and HUST are
+
+used to assess cross-validation. We used the Score met
+ric (Nectoux et al., 2012) to assess the performance. We
+evaluate generalization using _Bearing 1_ from the first operating condition...
+","The provided context does not contain enough information to analyze the systemic trade-offs between ""accuracy"" and ""peak memory usage"" when deploying ""NAC-PW"" versus ""NAC-2k"". The document mentions ""NAC-2k"" in its source but does not discuss its accuracy or peak memory usage, nor does it mention ""NAC-PW"" or any comparison between the two.",97,2425,2523,,1,,2026-01-03T21:18:07.586028
+"Evaluate the architectural implications of ""hybrid model structures"" that interleave ""linear attention"" with traditional attention, as discussed in the context of SWAA.",System Level / Architectural Understanding,"[Document 1]
+Source: sliding_window_attention_annotated_chunks_2k.jsonl
+Chunk ID: sliding_window_attention_annotated_chunks_2k_1
+Content: LightTransfer (Zhang et al., 2024) is a promising
+attempt at adapting existing models to SWA without pretraining, which has the same motivation as
+ours. But it may generalize poorly across model
+families (see Appendix G).
+
+
+**2.2** **Linear Attention**
+
+
+An alternative approach involves reformulating
+the attention mechanism entirely to achieve linear, _O_ ( _N_ ), complexity. This includes methods
+such as RNN-like linear attention transformers
+
+(Katharopoulos et al., 2020; Peng et al., 2023;
+Sun...
+","The provided context discusses ""Linear Attention"" as an alternative approach to achieve O(N) complexity and mentions LightTransfer in relation to adapting models to SWA. However, it does not contain information about ""hybrid model structures"" that interleave linear attention with traditional attention, nor does it discuss their architectural implications in the context of SWAA.",102,1660,1763,,1,,2026-01-03T21:18:09.351370
+"How does the ""interpretable functional organization"" of attention heads in VLMs challenge the view of these models as ""black boxes""?",System Level / Architectural Understanding,"[Document 1]
+Source: attention_functional_roles_raw_chunks_2k.jsonl
+Chunk ID: attention_functional_roles_raw_chunks_2k_0
+Content: ## - INVESTIGATING THE FUNCTIONAL ROLES OF ATTEN ### TION HEADS IN VISION LANGUAGE MODELS: EVI DENCE FOR REASONING MODULES
+
+**Yanbei Jiang** **[1]** _[∗]_ **Xueqi Ma** **[1]** _[∗]_ **Shu Liu** **[1]** **Sarah Monazam Erfani** **[1]**
+
+**Tongliang Liu** **[2]** **James Bailey** **[1]** **Jey Han Lau** **[1]** **Krista A. Ehinger** **[1]**
+
+1The University of Melbourne 2The University of Sydney
+_{_ yanbeij, xueqim, shu6 _}_ @student.unimelb.edu.au
+_{_ sarah.erfani, baileyj, jeyhan.lau, kris.ehing...
+","The provided context, which is solely the title and author list of a research paper, states that the paper investigates ""the functional roles of attention heads in Vision Language Models."" However, it does not contain information explaining how an ""interpretable functional organization"" of these heads challenges the view of these models as ""black boxes.""",96,3174,3271,,1,,2026-01-03T21:18:12.623294
+"Discuss the role of ""universal approximation"" guarantees in validating the architectural design of NAC.",System Level / Architectural Understanding,"[Document 1]
+Source: neuronal_attention_circuits_raw_chunks_2k.jsonl
+Chunk ID: neuronal_attention_circuits_raw_chunks_2k_4
+Content: **2.3. NAC as Universal Approximator**
+
+
+We now establish the universal approximation capability of
+NAC by extending the classical Universal Approximation
+Theorem (UAT) (Nishijima, 2021) to the proposed mechanism. For brevity, we consider a network with a single
+NAC layer processing fixed-dimensional inputs, though the
+argument generalizes to sequences.
+
+
+**Theorem 2** (Universal Approximation by NAC) **.** _Let K ⊂_
+R _[n]_ _be a compact set and f_ : _K →_ R _[m]_ _be a continuous_
+_function. F...
+","The provided context establishes the universal approximation capability of NAC by extending the classical Universal Approximation Theorem. It states that NAC can approximate any continuous function on a compact set. However, the context does not explicitly discuss the *role* of these universal approximation guarantees in *validating* the architectural design of NAC. It only confirms that NAC possesses this capability.",136,2504,2641,,1,,2026-01-03T21:18:15.265537
+"How does the ""auto-regressive"" property of the Transformer decoder influence the design of the ""masked multi-head attention"" mechanism?",System Level / Architectural Understanding,"[Document 1]
+Source: attention_is_all_you_need_raw_chunks_2k.jsonl
+Chunk ID: attention_is_all_you_need_raw_chunks_2k_1
+Content: [10], consuming the previously generated symbols as additional input when generating the next.
+
+
+2
+
+
+![](E:/Python Stuff/MAS-for-multimodal-knowledge-graph/markdown_outputs/images/attention_is_all_you_need.pdf-2-0.png)
+
+Figure 1: The Transformer - model architecture.
+
+
+The Transformer follows this overall architecture using stacked self-attention and point-wise, fully
+connected layers for both the encoder and decoder, shown in the left and right halves of Figure 1,
+respectively.
+
+
+**3.1** **Enco...
+","The provided context states that the auto-regressive property involves ""consuming the previously generated symbols as additional input when generating the next."" However, the context does not contain information about how this property influences the design of the ""masked multi-head attention"" mechanism.",114,2199,2314,,1,,2026-01-03T21:18:17.581374
+"Analyze the ""performance-efficiency balance"" of the SWAA toolkit and how it allows for flexible deployment strategies.",System Level / Architectural Understanding,"[Document 1]
+Source: sliding_window_attention_annotated_chunks_2k.jsonl
+Chunk ID: sliding_window_attention_annotated_chunks_2k_1
+Content: LightTransfer (Zhang et al., 2024) is a promising
+attempt at adapting existing models to SWA without pretraining, which has the same motivation as
+ours. But it may generalize poorly across model
+families (see Appendix G).
+
+
+**2.2** **Linear Attention**
+
+
+An alternative approach involves reformulating
+the attention mechanism entirely to achieve linear, _O_ ( _N_ ), complexity. This includes methods
+such as RNN-like linear attention transformers
+
+(Katharopoulos et al., 2020; Peng et al., 2023;
+Sun...
+","The provided context does not contain information about the ""performance-efficiency balance"" of the SWAA toolkit or how it allows for flexible deployment strategies. The context discusses LightTransfer and Linear Attention as approaches to attention mechanisms.",118,2258,2377,,1,,2026-01-03T21:18:19.959970
+"How does the ""CogVision"" framework's probing methodology reveal the ""hierarchical organization"" of cognitive processes in VLMs?",System Level / Architectural Understanding,"[Document 1]
+Source: attention_functional_roles_raw_chunks_2k.jsonl
+Chunk ID: attention_functional_roles_raw_chunks_2k_1
+Content: Furthermore, we validate the functional importance of these heads by showing that their removal
+degrades performance on complex tasks and leads to specific error patterns, while their enhancement improves reasoning capabilities. Our findings provide compelling evidence that these attention
+heads play a critical role in multimodal reasoning. This insight not only deepens our understanding of the internal organization of VLMs but also suggests potential avenues for designing more
+interpretable and...
+","The provided context does not contain information about the ""CogVision"" framework or its probing methodology for revealing the hierarchical organization of cognitive processes in VLMs.",107,2975,3083,,1,,2026-01-03T21:18:23.045085
+"Evaluate the ""biologically plausible"" claims of NAC in relation to the actual mechanisms of ""synaptic transmission"" and ""neuronal dynamics"".",System Level / Architectural Understanding,"[Document 1]
+Source: neuronal_attention_circuits_raw_chunks_2k.jsonl
+Chunk ID: neuronal_attention_circuits_raw_chunks_2k_10
+Content: Zhuang, J., Jia, M., Ding, Y., and Ding, P. Temporal
+convolution-based transferable cross-domain adaptation
+approach for remaining useful life estimation under variable failure behaviors. _Reliability Engineering & System_
+_Safety_, 216:107946, 2021.
+
+
+
+10
+
+
+**Neuronal Attention Circuit (NAC) for Representation Learning**
+
+
+
+**Appendix**
+
+
+**A. Preliminaries**
+
+
+**A.1. Attention Mechanism**
+
+
+Attention mechanisms have become a cornerstone in
+
+modern neural architectures, enabling models to dynam...
+","The provided context discusses ""Neuronal Attention Circuit (NAC) for Representation Learning"" and ""Attention Mechanism"" in the context of ""modern neural architectures"" and ""models."" It does not contain any information regarding the biological plausibility of NAC, its relation to actual biological mechanisms of ""synaptic transmission,"" or ""neuronal dynamics."" Therefore, the context does not provide enough information to evaluate these claims.",111,7717,7829,,1,,2026-01-03T21:18:30.875389

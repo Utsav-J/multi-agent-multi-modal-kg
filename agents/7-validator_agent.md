@@ -45,6 +45,7 @@ ValidatorAgent (Main Coordinator)
 
 **Metrics Computed**:
 
+**Core Metrics**:
 - **Orphan Ratio**: Percentage of nodes with degree = 0 (no connections)
   - Formula: `orphan_count / total_nodes`
   - Lower is better (0.0 = all nodes connected)
@@ -59,6 +60,22 @@ ValidatorAgent (Main Coordinator)
     - Relationships with missing source/target `id` properties
   - Formula: `violations / total_relationships`
   - Lower is better (0.0 = no violations)
+
+**Additional Quantitative Metrics** (computed automatically):
+- **avg_node_degree**: Average number of connections per connected node
+- **max_node_degree**: Maximum number of connections for any node
+- **min_node_degree**: Minimum number of connections for any connected node
+- **relationship_density**: Ratio of actual relationships to possible relationships (n × (n-1) for directed graph)
+- **unique_entity_types**: Count of distinct entity types in the graph
+- **unique_relationship_types**: Count of distinct relationship types in the graph
+- **avg_relationships_per_node**: Average number of relationships per node
+- **top_entity_types**: Top 5 most common entity types with counts (array of `{type, count}`)
+- **top_relationship_types**: Top 5 most common relationship types with counts (array of `{type, count}`)
+- **highest_degree_nodes**: Top 5 nodes with highest degree (array of `{id, type, degree}`)
+- **connectivity_ratio**: Ratio of connected nodes to total nodes
+- **document_node_count**: Total number of Document nodes in the graph
+- **avg_entities_per_document**: Average number of entities linked to each Document node
+- **bidirectional_relationship_ratio**: Ratio of bidirectional relationships (where reverse relation exists)
 
 **Implementation**: Uses Neo4j Cypher queries only, no LLM required.
 
@@ -88,9 +105,11 @@ ValidatorAgent (Main Coordinator)
 
 **Key Methods**:
 
-- `_extract_entities_and_relations_from_chunk()`: Uses LLM to extract entities/relations from chunk text
+- `_extract_entities_and_relations_from_chunk()`: Uses LLM to extract both entities and relations from chunk text in a **single call** (optimization: reduces LLM requests by 50% compared to separate calls)
 - `_get_extracted_entities_for_chunk()`: Queries Neo4j to find entities linked to a chunk
 - `_get_extracted_relations_for_chunk()`: Queries Neo4j to find relations linked to a chunk
+
+**Optimization**: The coverage evaluator uses a combined extraction method that extracts both entities and relationships in a single LLM call per chunk, significantly reducing API costs and execution time.
 
 **Chunk Matching Strategy**:
 
@@ -234,28 +253,40 @@ The validator generates a single aggregated report: `knowledge_graph_validation_
 ```json
 {
   "document_id": "knowledge_graph",
-  "timestamp": "2026-01-03 19:30:00",
-  "structural": {
+  "metrics": {
     "orphan_ratio": 0.0,
-    "component_ratio": 0.0005,
-    "type_violation_rate": 0.0
-  },
-  "coverage": {
+    "component_ratio": 0.000544069640914037,
+    "type_violation_rate": 0.0,
+    "relationship_density": 0.0013795734280770736,
+    "unique_entity_types": 14.0,
+    "unique_relationship_types": 35.0,
+    "avg_relationships_per_node": 2.5342763873775844,
+    "top_entity_types": [
+      {"count": 586, "type": "Concept"},
+      {"count": 541, "type": "Person"},
+      {"count": 242, "type": "Publication"}
+    ],
+    "top_relationship_types": [
+      {"count": 2400, "type": "MENTIONS"},
+      {"count": 617, "type": "AUTHORED_BY"},
+      {"count": 526, "type": "DEPICTS"}
+    ],
+    "document_node_count": 30.0,
+    "avg_entities_per_document": 92.30769230769232,
+    "bidirectional_relationship_ratio": 0.0047230571060541005,
     "entity_coverage": 0.750,
-    "relation_coverage": 0.650
-  },
-  "faithfulness": {
+    "relation_coverage": 0.650,
     "node_faithfulness": 0.375,
-    "relation_faithfulness": 0.053
-  },
-  "semantic": {
-    "plausibility_score": 0.850
+    "relation_faithfulness": 0.053,
+    "semantic_plausibility": 0.850
   },
   "notes": [
     "High orphan ratio detected - many nodes are disconnected"
   ]
 }
 ```
+
+**Note**: All metrics are flattened into a single `metrics` dictionary. Metrics from structural evaluation are always present, while LLM-based metrics (coverage, faithfulness, semantic) are only included when `--enable-llm-tests` is used.
 
 ### Faithfulness-Only Report
 
@@ -306,15 +337,30 @@ Chunk files are expected in `chunking_outputs/` directory as JSONL format:
 
 **Model**: Google Gemini `gemini-2.5-flash`
 
-**Structured Outputs**: The agent uses Gemini's `response_schema` feature with manually constructed `genai.types.Schema` objects to ensure structured JSON responses.
+**Structured Outputs**: The agent uses Gemini's `response_schema` feature with manually constructed `genai.types.Schema` objects to ensure structured JSON responses. The agent defines Pydantic models for validation and converts them to Gemini Schema format:
+
+- **`EntityAndRelationList`**: Combined model for extracting entities and relationships from chunks
+  - Fields: `entities` (List[str]), `relationships` (List[Dict[str, str]])
+  - Used by: CoverageEvaluator
+  
+- **`GroundingCheck`**: Model for checking if entities/relations are grounded in text
+  - Fields: `grounded` (bool), `evidence` (str)
+  - Used by: FaithfulnessEvaluator
+  
+- **`PlausibilityCheck`**: Model for semantic plausibility assessment
+  - Fields: `plausible` (str: "yes"/"no"/"unclear"), `reasoning` (Optional[str])
+  - Used by: SemanticEvaluator
+
+**Schema Conversion**: Helper functions (`get_entity_and_relation_list_schema()`, `get_grounding_check_schema()`, `get_plausibility_check_schema()`) convert Pydantic models to Gemini's Schema format for structured output generation.
 
 **Rate Limiting**: 
-- 1 second delay between LLM requests (`LLM_REQUEST_DELAY = 1.0`)
-- Prevents API rate limit issues
+- 0.2 second delay between LLM requests (`LLM_REQUEST_DELAY = 0.2`)
+- Prevents API rate limit issues while maintaining reasonable throughput
 
 **Error Handling**:
-- Failed LLM calls return default values (e.g., `False` for grounding, `"unclear"` for plausibility)
-- Warnings logged but execution continues
+- Failed LLM calls return default values (e.g., `False` for grounding, `"unclear"` for plausibility, empty sets for extraction)
+- Invalid JSON responses are logged with warnings and execution continues
+- Rate limiting delays are still applied even on errors to prevent throttling
 
 ### Matching Strategies
 
@@ -347,16 +393,18 @@ Default sample sizes are optimized for balance between accuracy and performance:
 ### LLM Costs
 
 LLM-based evaluations make multiple API calls:
-- **Coverage**: ~5 calls (one per sampled chunk)
+- **Coverage**: ~5 calls (one per sampled chunk, extracts both entities and relations in single call)
 - **Faithfulness**: ~50 calls (25 nodes + 25 relations)
 - **Semantic**: ~50 calls (one per sampled relation)
 
 **Total**: ~105 LLM calls per full validation run
 
+**Optimization Note**: The coverage evaluator uses a combined extraction method that extracts both entities and relationships in a single LLM call per chunk, reducing what would have been ~10 calls (5 chunks × 2 extractions) to just ~5 calls.
+
 ### Execution Time
 
-- **Structural only**: < 1 second
-- **Full validation**: ~5-10 minutes (depending on LLM response times)
+- **Structural only**: < 1 second (includes all additional quantitative metrics)
+- **Full validation**: ~3-7 minutes (depending on LLM response times and rate limiting)
 
 ---
 
@@ -422,4 +470,8 @@ Potential enhancements:
 ## Summary
 
 The Validator Agent provides comprehensive validation of knowledge graphs across structural, coverage, faithfulness, and semantic dimensions. It uses a combination of deterministic Neo4j queries and LLM-based evaluations to assess graph quality, with flexible matching strategies to handle various data formats and naming conventions.
+
+
+
+
 

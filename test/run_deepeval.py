@@ -390,7 +390,7 @@ def main():
     parser.add_argument(
         "--csv_path",
         type=str,
-        default=str(test_dir / "test_cases" / "simple_rag_test_cases.csv"),
+        default=str(test_dir / "test_cases" / "simple_rag_new.csv"),
         help="Path to the CSV file containing test cases",
     )
     # uv run test/run_deepeval.py --csv_path "test_cases/simple_rag_test_cases.csv"

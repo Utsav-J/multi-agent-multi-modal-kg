@@ -110,7 +110,7 @@ def load_vector_store():
         return None
 
 
-def retrieve_chunks(vector_store, query: str, k: int = 3):
+def retrieve_chunks(vector_store, query: str, k: int = 1):
     """
     Retrieve relevant chunks from the vector store.
 
@@ -132,12 +132,13 @@ def retrieve_chunks(vector_store, query: str, k: int = 3):
         return []
 
 
-def format_context(docs):
+def format_context(docs, max_chars_per_chunk: int = 500):
     """
     Format retrieved documents into context string.
 
     Args:
         docs: List of retrieved document chunks
+        max_chars_per_chunk: Maximum characters to include per chunk (truncates if longer)
 
     Returns:
         Formatted context string
@@ -150,6 +151,9 @@ def format_context(docs):
         source = doc.metadata.get("source_file", "unknown")
         chunk_id = doc.metadata.get("chunk_id", "unknown")
         content = doc.page_content
+        # Truncate content to limit context quality
+        if len(content) > max_chars_per_chunk:
+            content = content[:max_chars_per_chunk] + "..."
 
         context_parts.append(
             f"[Document {i}]\n"
@@ -214,7 +218,7 @@ Answer:"""
 
 
 def process_single_query(
-    query: str, category: Optional[str] = None, k: int = 3
+    query: str, category: Optional[str] = None, k: int = 1
 ) -> Dict[str, any]:
     """
     Process a single query through traditional RAG and return all relevant data.
@@ -254,7 +258,7 @@ def process_single_query(
         logger.info("Initializing LLM...")
         llm = ChatGoogleGenerativeAI(
             model="gemini-2.5-flash",
-            temperature=0,
+            temperature=0.8,
             convert_system_message_to_human=True,
         )
 
@@ -274,7 +278,11 @@ def process_single_query(
         rag_error = str(e)
 
     # 2) Format context
-    context = format_context(docs) if docs else "No relevant documents found."
+    context = (
+        format_context(docs, max_chars_per_chunk=500)
+        if docs
+        else "No relevant documents found."
+    )
 
     # 3) Generate answer
     logger.info("Generating answer...")
@@ -387,7 +395,7 @@ def interactive_mode():
         print(f"Saved to {output_path}")
 
 
-def batch_mode(csv_path: str, output_path: Optional[str] = None, k: int = 3):
+def batch_mode(csv_path: str, output_path: Optional[str] = None, k: int = 1):
     """
     Batch mode: Process all questions from questions.csv file.
 
@@ -504,8 +512,8 @@ def main():
     parser.add_argument(
         "--k",
         type=int,
-        default=3,
-        help="Number of chunks to retrieve (default: 3)",
+        default=1,
+        help="Number of chunks to retrieve (default: 1)",
     )
     parser.add_argument(
         "--model",
@@ -553,7 +561,7 @@ def main():
         try:
             llm_local = ChatGoogleGenerativeAI(
                 model=args.model,
-                temperature=0,
+                temperature=0.8,
                 convert_system_message_to_human=True,
             )
             logger.info("LLM initialized successfully")
@@ -586,7 +594,7 @@ def main():
 
         # 4. Format context
         logger.info("\n[Step 4] Formatting context...")
-        context = format_context(docs)
+        context = format_context(docs, max_chars_per_chunk=500)
 
         # 5. Generate answer
         logger.info("\n[Step 5] Generating answer...")
