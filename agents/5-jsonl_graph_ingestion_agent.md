@@ -131,4 +131,18 @@ Reason (as documented in code):
 
 We persist extracted graph documents into Neo4j by converting each JSONL line (nodes, relationships, and provenance metadata) into Neo4j-compatible labeled nodes and typed edges. Node metadata is materialized as node properties, with an explicit APOC-based upsert step to ensure properties are updated when entities are re-encountered across documents or re-ingestion runs.
 
-
+# Index to run
+CREATE FULLTEXT INDEX entityIndex
+FOR (n:Document|Concept|Model|Task|Person|Organization|Dataset|Publication|Benchmark|Image|Section|Algorithm|Method|Mechanism)
+ON EACH [n.id, 
+         n.text, 
+         n.chunk_index, 
+         n.chunk_file, 
+         n.source_type, 
+         n.source_id, 
+         n.chunk_id, 
+         n.chunk_ids, 
+         n.chunk_indices, 
+         n.derived_from_chunk_file, 
+         n.markdown_source, 
+         n.source_path]

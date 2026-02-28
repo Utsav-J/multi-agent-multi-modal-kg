@@ -20,7 +20,7 @@ Extract entities ONLY if they satisfy at least one of the following:
 DO NOT extract:
 - Variables, symbols, or mathematical notation (e.g., q, k, a_t, φ, ωτ)
 - Internal architectural components unless they are independently reusable methods
-- Solver choices unless the paper’s main contribution is numerical methods
+- Solver choices unless the paper's main contribution is numerical methods
 - Theorems, lemmas, corollaries, propositions, or equation numbers
 - Section titles, analysis labels, or descriptive phrases
 - Paper-specific reformulations unless claimed as a standalone method

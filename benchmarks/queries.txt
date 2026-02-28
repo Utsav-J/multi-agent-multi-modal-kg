@@ -1,0 +1,5 @@
+What is the role of attention heads in transformers?
+How does multi-head attention differ from single-head attention?
+What is the relationship between attention and memory in neural circuits?
+How does sliding window attention work?
+What are the functional roles of different attention mechanisms?

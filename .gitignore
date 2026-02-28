@@ -12,3 +12,6 @@ wheels/
 markdown_outputs/images/*
 # *.md
 *.pdf
+*cache*/
+logs/
+graphrag_workspace/output

@@ -8,6 +8,7 @@ dependencies = [
     "deepeval>=3.7.7",
     "faiss-cpu>=1.13.1",
     "google-genai>=1.47.0",
+    "graphrag>=3.0.4",
     "groq>=1.0.0",
     "langchain>=1.0.8",
     "langchain-community",
